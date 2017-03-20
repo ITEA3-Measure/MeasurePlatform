@@ -1,0 +1,57 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "dashboards",
+            "otherEntityName": "dashboard",
+            "otherEntityRelationshipName": "phase"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "views",
+            "otherEntityName": "measureView",
+            "otherEntityRelationshipName": "phase"
+        },
+        {
+            "relationshipName": "phase",
+            "otherEntityName": "phase",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "nexts",
+            "otherEntityName": "phase",
+            "otherEntityRelationshipName": "phase"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "phaseName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "phaseDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "phaseImage",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20161109133432",
+    "entityTableName": "phase",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

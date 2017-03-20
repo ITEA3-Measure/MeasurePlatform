@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span>Project</span> {{vm.project.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Project Name</span></dt>
+        <dd>
+            <span>{{vm.project.projectName}}</span>
+        </dd>
+        <dt><span>Project Description</span></dt>
+        <dd>
+            <span>{{vm.project.projectDescription}}</span>
+        </dd>
+        <dt><span>Creation Date</span></dt>
+        <dd>
+            <span>{{vm.project.creationDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Project Image</span></dt>
+        <dd>
+            <span>{{vm.project.projectImage}}</span>
+        </dd>
+        <dt><span>Owner</span></dt>
+        <dd>
+            {{vm.project.owner.id}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="project-detail.edit({id:vm.project.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>

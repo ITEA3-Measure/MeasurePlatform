@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "measureInstance",
+            "otherEntityName": "measureInstance",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "propertyName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "propertyValue",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20161109133435",
+    "entityTableName": "measure_property",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

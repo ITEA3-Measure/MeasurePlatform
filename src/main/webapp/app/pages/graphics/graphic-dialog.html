@@ -1,0 +1,106 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="vm.clear()">&times;</button>
+		<h4 class="modal-title" id="myMeasureViewLabel">Create or edit a
+			Measure View</h4>
+	</div>
+	<div class="modal-body">
+
+
+		<div class="btn-group" role="group"
+			style="float: right; margin-bottom: 20px;">
+			<button type="button" class="btn btn-default"
+				ng-click="vm.changemode()">Standard</button>
+			<button type="button" class="btn btn-default"
+				ng-click="vm.changemode()">Manual</button>
+		</div>
+
+		<div ng-show="!vm.measureView.custom" style="margin-top: 20px;">
+			<div class="form-group">
+				<label for="field_measureInstance">Measure</label> <select
+					class="form-control" id="field_measureInstance"
+					name="measureInstance" ng-model="vm.measureView.measureinstance"
+					ng-options="measure as measure.instanceName for measure in vm.measureInstances">
+					<option value=""></option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="field_charttype">Chart Type</label> <select
+					class="form-control" id="field_charttype" name="measureInstance"
+					ng-model="vm.measureView.type">
+					<option value="Line chart">Line chart</option>
+					<option value="Area chart">Area chart</option>
+					<option value="Bar chart">Bar chart</option>
+					<option value="Last Value">Last Value</option>					
+				</select>
+			</div>
+
+
+			<div class="form-group">
+				<label for="field_periode">Display Data from :</label> <select
+					class="form-control" id="field_periode" name="measureInstance"
+					ng-model="vm.measureView.interval">
+					<option value="Last 15 minutes">Last 15 minutes</option>
+					<option value="Last Hour">Last Hour</option>
+					<option value="Last Day">Last Day</option>
+					<option value="Last Week">Last Week</option>
+					<option value="Last Month">Last Month</option>
+					<option value="Last Year">Last Year</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="field_graphicSize">Graphic Size</label> <select
+					class="form-control" id="field_graphicSize" name="measureInstance"
+					ng-model="vm.measureView.size">
+					<option value="Small">Small</option>
+					<option value="Medium">Medium</option>
+					<option value="Large">Large</option>
+					<option value="Very Large">Very Large</option>
+				</select>
+			</div>
+
+
+			<div class="form-group">
+				<label class="control-label" for="field_autorefresh">Auto
+					Refresh</label> <input type="checkbox" class="form-control"
+					name="manageLastMeasurement" id="field_autorefresh"
+					ng-model="vm.measureView.auto" />
+			</div>
+
+		</div>
+
+		<div class="form-group" ng-show="vm.measureView.custom"
+			style="margin-top: 20px;">
+			<label class="control-label" for="field_viewData">View Data</label>
+			<textarea rows="5" class="form-control" name="viewData"
+				id="field_viewData" ng-model="vm.measureView.viewData" />
+		</div>
+
+		<div class="form-group">
+			<label class="control-label" for=field_viewname>View Label</label> <input
+				type="text" class="form-control" name="viewName" id="field_viewname"
+				ng-model="vm.measureView.name" />
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="field_viewdescription">
+				Description</label>
+			<textarea class="form-control" rows="3" name="viewDescription"
+				id="field_viewdescription" ng-model="vm.measureView.description"></textarea>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			ng-click="vm.clear()">
+			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+		</button>
+		<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving"
+			class="btn btn-primary">
+			<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+		</button>
+	</div>
+</form>

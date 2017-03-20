@@ -1,0 +1,68 @@
+<div>
+    <h2>Phases</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="phase.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Phase
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Phase Name</span></th>
+                    <th><span>Phase Description</span></th>
+                    <th><span>Phase Image</span></th>
+                    <th><span>Project</span></th>
+                    <th><span>Phase</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="phase in vm.phases track by phase.id">
+                    <td><a ui-sref="phase-detail({id:phase.id})">{{phase.id}}</a></td>
+                    <td>{{phase.phaseName}}</td>
+                    <td>{{phase.phaseDescription}}</td>
+                    <td>{{phase.phaseImage}}</td>
+                    <td>
+                        <a ui-sref="project-detail({id:phase.project.id})">{{phase.project.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="phase-detail({id:phase.phase.id})">{{phase.phase.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="phase-detail({id:phase.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="phase.edit({id:phase.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="phase.delete({id:phase.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

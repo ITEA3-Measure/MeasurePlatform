@@ -1,0 +1,104 @@
+<div style="margin-left: 50px; margin-right: 50px;">
+	<div>
+		<div class="page-header">
+			<h1>Project Catalogue</h1>
+		</div>
+
+
+
+		<ol class="breadcrumb">
+			<li><a ui-sref="home">Home</a></li>
+			<li><a ui-sref="catalogue">Catalogue</a></li>
+		</ol>
+		
+		<div style="float: right; margin-top: 0px">
+			<button class="btn btn-link" ui-sref="catalogue.newproject">
+				<span class="glyphicon glyphicon-plus" aria-hiden="true"></span>
+			</button>
+		</div>
+
+		<div ng-repeat="project in vm.projects"
+			style="min-width: 300px; display: inline-block; margin: 10px;">
+			<div class="panel panel-default">
+				<div class="row">
+
+					<div class="col-md-2">
+						<img style="width: 48px; height: 48px; margin-top: 5px;"
+							src="content/images/measureLogo.png"
+							ng-show="project.projectImage == null"> <img
+							style="width: 48px; height: 48px; margin-top: 5px;"
+							src="{{project.projectImage}}"
+							ng-show="project.projectImage != null">
+
+
+					</div>
+					<div class="col-md-8" style="margin-top :10px;">
+						<h4>{{project.projectName}}</h4>
+					</div>
+					<div class="col-md-1" style="margin-top: -40px;">
+						<button class="btn btn-link btn-lg"
+							style="float: right; margin-top: 50px; margin-right: 10px;"
+							ng-show="!vm.editprojects[project.id]"
+							ng-click="vm.edition(project.id)">
+							<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
+						</button>
+						<button class="btn btn-default active"
+							style="float: right; margin-top: 50px; margin-right: 10px;"
+							ng-show="vm.editprojects[project.id]"
+							ng-click="vm.edition(project.id)">
+							<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
+						</button>
+					</div>
+				</div>
+				<div class="panel-body" style="padding: 0px;">
+					<div
+						style="min-width: 300px; min-height: 50px; margin-bottom: 0px; text-align: center;">
+						<div ng-repeat="measureview in project.measureview"
+							style="display: inline-block; padding: 0px; text-align: center;">
+
+							<div class="row" style="text-align: center;">
+								<div class="thumbnail"
+									style="border: none; margin-right: 20px; margin-left: 20px;margin-bottom: 0px;margin-top: 0px; text-align: center;">
+									<div ng-bind-html="measureview.viewData | to_trusted"></div>
+									<div class="caption" style="text-align: center;padding:0px;">
+										<h3 style="margin: 0px;">{{measureview.name}}</h3>
+										<p style="margin: 0px;">{{measureview.description}}</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="float: right;">
+								<button class="btn btn-link btn-lg"
+									ng-show="vm.editprojects[project.id]"
+									ui-sref="catalogue.editgraphic({id:measureview.id})">
+									<span class="glyphicon glyphicon-pencil" aria-hiden="true"></span>
+								</button>
+								<button class="btn btn-link btn-lg"
+									ng-show="vm.editprojects[project.id]"
+									ng-click="vm.deleteview(measureview.id)">
+									<span class="glyphicon glyphicon-remove" aria-hiden="true"></span>
+								</button>
+							</div>
+
+						</div>
+						<div class="btn btn-default"
+							style="width: 256px; height: 256px; margin: 30px; vertical-align: top;"
+							ng-show="vm.editprojects[project.id]"
+							ui-sref="catalogue.addgraphic({id:project.id})">
+							<span class="glyphicon glyphicon-plus" aria-hiden="true"
+								style="margin-top: 45%"></span>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="panel-footer" style="text-align: center;">
+					<a class="btn btn-primary" role="button"
+						ui-sref="appproject({id:project.id})">Open Project</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+

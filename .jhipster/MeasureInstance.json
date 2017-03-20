@@ -1,0 +1,78 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "properties",
+            "otherEntityName": "measureProperty",
+            "otherEntityRelationshipName": "measureInstance"
+        },
+        {
+            "relationshipName": "measureInstance",
+            "otherEntityName": "measureInstance",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "depends",
+            "otherEntityName": "measureInstance",
+            "otherEntityRelationshipName": "measureInstance"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "instanceName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "instanceDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "measureName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "measureVersion",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "isShedule",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "shedulingExpression",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "measureType",
+            "fieldType": "MeasureType",
+            "fieldValues": "DIRECT,COLLECTIVE,RACKING,GRADE,BINARY,COUNTING,RESCALED,RATIO"
+        },
+        {
+            "fieldName": "manageLastMeasurement",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20161109133434",
+    "entityTableName": "measure_instance",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

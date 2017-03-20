@@ -1,0 +1,119 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"
+	show-validation>
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="vm.clear()">&times;</button>
+		<h4 class="modal-title" id="myMeasureInstanceLabel">Measure
+			Instance</h4>
+	</div>
+	<div class="modal-body">
+
+		<div class="form-group">
+			<label for="field_measureInstance">Base Measure</label> <select
+				class="form-control" id="field_measureInstance"
+				name="measureInstance" ng-model="vm.selectedmeasure"
+				ng-options="measure as measure.name for measure in vm.allmeasures">
+				<option value=""></option>
+			</select> 
+		</div>
+
+		<div class="form-group">
+			<label class="control-label" for="field_instanceName">Instance
+				Name</label> <input type="text" class="form-control" name="instanceName"
+				id="field_instanceName" ng-model="vm.measureInstance.instanceName"
+				required />
+			<div ng-show="editForm.instanceName.$invalid">
+				<p class="help-block"
+					ng-show="editForm.instanceName.$error.required"></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="field_instanceDescription">Instance
+				Description</label>
+			<textarea class="form-control" rows="3" name="instanceDescription"
+				id="field_instanceDescription"
+				ng-model="vm.measureInstance.instanceDescription"></textarea>
+
+		</div>
+
+
+
+		<div class="panel panel-default" ng-show="vm.properties.length > 0">
+			<div class="panel-heading">
+				<h3 class="panel-title">Scope</h3>
+			</div>
+
+			<div ng-repeat="property in vm.properties" style="margin: 5px;">
+				<div class="input-group">
+					<div class="input-group-addon" style="width: 300px;">{{property.propertyName}}</div>
+					<input type="text" class="form-control"
+						ng-model="property.propertyValue" style="width: 327%;">
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default"
+			ng-repeat="measureref in vm.references">
+			<div class="panel-heading">
+				<h3 class="panel-title">Input : {{measureref.role}}</h3>
+			</div>
+
+			<div class="input-group" style="margin: 5px;">
+				<div class="input-group-addon" style="width: 300px;">Measure</div>
+
+				<select class="form-control" id="field_measureInstance"
+					style="width:496%;" name="measureInstance"
+					ng-model="measureref.referencedInstance"
+					ng-options="instance as instance.instanceName for instance in measureref.candidateInstances">
+				</select>
+			</div>
+
+			<div class="input-group" style="margin: 5px;">
+				<div class="input-group-addon" style="width: 300px;">Number</div>
+				<input type="text" class="form-control"
+					ng-model="measureref.numberRef" style="width: 327%;">
+			</div>
+
+			<div class="input-group" style="margin: 5px;">
+				<div class="input-group-addon" style="width: 300px;">Filter Expression</div>
+				<input type="text" class="form-control"
+					ng-model="measureref.filterExpression" style="width: 327%;">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label" for="field_shedulingExpression">Sheduling</label>
+			<div class="input-group">
+				<div class="input-group-addon">
+					<input type="checkbox" name="manageLastMeasurement"
+						id="field_manageLastMeasurement"
+						ng-model="vm.measureInstance.isShedule" />
+
+				</div>
+				<input type="text" class="form-control" name="shedulingExpression"
+					id="field_shedulingExpression"
+					ng-model="vm.measureInstance.shedulingExpression" />
+				<div class="input-group-addon">ms</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label" for="field_manageLastMeasurement">Store
+				Last Measurement</label> <input type="checkbox" class="form-control"
+				name="manageLastMeasurement" id="field_manageLastMeasurement"
+				ng-model="vm.measureInstance.manageLastMeasurement" />
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			ng-click="vm.clear()">
+			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+		</button>
+		<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving"
+			class="btn btn-primary">
+			<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+		</button>
+	</div>
+</form>

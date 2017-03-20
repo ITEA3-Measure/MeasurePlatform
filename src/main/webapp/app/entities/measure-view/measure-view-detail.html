@@ -1,0 +1,31 @@
+
+<div>
+    <h2><span>Measure View</span> {{vm.measureView.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>View Data</span></dt>
+        <dd>
+            <span>{{vm.measureView.viewData}}</span>
+        </dd>
+        <dt><span>Phase</span></dt>
+        <dd>
+            <a ui-sref="phase-detail({id:vm.measureView.phase.id})">{{vm.measureView.phase.id}}</a>
+        </dd>
+        <dt><span>Dashboard</span></dt>
+        <dd>
+            <a ui-sref="dashboard-detail({id:vm.measureView.dashboard.id})">{{vm.measureView.dashboard.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="measure-view-detail.edit({id:vm.measureView.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>

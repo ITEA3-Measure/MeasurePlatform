@@ -1,0 +1,179 @@
+<nav class="navbar navbar-inverse" role="navigation">
+	<div class="container" style="width: 100%;">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle"
+				ng-click="vm.toggleNavbar()">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand logo" href="#/" ng-click="vm.collapseNavbar()">
+				<img class="logo-img img-rounded"
+				src="content/images/measureLogo.png"  /> <span style="vertical-align:middle;">Measure
+					Platform</span>
+			</a>
+		</div>
+		<div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed"
+			ng-switch="vm.isAuthenticated()">
+			<ul class="nav navbar-nav navbar-right">
+
+				<li ui-sref-active="active" ng-switch-when="true"><a
+					ui-sref="catalogue" ng-click="vm.collapseNavbar()"> <span
+						class="glyphicon glyphicon-scale"></span>&nbsp; <span>Projects</span>
+				</a></li>
+				<li ng-class="{active: vm.$state.includes('account')}" uib-dropdown
+					class="dropdown pointer" ng-switch-when="true"><a class="dropdown-toggle"
+					uib-dropdown-toggle href="" id="account-menu" > <span> <span
+							class="glyphicon glyphicon-th-list"></span> <span
+							class="hidden-sm"> Measures </span> <b class="caret"></b>
+					</span>
+				</a>
+					<ul class="dropdown-menu" uib-dropdown-menu>
+						<li ui-sref-active="active" ><a
+							ui-sref="measure" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-book"></span>&nbsp; <span>Measure
+									Catalogue</span>
+						</a></li>
+						<li ui-sref-active="active" ><a
+							ui-sref="homeinstances" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon glyphicon-th"></span>&nbsp; <span>Measure
+									Instances</span>
+						</a></li>
+					</ul></li>
+
+				<li ng-class="{active: vm.$state.includes('account')}" uib-dropdown
+					class="dropdown pointer" ng-switch-when="true"><a class="dropdown-toggle"
+					uib-dropdown-toggle href="" id="account-menu"> <span> <span
+							class="glyphicon glyphicon-cog"></span> <span class="hidden-sm">Platform</span>
+							<b class="caret"></b>
+					</span>
+				</a>
+					<ul class="dropdown-menu" uib-dropdown-menu>
+						<li ui-sref-active="active" ><a
+							ui-sref="measure-log" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon glyphicon-signal"></span>&nbsp; <span>Measure
+									Collect</span>
+						</a></li>
+						<li ui-sref-active="active" ><a
+							ui-sref="measure-agent" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon glyphicon-cloud"></span>&nbsp; <span>Remote
+									Agents</span>
+						</a></li>
+					</ul></li>
+				<li ng-class="{active: vm.$state.includes('admin')}"
+					ng-switch-when="true" uib-dropdown class="dropdown pointer"><a
+					class="dropdown-toggle" has-authority="ROLE_ADMIN"
+					uib-dropdown-toggle href="" id="entity-menu"> <span> <span
+							class="glyphicon glyphicon-th-list"></span> <span
+							class="hidden-sm"> Database </span> <b class="caret"></b>
+					</span>
+				</a>
+					<ul class="dropdown-menu" uib-dropdown-menu>
+						<li ui-sref-active="active"><a ui-sref="project"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-asterisk"></span>&nbsp; <span>Project</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="phase"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-asterisk"></span>&nbsp; <span>Phase</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="dashboard"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-asterisk"></span>&nbsp; <span>Dashboard</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="measure-instance"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-asterisk"></span>&nbsp; <span>Measure
+									Instance</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="measure-property"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-asterisk"></span>&nbsp; <span>Measure
+									Property</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="measure-view"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-asterisk"></span>&nbsp; <span>Measure
+									View</span>
+						</a></li>
+						<!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+					</ul></li>
+				<li ng-class="{active: vm.$state.includes('account')}" uib-dropdown
+					class="dropdown pointer"><a class="dropdown-toggle"
+					uib-dropdown-toggle href="" id="account-menu"> <span> <span
+							class="glyphicon glyphicon-user"></span> <span class="hidden-sm">
+								Account </span> <b class="caret"></b>
+					</span>
+				</a>
+					<ul class="dropdown-menu" uib-dropdown-menu>
+						<li ui-sref-active="active" ng-switch-when="true"><a
+							ui-sref="settings" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-wrench"></span>&nbsp; <span>Settings</span>
+						</a></li>
+						<li ui-sref-active="active" ng-switch-when="true"><a
+							ui-sref="password" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-lock"></span>&nbsp; <span>Password</span>
+						</a></li>
+						<li ui-sref-active="active" ng-switch-when="true"><a
+							ui-sref="sessions" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-cloud"></span>&nbsp; <span>Sessions</span>
+						</a></li>
+						<li ui-sref-active="active" ng-switch-when="true"><a href=""
+							ng-click="vm.logout()" id="logout"> <span
+								class="glyphicon glyphicon-log-out"></span>&nbsp; <span>Sign
+									out</span>
+						</a></li>
+						<li ui-sref-active="active" ng-switch-when="false"><a href=""
+							ng-click="vm.login()" id="login"> <span
+								class="glyphicon glyphicon-log-in"></span>&nbsp; <span>Sign
+									in</span>
+						</a></li>
+						<li ui-sref-active="active" ng-switch-when="false"><a
+							ui-sref="register" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-plus-sign"></span>&nbsp; <span>Register</span>
+						</a></li>
+					</ul></li>
+				<li ng-class="{active: vm.$state.includes('admin')}"
+					ng-switch-when="true" has-authority="ROLE_ADMIN" uib-dropdown
+					class="dropdown pointer"><a class="dropdown-toggle"
+					uib-dropdown-toggle href="" id="admin-menu"> <span> <span
+							class="glyphicon glyphicon-tower"></span> <span class="hidden-sm">Administration</span>
+							<b class="caret"></b>
+					</span>
+				</a>
+					<ul class="dropdown-menu" uib-dropdown-menu>
+						<li ui-sref-active="active"><a ui-sref="user-management"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-user"></span>&nbsp; <span>User
+									management</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="jhi-metrics"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-dashboard"></span>&nbsp; <span>Metrics</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="jhi-health"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-heart"></span>&nbsp; <span>Health</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="jhi-configuration"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-list-alt"></span>&nbsp; <span>Configuration</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="audits"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-bell"></span>&nbsp; <span>Audits</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="logs"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-tasks"></span>&nbsp; <span>Logs</span>
+						</a></li>
+						<li ng-show="vm.swaggerEnabled" ui-sref-active="active"><a
+							ui-sref="docs" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-book"></span>&nbsp; <span>API</span>
+						</a></li>
+						<!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
+					</ul></li>
+			</ul>
+		</div>
+	</div>
+</nav>

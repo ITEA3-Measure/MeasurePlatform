@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "phase",
+            "otherEntityName": "phase",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "dashboard",
+            "otherEntityName": "dashboard",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "viewData",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20161109133436",
+    "entityTableName": "measure_view",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

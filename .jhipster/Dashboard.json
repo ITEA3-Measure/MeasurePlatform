@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "phase",
+            "otherEntityName": "phase",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "views",
+            "otherEntityName": "measureView",
+            "otherEntityRelationshipName": "dashboard"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "dashboardName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dashboardDescription",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20161109133433",
+    "entityTableName": "dashboard",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

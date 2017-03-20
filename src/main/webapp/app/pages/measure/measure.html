@@ -1,0 +1,101 @@
+
+<div style="margin-left: 50px; margin-right: 50px;">
+	<div class="page-header">
+		<h1>Measures Catalogue</h1>
+	</div>
+
+
+
+
+	<ol class="breadcrumb">
+		<li><a ui-sref="home">Home</a></li>
+		<li><a ui-sref="measure">Measures</a></li>
+	</ol>
+
+	<div style="float: right; margin-top: 0px">
+		<button class="btn btn-link" ui-sref="measure.upload">
+			<span class="glyphicon glyphicon-import" aria-hiden="true"></span>
+		</button>
+	</div>
+	<table class="jh-table table table-striped">
+		<thead>
+			<tr>
+				<th><span>Type</span></th>
+				<th><span>Measure Name</span></th>
+				<th><span>Measure Description</span></th>
+				<th><span>Measure Dependency</span></th>
+				<th><span>Scope Properties</span></th>
+				<th><span>Hosting</span></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="measure in vm.measures track by measure.name">
+				<td style="vertical-align: top;"><a href="#"> <img
+						class="media-object"
+						ng-src="content/images/{{measure.type}}_big.png"
+						title="Direct Measure">
+				</a></td>
+
+
+				<td style="vertical-align: top;">
+					{{measure.name}}
+				</td>
+				<td style="vertical-align: top;">{{measure.description}}</td>
+				<td style="vertical-align: top;">
+
+					<dl class="dl-horizontal"
+						g-repeat="reference in measure.references"
+						style="margin-bottom: 0px;">
+						<dt style="text-align: left;">{{reference.role}}</dt>
+						<dd>{{reference.measureRef}}</dd>
+					</dl>
+
+				</td>
+				<td style="vertical-align: top;">
+
+
+					<dl class="dl-horizontal"
+						ng-repeat="scopePropertie in measure.scopeProperties"
+						style="margin-bottom: 0px;">
+						<dt style="text-align: left;font-weight: normal;">{{scopePropertie.name}}</dt>
+						<dd>{{scopePropertie.defaultValue}}</dd>
+					</dl>
+
+
+				</td>
+				<td style="vertical-align: top;">
+					<h4 style="margin-top: 0px;"
+						ng-show="measure.callbackAdress == null">
+						<span class="label label-primary" style="height: 50px;">Measure
+							Platform</span>
+					</h4>
+					<h4 style="margin-top: 0px;"
+						ng-show="measure.callbackAdress != null">
+						<span class="label label-warning">{{measure.callbackLable}}</span>
+						<span class="label label-warning">{{measure.callbackAdress}}</span>
+					</h4>
+				</td>
+				<td class="text-right" style="vertical-align: top;">
+					<div class="btn-group flex-btn-group-container"
+						ng-show="measure.callbackAdress == null">
+						<button type="submit" ui-sref="measure.delete({id:measure.name})"
+							class="btn btn-danger btn-sm">
+							<span class="glyphicon glyphicon-remove-circle"></span> <span
+								class="hidden-xs hidden-sm"></span>
+						</button>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+
+
+
+
+
+
+

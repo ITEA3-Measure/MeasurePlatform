@@ -1,0 +1,49 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "phases",
+            "otherEntityName": "phase",
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "instances",
+            "otherEntityName": "measureInstance",
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "owner",
+            "otherEntityName": "user",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "projectName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "projectDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "creationDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "projectImage",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20161109133431",
+    "entityTableName": "project",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

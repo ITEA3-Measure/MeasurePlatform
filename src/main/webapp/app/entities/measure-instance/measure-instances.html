@@ -1,0 +1,78 @@
+<div>
+    <h2>Measure Instances</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="measure-instance.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Measure Instance
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Instance Name</span></th>
+                    <th><span>Instance Description</span></th>
+                    <th><span>Measure Name</span></th>
+                    <th><span>Measure Version</span></th>
+                    <th><span>Is Shedule</span></th>
+                    <th><span>Sheduling Expression</span></th>
+                    <th><span>Measure Type</span></th>
+                    <th><span>Manage Last Measurement</span></th>
+                    <th><span>Project</span></th>
+                    <th><span>Measure Instance</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="measureInstance in vm.measureInstances track by measureInstance.id">
+                    <td><a ui-sref="measure-instance-detail({id:measureInstance.id})">{{measureInstance.id}}</a></td>
+                    <td>{{measureInstance.instanceName}}</td>
+                    <td>{{measureInstance.instanceDescription}}</td>
+                    <td>{{measureInstance.measureName}}</td>
+                    <td>{{measureInstance.measureVersion}}</td>
+                    <td>{{measureInstance.isShedule}}</td>
+                    <td>{{measureInstance.shedulingExpression}}</td>
+                    <td>{{measureInstance.measureType}}</td>
+                    <td>{{measureInstance.manageLastMeasurement}}</td>
+                    <td>
+                        <a ui-sref="project-detail({id:measureInstance.project.id})">{{measureInstance.project.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="measure-instance-detail({id:measureInstance.measureInstance.id})">{{measureInstance.measureInstance.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="measure-instance-detail({id:measureInstance.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="measure-instance.edit({id:measureInstance.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="measure-instance.delete({id:measureInstance.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

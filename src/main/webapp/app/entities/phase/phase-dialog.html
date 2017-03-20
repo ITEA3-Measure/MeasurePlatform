@@ -1,0 +1,55 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myPhaseLabel">Create or edit a Phase</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.phase.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.phase.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_phaseName">Phase Name</label>
+            <input type="text" class="form-control" name="phaseName" id="field_phaseName"
+                    ng-model="vm.phase.phaseName"
+                    required />
+            <div ng-show="editForm.phaseName.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.phaseName.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_phaseDescription">Phase Description</label>
+            <input type="text" class="form-control" name="phaseDescription" id="field_phaseDescription"
+                    ng-model="vm.phase.phaseDescription"
+                     />
+        </div>
+		<div class="form-group">
+			<label class="control-label" for="field_order">Phase Order</label> <input
+				type="text" class="form-control" name="phaseOrder" id="field_order"
+				ng-model="vm.phase.order" required />
+		</div>
+
+        <div class="form-group">
+            <label for="field_project">Project</label>
+            <select class="form-control" id="field_project" name="project" ng-model="vm.phase.project" ng-options="project as project.id for project in vm.projects track by project.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

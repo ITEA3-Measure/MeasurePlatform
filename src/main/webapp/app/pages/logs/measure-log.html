@@ -1,0 +1,34 @@
+
+<div style="margin-left: 50px; margin-right: 50px;">
+	<div class="page-header">
+		<h1>Measures Logs</h1>
+	</div>
+
+	<ol class="breadcrumb">
+		<li><a ui-sref="home">Home</a></li>
+		<li><a ui-sref="measure-log">Measure Logs</a></li>
+	</ol>
+	<div class="col-md-7">
+		<div ng-repeat="mlog in vm.logs">
+			<div ng-if="mlog.success">
+				<div class="alert alert-success" role="alert"
+					ng-repeat="input in mlog.mesurement"
+					style="margin-bottom: 5px; padding: 5px;">
+					<b>{{mlog.exectionDate | date:'HH:mm:ss'}} -
+						{{mlog.measureInstanceName}} [{{mlog.measureName}}] : </b>
+					{{input.label}} ({{mlog.executionTime}} ms)
+				</div>
+			</div>
+
+			<div class="alert alert-danger" role="alert" ng-if="!mlog.success"
+				style="margin-bottom: 5px; padding: 5px;">
+				<b>{{mlog.exectionDate | date:'HH:mm:ss'}} -
+					{{mlog.measureInstanceName}} [{{mlog.measureName}}] : </b>
+				{{mlog.exceptionMessage}} )
+			</div>
+		</div>
+	</div>
+	<div class="col-md-5" ng-show="vm.kibanaframe != null">
+		
+	<div ng-bind-html="vm.kibanaframe | to_trusted"></div>
+	</div>

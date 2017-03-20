@@ -1,0 +1,35 @@
+{
+    "health": {
+        "title": "Verifiche",
+        "refresh.button": "Aggiorna",
+        "stacktrace": "Stacktrace",
+        "details": {
+            "details": "Dettagli",
+            "properties": "Proprietà",
+            "name": "Nome",
+            "value": "Valore",
+            "error": "Errore"
+        },
+        "indicator": {
+            <%_ if (applicationType === 'gateway') { _%>
+            "discoveryComposite": "Discovery Composite",
+            "refreshScope": "Scopo di Aggiornamento Microservice",
+            "configServer": "Server di Configurazioni Microservice",
+            <%_ } _%>
+            "diskSpace": "Spazio su disco",
+            "mail": "Email"<% if (searchEngine === 'elasticsearch') { %>,
+            "elasticsearch": "Elasticsearch"<% } %><% if (databaseType === 'sql') { %>,
+            "db": "Database"<% } %><% if (databaseType === 'mongodb') { %>,
+            "mongo": "MongoDB"<% } %><% if (databaseType === 'cassandra') { %>,
+            "cassandra": "Cassandra"<% } %>
+        },
+        "table": {
+            "service": "Nome del servizio",
+            "status": "Stato"
+        },
+        "status": {
+            "UP": "DISPONIBILE",
+            "DOWN": "NON DISPONIBILE"
+        }
+    }
+}

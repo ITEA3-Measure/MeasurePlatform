@@ -1,0 +1,59 @@
+
+<div>
+    <h2><span>Measure Instance</span> {{vm.measureInstance.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Instance Name</span></dt>
+        <dd>
+            <span>{{vm.measureInstance.instanceName}}</span>
+        </dd>
+        <dt><span>Instance Description</span></dt>
+        <dd>
+            <span>{{vm.measureInstance.instanceDescription}}</span>
+        </dd>
+        <dt><span>Measure Name</span></dt>
+        <dd>
+            <span>{{vm.measureInstance.measureName}}</span>
+        </dd>
+        <dt><span>Measure Version</span></dt>
+        <dd>
+            <span>{{vm.measureInstance.measureVersion}}</span>
+        </dd>
+        <dt><span>Is Shedule</span></dt>
+        <dd>
+            <span>{{vm.measureInstance.isShedule}}</span>
+        </dd>
+        <dt><span>Sheduling Expression</span></dt>
+        <dd>
+            <span>{{vm.measureInstance.shedulingExpression}}</span>
+        </dd>
+        <dt><span>Measure Type</span></dt>
+        <dd>
+            <span>{{vm.measureInstance.measureType}}</span>
+        </dd>
+        <dt><span>Manage Last Measurement</span></dt>
+        <dd>
+            <span>{{vm.measureInstance.manageLastMeasurement}}</span>
+        </dd>
+        <dt><span>Project</span></dt>
+        <dd>
+            <a ui-sref="project-detail({id:vm.measureInstance.project.id})">{{vm.measureInstance.project.id}}</a>
+        </dd>
+        <dt><span>Measure Instance</span></dt>
+        <dd>
+            <a ui-sref="measure-instance-detail({id:vm.measureInstance.measureInstance.id})">{{vm.measureInstance.measureInstance.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="measure-instance-detail.edit({id:vm.measureInstance.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>
