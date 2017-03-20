@@ -4,7 +4,7 @@ The Measure Platform is a web application which allow to collect , calculate , s
 
 The Measure platform as bean build in context of Measure ITEA 3 project .The goal of the project is to increase the quality and efficiency as well as reduce the costs and time-to-market of software engineering in Europe. By implementing a comprehensive set of tools for automated and continuous measurement, this project provides a toolset for future projects to properly measure their impact.
 
-Documentation : https://github.com/aabherve/measure-platform/wiki
+Documentation : https://github.com/ITEA3-Measure/MeasurePlatform/wiki
 
 ![](http://img11.hostingpics.net/pics/885399measure1.png)
 
