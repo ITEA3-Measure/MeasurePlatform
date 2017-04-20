@@ -27,28 +27,3 @@
 
 })();
 
-
-
-(function() {
-	'use strict';
-
-	angular.module('measurePlatformApp').directive('fileModel', fileModel);
-	function fileModel() {
-		var directive = {
-			restrict : 'A',
-			link : linkFunc2
-		};
-
-		function linkFunc2(scope, element, attributes) {
-			var model = $parse(attrs.fileModel);
-			var modelSetter = model.assign;
-
-			element.bind('change', function() {
-				scope.$apply(function() {
-					scope.myFile = element[0].files[0];
-					modelSetter(scope, element[0].files[0]);
-				});
-			});
-		}
-	}
-})();

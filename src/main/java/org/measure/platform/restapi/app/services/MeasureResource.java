@@ -62,7 +62,7 @@ public class MeasureResource {
 	}
 
 	@PostMapping("/upload2")
-	public void handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+	public void handleFileUpload(@RequestParam("file") MultipartFile file,RedirectAttributes redirectAttributes) {
 		try {
 			byte[] fileData = file.getBytes();
 			File tempFile = File.createTempFile(file.getOriginalFilename(), ".measure");

@@ -4,10 +4,10 @@
 	angular.module('measurePlatformApp').controller('MeasureUploadController',
 			MeasureUploadController);
 
-	MeasureUploadController.$inject = [ '$http','$scope', '$uibModalInstance',
+	MeasureUploadController.$inject = [ '$scope', '$uibModalInstance',
 			'Measure' ];
 
-	function MeasureUploadController($http,$scope, $uibModalInstance, Measure) {
+	function MeasureUploadController($scope, $uibModalInstance, Measure) {
 		var vm = this;
 		vm.isUpload = false;
 		vm.uploadFile = uploadFile;
@@ -15,13 +15,27 @@
 
 		function uploadFile() {
 			vm.isUpload = true;
-			Measure.upload2($scope.fileread, onUploadSuccess, onUploadError).$promise;
+			Measure.upload($scope.fileread, onUploadSuccess, onUploadError).$promise;
 		}
+		
 		
 		vm.uploadFile2 = uploadFile2;
 		function uploadFile2() {
 			var uploadUrl = 'http://localhost/api/measure/upload2';
 			uploadFileToUrl($scope.myFile, uploadUrl);
+		}
+		
+		function uploadFileToUrl(file, uploadUrl){
+	        var fd = new FormData();
+	        fd.append('file', file);
+	        $http.post(uploadUrl, fd, {
+	            transformRequest: angular.identity,
+	            headers: {'Content-Type': undefined}
+	        })
+	        .success(function(){
+	        })
+	        .error(function(){
+	        });
 		}
 
 		function onUploadSuccess(result) {
@@ -37,25 +51,6 @@
 		vm.clear = clear;
 		function clear() {
 			$uibModalInstance.dismiss('cancel');
-		}
-		
-		
-
-		function uploadFileToUrl(file, uploadUrl){
-	        var fd = new FormData();
-	        fd.append('file', file);
-	        $http.post(uploadUrl, fd, {
-	            transformRequest: angular.identity,
-	            headers: {'Content-Type': undefined}
-	        })
-	        .success(function(){
-	        	vm.isUpload = false;
-				$uibModalInstance.close(true);
-	        })
-	        .error(function(){
-	        	vm.isUpload = false;
-				$uibModalInstance.close(true);
-	        });
 		}
 	}
 })();
