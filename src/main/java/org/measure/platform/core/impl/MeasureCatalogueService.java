@@ -56,7 +56,7 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 		try {
 			File repository = new File(measurePath);
 			for (File file : repository.listFiles()) {
-				if(file.toPath().resolve(MeasurePackager.MEATADATAFILE).toFile().exists()){
+				if (file.toPath().resolve(MeasurePackager.MEATADATAFILE).toFile().exists()) {
 					result.add(MeasurePackager.getMeasureData(file.toPath().resolve(MeasurePackager.MEATADATAFILE)));
 				}
 			}
@@ -103,9 +103,15 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 								.getNextJarEntry()) {
 							if (jarEntry.getName().endsWith(".class")) { //$NON-NLS-1$
 								String metaclassNamespace = getNamespace(jarEntry.getName());
-								Class<?> metaclass = loader.loadClass(metaclassNamespace);
-
-								if (IMeasure.class.isAssignableFrom(metaclass)) {
+								Class<?> metaclass = null;
+						
+								try {
+									metaclass = loader.loadClass(metaclassNamespace);
+								} catch (Throwable e) {
+									log.error(e.getLocalizedMessage());
+									System.out.println(metaclassNamespace);
+								}
+								if (metaclass != null && IMeasure.class.isAssignableFrom(metaclass)) {
 									result = (IMeasure) metaclass.newInstance();
 								}
 							}
@@ -149,7 +155,6 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 
 		return jars;
 	}
-
 
 	@Override
 	public SMMMeasure getMeasure(String measureId) {

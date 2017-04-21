@@ -4,10 +4,10 @@
 	angular.module('measurePlatformApp').controller('MeasureUploadController',
 			MeasureUploadController);
 
-	MeasureUploadController.$inject = [ '$http','$scope', '$uibModalInstance',
+	MeasureUploadController.$inject = ['$location', '$http','$scope', '$uibModalInstance',
 			'Measure' ];
 
-	function MeasureUploadController($http,$scope, $uibModalInstance, Measure) {
+	function MeasureUploadController($location,$http,$scope, $uibModalInstance, Measure) {
 		var vm = this;
 		vm.isUpload = false;
 		vm.uploadFile = uploadFile;
@@ -20,8 +20,11 @@
 		
 		vm.uploadFile2 = uploadFile2;
 		function uploadFile2() {
-			var uploadUrl = 'http://localhost/api/measure/upload2';
-			uploadFileToUrl($scope.myFile, uploadUrl);
+			
+			var absUrl = $location.absUrl();
+			var url = $location.url();
+			var basURL = absUrl.replace("/#" + url, "/api/measure/upload2");
+			uploadFileToUrl($scope.myFile, basURL);
 		}
 
 		function onUploadSuccess(result) {

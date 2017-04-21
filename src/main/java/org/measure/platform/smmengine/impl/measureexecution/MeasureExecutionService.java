@@ -64,6 +64,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 		} catch (Exception e) {
 			log.setExceptionMessage(e.getMessage());
 			log.setSuccess(false);
+			e.printStackTrace();
 		}
 
 		return log;
@@ -93,6 +94,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 		} catch (Exception e) {
 			log.setExceptionMessage(e.getMessage());
 			log.setSuccess(false);
+			e.printStackTrace();
 		}
 
 		return log;
@@ -106,10 +108,15 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 		log.setExectionDate(new Date());
 		log.setMeasureInstanceName(measureData.getInstanceName());
 		log.setMeasureName(measureData.getMeasureName());
+		try {
 
-		IMeasure measureImpl = measureCatalogue.getMeasureImplementation(measureData.getMeasureName());
-		executeLocalMeasure(measureData, measureImpl, log, false);
-
+			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(measureData.getMeasureName());
+			executeLocalMeasure(measureData, measureImpl, log, false);
+		} catch (Throwable e) {
+			log.setSuccess(false);
+			log.setExceptionMessage(e.getMessage());
+			e.printStackTrace();
+		}
 		return log;
 	}
 
