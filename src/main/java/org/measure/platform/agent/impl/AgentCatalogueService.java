@@ -26,11 +26,11 @@ public class AgentCatalogueService implements IRemoteCatalogueService {
 	public void registerRemoteMeasure(SMMMeasure remoteMeasure) {	
 		
 		
-		RemoteAgent agent = agentMap.get(remoteMeasure.getCallbackAdress());
+		RemoteAgent agent = agentMap.get(remoteMeasure.getCallbackLable());
 		
 		if(agent == null){
-			agent = new RemoteAgent(remoteMeasure.getCallbackLable(),remoteMeasure.getCallbackAdress());
-			agentMap.put(remoteMeasure.getCallbackAdress(), agent);
+			agent = new RemoteAgent(remoteMeasure.getCallbackLable(),remoteMeasure.getCallbackLable());
+			agentMap.put(remoteMeasure.getCallbackLable(), agent);
 		}
 		
 		

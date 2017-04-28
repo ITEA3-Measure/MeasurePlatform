@@ -45,7 +45,7 @@ public class RemoteMeasureResource {
 	public void registerMeasure(@Valid @RequestBody SMMMeasure measureDefinition) {
 		try{
 			this.remoteCatalogue.registerRemoteMeasure(measureDefinition);
-			this.agentService.registerLifeSign(measureDefinition.getCallbackAdress());
+			this.agentService.registerLifeSign(measureDefinition.getCallbackLable());
 		}catch(Exception e){
 			e.printStackTrace();
 		}

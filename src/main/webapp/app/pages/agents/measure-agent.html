@@ -14,7 +14,6 @@
 			<thead>
 				<tr>
 					<th><span>Label</span></th>
-					<th><span>Adress</span></th>
 					<th><span>Provided Measures</span></th>
 				</tr>
 			</thead>
@@ -25,10 +24,9 @@
 							<span class="label label-default">{{agent.agentName}}</span>
 						</h3>
 					</td>
-					<td style="vertical-align: top;"><b>{{agent.agentAdress}}</b></td>
 					<td style="vertical-align: top;">
 						<div ng-repeat="measure in agent.providedMeasures">				
-							<div class="media">
+							<div class="media panel panle-primary" style="margin:5px;padding:5px">
 								<div class="media-left">
 									<img class="media-object" ng-src="content/images/{{measure.type}}_big.png">	
 								</div>

@@ -57,12 +57,12 @@ public class AgentManager implements IAgentManager {
 		Map<String, MeasureAgent> map = new HashMap<>();
 		for (SMMMeasure measure : this.remoteCatalogue.getAllMeasures()) {
 
-			MeasureAgent agent = map.get(measure.getCallbackAdress());
+			MeasureAgent agent = map.get(measure.getCallbackLable());
 			if (agent == null) {
 				agent = new MeasureAgent();
 				agent.setAgentName(measure.getCallbackLable());
-				agent.setAgentAdress(measure.getCallbackAdress());
-				map.put(measure.getCallbackAdress(), agent);
+				agent.setAgentAdress(measure.getCallbackLable());
+				map.put(measure.getCallbackLable(), agent);
 			}
 			agent.getProvidedMeasures().add(measure);
 		}

@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
+import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasurePropertyService;
@@ -91,7 +92,12 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 						measurement);
 			}
 
-		} catch (Exception e) {
+		} catch(NoNodeAvailableException e){
+			log.setExceptionMessage("The Elasticsearch database is not available");
+			log.setSuccess(false);
+			e.printStackTrace();
+		}
+		catch (Exception e) {
 			log.setExceptionMessage(e.getMessage());
 			log.setSuccess(false);
 			e.printStackTrace();

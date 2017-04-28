@@ -84,23 +84,25 @@ public class SchedulingService implements IShedulingService {
 	public synchronized List<RemoteMeasureInstance> getSheduledRemoteMeasure(String agentId) {
 		List<RemoteMeasureInstance> result = new ArrayList<>();
 
-		for (Long instanceId : this.remotsJobs.get(agentId)) {
-			MeasureInstance instance = measureInstanceService.findOne(instanceId);
-			RemoteMeasureInstance remoteM = new RemoteMeasureInstance();
-			remoteM.setInstanceName(instance.getInstanceName());
-			remoteM.setMeasureName(instance.getMeasureName());
-			remoteM.setMeasureVersion(instance.getMeasureVersion());
-			remoteM.setShedulingExpression(instance.getShedulingExpression());
-			remoteM.setMeasureId(instance.getId());
+		List<Long> instances =  this.remotsJobs.get(agentId);
+		if(instances != null){
+			for (Long instanceId : instances) {
+				MeasureInstance instance = measureInstanceService.findOne(instanceId);
+				RemoteMeasureInstance remoteM = new RemoteMeasureInstance();
+				remoteM.setInstanceName(instance.getInstanceName());
+				remoteM.setMeasureName(instance.getMeasureName());
+				remoteM.setMeasureVersion(instance.getMeasureVersion());
+				remoteM.setShedulingExpression(instance.getShedulingExpression());
+				remoteM.setMeasureId(instance.getId());
 
-			for (MeasureProperty prop : measurePropertyService.findByInstance(instance)) {
-				remoteM.getProperties().put(prop.getPropertyName(), prop.getPropertyValue());
+				for (MeasureProperty prop : measurePropertyService.findByInstance(instance)) {
+					remoteM.getProperties().put(prop.getPropertyName(), prop.getPropertyValue());
+				}
+
+				result.add(remoteM);
+
 			}
-
-			result.add(remoteM);
-
 		}
-
 		return result;
 	}
 
