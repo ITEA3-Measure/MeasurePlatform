@@ -114,12 +114,11 @@
 								vm.measureInstance.measureVersion = "1.0.0";
 								vm.measureInstance.measureType = newValue.type;
 								
-								if(newValue.callbackAdress == null){
+								if(newValue.callbackLable == null){
 									vm.measureInstance.isRemote = false;
 								}else{
 									vm.measureInstance.isRemote = true;	
 									vm.measureInstance.remoteLabel = newValue.callbackLable;
-									vm.measureInstance.remoteAdress = newValue.callbackAdress;
 								} 
 							}
 						});
