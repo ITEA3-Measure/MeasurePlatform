@@ -127,7 +127,7 @@
 		function isAgentEnable(measureInstance) {
 			measureInstance.agentEnable = false;
 			for (var i = 0; i < vm.agents.length; i++) {
-				if (vm.agents[i].agentAdress == measureInstance.remoteAdress) {
+				if (vm.agents[i].agentName == measureInstance.remoteLabel) {
 					measureInstance.agentEnable = true;
 				}
 			}

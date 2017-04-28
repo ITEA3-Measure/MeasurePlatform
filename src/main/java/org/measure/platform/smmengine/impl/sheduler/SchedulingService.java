@@ -68,7 +68,7 @@ public class SchedulingService implements IShedulingService {
 		if (measure.isIsShedule() != null && measure.isIsShedule() && measure.getShedulingExpression() != null
 				&& measure.getShedulingExpression().matches("\\d+")) {
 			if (measure.isIsRemote()) {		
-				if(!agentService.isAlive(measure.getRemoteAdress())){
+				if(!agentService.isAlive(measure.getRemoteLabel())){
 					return false;
 				}
 				scheduleRemoteMeasure(measure);
@@ -111,7 +111,7 @@ public class SchedulingService implements IShedulingService {
 		List<Long> measures = this.remotsJobs.get(measure.getRemoteAdress());
 		if (measures == null) {
 			measures = new ArrayList<>();
-			this.remotsJobs.put(measure.getRemoteAdress(), measures);
+			this.remotsJobs.put(measure.getRemoteLabel(), measures);
 		}
 		measures.add(measure.getId());
 	}

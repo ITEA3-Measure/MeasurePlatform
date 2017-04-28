@@ -41,7 +41,7 @@ public class AgentManager implements IAgentManager {
 	public void reportCurrentTime() {
 		for (RemoteAgent agent : remoteCatalogue.getAllAgents()) {
 			if (new Date().getTime() - agent.getLastLifeSign().getTime() > 20000) {
-				remoteCatalogue.unregisterAgent(agent.getAdress());
+				remoteCatalogue.unregisterAgent(agent.getLabel());
 				for (SMMMeasure measure : agent.getMeasures().values()) {
 					for (MeasureInstance measureInstance : measureInstanceService.findMeasureInstanceByReference(measure.getName())) {
 						shedulingService.removeMeasure(measureInstance.getId());
