@@ -43,11 +43,6 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
-    mail:
-        host: localhost
-        port: 25
-        username:
-        password:
     messages:
         cache-seconds: 1
     thymeleaf:
@@ -55,9 +50,6 @@ spring:
 
 liquibase:
     contexts: dev
-
-server:
-    port: 80
 
 # ===================================================================
 # JHipster specific properties
