@@ -108,7 +108,7 @@ public class SchedulingService implements IShedulingService {
 
 	private synchronized void scheduleRemoteMeasure(MeasureInstance measure) {
 
-		List<Long> measures = this.remotsJobs.get(measure.getRemoteAdress());
+		List<Long> measures = this.remotsJobs.get(measure.getRemoteLabel());
 		if (measures == null) {
 			measures = new ArrayList<>();
 			this.remotsJobs.put(measure.getRemoteLabel(), measures);
