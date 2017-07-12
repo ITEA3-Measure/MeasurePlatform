@@ -38,11 +38,6 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
-    mail:
-        host: localhost
-        port: 25
-        username:
-        password:
     thymeleaf:
         cache: true
 
@@ -50,7 +45,6 @@ liquibase:
     contexts: prod
 
 server:
-    port: 8080
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
