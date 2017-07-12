@@ -53,6 +53,11 @@ public class Project implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Phase> phases = new HashSet<>();
+     
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Notification> notifications = new HashSet<>();
 
     @OneToMany(mappedBy = "project")
     @JsonIgnore
@@ -156,6 +161,31 @@ public class Project implements Serializable {
 
     public void setPhases(Set<Phase> phases) {
         this.phases = phases;
+    }
+    
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public Project notifications(Set<Notification> notifications) {
+        this.notifications = notifications;
+        return this;
+    }
+
+    public Project addNotifications(Notification phase) {
+    	notifications.add(phase);
+        phase.setProject(this);
+        return this;
+    }
+
+    public Project removeNotifications(Notification notification) {
+    	notifications.remove(notification);
+    	notification.setProject(null);
+        return this;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public Set<MeasureInstance> getInstances() {

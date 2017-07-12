@@ -2,6 +2,10 @@ package org.measure.platform.restapi.app.entitys;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +13,10 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
+import org.measure.platform.core.api.entitys.NotificationService;
+import org.measure.platform.core.api.entitys.enumeration.NotificationType;
 import org.measure.platform.core.entity.MeasureInstance;
+import org.measure.platform.core.entity.Notification;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.smmengine.api.IShedulingService;
 import org.slf4j.Logger;
@@ -42,6 +49,10 @@ public class MeasureInstanceResource {
     @Inject
 	private IShedulingService shedulingService;
 
+    
+    @Inject
+    private NotificationService notificationService;
+    
     /**
      * POST  /measure-instances : Create a new measureInstance.
      *
@@ -57,6 +68,17 @@ public class MeasureInstanceResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("measureInstance", "idexists", "A new measureInstance cannot already have an ID")).body(null);
         }
         MeasureInstance result = measureInstanceService.save(measureInstance);
+        
+        
+        Notification notif = new Notification();
+        notif.setNotificationTitle("Measure Registred");
+        notif.setNotificationContent("The "+measureInstance.getInstanceName()+ " has bed registre into the project");       
+        LocalDateTime ldt = LocalDateTime.ofInstant( new Date().toInstant(), ZoneId.systemDefault());   
+        notif.setNotificationDate(ZonedDateTime.of(ldt,ZoneId.systemDefault()));
+        notif.setNotificationType(NotificationType.INFO);
+        notif.setProject(result.getProject());
+        notificationService.save(notif);
+        
         return ResponseEntity.created(new URI("/api/measure-instances/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("measureInstance", result.getId().toString()))
             .body(result);
@@ -146,8 +168,31 @@ public class MeasureInstanceResource {
     @Timed
     public ResponseEntity<Void> deleteMeasureInstance(@PathVariable Long id) {
         log.debug("REST request to delete MeasureInstance : {}", id);
+        
+        
+        
+        MeasureInstance measureInstance = measureInstanceService.findOne(id);
+        
+        try{
+            Notification notif = new Notification();
+            notif.setNotificationTitle("Measure Deletion");
+            notif.setNotificationContent("The "+measureInstance.getInstanceName()+ " has bean removed form the project");       
+            LocalDateTime ldt = LocalDateTime.ofInstant( new Date().toInstant(), ZoneId.systemDefault());   
+            notif.setNotificationDate(ZonedDateTime.of(ldt,ZoneId.systemDefault()));
+            notif.setNotificationType(NotificationType.INFO);
+            notif.setProject(measureInstance.getProject());
+            notificationService.save(notif);
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
+
+        
         this.shedulingService.removeMeasure(id);
         this.measureInstanceService.delete(id);
+        
+  
+        
+        
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("measureInstance", id.toString())).build();
     }
 

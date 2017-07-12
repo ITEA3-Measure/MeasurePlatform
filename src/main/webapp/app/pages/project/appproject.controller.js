@@ -4,14 +4,17 @@
 	angular.module('measurePlatformApp').controller('AppProjectController',
 			AppProjectController);
 
-	AppProjectController.$inject = [ '$scope', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project', 'Phase', 'MeasureView' ];
+	AppProjectController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
+			'$state', 'entity', 'Project', 'Phase','Notification', 'MeasureView' ];
 
-	function AppProjectController($scope, Principal, LoginService, $state,
-			entity, Project, Phase, MeasureView) {
+	function AppProjectController($scope,$cookies, Principal, LoginService, $state,
+			entity, Project, Phase,Notification, MeasureView) {
 		var vm = this;
 		vm.project = entity;
-
+		
+		
+		
+		// Overview Management
 		MeasureView.byproject({
 			id : vm.project.id
 		}, function(result) {
@@ -41,11 +44,13 @@
 
 		}
 
+		
+		// Phase Management
 		vm.phases = [];
 		vm.editphases = [];
 
 		loadPhasesByProject(vm.project.id);
-
+		
 		function loadPhasesByProject(id) {
 			Phase.phases({
 				id : id
@@ -71,10 +76,101 @@
 			});
 		}
 		
+		
+		
+		// Notification
+		
+		vm.notifications = [];
+		loadNotificationByProject(vm.project.id);
+
+		function loadNotificationByProject(id) {
+			Notification.notifications({
+				id : id
+			}, function(result) {
+				vm.notifications = result;
+			});
+		}
+		
 		vm.deleteview = deleteview;
 		function deleteview(id) {
 			 MeasureView.delete({id: id});
 			 $state.go('appproject', null, { reload: 'appproject' });
 		}
+		
+		vm.validateNotification = validateNotification;
+		function validateNotification(id){
+			
+			var newList = [];
+			var j = 0;
+			for (var i = 0; i < vm.notifications.length; i++) {
+				if(vm.notifications[i].id == id){
+					vm.notifications[i].isValidated = true;
+					Notification.update(vm.notifications[i]);
+				}else{
+					newList[j] = vm.notifications[i];
+					j = j + 1;
+				}	
+			}
+			vm.notifications = newList;
+		}
+		
+
+		vm.showErrorNotification = true;
+		vm.showWarningNotification = true;
+		vm.showInfoNotification = true;
+		vm.showSuccessNotification = true;
+		
+		vm.filterNotification = filterNotification;
+	
+		function filterNotification(){
+			
+			Notification.notifications({
+				id : vm.project.id
+			}, function(result) {
+				var allNotif = result;
+				
+				var newList = [];
+				var filtred = 0;
+			
+				for (var i = 0; i <allNotif.length; i++) {
+					if(vm.showErrorNotification && allNotif[i].notificationType== 'ERROR'){
+						newList[filtred] = allNotif[i];
+						filtred = filtred + 1;
+					}else if(vm.showInfoNotification && allNotif[i].notificationType== 'INFO'){
+						newList[filtred] = allNotif[i];
+						filtred = filtred + 1;
+					}else if(vm.showWarningNotification && allNotif[i].notificationType== 'WARNING'){
+						newList[filtred] = allNotif[i];
+						filtred = filtred + 1;
+					}else if(vm.showErrorNotification && allNotif[i].notificationType== 'ERROR'){
+						newList[filtred] = allNotif[i];
+						filtred = filtred + 1;
+					}
+				}
+				
+				vm.notifications = newList;
+			});		
+		}
+		
+		
+		// Tab Management
+		vm.selectedTab ="1";
+		vm.selectedTab = $cookies.get("selectedTab");
+		vm.selectTab = selectTab;
+	
+		function selectTab(tab){
+			$cookies.put("selectedTab",tab);
+		}
+		
+		vm.isActive = isActive;
+		function isActive(tab){
+			if($cookies.get("selectedTab") == tab){
+				return "active";
+			}
+			return "";
+		}
+		
+	
+
 	}
 })();

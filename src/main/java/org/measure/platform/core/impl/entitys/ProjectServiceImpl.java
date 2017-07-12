@@ -6,10 +6,12 @@ import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
+import org.measure.platform.core.api.entitys.NotificationService;
 import org.measure.platform.core.api.entitys.PhaseService;
 import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.entity.Notification;
 import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.ProjectRepository;
@@ -38,6 +40,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Inject
 	private MeasureViewService viewService;
+	
+	@Inject
+	private NotificationService notifService;
 
 	/**
 	 * Save a project.
@@ -113,6 +118,12 @@ public class ProjectServiceImpl implements ProjectService {
 		for (MeasureInstance instance : measureInstanceService.findMeasureInstancesByProject(id)) {
 			measureInstanceService.delete(instance.getId());
 		}
+		
+		for (Notification notif : notifService.findAllByProject(project)) {
+			notifService.delete(notif.getId());
+		}
+		
+		
 		
     	projectRepository.delete(id);
     }

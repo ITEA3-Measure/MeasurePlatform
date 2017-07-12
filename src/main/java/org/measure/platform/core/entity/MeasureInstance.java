@@ -337,43 +337,6 @@ public class MeasureInstance implements Serializable {
 		return this.referenceInstances;
 	}
 
-	// public MeasureInstance getMeasureInstance() {
-	// return measureInstance;
-	// }
-	//
-	// public MeasureInstance measureInstance(MeasureInstance measureInstance) {
-	// this.measureInstance = measureInstance;
-	// return this;
-	// }
-	//
-	// public void setMeasureInstance(MeasureInstance measureInstance) {
-	// this.measureInstance = measureInstance;
-	// }
-	//
-	// public Set<MeasureInstance> getDepends() {
-	// return depends;
-	// }
-	//
-	// public MeasureInstance depends(Set<MeasureInstance> measureInstances) {
-	// this.depends = measureInstances;
-	// return this;
-	// }
-	//
-	// public MeasureInstance addDepends(MeasureInstance measureInstance) {
-	// depends.add(measureInstance);
-	// measureInstance.setMeasureInstance(this);
-	// return this;
-	// }
-	//
-	// public MeasureInstance removeDepends(MeasureInstance measureInstance) {
-	// depends.remove(measureInstance);
-	// measureInstance.setMeasureInstance(null);
-	// return this;
-	// }
-	//
-	// public void setDepends(Set<MeasureInstance> measureInstances) {
-	// this.depends = measureInstances;
-	// }
 
 	@Override
 	public boolean equals(Object o) {

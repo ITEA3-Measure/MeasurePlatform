@@ -11,7 +11,9 @@
     <include file="classpath:config/liquibase/changelog/20161109133434_added_entity_MeasureInstance.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161109133435_added_entity_MeasureProperty.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161109133436_added_entity_MeasureView.xml" relativeToChangelogFile="false"/>
-     <include file="classpath:config/liquibase/changelog/20161212133434_added_entity_MeasureReference.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161212133434_added_entity_MeasureReference.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170619_added_entity_Notification.xml" relativeToChangelogFile="false"/>
+     
   
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161109133431_added_entity_constraints_Project.xml" relativeToChangelogFile="false"/>
@@ -21,5 +23,6 @@
     <include file="classpath:config/liquibase/changelog/20161109133435_added_entity_constraints_MeasureProperty.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161109133436_added_entity_constraints_MeasureView.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161212133435_added_entity_constraints_MeasureReference.xml" relativeToChangelogFile="false"/>  
+    <include file="classpath:config/liquibase/changelog/20170619_added_entity_constraints_Notification.xml" relativeToChangelogFile="false"/>  
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
