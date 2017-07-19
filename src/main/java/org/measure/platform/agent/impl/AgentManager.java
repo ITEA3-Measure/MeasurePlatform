@@ -54,19 +54,17 @@ public class AgentManager implements IAgentManager {
 	
 	@Override
 	public List<MeasureAgent> getAgents() {
-		Map<String, MeasureAgent> map = new HashMap<>();
-		for (SMMMeasure measure : this.remoteCatalogue.getAllMeasures()) {
-
-			MeasureAgent agent = map.get(measure.getCallbackLable());
-			if (agent == null) {
-				agent = new MeasureAgent();
-				agent.setAgentName(measure.getCallbackLable());
-				agent.setAgentAdress(measure.getCallbackLable());
-				map.put(measure.getCallbackLable(), agent);
-			}
-			agent.getProvidedMeasures().add(measure);
+	
+		List<MeasureAgent> agents = new ArrayList<>();
+		
+		
+		for(RemoteAgent agent : remoteCatalogue.getAllAgents()){
+			MeasureAgent magent = new MeasureAgent();
+			magent.setAgentName(agent.getLabel());
+			magent.setProvidedMeasures(new ArrayList<>(agent.getMeasures().values()));
+			agents.add(magent);
 		}
-		List<MeasureAgent> agents = new ArrayList<>(map.values());
+		
 		agents.sort(new Comparator<MeasureAgent>() {
 			@Override
 			public int compare(MeasureAgent o1, MeasureAgent o2) {

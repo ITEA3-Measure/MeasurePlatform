@@ -42,10 +42,10 @@ public class RemoteMeasureResource {
 
 	@PutMapping("/registration")
 	@Timed
-	public void registerMeasure(@Valid @RequestBody SMMMeasure measureDefinition) {
+	public void registerMeasure(@Valid @RequestBody SMMMeasure measureDefinition,@RequestParam("agentName")String agentName)  {
 		try{
-			this.remoteCatalogue.registerRemoteMeasure(measureDefinition);
-			this.agentService.registerLifeSign(measureDefinition.getCallbackLable());
+			this.remoteCatalogue.registerRemoteMeasure(measureDefinition,agentName);
+			this.agentService.registerLifeSign(agentName);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

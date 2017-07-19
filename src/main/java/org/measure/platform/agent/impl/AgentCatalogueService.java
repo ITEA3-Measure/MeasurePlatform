@@ -23,14 +23,13 @@ public class AgentCatalogueService implements IRemoteCatalogueService {
 	private Map<String,RemoteAgent> agentMap = new HashMap<>();
 
 	@Override
-	public void registerRemoteMeasure(SMMMeasure remoteMeasure) {	
-		
-		
-		RemoteAgent agent = agentMap.get(remoteMeasure.getCallbackLable());
+	public void registerRemoteMeasure(SMMMeasure remoteMeasure, String agentName) {	
+
+		RemoteAgent agent = agentMap.get(agentName);
 		
 		if(agent == null){
-			agent = new RemoteAgent(remoteMeasure.getCallbackLable(),remoteMeasure.getCallbackLable());
-			agentMap.put(remoteMeasure.getCallbackLable(), agent);
+			agent = new RemoteAgent(agentName);
+			agentMap.put(agentName, agent);
 		}
 		
 		
@@ -38,7 +37,7 @@ public class AgentCatalogueService implements IRemoteCatalogueService {
 			agent.getMeasures().put(remoteMeasure.getName(),remoteMeasure);
 		}
 		
-		log.info("Register Remote Measure \"" +remoteMeasure.getName()+ "\" form " + remoteMeasure.getCallbackLable());
+		log.info("Register Remote Measure \"" +remoteMeasure.getName()+ "\" form " + agentName);
 	}
 
 	@Override
@@ -60,17 +59,11 @@ public class AgentCatalogueService implements IRemoteCatalogueService {
 		agentMap.remove(agentId);
 	}
 
-	@Override
-	public void unregisterRemoteMeasure(String measureName, String callbackAdress) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Collection<RemoteAgent> getAllAgents() {
 		return this.agentMap.values();
 	}
 	
-
 
 }

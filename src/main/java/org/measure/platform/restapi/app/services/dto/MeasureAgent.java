@@ -9,7 +9,6 @@ public class MeasureAgent {
 	
 	private String agentName;
 	
-	private String agentAdress;
 	
 	private List<SMMMeasure> providedMeasures;
 
@@ -23,14 +22,6 @@ public class MeasureAgent {
 
 	public void setAgentName(String agentName) {
 		this.agentName = agentName;
-	}
-
-	public String getAgentAdress() {
-		return agentAdress;
-	}
-
-	public void setAgentAdress(String agentAdress) {
-		this.agentAdress = agentAdress;
 	}
 
 	public List<SMMMeasure> getProvidedMeasures() {

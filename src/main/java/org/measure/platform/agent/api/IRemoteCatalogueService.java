@@ -8,9 +8,7 @@ import org.measure.smm.measure.model.SMMMeasure;
 
 public interface IRemoteCatalogueService {
 
-	public void registerRemoteMeasure(SMMMeasure remoteMeasure);
-
-	public void unregisterRemoteMeasure(String measureName, String callbackAdress);
+	public void registerRemoteMeasure(SMMMeasure remoteMeasure, String agentName);
 
 	public List<SMMMeasure> getAllMeasures();
 

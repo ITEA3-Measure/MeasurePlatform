@@ -14,7 +14,7 @@ public class RemoteAgent {
 
 	private Date lastLifeSign;
 
-	public RemoteAgent(String label, String adress) {
+	public RemoteAgent(String label) {
 		this.label = label;
 		this.lastLifeSign = new Date();
 		this.measures = new HashMap<>();
