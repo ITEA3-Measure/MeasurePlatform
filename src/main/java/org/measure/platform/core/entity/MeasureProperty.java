@@ -35,6 +35,10 @@ public class MeasureProperty implements Serializable {
 
     @Column(name = "property_value")
     private String propertyValue;
+    
+    
+    @Column(name = "property_type")
+    private String propertyType;
 
     @ManyToOne
     private MeasureInstance measureInstance;
@@ -73,6 +77,20 @@ public class MeasureProperty implements Serializable {
         this.propertyValue = propertyValue;
     }
 
+    
+    public String getPropertyType() {
+        return propertyType;
+    }
+
+    public MeasureProperty propertyType(String propertyType) {
+        this.propertyType = propertyType;
+        return this;
+    }
+
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
+    }
+    
     public MeasureInstance getMeasureInstance() {
         return measureInstance;
     }

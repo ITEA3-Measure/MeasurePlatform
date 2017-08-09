@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Measure name="RandomMeasureV2" type="DIRECT">
+    <description>Return a random measure and his variation</description>
+    <scopeProperties defaultValue="100" name="MaxRange" type="INTEGER">
+        <description>MaxRange</description>
+    </scopeProperties>
+    <scopeProperties defaultValue="0" name="MinRange" type="STRING">
+        <description>MinRange</description>
+    </scopeProperties>
+    <scopeProperties defaultValue="0" name="PreviousValue" type="INTEGER">
+        <description>PreviousValue</description>
+    </scopeProperties>
+    <scopeProperties defaultValue="Borned" name="Kind" type="ENUM">
+        <description>Kind</description>
+        <enumType>
+            <enumvalue label="Is Borrned" value="Borned"/>
+            <enumvalue label="Not Borrned" value="UnBorned"/>
+        </enumType>
+    </scopeProperties>
+    <unit name="RandomMeasurement">
+        <fields fieldName="FinalValue" fieldType="u_double"/>
+        <fields fieldName="Variation" fieldType="u_integer"/>
+    </unit>
+</Measure>

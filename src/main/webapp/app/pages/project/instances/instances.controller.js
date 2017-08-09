@@ -66,8 +66,7 @@
 								for (var i = 0; i < result.length; i++) {
 									for (var j = 0; j < vm.measureInstances.length; j++) {
 										if (vm.measureInstances[j].id == result[i].measureInstance.id) {
-											vm.measureInstances[j].properties
-													.push(result[i]);
+											vm.measureInstances[j].properties.push(result[i]);
 										}
 									}
 								}

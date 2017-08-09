@@ -56,11 +56,7 @@
 							title="Direct Measure">
 					</a></td>
 
-					<td style="vertical-align: top;">
-
-						{{instance.instanceName}}
-
-					</td>
+					<td style="vertical-align: top;">{{instance.instanceName}}</td>
 					<td style="vertical-align: top;">{{instance.measureName}}</td>
 					<td style="vertical-align: top;">
 						<div ng-repeat="required in instance.ownedReferences">
@@ -76,18 +72,31 @@
 							ng-repeat="property in instance.properties"
 							style="margin-bottom: 0px;">
 							<dt style="text-align: left;">{{property.propertyName}}</dt>
-							<dd>{{property.propertyValue}}</dd>
+
+							<dd>
+								<div ng-switch="property.propertyType">
+									<div ng-switch-when="PASSWORD">**********</div>
+									<div ng-switch-when="DATE">
+										{{property.propertyValue |date:'yyyy-MM-dd HH:mm:ss'}}
+									</div>
+									<div ng-switch-default>
+										{{property.propertyValue}}
+									</div>
+								</div>
+							</dd>
 						</dl>
 					</td>
 					<td style="vertical-align: top;">
-						<div ng-show="!instance.isRemote"><span class="label label-success">Measure Platform</span></div>
-						
-						
-						
+						<div ng-show="!instance.isRemote">
+							<span class="label label-success">Measure Platform</span>
+						</div>
+
+
+
 						<div ng-show="instance.isRemote">
 							<span ng-show="instance.agentEnable" class="label label-success">{{instance.remoteLabel}}</span>
 							<span ng-show="!instance.agentEnable" class="label label-danger">{{instance.remoteLabel}}</span>
-						
+
 						</div>
 					</td>
 

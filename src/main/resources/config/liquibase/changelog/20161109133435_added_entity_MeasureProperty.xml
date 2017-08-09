@@ -29,6 +29,10 @@
                 <constraints nullable="true" />
             </column>
             
+            <column name="property_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            
             <column name="measure_instance_id" type="bigint">
                 <constraints nullable="true" />
             </column>

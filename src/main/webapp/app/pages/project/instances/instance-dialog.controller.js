@@ -29,6 +29,8 @@
 		
 		vm.allmeasures = [];
 		
+
+		
 		if (vm.measureInstance.id != null) {
 			loadProperties(vm.measureInstance.id);
 			loadReferences(vm.measureInstance.id);
@@ -71,32 +73,59 @@
 							},
 							function(result) {
 								vm.measureInstance.properties = [];
-								for (var i = 0; i < result.length; i++) {
-									vm.currentProperties.push(result[i]);
-									if (vm.properties[i] != null && vm.properties[i].propertyName == result[i].propertyName) {
-										vm.properties[i].propertyValue = result[i].propertyValue;
-									}
+								for (var i = 0; i < result.length; i++) {		
+									vm.currentProperties.push(result[i]);	
 								}
 							});
 		}
-
-
-
+	
 		$scope
 				.$watch(
 						"vm.selectedmeasure",
 						function(newValue, oldValue) {
 							vm.references =[];
 							vm.properties = [];
-							if (newValue != null) {									
+							if (newValue != null) {	
+								
 								for (var i = 0; i < newValue.scopeProperties.length; i++) {
 									var o = newProperty();
 									o.propertyName = newValue.scopeProperties[i].name;
-									if (vm.currentProperties[i] != null && vm.currentProperties[i].propertyName == o.propertyName) {
-										o.propertyValue = vm.currentProperties[i].propertyValue;
-									} else {
-										o.propertyValue = newValue.scopeProperties[i].defaultValue;
+									o.propertyType = newValue.scopeProperties[i].type;
+									
+									if(newValue.scopeProperties[i].type == 'ENUM'){
+										for (var j = 0; j < newValue.scopeProperties[i].enumType.enumvalue.length; j++) {
+											var eva = newEnumValue();
+											eva.label = newValue.scopeProperties[i].enumType.enumvalue[j].label;
+											eva.value = newValue.scopeProperties[i].enumType.enumvalue[j].value;
+											
+											o.enumvalues[j] = eva;
+										}
 									}
+									
+									var propval = null;
+									if(vm.measureInstance.id != null){												
+										for(var j = 0;j < vm.currentProperties.length; j++){
+											if(vm.currentProperties[j].propertyName == o.propertyName){
+												propval = vm.currentProperties[j].propertyValue;
+											}			
+										}
+										
+									}else {
+										propval = newValue.scopeProperties[i].defaultValue;		
+									}
+									
+									
+									if(newValue.scopeProperties[i].type == 'INTEGER' || newValue.scopeProperties[i].type == 'FLOAT' ){
+										o.propertyValue = Number(propval);		
+									}else if(newValue.scopeProperties[i].type == 'ENUM'){
+										o.propertyValue = propval;	
+									}else if(newValue.scopeProperties[i].type == 'DATE'){
+										o.propertyValue = new Date(propval);	
+									}else{
+										o.propertyValue = propval;
+									}
+											
+		
 									vm.properties[i] = o;
 								}
 								
@@ -127,7 +156,16 @@
 			return {
 				propertyName : null,
 				propertyValue : null,
+				propertyType : null,
+				enumvalues : [],
 				id : null
+			}
+		};
+		
+		function newEnumValue() {
+			return {
+				label : null,
+				value : null
 			}
 		};
 		
@@ -216,6 +254,13 @@
 		function onSaveError() {
 			vm.isSaving = false;
 		}
+		
+        vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
+        
+        function openCalendar (date) {
+            vm.datePickerOpenStatus[date] = true;
+        }
 
 	}
 })();

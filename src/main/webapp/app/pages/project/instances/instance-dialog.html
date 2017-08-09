@@ -16,7 +16,7 @@
 				name="measureInstance" ng-model="vm.selectedmeasure"
 				ng-options="measure as measure.name for measure in vm.allmeasures">
 				<option value=""></option>
-			</select> 
+			</select>
 		</div>
 
 		<div class="form-group">
@@ -46,10 +46,31 @@
 			</div>
 
 			<div ng-repeat="property in vm.properties" style="margin: 5px;">
-				<div class="input-group">
-					<div class="input-group-addon" style="width: 300px;">{{property.propertyName}}</div>
-					<input type="text" class="form-control"
-						ng-model="property.propertyValue" style="width: 327%;">
+				<div class="input-group" style="width:100%">
+					<div class="input-group-addon" style="width:30%">{{property.propertyName}}</div>
+			
+					<div ng-switch="property.propertyType">
+						<input ng-switch-when="STRING" type="text" class="form-control" ng-model="property.propertyValue">
+						<input ng-switch-when="INTEGER" type="number" class="form-control" ng-model="property.propertyValue" > 
+						<input ng-switch-when="FLOAT" type="number" class="form-control" ng-model="property.propertyValue" > 
+						<input ng-switch-when="PASSWORD" type="password" class="form-control" ng-model="property.propertyValue" > 
+						<input ng-switch-when="DESABLE" type="text" class="form-control" ng-model="property.propertyValue" disabled="true"> 
+						
+						<select ng-switch-when="ENUM" class="form-control" 
+								ng-model="property.propertyValue"
+								ng-options="val.value as val.label for val in property.enumvalues">
+							
+						</select>
+						
+						
+						<div ng-switch-when="DATE">
+		                    <input id="field_creationDate" type="text" class="form-control" name="creationDate" datetime-picker="{{dateformat}}" ng-model="property.propertyValue" is-open="vm.datePickerOpenStatus.creationDate" style="width:90%"/>
+		                    <span class="input-group-btn">
+		                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('creationDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+		                    </span>
+		                </div>
+					
+					</div>	
 				</div>
 			</div>
 		</div>
@@ -60,26 +81,26 @@
 				<h3 class="panel-title">Input : {{measureref.role}}</h3>
 			</div>
 
-			<div class="input-group" style="margin: 5px;">
-				<div class="input-group-addon" style="width: 300px;">Measure</div>
+			<div class="input-group" style="margin: 5px;width:100%">
+				<div class="input-group-addon" style="width: 30%;">Measure</div>
 
-				<select class="form-control" id="field_measureInstance"
-					style="width:496%;" name="measureInstance"
+				<select class="form-control" id="field_measureInstance" name="measureInstance"
 					ng-model="measureref.referencedInstance"
 					ng-options="instance as instance.instanceName for instance in measureref.candidateInstances">
 				</select>
 			</div>
 
-			<div class="input-group" style="margin: 5px;">
-				<div class="input-group-addon" style="width: 300px;">Number</div>
+			<div class="input-group" style="margin: 5px;width:100%">
+				<div class="input-group-addon" style="width: 30%;">Number</div>
 				<input type="text" class="form-control"
-					ng-model="measureref.numberRef" style="width: 327%;">
+					ng-model="measureref.numberRef">
 			</div>
 
-			<div class="input-group" style="margin: 5px;">
-				<div class="input-group-addon" style="width: 300px;">Filter Expression</div>
+			<div class="input-group" style="margin: 5px;width:100%">
+				<div class="input-group-addon" style="width: 30%;">Filter
+					Expression</div>
 				<input type="text" class="form-control"
-					ng-model="measureref.filterExpression" style="width: 327%;">
+					ng-model="measureref.filterExpression">
 			</div>
 		</div>
 
