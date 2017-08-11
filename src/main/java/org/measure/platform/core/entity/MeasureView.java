@@ -28,9 +28,9 @@ public class MeasureView implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
       
-    @Column(name = "viewcustom")
-    private Boolean custom;
-    
+    @Column(name = "mode")
+    private String mode;
+        
     @Column(name = "viewname")
     private String name;
     
@@ -51,6 +51,18 @@ public class MeasureView implements Serializable {
     
     @Column(name = "view_data")
     private String viewData;  
+    
+    @Column(name = "kibana_name")
+    private String kibanaName;
+    
+    @Column(name = "visualised_property")
+    private String visualisedProperty = "value";
+    
+    @Column(name = "date_index")
+    private String dateIndex = "postDate";
+    
+    @Column(name = "color")
+    private String color = "color";
  
     @ManyToOne
     private Project projectoverview;
@@ -72,18 +84,7 @@ public class MeasureView implements Serializable {
     @ManyToOne
     private MeasureInstance measureinstance;
          
-    public Boolean isCustom() {
-        return custom;
-    }
 
-	public MeasureView custom(Boolean custom) {
-        this.custom = custom;
-        return this;
-    }
-
-    public void setCustom(Boolean custom) {
-        this.custom = custom;
-    }
     
     public String getName() {
         return name;
@@ -96,6 +97,19 @@ public class MeasureView implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getMode() {
+        return mode;
+    }
+
+	public MeasureView mode(String mode) {
+        this.mode = mode;
+        return this;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
     
 
@@ -139,6 +153,32 @@ public class MeasureView implements Serializable {
         this.type = type;
     }
     
+    public String getKibanaName() {
+        return kibanaName;
+    }
+
+	public MeasureView kibanaName(String kibanaName) {
+        this.kibanaName = kibanaName;
+        return this;
+    }
+
+    public void setKibanaName(String kibanaName) {
+        this.kibanaName = kibanaName;
+    }
+    
+    
+    public String getColor() {
+        return color;
+    }
+
+	public MeasureView color(String color) {
+        this.color = color;
+        return this;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
     
     public Boolean isAuto() {
         return auto;
@@ -190,6 +230,34 @@ public class MeasureView implements Serializable {
 		this.project = project;
 	}
 	
+    public String getVisualisedProperty() {
+        return visualisedProperty;
+    }
+
+	public MeasureView visualisedProperty(String visualisedProperty) {
+        this.visualisedProperty = visualisedProperty;
+        return this;
+    }
+
+    public void setVisualisedProperty(String visualisedProperty) {
+        this.visualisedProperty = visualisedProperty;
+    }
+    
+    
+    public String getDateIndex() {
+        return dateIndex;
+    }
+
+	public MeasureView dateIndex(String dateIndex) {
+        this.dateIndex = dateIndex;
+        return this;
+    }
+
+    public void setDateIndex(String dateIndex) {
+        this.dateIndex = dateIndex;
+    }
+
+
     public String getViewData() {
         return viewData;
     }
@@ -202,7 +270,7 @@ public class MeasureView implements Serializable {
     public void setViewData(String viewData) {
         this.viewData = viewData;
     }
-    
+
     public MeasureView phase(Phase phase) {
         this.phase = phase;
         return this;

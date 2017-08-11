@@ -50,7 +50,7 @@
 		</ul>
 
 
-		<div class="well" style="min-height: 300px;">
+		<div ng-if="vm.dashboards[vm.selectedDashboard] != null" class="well" style="min-height: 300px;">
 			<div style="float: right;">
 				<div ng-if="!vm.dashboards[vm.selectedDashboard].isExternal"
 					style="float: right;">
@@ -89,14 +89,14 @@
 				<div ng-if="!vm.dashboards[vm.selectedDashboard].isExternal">
 					<div
 						ng-repeat="measureview in vm.dashboards[vm.selectedDashboard].measureview"
-						style="display: inline-block; padding: 10px; text-align: center;">
+						style="{{vm.viewBlockStyle(measureview)}}padding: 10px; text-align: center;">
 						<div class="row">
 							<div class="thumbnail"
 								style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">
 								<div ng-bind-html="measureview.viewData | to_trusted"></div>
 								<div class="caption" style="text-align: center;">
 									<h3 style="margin: 0px;">{{measureview.name}}</h3>
-									<p style="margin: 0px;">{{measureview.description}}</p>
+									<p style="margin: 0px;white-space:pre-wrap ; word-wrap:break-word;">{{measureview.description}}</p>
 								</div>
 							</div>
 						</div>

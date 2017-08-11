@@ -12,12 +12,22 @@
 		<div class="btn-group" role="group"
 			style="float: right; margin-bottom: 20px;">
 			<button type="button" class="btn btn-default"
-				ng-click="vm.changemode()">Standard</button>
+				ng-click="vm.changemode('AUTO')"
+				style="width: 150px; height: 50px; margin: 5px;">Auto</button>
 			<button type="button" class="btn btn-default"
-				ng-click="vm.changemode()">Manual</button>
+				ng-click="vm.changemode('KVIS')"
+				style="width: 150px; height: 50px; margin: 5px;">Kibana
+				Visualisation</button>
+			<button type="button" class="btn btn-default"
+				ng-click="vm.changemode('KDASH')"
+				style="width: 150px; height: 50px; margin: 5px;">Kibana
+				Dashboard</button>
+			<button type="button" class="btn btn-default"
+				ng-click="vm.changemode('MANUAL')"
+				style="width: 150px; height: 50px; margin: 5px;">Manual</button>
 		</div>
 
-		<div ng-show="!vm.measureView.custom" style="margin-top: 20px;">
+		<div ng-show="vm.measureView.mode == 'AUTO'" style="margin-top: 80px;">
 			<div class="form-group">
 				<label for="field_measureInstance">Measure</label> <select
 					class="form-control" id="field_measureInstance"
@@ -28,13 +38,30 @@
 			</div>
 
 			<div class="form-group">
+				<label for="field_visualisedProperty">Value to Display</label> <select
+					class="form-control" id="field_visualisedProperty"
+					name="measureInstance" ng-model="vm.measureView.visualisedProperty"
+					ng-options="property for property in vm.numericProperties">
+				</select>
+			</div>
+
+
+			<div class="form-group">
+				<label for="field_dateIndex">Date Index</label> <select
+					class="form-control" id="field_dateIndex" name="dateIndex"
+					ng-model="vm.measureView.dateIndex"
+					ng-options="property for property in vm.dateIndexs">
+				</select>
+			</div>
+
+			<div class="form-group">
 				<label for="field_charttype">Chart Type</label> <select
 					class="form-control" id="field_charttype" name="measureInstance"
 					ng-model="vm.measureView.type">
 					<option value="Line chart">Line chart</option>
 					<option value="Area chart">Area chart</option>
 					<option value="Bar chart">Bar chart</option>
-					<option value="Last Value">Last Value</option>					
+					<option value="Last Value">Last Value</option>
 				</select>
 			</div>
 
@@ -63,6 +90,27 @@
 				</select>
 			</div>
 
+			<div class="form-group">
+				<label for="field_color">Color</label> <select class="form-control"
+					id="field_color" name="measureInstance"
+					ng-model="vm.measureView.color">
+					<option value="%23E0F9D7">Light Green</option>
+					<option value="%237EB26D">Green</option>
+					<option value="%233F6833">Dark Green</option>
+					<option value="%23CFFAFF">Azure</option>
+					<option value="%2364B0C8">Blue</option>
+					<option value="%232F575E">Dark Blue</option>
+					<option value="%2399440A">Brown</option>
+					<option value="%23EF843C">Orange</option>
+					<option value="%23E24D42">Red</option>
+					<option value="%23BA43A9">Violet</option>
+					<option value="%23F9D9F9">Lignt Violet</option>
+					<option value="%23FCEACA">Gold</option>
+					<option value="%233F2B5B">Black</option>
+					<option value="%23DEDAF7">Grey</option>
+				</select>
+			</div>
+
 
 			<div class="form-group">
 				<label class="control-label" for="field_autorefresh">Auto
@@ -71,13 +119,104 @@
 					ng-model="vm.measureView.auto" />
 			</div>
 
+			<div class="form-group">
+				<label for="field_color">Color</label> <select class="form-control"
+					id="field_color" name="measureInstance"
+					ng-model="vm.measureView.color">
+					<option value="%23E0F9D7">Light Green</option>
+					<option value="%237EB26D">Green</option>
+					<option value="%233F6833">Dark Green</option>
+					<option value="%23CFFAFF">Azure</option>
+					<option value="%2364B0C8">Blue</option>
+					<option value="%232F575E">Dark Blue</option>
+					<option value="%2399440A">Brown</option>
+					<option value="%23EF843C">Orange</option>
+					<option value="%23E24D42">Red</option>
+					<option value="%23BA43A9">Violet</option>
+					<option value="%23F9D9F9">Lignt Violet</option>
+					<option value="%23FCEACA">Gold</option>
+					<option value="%233F2B5B">Black</option>
+					<option value="%23DEDAF7">Grey</option>
+				</select>
+			</div>
+
 		</div>
 
-		<div class="form-group" ng-show="vm.measureView.custom"
-			style="margin-top: 20px;">
-			<label class="control-label" for="field_viewData">View Data</label>
-			<textarea rows="5" class="form-control" name="viewData"
-				id="field_viewData" ng-model="vm.measureView.viewData" />
+
+		<div ng-show="vm.measureView.mode == 'KVIS'" style="margin-top: 10px;">
+
+			<button type="button" class="btn btn-success"
+				go-click="{{vm.kibanaURL}}"
+				style="width: 80%; height: 50px; margin-top: 15px; margin-bottom: 40px; margin-left: 10%; margin-right: 10%;">Create
+				a new Visualisation with Kibana</button>
+
+			<div class="form-group" style="margin-top: 10px;">
+				<label for="field_kibanavisualisations">Kibana Visualisation</label>
+				<select class="form-control" id="field_kibanavisualisations"
+					name="measureInstance" ng-model="vm.measureView.kibanaName"
+					ng-options="visu.name as visu.name for visu in vm.kibanavisualisations"
+					style="width: 95%; display: inline;">
+				</select>
+				<button type="button" class="btn btn-warning"
+					ng-click="vm.reloadVisualisations()" style="float: right;">
+					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
+				</button>
+			</div>
+
+			<div class="form-group">
+				<label for="field_graphicSizeV">Graphic Size</label> <select
+					class="form-control" id="field_graphicSizeV" name="measureInstance"
+					ng-model="vm.measureView.size">
+					<option value="Small">Small</option>
+					<option value="Medium">Medium</option>
+					<option value="Large">Large</option>
+					<option value="Very Large">Very Large</option>
+				</select>
+			</div>
+		</div>
+
+		<div ng-show="vm.measureView.mode == 'KDASH'"
+			style="margin-top: 10px;">
+
+			<button type="button" class="btn btn-success"
+				go-click="{{vm.kibanaURL}}"
+				style="width: 80%; height: 50px; margin-top: 15px; margin-bottom: 40px; margin-left: 10%; margin-right: 10%;">Create
+				a new Dasbhboard with Kibana</button>
+
+			<div class="form-group" style="margin-top: 10px;">
+				<label for="field_kibanadashboard">Kibana Dasbhboard</label> <select
+					class="form-control" id="field_kibanadashboard"
+					name="measureInstance" ng-model="vm.measureView.kibanaName"
+					ng-options="dash.name as dash.name for dash in vm.kibanadashboards"
+					style="width: 95%; display: inline;">
+				</select>
+				<button type="button" class="btn btn-warning"
+					ng-click="vm.reloadDasbhboards()" style="float: right;">
+					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
+				</button>
+			</div>
+
+
+			<div class="form-group">
+				<label for="field_graphicSizeD">Graphic Size</label> <select
+					class="form-control" id="field_graphicSizeD" name="measureInstance"
+					ng-model="vm.measureView.size">
+					<option value="Small">Small</option>
+					<option value="Medium">Medium</option>
+					<option value="Large">Large</option>
+					<option value="Very Large">Very Large</option>
+				</select>
+			</div>
+		</div>
+
+
+		<div ng-show="vm.measureView.mode == 'MANUAL'"
+			style="margin-top: 80px;">
+			<div class="form-group">
+				<label class="control-label" for="field_viewData">View Data</label>
+				<textarea rows="5" class="form-control" name="viewData"
+					id="field_viewData" ng-model="vm.measureView.viewData" />
+			</div>
 		</div>
 
 		<div class="form-group">

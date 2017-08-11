@@ -70,6 +70,15 @@
 			 MeasureView.delete({id: id});
 			 $state.go('appproject', null, { reload: 'appproject' });
 		}
+		
+		vm.viewBlockStyle = viewBlockStyle;
+		
+		function viewBlockStyle(measureview){
+			if(measureview.mode == 'AUTO' ||measureview.mode == 'KVIS' ){
+				return "display: inline-block;";
+			}
+			return "";			
+		}
 	}
 	
 
@@ -80,5 +89,8 @@
 					return $sce.trustAsHtml(text);
 				};
 			} ]);
+	
+	
+
 
 })();

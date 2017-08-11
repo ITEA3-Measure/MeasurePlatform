@@ -64,6 +64,15 @@ public class AgentCatalogueService implements IRemoteCatalogueService {
 	public Collection<RemoteAgent> getAllAgents() {
 		return this.agentMap.values();
 	}
+
+	@Override
+	public SMMMeasure getMeasureByName(String measure, String agentId) {
+		RemoteAgent agent = this.agentMap.get(agentId);
+		if(agent != null){
+			return agent.getMeasures().get(measure);
+		}
+		return null;
+	}
 	
 
 }

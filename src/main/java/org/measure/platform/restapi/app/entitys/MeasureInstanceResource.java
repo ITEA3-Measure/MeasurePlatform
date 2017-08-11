@@ -12,13 +12,17 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
+import org.measure.platform.agent.api.IRemoteCatalogueService;
+import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.NotificationService;
 import org.measure.platform.core.api.entitys.enumeration.NotificationType;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.Notification;
+import org.measure.platform.measurementstorage.api.IMeasurementStorage;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.smmengine.api.IShedulingService;
+import org.measure.smm.measure.model.SMMMeasure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -48,10 +52,18 @@ public class MeasureInstanceResource {
     
     @Inject
 	private IShedulingService shedulingService;
-
     
     @Inject
     private NotificationService notificationService;
+    
+    @Inject
+    private IMeasurementStorage storageService; 
+    
+    @Inject
+    private IMeasureCatalogueService catalogueService;
+    
+    @Inject
+    private IRemoteCatalogueService remoteCatalogueService;
     
     /**
      * POST  /measure-instances : Create a new measureInstance.
@@ -67,9 +79,24 @@ public class MeasureInstanceResource {
         if (measureInstance.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("measureInstance", "idexists", "A new measureInstance cannot already have an ID")).body(null);
         }
+        
+        // Save Measure Instance
         MeasureInstance result = measureInstanceService.save(measureInstance);
+       
+        
+        // Create Index mapping for measure Unite
+        SMMMeasure measureDefinition =  null;
+        
+        if(measureInstance.isIsRemote()){
+        	measureDefinition = remoteCatalogueService.getMeasureByName(measureInstance.getMeasureName(), measureInstance.getRemoteLabel());
+        }else{
+        	measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
+        }
+       
+        storageService.createMeasureIndex(measureDefinition,measureInstance.getInstanceName());
         
         
+        // Create Notification related to the creation of the  new Measure Instance
         Notification notif = new Notification();
         notif.setNotificationTitle("Measure Registred");
         notif.setNotificationContent("The "+measureInstance.getInstanceName()+ " has bed registre into the project");       

@@ -160,6 +160,7 @@
 	
 		function selectTab(tab){
 			$cookies.put("selectedTab",tab);
+			$state.go('appproject', null, { reload: 'appproject' });
 		}
 		
 		vm.isActive = isActive;
@@ -170,7 +171,15 @@
 			return "";
 		}
 		
+		vm.viewBlockStyle = viewBlockStyle;
+		
+		function viewBlockStyle(measureview){
+			if(measureview.mode == 'AUTO' ||measureview.mode == 'KVIS' ){
+				return "display: inline-block;";
+			}
+			return "";			
+		}
 	
-
+	
 	}
 })();

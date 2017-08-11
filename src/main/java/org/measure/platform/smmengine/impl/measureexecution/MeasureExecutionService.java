@@ -151,7 +151,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			if (storeProp) {
 				Map<String, String> updatedProperties = new HashMap<>();
 				for (Entry<String, String> entry : measureImpl.getProperties().entrySet()) {
-					if (!entry.getValue().equals(properties.get(entry.getKey()))) {
+					if (entry.getValue() != null && !entry.getValue().equals(properties.get(entry.getKey()))) {
 						updatedProperties.put(entry.getKey(), entry.getValue());
 					}
 				}

@@ -5,9 +5,9 @@
         .module('measurePlatformApp')
         .controller('GraphicDialogController', GraphicDialogController);
 
-    GraphicDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance','entity','project', 'phase', 'dashboard','data', 'MeasureView','ProjectInstances'];
+    GraphicDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance','entity','project', 'phase', 'dashboard','data', 'MeasureView','ProjectInstances','Measure','ConfigurationService'];
 
-    function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project, phase,dashboard,data,MeasureView,ProjectInstances) {
+    function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project, phase,dashboard,data,MeasureView,ProjectInstances,Measure,ConfigurationService) {
         var vm = this;
         vm.measureView = entity;
         vm.project = project;
@@ -33,15 +33,11 @@
         
         
         vm.changemode = changemode;
+        vm.measureView.mode = "AUTO";
 
-		function changemode() {
-			if (vm.measureView.custom) {
-				vm.measureView.custom = false;
-			} else {
-				vm.measureView.custom = true;
-			}
+		function changemode(mode) {
+			vm.measureView.mode = mode;
 		}
-        
         
 		function loadAll(id) {
 			ProjectInstances.instances({
@@ -57,17 +53,71 @@
 					}
 				}
 			});
+
+			ConfigurationService.kibanaadress(function(result) {
+				vm.kibanaURL = "http://" + result.kibanaAdress + "/app/kibana";			
+			});
+			
 		}
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
-
+        
+        $scope
+		.$watch(
+				"vm.measureView.measureinstance",
+				function(newValue, oldValue) {			
+					Measure.get({
+						id : vm.measureView.measureinstance.measureName
+					}, function(result) {
+						vm.selectedMeasureDefinition = result;
+						 vm.numericProperties = [];
+					     vm.dateIndexs = [];
+					     
+					     for(var i = 0; i < result.unit.fields.length;i++){
+					    	 if(result.unit.fields[i].fieldType == 'u_double' ||
+					    		result.unit.fields[i].fieldType == 'u_integer' ||
+					    		result.unit.fields[i].fieldType == 'u_short' ||
+					    		result.unit.fields[i].fieldType == 'u_float' ||
+					    		result.unit.fields[i].fieldType == 'u_long' ||
+					    		result.unit.fields[i].fieldType == 'u_half_float' ||
+					    		result.unit.fields[i].fieldType == 'u_scaled_float'){
+					    		 vm.numericProperties.push(result.unit.fields[i].fieldName);
+					    	 }else if(result.unit.fields[i].fieldType == 'u_date'){
+					    		 vm.dateIndexs.push(result.unit.fields[i].fieldName);
+					    	 }
+					     }
+					        
+					});							
+				});
+ 
         vm.clear = clear;       
         function clear () {
             $uibModalInstance.dismiss('cancel');
         }
+        
+        
+        vm.kibanavisualisations = [];
+        loadKibanaVisualisations();
+        
+        function loadKibanaVisualisations() {
+        	MeasureView.allkibanavisualisations(function(result) {
+				vm.kibanavisualisations = result;
+			});
+		}
+        
+        
+        vm.kibanadashboards = [];
+        loadKibanaDashboards();
+        
+        function loadKibanaDashboards() {
+        	MeasureView.allkibanadashboards(function(result) {
+				vm.kibanadashboards = result;
+			});
+		}
 
+        
         vm.save = save;
         function save () {
             vm.isSaving = true;
@@ -93,7 +143,11 @@
                 MeasureView.save(vm.measureView, onSaveSuccess, onSaveError);
             }
         }
-
+        
+        
+        vm.reloadVisualisations = loadKibanaVisualisations;      
+        vm.reloadDashboards = loadKibanaDashboards;
+        
         function onSaveSuccess (result) {
             $scope.$emit('measurePlatformApp:measureViewUpdate', result);
             $uibModalInstance.close(result);
@@ -107,3 +161,5 @@
 
     }
 })();
+
+

@@ -17,5 +17,7 @@ public interface IRemoteCatalogueService {
 	void unregisterAgent(String agentId);
 
 	public Collection<RemoteAgent> getAllAgents();
+	
+	public SMMMeasure getMeasureByName(String measure,String agentId);
 
 }

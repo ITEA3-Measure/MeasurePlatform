@@ -31,7 +31,16 @@
             	method: 'GET',
             	isArray: true
             },
-        
+            'allkibanavisualisations': {url:'api/measureview/kibana-visualisations',
+            	method: 'GET',
+            	isArray: true
+            },
+            'allkibanadashboards': {url:'api/measureview/kibana-dashboards',
+            	method: 'GET',
+            	isArray: true
+            }, 
+            
+            
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

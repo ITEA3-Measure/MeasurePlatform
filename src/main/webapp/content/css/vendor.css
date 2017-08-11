@@ -7495,6 +7495,26 @@ button.close {
 	}
 }
 
+
+.panel-phase {
+	border-color: #c0c0c0
+}
+
+.panel-phase>.panel-heading {
+	color: #ffffff;
+	background-color: #c0c0c0;
+	border-color: #c0c0c0;
+}
+
+.panel-phase>.panel-heading+.panel-collapse>.panel-body {
+	border-top-color: #337ab7;
+}
+
+.panel-phase>.panel-heading .badge {
+	color: #c0c0c0;
+	background-color: #fff;
+}
+
 /* endinject */
 /* bower:sass */
 /* endinject */

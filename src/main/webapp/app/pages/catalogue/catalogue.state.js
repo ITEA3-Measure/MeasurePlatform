@@ -73,7 +73,11 @@
 	                            type:"Line chart",
 	                            auto:true,
 	                            interval:"Last Hour",
-	                            custom:false
+	                            mode:'AUTO',
+	                            visualisedProperty:null,
+	                            dateIndex:null,
+	                            color:null,
+	                            kibanaName:null
 	                        };
 	                    },
                     	 data: function () {

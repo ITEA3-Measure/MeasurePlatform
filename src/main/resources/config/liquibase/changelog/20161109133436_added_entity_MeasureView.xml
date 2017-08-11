@@ -21,7 +21,7 @@
 			</column>
 
 
-			<column name="viewcustom" type="bit">
+			<column name="mode" type="varchar(20)">
 				<constraints nullable="true" />
 			</column>
 
@@ -51,6 +51,22 @@
 			</column>
 
 			<column name="view_data" type="varchar(2048)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="kibana_name" type="varchar(2048)">
+				<constraints nullable="true" />
+			</column>
+
+			<column name="visualised_property" type="varchar(2048)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="date_index" type="varchar(2048)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="color" type="varchar(2048)">
 				<constraints nullable="true" />
 			</column>
 

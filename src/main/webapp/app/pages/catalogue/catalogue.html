@@ -1,14 +1,8 @@
 <div style="margin-left: 50px; margin-right: 50px;">
 	<div>
-		<div class="page-header">
-			<h1>Project Catalogue</h1>
-		</div>
-
-
-
 		<ol class="breadcrumb">
 			<li><a ui-sref="home">Home</a></li>
-			<li><a ui-sref="catalogue">Catalogue</a></li>
+			<li><a ui-sref="catalogue">Projects</a></li>
 		</ol>
 		
 		<div style="float: right; margin-top: 0px">
@@ -62,7 +56,7 @@
 									<div ng-bind-html="measureview.viewData | to_trusted"></div>
 									<div class="caption" style="text-align: center;padding:0px;">
 										<h3 style="margin: 0px;">{{measureview.name}}</h3>
-										<p style="margin: 0px;">{{measureview.description}}</p>
+										<p style="margin: 0px;white-space:pre-wrap ; word-wrap:break-word;">{{measureview.description}}</p>
 									</div>
 								</div>
 							</div>
