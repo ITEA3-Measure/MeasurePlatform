@@ -126,12 +126,12 @@
 	                            description:null,
 	                            size:"Medium",
 	                            type:"Line chart",
-	                            auto:true,
+	                            auto:false,
 	                            interval:"Last Hour",
 	                            mode:'AUTO',
 	                            visualisedProperty:null,
 	                            dateIndex:null,
-	                            color:null,
+	                            color:'Blue',
 	                            kibanaName:null
 	                        };
 	                    },

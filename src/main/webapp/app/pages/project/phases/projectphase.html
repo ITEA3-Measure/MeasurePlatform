@@ -50,10 +50,10 @@
 		</ul>
 
 
-		<div ng-if="vm.dashboards[vm.selectedDashboard] != null" class="well" style="min-height: 300px;">
-			<div style="float: right;">
-				<div ng-if="!vm.dashboards[vm.selectedDashboard].isExternal"
-					style="float: right;">
+		<div ng-if="vm.dashboards[vm.selectedDashboard] != null" class="well-dashboard" style="min-height: 300px;">
+			<div style="float: right; margin-top: -20px;margin-right: -20px;">
+			
+				<div ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL'" style="float: right;">
 					<button class="btn btn-link" ng-show="!vm.editdashboard"
 						ng-click="vm.edition()">
 						<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
@@ -79,14 +79,7 @@
 
 			<div>
 
-
-
-				<div ng-if="vm.dashboards[vm.selectedDashboard].isExternal">
-					<div
-						ng-bind-html="vm.dashboards[vm.selectedDashboard].content| to_trusted"></div>
-				</div>
-
-				<div ng-if="!vm.dashboards[vm.selectedDashboard].isExternal">
+				<div ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL'">
 					<div
 						ng-repeat="measureview in vm.dashboards[vm.selectedDashboard].measureview"
 						style="{{vm.viewBlockStyle(measureview)}}padding: 10px; text-align: center;">
@@ -119,6 +112,11 @@
 						<span class="glyphicon glyphicon-plus" aria-hiden="true"
 							style="margin-top: 45%"></span>
 					</div>
+				</div>
+				
+				
+				<div ng-if="vm.dashboards[vm.selectedDashboard].mode == 'KIBANA' || vm.dashboards[vm.selectedDashboard].mode == 'EXTERNAL'">
+					<div ng-bind-html="vm.dashboards[vm.selectedDashboard].content| to_trusted"></div>
 				</div>
 			</div>
 		</div>

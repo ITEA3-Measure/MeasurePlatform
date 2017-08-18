@@ -67,9 +67,9 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 		String mode = measureView.getMode();
 		if ("AUTO".equals(mode)) {
 			updateViewData(measureView);
-		}else if ("KVIS".equals(mode)) {
+		} else if ("KVIS".equals(mode)) {
 			updateViewDataFromKibanaVisualisation(measureView);
-		}else if ("KDASH".equals(mode)) {
+		} else if ("KDASH".equals(mode)) {
 			updateViewDataFromKibanaDashboard(measureView);
 		}
 
@@ -77,15 +77,13 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 		return result;
 	}
 
-
-
 	private void updateViewData(MeasureView measureView) {
 
 		String type = "line";
 
 		if (measureView.getType().equals("Last Value")) {
 
-			String refresh = measureView.isAuto() ? "t" : "f";
+			String refresh = measureView.isAuto() ? "f" : "t";
 			String periode = "from:now-1y,mode:quick,to:now";
 			String measure = measureView.getMeasureinstance().getInstanceName().replaceAll(" ", "+");
 
@@ -119,28 +117,28 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 				type = "histogram";
 			}
 
-			String refresh = measureView.isAuto() ? "t" : "f";
+			String refresh = measureView.isAuto() ? "f" : "t";
 
 			String periode = "from:now-24h,mode:quick,to:now";
 			String interval = "30s";
 			if (measureView.getInterval().equals("Last 15 minutes")) {
 				periode = "from:now-15m,mode:quick,to:now";
-				interval = "5s";
+				interval = "10s";
 			} else if (measureView.getInterval().equals("Last Hour")) {
 				periode = "from:now-1h,mode:quick,to:now";
 				interval = "30s";
 			} else if (measureView.getInterval().equals("Last Day")) {
 				periode = "from:now-24h,mode:quick,to:now";
-				interval = "10m";
+				interval = "15m";
 			} else if (measureView.getInterval().equals("Last Week")) {
-				periode = "rom:now-7d,mode:quick,to:now";
-				interval = "1h";
+				periode = "from:now-7d,mode:quick,to:now";
+				interval = "h";
 			} else if (measureView.getInterval().equals("Last Month")) {
 				periode = "from:now-30d,mode:quick,to:now";
-				interval = "3h";
+				interval = "d";
 			} else if (measureView.getInterval().equals("Last Year")) {
 				periode = "from:now-1y,mode:quick,to:now";
-				interval = "1d";
+				interval = "7d";
 			}
 			String measure = measureView.getMeasureinstance().getInstanceName().replaceAll(" ", "+");
 
@@ -165,41 +163,38 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 			String visualisedProperty = measureView.getVisualisedProperty();
 			String dateIndex = measureView.getDateIndex();
 
-			String value = messageSource.getMessage("viewtype.view1", new Object[] { type, refresh, periode, measure,
-					color, interval, height, width, kibanaAdress, visualisedProperty, dateIndex }, Locale.ENGLISH);
+			String value = messageSource.getMessage("viewtype.view1", new Object[] { type, refresh, periode, measure,color, interval, height, width, kibanaAdress, visualisedProperty, dateIndex }, Locale.ENGLISH);
 			measureView.setViewData(value);
 		}
 	}
 
 	private void updateViewDataFromKibanaVisualisation(MeasureView measureView) {
-		KibanaVisualisation visualisation = measurementStorage.findKibanaVisualisationByName(measureView.getKibanaName());
-		if (visualisation != null) {
 
-			String width = "800";
-			String height = "400";
-			if (measureView.getSize().equals("Small")) {
-				width = "300";
-				height = "200";
-			} else if (measureView.getSize().equals("Medium")) {
-				width = "400";
-				height = "300";
-			} else if (measureView.getSize().equals("Large")) {
-				width = "600";
-				height = "400";
-			} else if (measureView.getSize().equals("Very Large")) {
-				width = "800";
-				height = "600";
-			}
-
-			String value = messageSource.getMessage("viewtype.view3",
-					new Object[] { height, width, kibanaAdress, visualisation.getUrl() }, Locale.ENGLISH);
-			measureView.setViewData(value);
+		String width = "800";
+		String height = "400";
+		if (measureView.getSize().equals("Small")) {
+			width = "300";
+			height = "200";
+		} else if (measureView.getSize().equals("Medium")) {
+			width = "400";
+			height = "300";
+		} else if (measureView.getSize().equals("Large")) {
+			width = "600";
+			height = "400";
+		} else if (measureView.getSize().equals("Very Large")) {
+			width = "800";
+			height = "600";
 		}
+		
+		String refresh = measureView.isAuto() ? "f" : "t";
+
+		String value = messageSource.getMessage("viewtype.view3",
+				new Object[] { height, width, kibanaAdress, measureView.getKibanaName(),refresh }, Locale.ENGLISH);
+		measureView.setViewData(value);
+
 	}
-	
+
 	private void updateViewDataFromKibanaDashboard(MeasureView measureView) {
-		KibanaVisualisation dashboardVisualisation = measurementStorage.findKibanaDashboardByName(measureView.getKibanaName());
-		if (dashboardVisualisation != null) {
 			String height = "400";
 			if (measureView.getSize().equals("Small")) {
 				height = "200";
@@ -210,11 +205,11 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 			} else if (measureView.getSize().equals("Very Large")) {
 				height = "1000";
 			}
+			
+			String refresh = measureView.isAuto() ? "f" : "t";
 
-			String value = messageSource.getMessage("viewtype.view4",
-					new Object[] { height, kibanaAdress, dashboardVisualisation.getUrl() }, Locale.ENGLISH);
+			String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, measureView.getKibanaName(),refresh }, Locale.ENGLISH);
 			measureView.setViewData(value);
-		}
 	}
 
 	/**

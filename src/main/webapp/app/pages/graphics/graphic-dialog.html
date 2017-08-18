@@ -118,28 +118,6 @@
 					name="manageLastMeasurement" id="field_autorefresh"
 					ng-model="vm.measureView.auto" />
 			</div>
-
-			<div class="form-group">
-				<label for="field_color">Color</label> <select class="form-control"
-					id="field_color" name="measureInstance"
-					ng-model="vm.measureView.color">
-					<option value="%23E0F9D7">Light Green</option>
-					<option value="%237EB26D">Green</option>
-					<option value="%233F6833">Dark Green</option>
-					<option value="%23CFFAFF">Azure</option>
-					<option value="%2364B0C8">Blue</option>
-					<option value="%232F575E">Dark Blue</option>
-					<option value="%2399440A">Brown</option>
-					<option value="%23EF843C">Orange</option>
-					<option value="%23E24D42">Red</option>
-					<option value="%23BA43A9">Violet</option>
-					<option value="%23F9D9F9">Lignt Violet</option>
-					<option value="%23FCEACA">Gold</option>
-					<option value="%233F2B5B">Black</option>
-					<option value="%23DEDAF7">Grey</option>
-				</select>
-			</div>
-
 		</div>
 
 
@@ -154,13 +132,20 @@
 				<label for="field_kibanavisualisations">Kibana Visualisation</label>
 				<select class="form-control" id="field_kibanavisualisations"
 					name="measureInstance" ng-model="vm.measureView.kibanaName"
-					ng-options="visu.name as visu.name for visu in vm.kibanavisualisations"
+					ng-options="visu.id  as visu.name for visu in vm.kibanavisualisations"
 					style="width: 95%; display: inline;">
 				</select>
 				<button type="button" class="btn btn-warning"
 					ng-click="vm.reloadVisualisations()" style="float: right;">
 					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
 				</button>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label" for="field_autorefreshvis">Auto
+					Refresh</label> <input type="checkbox" class="form-control"
+					name="manageLastMeasurement" id="field_autorefreshvis"
+					ng-model="vm.measureView.auto" />
 			</div>
 
 			<div class="form-group">
@@ -187,16 +172,23 @@
 				<label for="field_kibanadashboard">Kibana Dasbhboard</label> <select
 					class="form-control" id="field_kibanadashboard"
 					name="measureInstance" ng-model="vm.measureView.kibanaName"
-					ng-options="dash.name as dash.name for dash in vm.kibanadashboards"
+					ng-options="dash.id as dash.name for dash in vm.kibanadashboards"
 					style="width: 95%; display: inline;">
 				</select>
 				<button type="button" class="btn btn-warning"
 					ng-click="vm.reloadDasbhboards()" style="float: right;">
 					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
 				</button>
+			</div>	
+			
+			
+			<div class="form-group">
+				<label class="control-label" for="field_autorefreshdash">Auto
+					Refresh</label> <input type="checkbox" class="form-control"
+					name="manageLastMeasurement" id="field_autorefreshdash"
+					ng-model="vm.measureView.auto" />
 			</div>
-
-
+			
 			<div class="form-group">
 				<label for="field_graphicSizeD">Graphic Size</label> <select
 					class="form-control" id="field_graphicSizeD" name="measureInstance"

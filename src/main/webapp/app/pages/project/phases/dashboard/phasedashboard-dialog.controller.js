@@ -5,15 +5,44 @@
 			'PhaseDashboardDialogController', PhaseDashboardDialogController);
 
 	PhaseDashboardDialogController.$inject = [ '$timeout', '$scope',
-			'$stateParams', '$uibModalInstance', 'entity', 'phase', 'Dashboard' ];
+			'$stateParams', '$uibModalInstance', 'entity', 'phase', 'Dashboard','MeasureView','ConfigurationService'];
 
 	function PhaseDashboardDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity, phase, Dashboard) {
+			$uibModalInstance, entity, phase, Dashboard,MeasureView,ConfigurationService) {
 		var vm = this;
 		vm.dashboard = entity;
 		vm.phase = phase;
 		vm.isSaving = false;
 		vm.save=save;
+		
+		loadConfiguration();
+		
+		function loadConfiguration() {
+			ConfigurationService.kibanaadress(function(result) {
+				vm.kibanaURL = "http://" + result.kibanaAdress + "/app/kibana";			
+			});		
+		}
+		
+		vm.active = isactive;
+		
+		function isactive(mode){
+			if(vm.dashboard.mode == mode){
+				return "active";
+			}
+			return "";
+		}
+		
+		vm.kibanadashboards = [];
+        loadKibanaDashboards();
+        
+        function loadKibanaDashboards() {
+        	MeasureView.allkibanadashboards(function(result) {
+				vm.kibanadashboards = result;
+			});
+		}
+        
+        vm.reloadDashboards = loadKibanaDashboards;
+		
 		function save() {
 			vm.isSaving = true;
 			if (vm.dashboard.id != null) {

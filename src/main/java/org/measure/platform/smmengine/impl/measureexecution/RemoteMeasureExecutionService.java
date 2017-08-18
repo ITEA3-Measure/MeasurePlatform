@@ -51,7 +51,7 @@ public class RemoteMeasureExecutionService  implements IRemoteMeasureExecutionSe
 			}
 
 			for (IMeasurement measurement : executionLog.getMesurement()) {
-				measurementStorage.putMeasurement(executionLog.getMeasureInstanceName(), true, measurement);
+				measurementStorage.putMeasurement(executionLog.getMeasureName().toLowerCase(),executionLog.getMeasureInstanceName(), true, measurement);
 			}
 		} else {	
 				shedulingService.removeMeasure(executionLog.getMeasureInstanceId());	

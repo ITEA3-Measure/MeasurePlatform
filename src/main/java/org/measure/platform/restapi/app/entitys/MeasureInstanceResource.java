@@ -92,9 +92,7 @@ public class MeasureInstanceResource {
         }else{
         	measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
         }
-       
-        storageService.createMeasureIndex(measureDefinition,measureInstance.getInstanceName());
-        
+
         
         // Create Notification related to the creation of the  new Measure Instance
         Notification notif = new Notification();

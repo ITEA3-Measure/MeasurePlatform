@@ -57,7 +57,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			measurements.addAll(executeLocalMeasure(measureData, measureImpl, log, true));
 
 			for (IMeasurement measurement : measurements) {
-				measurementStorage.putMeasurement(measureData.getInstanceName(), measureData.isManageLastMeasurement(),
+				measurementStorage.putMeasurement(measureData.getMeasureName().toLowerCase(),measureData.getInstanceName(), measureData.isManageLastMeasurement(),
 						measurement);
 			}
 
@@ -88,7 +88,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			measurements.addAll(executeLocalMeasure(measureData, measureImpl, log, true));
 
 			for (IMeasurement measurement : measurements) {
-				measurementStorage.putMeasurement(measureData.getInstanceName(), measureData.isManageLastMeasurement(),
+				measurementStorage.putMeasurement(measureData.getMeasureName().toLowerCase(),measureData.getInstanceName(), measureData.isManageLastMeasurement(),
 						measurement);
 			}
 

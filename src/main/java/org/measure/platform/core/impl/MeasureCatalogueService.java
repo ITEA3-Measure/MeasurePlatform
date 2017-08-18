@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
+import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.FileUtils;
 import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.impl.utils.UnzipUtility;
+import org.measure.platform.measurementstorage.api.IElasticsearchIndexManager;
 import org.measure.smm.measure.api.IMeasure;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.measure.smm.service.MeasurePackager;
@@ -35,6 +37,9 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 
 	@Value("${measure.repository.path}")
 	private String measurePath;
+	
+	@Inject
+	private IElasticsearchIndexManager indexManager;
 
 	@Override
 	public void storeMeasure(Path measure) {
@@ -44,6 +49,11 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 			Path target = new File(measurePath).toPath().resolve(measureInfos.getName());
 			Files.createDirectories(target);
 			unzip.unzip(measure.toString(), target.toString());
+			
+			
+			SMMMeasure definition = MeasurePackager.getMeasureData(target.resolve(MeasurePackager.MEATADATAFILE));
+			indexManager.deleteIndex(definition);			
+			indexManager.createIndexWithMapping(definition);
 		} catch (JAXBException | IOException e) {
 			log.error(e.getLocalizedMessage());
 		}
@@ -72,11 +82,16 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 			File repository = new File(measurePath);
 			for (File file : repository.listFiles()) {
 				if (file.getName().equals(measureId)) {
+					
+					
+					SMMMeasure definition = MeasurePackager.getMeasureData(file.toPath().resolve(MeasurePackager.MEATADATAFILE));
+					indexManager.deleteIndex(definition);	
+					
 					FileUtils.deleteDirectory(file);
 					break;
 				}
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
 		}
 	}

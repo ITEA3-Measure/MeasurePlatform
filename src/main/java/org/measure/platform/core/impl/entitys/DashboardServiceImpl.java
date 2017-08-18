@@ -1,6 +1,7 @@
 package org.measure.platform.core.impl.entitys;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,9 @@ import org.measure.platform.core.impl.repository.DashboardRepository;
 import org.measure.platform.core.impl.repository.PhaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +37,12 @@ public class DashboardServiceImpl implements DashboardService{
 	@Inject
 	private MeasureViewService viewService;
 
+	@Autowired
+	private MessageSource messageSource;
+	
+	@Value("${measure.kibana.adress}")
+	private String kibanaAdress;
+
 
     /**
      * Save a dashboard.
@@ -41,10 +51,33 @@ public class DashboardServiceImpl implements DashboardService{
      * @return the persisted entity
      */
     public Dashboard save(Dashboard dashboard) {
-        log.debug("Request to save Dashboard : {}", dashboard);
+    	
+    	if(dashboard.getMode().equals("KIBANA")){
+    		 updateViewDataFromKibanaDashboard( dashboard);
+    	}
+    	
         Dashboard result = dashboardRepository.save(dashboard);
         return result;
     }
+    
+    
+    private void updateViewDataFromKibanaDashboard(Dashboard dashboard) {
+		String height = "400";
+		if (dashboard.getSize().equals("Small")) {
+			height = "200";
+		} else if (dashboard.getSize().equals("Medium")) {
+			height = "500";
+		} else if (dashboard.getSize().equals("Large")) {
+			height = "800";
+		} else if (dashboard.getSize().equals("Very Large")) {
+			height = "1000";
+		}
+		
+		String refresh = dashboard.isAuto() ? "f" : "t";
+
+		String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, dashboard.geKibanaId(),refresh }, Locale.ENGLISH);
+		dashboard.setContent(value);
+}
 
     /**
      *  Get all the dashboards.

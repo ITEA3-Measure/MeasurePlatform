@@ -91,7 +91,9 @@
                                  dashboardName: null,
                                  dashboardDescription: null,
                                  content: null,
-                                 isExternal:false,
+                                 kibanaId:null,
+                                 auto:false,
+                                 mode:'MANUAL',
                                  id: null
                              }
                     	 },
@@ -175,12 +177,12 @@
 	                            description:null,
 	                            size:"Medium",
 	                            type:"Line chart",
-	                            auto:true,
+	                            auto:false,
 	                            interval:"Last Hour",
 	                            mode:'AUTO',
 	                            visualisedProperty:null,
 	                            dateIndex:null,
-	                            color:null,
+	                            color:'Blue',
 	                            kibanaName:null
 	                        };
 	                    },

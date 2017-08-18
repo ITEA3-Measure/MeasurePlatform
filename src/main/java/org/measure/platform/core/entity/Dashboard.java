@@ -41,12 +41,20 @@ public class Dashboard implements Serializable {
     @Column(name = "dashboard_description")
     private String dashboardDescription;
     
+    @Column(name = "mode")
+    private String mode;
     
-    @Column(name = "dashboard_isexternal")
-    private Boolean isExternal;
+    @Column(name = "kibana_id")
+    private String kibanaId;
    
     @Column(name = "dashboard_content")
     private String content;
+      
+    @Column(name = "auto")
+    private  Boolean auto;
+    
+    @Column(name = "size")
+    private String size;
 
     @ManyToOne
     private Phase phase;
@@ -92,21 +100,72 @@ public class Dashboard implements Serializable {
     
     
     
+    public String getMode() {
+        return mode;
+    }
 
-    public Boolean getIsExternal() {
-		return isExternal;
-	}
+    public Dashboard mode(String mode) {
+        this.mode = mode;
+        return this;
+    }
 
-	public void setIsExternal(Boolean isExternal) {
-		this.isExternal = isExternal;
-	}
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+    
+    
+    public String geKibanaId() {
+        return kibanaId;
+    }
 
+    public Dashboard kibanaId(String kibanaId) {
+        this.kibanaId = kibanaId;
+        return this;
+    }
+
+    public void setKibanaId(String kibanaId) {
+        this.kibanaId = kibanaId;
+    }
+    
+    
 	public String getContent() {
 		return content;
 	}
+	
+    public Dashboard content(String content) {
+        this.content = content;
+        return this;
+    }
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	
+	public Boolean isAuto() {
+		return auto;
+	}
+
+	public Dashboard auto(Boolean auto) {
+		this.auto = auto;
+		return this;
+	}
+
+	public void setAuto(Boolean auto) {
+		this.auto = auto;
+	}
+	
+	public String getSize() {
+		return size;
+	}
+	
+    public Dashboard size(String size) {
+        this.size = size;
+        return this;
+    }
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 	public Phase getPhase() {

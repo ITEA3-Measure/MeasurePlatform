@@ -39,13 +39,13 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 	private ElasticConnection connection;
 
 	@Override
-	public void putMeasurement(String measureInstance, Boolean manageLast, IMeasurement measurement) {
+	public void putMeasurement(String index,String measureInstance, Boolean manageLast, IMeasurement measurement) {
 
 		measurement.getValues().put("postDate", new Date());
 
 		TransportClient client = connection.getClient();
-		client.prepareIndex("measure", measureInstance).setSource(measurement.getValues()).get();
-		client.prepareIndex("measure", measureInstance + "-last", "last").setSource(measurement.getValues()).get();
+		client.prepareIndex(index, measureInstance).setSource(measurement.getValues()).get();
+		client.prepareIndex(index, measureInstance + "-last", "last").setSource(measurement.getValues()).get();
 
 		log.debug("putMeasurement[" + measureInstance + "]: " + measurement.getValues() + " (" + new Date() + ")");
 	}
@@ -120,86 +120,19 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 	}
 
 	@Override
-	public void createMeasureIndex(SMMMeasure measureDefinition, String measureInstanceName) {
-		TransportClient client = connection.getClient();
-		for (MeasureUnitField field : measureDefinition.getUnit().getFields()) {
-
-			String fieldName = field.getFieldName();
-			String fieldType = field.getFieldType().name().replaceFirst("u_", "");
-
-			client.admin().indices().preparePutMapping("measure").setType(fieldName)
-					.setSource("{\n" + "  \"properties\": {\n" + "    \"" + fieldName + "\": {\n" + "      \"type\": \""
-							+ fieldType + "\",\n" + "      \"index\": \"true\"\n" + "    }\n" + "  }\n" + "}")
-					.get();
-		}
-
-		// Update Index
-		client.admin().indices().prepareRefresh("measure").get();
-
-	}
-
-	@Override
 	public List<KibanaVisualisation> findKibanaVisualisation() {
 		List<KibanaVisualisation> results = new ArrayList<>();
 		TransportClient client = connection.getClient();
 		SearchResponse visResponse = client.prepareSearch(".kibana").setTypes("visualization")
 				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
-		SearchResponse urlResponse = client.prepareSearch(".kibana").setTypes("url")
-				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
 
-		for (SearchHit visHit : visResponse.getHits().getHits()) {
-			String title = (String) visHit.getSource().get("title");
-			String id = (String) visHit.getId();
-
-			for (SearchHit urlHit : urlResponse.getHits().getHits()) {
-				String url = (String) urlHit.getSource().get("url");
-
-				if (url.contains(id)) {
-					KibanaVisualisation visualisation = new KibanaVisualisation();
-					visualisation.setName(title);
-					visualisation.setUrl(url);
-
-					results.add(visualisation);
-					break;
-				}
-
-			}
-
+		for (SearchHit visHit : visResponse.getHits().getHits()) {			
+			KibanaVisualisation visualisation = new KibanaVisualisation();
+			visualisation.setName((String) visHit.getSource().get("title"));
+			visualisation.setId((String) visHit.getId());
+			results.add(visualisation);
 		}
 		return results;
-	}
-	
-	
-
-	@Override
-	public KibanaVisualisation findKibanaVisualisationByName(String name) {
-		List<KibanaVisualisation> results = new ArrayList<>();
-		TransportClient client = connection.getClient();
-		SearchResponse visResponse = client.prepareSearch(".kibana").setTypes("visualization")
-				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
-		SearchResponse urlResponse = client.prepareSearch(".kibana").setTypes("url")
-				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
-
-		for (SearchHit visHit : visResponse.getHits().getHits()) {
-			String title = (String) visHit.getSource().get("title");
-			String id = (String) visHit.getId();
-			if (name.equals(title)) {
-
-				for (SearchHit urlHit : urlResponse.getHits().getHits()) {
-					String url = (String) urlHit.getSource().get("url");
-
-					if (url.contains(id)) {
-						KibanaVisualisation visualisation = new KibanaVisualisation();
-						visualisation.setName(title);
-						visualisation.setUrl(url);
-
-						return visualisation;
-					}
-
-				}
-			}
-		}
-		return null;
 	}
 	
 	@Override
@@ -209,63 +142,17 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 
 		SearchResponse dashResponse = client.prepareSearch(".kibana").setTypes("dashboard")
 				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
-		SearchResponse urlResponse = client.prepareSearch(".kibana").setTypes("url")
-				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
 
 
 		for (SearchHit visHit : dashResponse.getHits().getHits()) {
-			String title = (String) visHit.getSource().get("title");
-			String id = (String) visHit.getId();
-
-			for (SearchHit urlHit : urlResponse.getHits().getHits()) {
-				String url = (String) urlHit.getSource().get("url");
-
-				if (url.contains(id)) {
-					KibanaVisualisation visualisation = new KibanaVisualisation();
-					visualisation.setName(title);
-					visualisation.setUrl(url);
-
-					results.add(visualisation);
-					break;
-				}
-
-			}
-
+			KibanaVisualisation visualisation = new KibanaVisualisation();
+			visualisation.setName( (String) visHit.getSource().get("title"));
+			visualisation.setId((String) visHit.getId());
+			results.add(visualisation);
 		}
 		return results;
 	}
 	
-	@Override
-	public KibanaVisualisation findKibanaDashboardByName(String name) {
-		List<KibanaVisualisation> results = new ArrayList<>();
-		TransportClient client = connection.getClient();
-		SearchResponse dashResponse = client.prepareSearch(".kibana").setTypes("dashboard")
-				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
-		SearchResponse urlResponse = client.prepareSearch(".kibana").setTypes("url")
-				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
 
-
-		
-		for (SearchHit visHit : dashResponse.getHits().getHits()) {
-			String title = (String) visHit.getSource().get("title");
-			String id = (String) visHit.getId();
-			if (name.equals(title)) {
-
-				for (SearchHit urlHit : urlResponse.getHits().getHits()) {
-					String url = (String) urlHit.getSource().get("url");
-
-					if (url.contains(id)) {
-						KibanaVisualisation visualisation = new KibanaVisualisation();
-						visualisation.setName(title);
-						visualisation.setUrl(url);
-
-						return visualisation;
-					}
-
-				}
-			}
-		}
-		return null;
-	}
 
 }

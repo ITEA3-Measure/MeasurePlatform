@@ -2,33 +2,124 @@
 <form name="editForm" role="form" novalidate ng-submit="vm.save()">
 
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal"
-			aria-hidden="true" ng-click="vm.clear()">&times;</button>
-		<h4 class="modal-title" id="mydashboardLabel">Dashboard</h4>
+		<div data-toggle="buttons" style="float: right;">
+			<label
+				class="btn btn-default btn-circle btn-lg {{vm.active('MANUAL')}}">
+				<input type="radio" value="MANUAL" ng-model="vm.dashboard.mode"><i
+				class="glyphicon glyphicon-th"></i>
+			</label> <label
+				class="btn btn-default btn-circle btn-lg {{vm.active('KIBANA')}}">
+				<input type="radio" value="KIBANA" ng-model="vm.dashboard.mode">
+				<b>K</b></i>
+			</label> <label
+				class="btn btn-default btn-circle btn-lg {{vm.active('EXTERNAL')}}">
+				<input type="radio" value="EXTERNAL" ng-model="vm.dashboard.mode"><i
+				class="glyphicon glyphicon-paperclip"></i>
+			</label>
+		</div>
+
+		<div style="margin-top: 10px;">
+			<div ng-show="vm.dashboard.mode == 'MANUAL'">
+				<h2 class="modal-title">Create Manual Dashboard</h2>
+			</div>
+
+			<div ng-show="vm.dashboard.mode == 'KIBANA'">
+				<h2 class="modal-title">Create Kibana Dashboard</h2>
+			</div>
+
+			<div ng-show="vm.dashboard.mode == 'EXTERNAL'">
+				<h2 class="modal-title">Create External Dashboard</h2>
+			</div>
+		</div>
 	</div>
 	<div class="modal-body">
 		<jhi-alert-error></jhi-alert-error>
-		<div class="form-group">
-			<label class="control-label" for="field_dashboardName">Dashboard
-				Name</label> <input type="text" class="form-control" name="dashboardName"
-				id="field_dashboardName" ng-model="vm.dashboard.dashboardName" />
+
+		<div ng-show="vm.dashboard.mode == 'MANUAL'">
+			<div class="form-group">
+				<label class="control-label" for="field_dashboardName">
+					Label</label> <input type="text" class="form-control" name="dashboardName"
+					id="field_dashboardName" ng-model="vm.dashboard.dashboardName" />
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="field_dashboardDescription">
+					Description</label>
+				<textarea rows="2" class="form-control" name="dashboardDescription"
+					id="field_dashboardDescription"
+					ng-model="vm.dashboard.dashboardDescription"></textarea>
+			</div>
 		</div>
-		<div class="form-group">
-			<label class="control-label" for="field_dashboardDescription">Dashboard
-				Description</label>
-			<textarea rows="3" class="form-control" name="dashboardDescription"
-				id="field_dashboardDescription"
-				ng-model="vm.dashboard.dashboardDescription" />
+		<div class="form-group" ng-show="vm.dashboard.mode == 'EXTERNAL'">
+
+			<div class="form-group">
+				<label class="control-label" for="field_dashboardNameExt">Label</label> 
+				<input type="text" class="form-control" name="dashboardName"
+					id="field_dashboardNameExt" ng-model="vm.dashboard.dashboardName" />
+			</div>
+
+			<label class="control-label" for="field_dashboardContent">Content</label>
+			<textarea rows="4" class="form-control" name="dashboardContent"
+				id="field_dashboardContent" ng-model="vm.dashboard.content"></textarea>
 		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal"
-			ng-click="vm.clear()">
-			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
-		</button>
-		<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving"
-			class="btn btn-primary">
-			<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
-		</button>
+
+		<div ng-show="vm.dashboard.mode == 'KIBANA'">
+			<button type="button" class="btn btn-success"
+				go-click="{{vm.kibanaURL}}"
+				style="width: 80%; height: 50px; margin-top: 15px; margin-bottom: 40px; margin-left: 10%; margin-right: 10%;">Create
+				a new Dasbhboard with Kibana</button>
+
+			<div class="form-group" style="margin-top: 10px;">
+				<label for="field_kibanadashboard">Kibana Dasbhboard</label> <select
+					class="form-control" id="field_kibanadashboard"
+					name="measureInstance" ng-model="vm.dashboard.kibanaId"
+					ng-options="dash.id as dash.name for dash in vm.kibanadashboards"
+					style="width: 95%; display: inline;">
+				</select>
+				<button type="button" class="btn btn-warning"
+					ng-click="vm.reloadDasbhboards()" style="float: right;">
+					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
+				</button>
+			</div>
+			
+				<div class="form-group">
+				<label class="control-label" for="field_dashboardNameKib">
+					Label</label> <input type="text" class="form-control" name="dashboardName"
+					id="field_dashboardNameKib" ng-model="vm.dashboard.dashboardName" />
+			</div>
+			
+
+
+			<div class="form-group">
+				<label class="control-label" for="field_autorefreshdash">Auto
+					Refresh</label> <input type="checkbox" class="form-control"
+					name="manageLastMeasurement" id="field_autorefreshdash"
+					ng-model="vm.dashboard.auto" />
+			</div>
+
+			<div class="form-group">
+				<label for="field_graphicSizeD">Graphic Size</label> <select
+					class="form-control" id="field_graphicSizeD" name="measureInstance"
+					ng-model="vm.dashboard.size">
+					<option value="Small">Small</option>
+					<option value="Medium">Medium</option>
+					<option value="Large">Large</option>
+					<option value="Very Large">Very Large</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal"
+				ng-click="vm.clear()">
+				<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+			</button>
+
+			<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving"
+				class="btn btn-primary" ng-show="vm.dashboard.mode != 'NONE'">
+				<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+			</button>
+
+		</div>
 	</div>
 </form>
