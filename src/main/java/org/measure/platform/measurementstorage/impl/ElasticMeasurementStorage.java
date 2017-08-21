@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
-import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
@@ -17,12 +16,11 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
+import org.measure.platform.measurementstorage.api.IElasticsearchIndexManager;
 import org.measure.platform.measurementstorage.api.IMeasurementStorage;
 import org.measure.platform.restapi.app.services.dto.KibanaVisualisation;
 import org.measure.smm.measure.api.IMeasurement;
 import org.measure.smm.measure.defaultimpl.measurements.DefaultMeasurement;
-import org.measure.smm.measure.model.MeasureUnitField;
-import org.measure.smm.measure.model.SMMMeasure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,6 +35,9 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 
 	@Inject
 	private ElasticConnection connection;
+	
+	@Inject 
+	private IElasticsearchIndexManager indexManager;
 
 	@Override
 	public void putMeasurement(String index,String measureInstance, Boolean manageLast, IMeasurement measurement) {
@@ -46,14 +47,15 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 		TransportClient client = connection.getClient();
 		client.prepareIndex(index, measureInstance).setSource(measurement.getValues()).get();
 		client.prepareIndex(index, measureInstance + "-last", "last").setSource(measurement.getValues()).get();
-
+		
 		log.debug("putMeasurement[" + measureInstance + "]: " + measurement.getValues() + " (" + new Date() + ")");
 	}
 
 	@Override
 	public IMeasurement getLastMeasurement(String measureInstance) {
 		TransportClient client = connection.getClient();
-		SearchResponse response = client.prepareSearch("measure").setTypes(measureInstance + "-last").setIndices("last")
+		String baseIndex = indexManager.getBaseMeasureIndex();
+		SearchResponse response = client.prepareSearch(baseIndex).setTypes(measureInstance + "-last").setIndices("last")
 				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setSize(1).get();
 
 		SearchHit[] results = response.getHits().getHits();
@@ -83,20 +85,21 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 
 		List<IMeasurement> measurements = new ArrayList<>();
 		TransportClient client = connection.getClient();
+		String baseIndex = indexManager.getBaseMeasureIndex();
 
 		SearchResponse response = null;
 
 		if (filter != null && !filter.equals("")) {
 			QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(filter);
 			try {
-				response = client.prepareSearch("measure").setTypes(measureInstance).setQuery(qb)
+				response = client.prepareSearch(baseIndex).setTypes(measureInstance).setQuery(qb)
 						.addSort("postDate", SortOrder.DESC).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 						.setSize(numberRef).get();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			response = client.prepareSearch("measure").setTypes(measureInstance).addSort("postDate", SortOrder.DESC)
+			response = client.prepareSearch(baseIndex).setTypes(measureInstance).addSort("postDate", SortOrder.DESC)
 					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setSize(numberRef).get();
 		}
 
