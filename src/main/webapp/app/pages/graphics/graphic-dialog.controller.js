@@ -43,15 +43,10 @@
         }
         
         
-        vm.changemode = changemode;
         if(vm.measureView.mode == null){    
         	vm.measureView.mode = "AUTO";
         }
 
-		function changemode(mode) {
-			vm.measureView.mode = mode;
-		}
-        
 		function loadAll(id) {
 			ProjectInstances.instances({
 				id : id
@@ -76,6 +71,16 @@
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
+        
+        vm.active = active;
+        function active(mode){
+        	if(vm.measureView.mode == mode){
+        		return 'active';
+        	}
+        	
+        	return '';
+        }
+        
         
         $scope
 		.$watch(
@@ -107,9 +112,19 @@
         
         
       
+  
         
-        
-        
+    	$scope
+		.$watch(
+				"vm.measureView.mode",
+				function(newValue, oldValue) {
+				  	if(newValue == 'KDASH' &&  isNaN(parseInt(vm.measureView.size))){
+						vm.measureView.size = "600";
+					}else if(newValue != 'KDASH' && !isNaN(parseInt(vm.measureView.size))){
+						vm.measureView.size = "Medium";
+					}				
+				});
+    	
         $scope
 		.$watch(
 				"vm.timePeriodeValue",
@@ -157,6 +172,9 @@
 				vm.kibanadashboards = result;
 			});
 		}
+        
+        
+        
 
         
         vm.save = save;
