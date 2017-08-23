@@ -46,8 +46,11 @@ public class MeasureView implements Serializable {
     @Column(name = "viewauto")
     private Boolean auto;
     
-    @Column(name = "viewinterval")
-    private String interval;
+    @Column(name = "time_periode")
+    private String timePeriode;
+    
+    @Column(name = "time_agregation")
+    private String timeAgregation;
     
     @Column(name = "view_data")
     private String viewData;  
@@ -193,17 +196,30 @@ public class MeasureView implements Serializable {
         this.auto = auto;
     }
     
-    public String getInterval() {
-        return interval;
+    public String getTimePeriode() {
+        return timePeriode;
     }
 
-	public MeasureView interval(String interval) {
-        this.interval = interval;
+	public MeasureView timePeriode(String timePeriode) {
+        this.timePeriode = timePeriode;
         return this;
     }
 
-    public void setInterval(String interval) {
-        this.interval = interval;
+    public void setTimePeriode(String timePeriode) {
+        this.timePeriode = timePeriode;
+    }
+    
+    public String getTimeAgregation() {
+        return timeAgregation;
+    }
+
+	public MeasureView interval(String timeAgregation) {
+        this.timeAgregation = timeAgregation;
+        return this;
+    }
+
+    public void setTimeAgregation(String timeAgregation) {
+        this.timeAgregation = timeAgregation;
     }
     
 

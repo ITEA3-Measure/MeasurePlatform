@@ -10,13 +10,11 @@
 				class="btn btn-default btn-circle btn-lg {{vm.active('KVIS')}}">
 				<input type="radio" value="KVIS" ng-model="vm.measureView.mode">
 				<b>V</b></i>
-			</label>
-			<label
+			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('KDASH')}}">
 				<input type="radio" value="KDASH" ng-model="vm.measureView.mode">
 				<b>D</b></i>
-			</label>
-			 <label
+			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('MANUAL')}}">
 				<input type="radio" value="MANUAL" ng-model="vm.measureView.mode"><i
 				class="glyphicon glyphicon-paperclip"></i>
@@ -31,8 +29,8 @@
 			<div ng-show="vm.measureView.mode == 'KVIS'">
 				<h2 class="modal-title">Integrate Kibana View</h2>
 			</div>
-			
-				<div ng-show="vm.measureView.mode == 'KDASH'">
+
+			<div ng-show="vm.measureView.mode == 'KDASH'">
 				<h2 class="modal-title">Integrate Kibana Dashboard</h2>
 			</div>
 
@@ -41,7 +39,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal-body">
 		<div ng-show="vm.measureView.mode == 'AUTO'" style="margin-top: 10px;">
 			<div class="form-group">
@@ -83,15 +81,35 @@
 
 
 			<div class="form-group">
-				<label for="field_periode">Display Data from :</label> <select
-					class="form-control" id="field_periode" name="measureInstance"
-					ng-model="vm.measureView.interval">
-					<option value="Last 15 minutes">Last 15 minutes</option>
-					<option value="Last Hour">Last Hour</option>
-					<option value="Last Day">Last Day</option>
-					<option value="Last Week">Last Week</option>
-					<option value="Last Month">Last Month</option>
-					<option value="Last Year">Last Year</option>
+				<label for="field_periode">Display Data From :</label>
+				<div class="input-group" id="field_periode">
+					<input type="text" class="form-control"
+						ng-model="vm.timePeriodeIndex">
+					<div class="input-group-addon">
+						<select ng-model="vm.timePeriodeValue">
+							<option value="m">Minutes</option>
+							<option value="h">Hours</option>
+							<option value="d">Days</option>
+							<option value="w">Weeks</option>
+							<option value="M">Months</option>
+							<option value="Y">Years</option>
+							<option value="other">Other</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="field_periode">Agregate Data By :</label> <select
+					ng-model="vm.measureView.timeAgregation" id="field_periode"
+					class="form-control">
+					<option value="s">Seconde</option>
+					<option value="m">Minutes</option>
+					<option value="h">Hours</option>
+					<option value="d">Days</option>
+					<option value="w">Weeks</option>
+					<option value="M">Months</option>
+					<option value="Y">Years</option>
 				</select>
 			</div>
 
@@ -105,6 +123,8 @@
 					<option value="Very Large">Very Large</option>
 				</select>
 			</div>
+
+
 
 			<div class="form-group">
 				<label for="field_color">Color</label> <select class="form-control"
@@ -156,13 +176,14 @@
 					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
 				</button>
 			</div>
-			
+
 			<div class="form-group">
 				<label class="control-label" for="field_autorefreshvis">Auto
 					Refresh</label> <input type="checkbox" class="form-control"
 					name="manageLastMeasurement" id="field_autorefreshvis"
 					ng-model="vm.measureView.auto" />
 			</div>
+
 
 			<div class="form-group">
 				<label for="field_graphicSizeV">Graphic Size</label> <select
@@ -173,6 +194,24 @@
 					<option value="Large">Large</option>
 					<option value="Very Large">Very Large</option>
 				</select>
+			</div>
+			<div class="form-group">
+				<label for="field_time">Display Data From :</label>
+				<div class="input-group" id="field_time">
+					<input type="text" class="form-control"
+						ng-model="vm.timePeriodeIndex">
+					<div class="input-group-addon">
+						<select ng-model="vm.timePeriodeValue">
+							<option value="m">Minutes</option>
+							<option value="h">Hours</option>
+							<option value="d">Days</option>
+							<option value="w">Weeks</option>
+							<option value="M">Months</option>
+							<option value="Y">Years</option>
+							<option value="other">Other</option>
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -195,25 +234,44 @@
 					ng-click="vm.reloadDasbhboards()" style="float: right;">
 					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
 				</button>
-			</div>	
-			
-			
+			</div>
+
+
 			<div class="form-group">
 				<label class="control-label" for="field_autorefreshdash">Auto
 					Refresh</label> <input type="checkbox" class="form-control"
 					name="manageLastMeasurement" id="field_autorefreshdash"
 					ng-model="vm.measureView.auto" />
 			</div>
-			
+
 			<div class="form-group">
-				<label for="field_graphicSizeD">Graphic Size</label> <select
-					class="form-control" id="field_graphicSizeD" name="measureInstance"
-					ng-model="vm.measureView.size">
-					<option value="Small">Small</option>
-					<option value="Medium">Medium</option>
-					<option value="Large">Large</option>
-					<option value="Very Large">Very Large</option>
-				</select>
+				<div class="form-group">
+					<label for="field_graphicSizeD">Height</label>
+					<div class="input-group" id="field_graphicSizeD">
+						<input type="text" class="form-control"
+							ng-model="vm.measureView.size">
+						<div class="input-group-addon">px</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="field_timeD">Display Data From :</label>
+				<div class="input-group" id="field_timeD">
+					<input type="text" class="form-control"
+						ng-model="vm.timePeriodeIndex">
+					<div class="input-group-addon">
+						<select ng-model="vm.timePeriodeValue">
+							<option value="m">Minutes</option>
+							<option value="h">Hours</option>
+							<option value="d">Days</option>
+							<option value="w">Weeks</option>
+							<option value="M">Months</option>
+							<option value="Y">Years</option>
+							<option value="other">Other</option>
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
 

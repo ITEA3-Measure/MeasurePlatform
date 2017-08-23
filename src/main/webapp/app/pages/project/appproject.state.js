@@ -127,7 +127,8 @@
 	                            size:"Medium",
 	                            type:"Line chart",
 	                            auto:false,
-	                            interval:"Last Hour",
+	                            timePeriode:"from:now-1y,mode:quick,to:now",
+	                            timeAgregation:"1M",
 	                            mode:'AUTO',
 	                            visualisedProperty:null,
 	                            dateIndex:null,
@@ -174,9 +175,14 @@
 	                            description:null,
 	                            size:"Medium",
 	                            type:"Line chart",
-	                            auto:true,
-	                            interval:"Last Hour",
-	                            custom:false
+	                            auto:false,
+	                            timePeriode:"from:now-1y,mode:quick,to:now",
+	                            timeAgregation:"M",
+	                            mode:'AUTO',
+	                            visualisedProperty:null,
+	                            dateIndex:null,
+	                            color:'Blue',
+	                            kibanaName:null
 	                        };
 	                    },
                     	 data: function () {

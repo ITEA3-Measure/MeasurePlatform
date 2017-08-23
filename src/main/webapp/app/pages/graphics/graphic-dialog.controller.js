@@ -15,6 +15,17 @@
         vm.dashboard = dashboard;   
         vm.data = data;
         
+        if(vm.measureView.timePeriode == null){
+        	vm.measureView.timePeriode = "from:now-1y,mode:quick,to:now"
+        }       
+        vm.timePeriodeValue = vm.measureView.timePeriode.substring( vm.measureView.timePeriode.indexOf(",mode:quick,to:now")-1,vm.measureView.timePeriode.indexOf(",mode:quick,to:now"));
+        vm.timePeriodeIndex = vm.measureView.timePeriode.substring(9, vm.measureView.timePeriode.indexOf(",mode:quick,to:now")-1);
+        
+        
+        if(vm.measureView.timeAgregation == null){
+        	vm.measureView.timeAgregation = "d"
+        }          
+         
         if(vm.measureView.auto == null){
         	vm.measureView.auto = false;
         }
@@ -33,7 +44,9 @@
         
         
         vm.changemode = changemode;
-        vm.measureView.mode = "AUTO";
+        if(vm.measureView.mode == null){    
+        	vm.measureView.mode = "AUTO";
+        }
 
 		function changemode(mode) {
 			vm.measureView.mode = mode;
@@ -91,6 +104,34 @@
 					        
 					});							
 				});
+        
+        
+      
+        
+        
+        
+        $scope
+		.$watch(
+				"vm.timePeriodeValue",
+				function(newValue, oldValue) {
+					if(vm.timePeriodeValue =='other'){
+						vm.timePeriodeIndex = "from:now-1y,mode:quick,to:now";
+					}else{
+						if(isNaN(parseInt(vm.timePeriodeIndex))){
+							vm.timePeriodeIndex = "1"
+						}
+					}					
+				});
+        
+
+        
+        function updateTimePeriode (){
+        	if(vm.timePeriodeValue =='other'){
+        		vm.measureView.timePeriode = vm.timePeriodeIndex;
+        	}else{
+        		vm.measureView.timePeriode = "from:now-"+vm.timePeriodeIndex +vm.timePeriodeValue+",mode:quick,to:now";
+        	}	        	
+        }
  
         vm.clear = clear;       
         function clear () {
@@ -121,6 +162,7 @@
         vm.save = save;
         function save () {
             vm.isSaving = true;
+        	updateTimePeriode();
             if (vm.measureView.id !== null) {
                 MeasureView.update(vm.measureView, onSaveSuccess, onSaveError);
             } else {

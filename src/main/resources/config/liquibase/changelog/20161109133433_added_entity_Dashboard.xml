@@ -44,6 +44,11 @@
                 <constraints nullable="true" />
             </column>
             
+           <column name="time_periode" type="varchar(1024)">
+				<constraints nullable="true" />
+			</column>
+            
+                
             <column name="size" type="varchar(128)">
                 <constraints nullable="true" />
             </column>

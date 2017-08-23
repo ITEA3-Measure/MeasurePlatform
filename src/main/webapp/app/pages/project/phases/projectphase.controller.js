@@ -4,15 +4,15 @@
 	angular.module('measurePlatformApp').controller('ProjectPhasesController',
 			ProjectPhasesController);
 
-	ProjectPhasesController.$inject = [ '$scope', 'Principal', 'LoginService',
+	ProjectPhasesController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
 			'$state', 'entity', 'Phase', 'Dashboard','MeasureView' ];
 
-	function ProjectPhasesController($scope, Principal, LoginService, $state,
+	function ProjectPhasesController($scope,$cookies, Principal, LoginService, $state,
 			entity, Phase, Dashboard,MeasureView) {
 		var vm = this;
 		vm.phase = entity;
 		vm.dashboards = [];
-		vm.selectedDashboard = 0;
+		vm.selectedDashboard = 1;
 
 		loadAllDashBoard(vm.phase.id);
 		function loadAllDashBoard(id) {
@@ -50,8 +50,12 @@
 
 		vm.setActive = setActive;
 
+		// Tab Management
+		vm.selectedDashboard = $cookies.get("selectedDashboard");
+		
 		function setActive(idx) {
 			vm.selectedDashboard = idx;
+			$cookies.put("selectedDashboard",idx);
 		}
 		
 		vm.editdashboard = false;
@@ -81,6 +85,7 @@
 		}
 	}
 	
+
 
 
 	angular.module('measurePlatformApp').filter('to_trusted',

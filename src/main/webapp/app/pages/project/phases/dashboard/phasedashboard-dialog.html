@@ -53,7 +53,7 @@
 		<div class="form-group" ng-show="vm.dashboard.mode == 'EXTERNAL'">
 
 			<div class="form-group">
-				<label class="control-label" for="field_dashboardNameExt">Label</label> 
+				<label class="control-label" for="field_dashboardNameExt">Label</label>
 				<input type="text" class="form-control" name="dashboardName"
 					id="field_dashboardNameExt" ng-model="vm.dashboard.dashboardName" />
 			</div>
@@ -81,31 +81,49 @@
 					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
 				</button>
 			</div>
-			
-				<div class="form-group">
+
+			<div class="form-group">
 				<label class="control-label" for="field_dashboardNameKib">
 					Label</label> <input type="text" class="form-control" name="dashboardName"
 					id="field_dashboardNameKib" ng-model="vm.dashboard.dashboardName" />
 			</div>
-			
 
+
+			<div class="form-group">
+				<div class="form-group">
+					<label for="field_graphicSizeD">Height</label>
+					<div class="input-group" id="field_graphicSizeD">
+						<input type="text" class="form-control"
+							ng-model="vm.dashboard.size">
+						<div class="input-group-addon">px</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="field_timeD">Display Data From :</label>
+				<div class="input-group" id="field_timeD">
+					<input type="text" class="form-control"
+						ng-model="vm.timePeriodeIndex">
+					<div class="input-group-addon">
+						<select ng-model="vm.timePeriodeValue">
+							<option value="m">Minutes</option>
+							<option value="h">Hours</option>
+							<option value="d">Days</option>
+							<option value="w">Weeks</option>
+							<option value="M">Months</option>
+							<option value="Y">Years</option>
+							<option value="other">Other</option>
+						</select>
+					</div>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<label class="control-label" for="field_autorefreshdash">Auto
 					Refresh</label> <input type="checkbox" class="form-control"
 					name="manageLastMeasurement" id="field_autorefreshdash"
 					ng-model="vm.dashboard.auto" />
-			</div>
-
-			<div class="form-group">
-				<label for="field_graphicSizeD">Graphic Size</label> <select
-					class="form-control" id="field_graphicSizeD" name="measureInstance"
-					ng-model="vm.dashboard.size">
-					<option value="Small">Small</option>
-					<option value="Medium">Medium</option>
-					<option value="Large">Large</option>
-					<option value="Very Large">Very Large</option>
-				</select>
 			</div>
 		</div>
 

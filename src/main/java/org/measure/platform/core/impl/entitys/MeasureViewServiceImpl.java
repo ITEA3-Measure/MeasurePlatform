@@ -119,28 +119,10 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 			}
 
 			String refresh = measureView.isAuto() ? "f" : "t";
+			
+			String periode = measureView.getTimePeriode();
+			String interval = measureView.getTimeAgregation();
 
-			String periode = "from:now-24h,mode:quick,to:now";
-			String interval = "30s";
-			if (measureView.getInterval().equals("Last 15 minutes")) {
-				periode = "from:now-15m,mode:quick,to:now";
-				interval = "10s";
-			} else if (measureView.getInterval().equals("Last Hour")) {
-				periode = "from:now-1h,mode:quick,to:now";
-				interval = "30s";
-			} else if (measureView.getInterval().equals("Last Day")) {
-				periode = "from:now-24h,mode:quick,to:now";
-				interval = "15m";
-			} else if (measureView.getInterval().equals("Last Week")) {
-				periode = "from:now-7d,mode:quick,to:now";
-				interval = "h";
-			} else if (measureView.getInterval().equals("Last Month")) {
-				periode = "from:now-30d,mode:quick,to:now";
-				interval = "d";
-			} else if (measureView.getInterval().equals("Last Year")) {
-				periode = "from:now-1y,mode:quick,to:now";
-				interval = "7d";
-			}
 			String measure = measureView.getMeasureinstance().getInstanceName().replaceAll(" ", "+");
 
 			String color = measureView.getColor();
@@ -186,30 +168,23 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 			width = "800";
 			height = "600";
 		}
-		
+			
+		String periode = measureView.getTimePeriode();
 		String refresh = measureView.isAuto() ? "f" : "t";
-
+			
 		String value = messageSource.getMessage("viewtype.view3",
-				new Object[] { height, width, kibanaAdress, measureView.getKibanaName(),refresh }, Locale.ENGLISH);
+				new Object[] { height, width, kibanaAdress, measureView.getKibanaName(),refresh ,periode}, Locale.ENGLISH);
 		measureView.setViewData(value);
 
 	}
 
 	private void updateViewDataFromKibanaDashboard(MeasureView measureView) {
-			String height = "400";
-			if (measureView.getSize().equals("Small")) {
-				height = "200";
-			} else if (measureView.getSize().equals("Medium")) {
-				height = "500";
-			} else if (measureView.getSize().equals("Large")) {
-				height = "800";
-			} else if (measureView.getSize().equals("Very Large")) {
-				height = "1000";
-			}
-			
+			String height = measureView.getSize();
+		
+			String periode = measureView.getTimePeriode();
 			String refresh = measureView.isAuto() ? "f" : "t";
 
-			String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, measureView.getKibanaName(),refresh }, Locale.ENGLISH);
+			String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, measureView.getKibanaName(),refresh,periode }, Locale.ENGLISH);
 			measureView.setViewData(value);
 	}
 

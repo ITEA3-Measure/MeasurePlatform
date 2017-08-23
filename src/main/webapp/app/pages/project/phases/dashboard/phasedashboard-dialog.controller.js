@@ -43,8 +43,30 @@
         
         vm.reloadDashboards = loadKibanaDashboards;
 		
+        
+        if(vm.dashboard.timePeriode == null){
+        	vm.dashboard.timePeriode = "from:now-1y,mode:quick,to:now"
+        }       
+        
+        if(vm.dashboard.size == null){
+        	vm.dashboard.size = "600"
+        }
+        
+        vm.timePeriodeValue = vm.dashboard.timePeriode.substring( vm.dashboard.timePeriode.indexOf(",mode:quick,to:now")-1,vm.dashboard.timePeriode.indexOf(",mode:quick,to:now"));
+        vm.timePeriodeIndex = vm.dashboard.timePeriode.substring(9, vm.dashboard.timePeriode.indexOf(",mode:quick,to:now")-1);
+
+        
+        function updateTimePeriode (){
+        	if(vm.timePeriodeValue =='other'){
+        		vm.dashboard.timePeriode = vm.timePeriodeIndex;
+        	}else{
+        		vm.dashboard.timePeriode = "from:now-"+vm.timePeriodeIndex +vm.timePeriodeValue+",mode:quick,to:now";
+        	}	        	
+        }
+        
 		function save() {
 			vm.isSaving = true;
+			updateTimePeriode ();
 			if (vm.dashboard.id != null) {
 				Dashboard.update(vm.dashboard, onSaveSuccess, onSaveError);
 			} else {

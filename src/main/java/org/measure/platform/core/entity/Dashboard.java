@@ -55,6 +55,9 @@ public class Dashboard implements Serializable {
     
     @Column(name = "size")
     private String size;
+    
+    @Column(name = "time_periode")
+    private String timePeriode;
 
     @ManyToOne
     private Phase phase;
@@ -154,6 +157,19 @@ public class Dashboard implements Serializable {
 	public void setAuto(Boolean auto) {
 		this.auto = auto;
 	}
+	
+	public String getTimePeriode() {
+        return timePeriode;
+    }
+
+	public Dashboard timePeriode(String timePeriode) {
+        this.timePeriode = timePeriode;
+        return this;
+    }
+
+    public void setTimePeriode(String timePeriode) {
+        this.timePeriode = timePeriode;
+    }
 	
 	public String getSize() {
 		return size;

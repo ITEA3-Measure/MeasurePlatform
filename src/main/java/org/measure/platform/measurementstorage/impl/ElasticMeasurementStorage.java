@@ -42,7 +42,9 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 	@Override
 	public void putMeasurement(String index,String measureInstance, Boolean manageLast, IMeasurement measurement) {
 
-		measurement.getValues().put("postDate", new Date());
+		if(measurement.getValues().get("postDate") == null){
+			measurement.getValues().put("postDate", new Date());
+		}
 
 		TransportClient client = connection.getClient();
 		client.prepareIndex(index, measureInstance).setSource(measurement.getValues()).get();

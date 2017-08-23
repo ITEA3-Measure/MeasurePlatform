@@ -97,7 +97,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			log.setSuccess(false);
 			e.printStackTrace();
 		}
-		catch (Exception e) {
+		catch (Throwable e) {
 			log.setExceptionMessage(e.getMessage());
 			log.setSuccess(false);
 			e.printStackTrace();

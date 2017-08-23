@@ -46,7 +46,11 @@
 				<constraints nullable="true" />
 			</column>
 
-			<column name="viewinterval" type="varchar(1024)">
+			<column name="time_periode" type="varchar(1024)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="time_agregation" type="varchar(1024)">
 				<constraints nullable="true" />
 			</column>
 

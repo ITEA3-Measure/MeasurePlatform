@@ -62,20 +62,15 @@ public class DashboardServiceImpl implements DashboardService{
     
     
     private void updateViewDataFromKibanaDashboard(Dashboard dashboard) {
-		String height = "400";
-		if (dashboard.getSize().equals("Small")) {
-			height = "200";
-		} else if (dashboard.getSize().equals("Medium")) {
-			height = "500";
-		} else if (dashboard.getSize().equals("Large")) {
-			height = "800";
-		} else if (dashboard.getSize().equals("Very Large")) {
-			height = "1000";
+		String height = dashboard.getSize();
+		if(height == null){
+			height = "600";
 		}
 		
+		String periode = dashboard.getTimePeriode();
 		String refresh = dashboard.isAuto() ? "f" : "t";
 
-		String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, dashboard.geKibanaId(),refresh }, Locale.ENGLISH);
+		String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, dashboard.geKibanaId(),refresh,periode }, Locale.ENGLISH);
 		dashboard.setContent(value);
 }
 
