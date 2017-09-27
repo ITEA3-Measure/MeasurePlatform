@@ -646,7 +646,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not (.active ){
 .bs-calltoaction {
 	position: relative;
 	width: auto;
-	padding: 5px 15px;
+	padding: 5px;
 	border: 1px solid black;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -671,7 +671,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not (.active ){
 }
 
 .cta-title {
-	margin: 0 auto 15px;
+	margin: 0 auto 0px;
 	padding: 0;
 }
 

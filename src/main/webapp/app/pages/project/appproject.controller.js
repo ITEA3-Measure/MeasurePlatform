@@ -154,8 +154,11 @@
 		
 		
 		// Tab Management
-		vm.selectedTab ="1";
 		vm.selectedTab = $cookies.get("selectedTab");
+		if(vm.selectedTab == null ){
+			vm.selectedTab ="1";
+		}
+		
 		vm.selectTab = selectTab;
 	
 		function selectTab(tab){
