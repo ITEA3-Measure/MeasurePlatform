@@ -8,7 +8,6 @@ import ch.qos.logback.classic.Logger;
  * View Model object for storing a Logback logger.
  */
 public class LoggerVM {
-
     private String name;
 
     private String level;
@@ -41,8 +40,9 @@ public class LoggerVM {
     @Override
     public String toString() {
         return "LoggerVM{" +
-            "name='" + name + '\'' +
-            ", level='" + level + '\'' +
-            '}';
+                    "name='" + name + '\'' +
+                    ", level='" + level + '\'' +
+                    '}';
     }
+
 }

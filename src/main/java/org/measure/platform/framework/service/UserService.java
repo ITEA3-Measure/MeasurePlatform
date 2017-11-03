@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserService {
-
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Inject
@@ -49,47 +48,44 @@ public class UserService {
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return userRepository.findOneByActivationKey(key)
-            .map(user -> {
-                // activate given user for the registration key.
-                user.setActivated(true);
-                user.setActivationKey(null);
-                userRepository.save(user);
-                log.debug("Activated user: {}", user);
-                return user;
-            });
+                    .map(user -> {
+                        // activate given user for the registration key.
+                        user.setActivated(true);
+                        user.setActivationKey(null);
+                        userRepository.save(user);
+                        log.debug("Activated user: {}", user);
+                        return user;
+                    });
     }
 
     public Optional<User> completePasswordReset(String newPassword, String key) {
-       log.debug("Reset user password for reset key {}", key);
-
-       return userRepository.findOneByResetKey(key)
-            .filter(user -> {
-                ZonedDateTime oneDayAgo = ZonedDateTime.now().minusHours(24);
-                return user.getResetDate().isAfter(oneDayAgo);
-           })
-           .map(user -> {
-                user.setPassword(passwordEncoder.encode(newPassword));
-                user.setResetKey(null);
-                user.setResetDate(null);
-                userRepository.save(user);
-                return user;
-           });
+        log.debug("Reset user password for reset key {}", key);
+        return userRepository.findOneByResetKey(key)
+                    .filter(user -> {
+                        ZonedDateTime oneDayAgo = ZonedDateTime.now().minusHours(24);
+                        return user.getResetDate().isAfter(oneDayAgo);
+                   })
+                   .map(user -> {
+                        user.setPassword(passwordEncoder.encode(newPassword));
+                        user.setResetKey(null);
+                        user.setResetDate(null);
+                        userRepository.save(user);
+                        return user;
+                   });
     }
 
     public Optional<User> requestPasswordReset(String mail) {
         return userRepository.findOneByEmail(mail)
-            .filter(User::getActivated)
-            .map(user -> {
-                user.setResetKey(RandomUtil.generateResetKey());
-                user.setResetDate(ZonedDateTime.now());
-                userRepository.save(user);
-                return user;
-            });
+                    .filter(User::getActivated)
+                    .map(user -> {
+                        user.setResetKey(RandomUtil.generateResetKey());
+                        user.setResetDate(ZonedDateTime.now());
+                        userRepository.save(user);
+                        return user;
+                    });
     }
 
-    public User createUser(String login, String password, String firstName, String lastName, String email,
-        String langKey) {
-
+    public User createUser(String login, String password, String firstName, String lastName, String email, String langKey) {
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
         Set<Authority> authorities = new HashSet<>();
@@ -151,9 +147,7 @@ public class UserService {
         });
     }
 
-    public void updateUser(Long id, String login, String firstName, String lastName, String email,
-        boolean activated, String langKey, Set<String> authorities) {
-
+    public void updateUser(Long id, String login, String firstName, String lastName, String email, boolean activated, String langKey, Set<String> authorities) {
         Optional.of(userRepository
             .findOne(id))
             .ifPresent(u -> {
@@ -191,9 +185,9 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
         return userRepository.findOneByLogin(login).map(u -> {
-            u.getAuthorities().size();
-            return u;
-        });
+                    u.getAuthorities().size();
+                    return u;
+                });
     }
 
     @Transactional(readOnly = true)
@@ -211,7 +205,7 @@ public class UserService {
           user = optionalUser.get();
             user.getAuthorities().size(); // eagerly load the association
          }
-         return user;
+        return user;
     }
 
     /**
@@ -247,4 +241,5 @@ public class UserService {
             userRepository.delete(user);
         }
     }
+
 }

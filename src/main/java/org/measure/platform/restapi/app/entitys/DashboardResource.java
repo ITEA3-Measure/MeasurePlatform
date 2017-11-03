@@ -32,18 +32,16 @@ import com.codahale.metrics.annotation.Timed;
 @RestController
 @RequestMapping("/api")
 public class DashboardResource {
-
     private final Logger log = LoggerFactory.getLogger(DashboardResource.class);
-        
+
     @Inject
     private DashboardService dashboardService;
 
     /**
      * POST  /dashboards : Create a new dashboard.
-     *
      * @param dashboard the dashboard to create
      * @return the ResponseEntity with status 201 (Created) and with body the new dashboard, or with status 400 (Bad Request) if the dashboard has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/dashboards")
     @Timed
@@ -54,18 +52,17 @@ public class DashboardResource {
         }
         Dashboard result = dashboardService.save(dashboard);
         return ResponseEntity.created(new URI("/api/dashboards/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("dashboard", result.getId().toString()))
-            .body(result);
+                    .headers(HeaderUtil.createEntityCreationAlert("dashboard", result.getId().toString()))
+                    .body(result);
     }
 
     /**
      * PUT  /dashboards : Updates an existing dashboard.
-     *
      * @param dashboard the dashboard to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated dashboard,
      * or with status 400 (Bad Request) if the dashboard is not valid,
      * or with status 500 (Internal Server Error) if the dashboard couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/dashboards")
     @Timed
@@ -76,13 +73,12 @@ public class DashboardResource {
         }
         Dashboard result = dashboardService.save(dashboard);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("dashboard", dashboard.getId().toString()))
-            .body(result);
+                    .headers(HeaderUtil.createEntityUpdateAlert("dashboard", dashboard.getId().toString()))
+                    .body(result);
     }
 
     /**
      * GET  /dashboards : get all the dashboards.
-     *
      * @return the ResponseEntity with status 200 (OK) and the list of dashboards in body
      */
     @GetMapping("/dashboards")
@@ -91,19 +87,15 @@ public class DashboardResource {
         log.debug("REST request to get all Dashboards");
         return dashboardService.findAll();
     }
-    
-    
+
     @GetMapping("/dashboards/byphase/{id}")
     @Timed
     public List<Dashboard> getDashboardsByPhase(@PathVariable Long id) {
         return dashboardService.findByPhase(id);
     }
 
-    
-    
     /**
      * GET  /dashboards/:id : get the "id" dashboard.
-     *
      * @param id the id of the dashboard to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the dashboard, or with status 404 (Not Found)
      */
@@ -113,15 +105,14 @@ public class DashboardResource {
         log.debug("REST request to get Dashboard : {}", id);
         Dashboard dashboard = dashboardService.findOne(id);
         return Optional.ofNullable(dashboard)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                    .map(result -> new ResponseEntity<>(
+                        result,
+                        HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
      * DELETE  /dashboards/:id : delete the "id" dashboard.
-     *
      * @param id the id of the dashboard to delete
      * @return the ResponseEntity with status 200 (OK)
      */

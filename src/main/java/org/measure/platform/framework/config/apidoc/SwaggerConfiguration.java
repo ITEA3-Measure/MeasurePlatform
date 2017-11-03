@@ -23,7 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Springfox Swagger configuration.
- *
+ * 
  * Warning! When having a lot of REST endpoints, Springfox can become a performance issue. In that
  * case, you can use a specific Spring profile for this class, so that only front-end developers
  * have access to the Swagger view.
@@ -33,14 +33,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
 @Profile(Constants.SPRING_PROFILE_SWAGGER)
 public class SwaggerConfiguration {
-
     private final Logger log = LoggerFactory.getLogger(SwaggerConfiguration.class);
 
     public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
 
     /**
      * Swagger Springfox configuration.
-     *
      * @param jHipsterProperties the properties of the application
      * @return the Swagger Springfox configuration
      */
@@ -53,7 +51,7 @@ public class SwaggerConfiguration {
             jHipsterProperties.getSwagger().getContactName(),
             jHipsterProperties.getSwagger().getContactUrl(),
             jHipsterProperties.getSwagger().getContactEmail());
-
+        
         ApiInfo apiInfo = new ApiInfo(
             jHipsterProperties.getSwagger().getTitle(),
             jHipsterProperties.getSwagger().getDescription(),
@@ -62,7 +60,7 @@ public class SwaggerConfiguration {
             contact,
             jHipsterProperties.getSwagger().getLicense(),
             jHipsterProperties.getSwagger().getLicenseUrl());
-
+        
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
             .apiInfo(apiInfo)
             .forCodeGeneration(true)
@@ -78,4 +76,5 @@ public class SwaggerConfiguration {
         log.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
         return docket;
     }
+
 }

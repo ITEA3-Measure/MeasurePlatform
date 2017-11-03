@@ -15,7 +15,6 @@ import org.measure.platform.framework.service.dto.UserDTO;
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface UserMapper {
-
     UserDTO userToUserDTO(User user);
 
     List<UserDTO> usersToUserDTOs(List<User> users);
@@ -43,16 +42,17 @@ public interface UserMapper {
         return user;
     }
 
-    default Set<String> stringsFromAuthorities (Set<Authority> authorities) {
+    default Set<String> stringsFromAuthorities(Set<Authority> authorities) {
         return authorities.stream().map(Authority::getName)
-            .collect(Collectors.toSet());
+                    .collect(Collectors.toSet());
     }
 
     default Set<Authority> authoritiesFromStrings(Set<String> strings) {
         return strings.stream().map(string -> {
-            Authority auth = new Authority();
-            auth.setName(string);
-            return auth;
-        }).collect(Collectors.toSet());
+                    Authority auth = new Authority();
+                    auth.setName(string);
+                    return auth;
+                }).collect(Collectors.toSet());
     }
+
 }

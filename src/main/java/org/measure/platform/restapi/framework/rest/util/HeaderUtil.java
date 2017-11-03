@@ -8,7 +8,6 @@ import org.springframework.http.HttpHeaders;
  * Utility class for HTTP headers creation.
  */
 public final class HeaderUtil {
-
     private static final Logger log = LoggerFactory.getLogger(HeaderUtil.class);
 
     private HeaderUtil() {
@@ -40,4 +39,5 @@ public final class HeaderUtil {
         headers.add("X-measurePlatformApp-params", entityName);
         return headers;
     }
+
 }

@@ -28,7 +28,6 @@ import org.springframework.core.env.Environment;
 @EnableAutoConfiguration(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
 @EnableConfigurationProperties({ JHipsterProperties.class, LiquibaseProperties.class })
 public class MeasurePlatformApp {
-
     private static final Logger log = LoggerFactory.getLogger(MeasurePlatformApp.class);
 
     @Inject
@@ -58,9 +57,8 @@ public class MeasurePlatformApp {
 
     /**
      * Main method, used to run the application.
-     *
      * @param args the command line arguments
-     * @throws UnknownHostException if the local host name could not be resolved into an address
+     * @throws java.net.UnknownHostException if the local host name could not be resolved into an address
      */
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app = new SpringApplication(MeasurePlatformApp.class);
@@ -74,10 +72,8 @@ public class MeasurePlatformApp {
             env.getProperty("server.port"),
             InetAddress.getLocalHost().getHostAddress(),
             env.getProperty("server.port"));
-
     }
-    
-    
+
     @Bean
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
@@ -85,4 +81,5 @@ public class MeasurePlatformApp {
         source.setUseCodeAsDefaultMessage(true);
         return source;
     }
+
 }

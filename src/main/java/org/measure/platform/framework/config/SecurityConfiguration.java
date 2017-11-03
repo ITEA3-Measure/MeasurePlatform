@@ -28,6 +28,11 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Inject
+    private UserDetailsService userDetailsService;
+
+    @Inject
+    private RememberMeServices rememberMeServices;
 
     @Inject
     private JHipsterProperties jHipsterProperties;
@@ -43,12 +48,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Inject
     private Http401UnauthorizedEntryPoint authenticationEntryPoint;
-
-    @Inject
-    private UserDetailsService userDetailsService;
-
-    @Inject
-    private RememberMeServices rememberMeServices;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -124,11 +123,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
             .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN);
-
     }
 
     @Bean
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
         return new SecurityEvaluationContextExtension();
     }
+
 }

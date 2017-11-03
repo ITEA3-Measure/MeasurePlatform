@@ -2,9 +2,7 @@ package org.measure.platform.core.entity;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,16 +12,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.measure.platform.core.api.entitys.enumeration.MeasureType;
 import org.measure.platform.core.api.entitys.enumeration.NotificationType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Phase.
@@ -32,143 +26,142 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "notification")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Notification implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @NotNull
+    @Column(name = "notification_title", nullable = false)
+    private String notificationTitle;
 
-	@NotNull
-	@Column(name = "notification_title", nullable = false)
-	private String notificationTitle;
+    @Column(name = "notification_content")
+    private String notificationContent;
 
-	@Column(name = "notification_content")
-	private String notificationContent;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "notification_type")
+    private NotificationType notificationType;
 
-	@Column(name = "notification_date")
-	private ZonedDateTime notificationDate;
+    @Column(name = "is_validated")
+    private Boolean isValidated = false;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "notification_type")
-	private NotificationType notificationType;
-	
-	@Column(name = "is_validated")
-	private Boolean isValidated = false;
-	
-	@ManyToOne
-	private Project project;
-	
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "notification_date")
+    private ZonedDateTime notificationDate;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @ManyToOne
+    private Project project;
 
-	public ZonedDateTime getNotificationDate() {
-		return notificationDate;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Notification notificationDate(ZonedDateTime notificationDate) {
-		this.notificationDate = notificationDate;
-		return this;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setNotificationDate(ZonedDateTime notificationDate) {
-		this.notificationDate = notificationDate;
-	}
+    public ZonedDateTime getNotificationDate() {
+        return notificationDate;
+    }
 
-	public String getNotificationTitle() {
-		return notificationTitle;
-	}
+    public Notification notificationDate(ZonedDateTime notificationDate) {
+        this.notificationDate = notificationDate;
+        return this;
+    }
 
-	public Notification nNotificationTitle(String notificationTitle) {
-		this.notificationTitle = notificationTitle;
-		return this;
-	}
+    public void setNotificationDate(ZonedDateTime notificationDate) {
+        this.notificationDate = notificationDate;
+    }
 
-	public void setNotificationTitle(String notificationTitle) {
-		this.notificationTitle = notificationTitle;
-	}
+    public String getNotificationTitle() {
+        return notificationTitle;
+    }
 
-	public String getNotificationContent() {
-		return notificationContent;
-	}
+    public Notification nNotificationTitle(String notificationTitle) {
+        this.notificationTitle = notificationTitle;
+        return this;
+    }
 
-	public Notification notificationContent(String notificationContent) {
-		this.notificationContent = notificationContent;
-		return this;
-	}
+    public void setNotificationTitle(String notificationTitle) {
+        this.notificationTitle = notificationTitle;
+    }
 
-	public void setNotificationContent(String notificationContent) {
-		this.notificationContent = notificationContent;
-	}
-	
-	public NotificationType getNotificationType() {
-		return notificationType;
-	}
+    public String getNotificationContent() {
+        return notificationContent;
+    }
 
-	public Notification  notificationType(NotificationType notificationType) {
-		this.notificationType = notificationType;
-		return this;
-	}
+    public Notification notificationContent(String notificationContent) {
+        this.notificationContent = notificationContent;
+        return this;
+    }
 
-	public void setNotificationType(NotificationType notificationType) {
-		this.notificationType = notificationType;
-	}
-	
-	
-	public Boolean isIsValidated() {
-		return isValidated;
-	}
+    public void setNotificationContent(String notificationContent) {
+        this.notificationContent = notificationContent;
+    }
 
-	public Notification isValidated(Boolean isValidated) {
-		this.isValidated = isValidated;
-		return this;
-	}
+    public NotificationType getNotificationType() {
+        return notificationType;
+    }
 
-	public void setIsValidated(Boolean isValidated) {
-		this.isValidated = isValidated;
-	}
+    public Notification notificationType(NotificationType notificationType) {
+        this.notificationType = notificationType;
+        return this;
+    }
 
-	public Project getProject() {
-		return project;
-	}
+    public void setNotificationType(NotificationType notificationType) {
+        this.notificationType = notificationType;
+    }
 
-	public Notification project(Project project) {
-		this.project = project;
-		return this;
-	}
+    public Boolean isIsValidated() {
+        return isValidated;
+    }
 
-	public void setProject(Project project) {
-		this.project = project;
-	}
+    public Notification isValidated(Boolean isValidated) {
+        this.isValidated = isValidated;
+        return this;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		Notification phase = (Notification) o;
-		if (phase.id == null || id == null) {
-			return false;
-		}
-		return Objects.equals(id, phase.id);
-	}
+    public void setIsValidated(Boolean isValidated) {
+        this.isValidated = isValidated;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(id);
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	@Override
-	public String toString() {
-		return "Notification" + "id=" + id + ", notificationTitle='" + notificationTitle + "'"
-				+ ", notificationContent='" + notificationContent + "'}";
-	}
+    public Notification project(Project project) {
+        this.project = project;
+        return this;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Notification phase = (Notification) o;
+        if (phase.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, phase.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Notification" + "id=" + id + ", notificationTitle='" + notificationTitle + "'"
+                        + ", notificationContent='" + notificationContent + "'}";
+    }
+
 }

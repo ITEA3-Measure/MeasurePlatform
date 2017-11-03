@@ -7,17 +7,16 @@ import org.measure.platform.agent.impl.data.RemoteAgent;
 import org.measure.smm.measure.model.SMMMeasure;
 
 public interface IRemoteCatalogueService {
+    void registerRemoteMeasure(SMMMeasure remoteMeasure, String agentName);
 
-	public void registerRemoteMeasure(SMMMeasure remoteMeasure, String agentName);
+    List<SMMMeasure> getAllMeasures();
 
-	public List<SMMMeasure> getAllMeasures();
+    RemoteAgent getAgent(String agentId);
 
-	RemoteAgent getAgent(String agentId);
+    void unregisterAgent(String agentId);
 
-	void unregisterAgent(String agentId);
+    Collection<RemoteAgent> getAllAgents();
 
-	public Collection<RemoteAgent> getAllAgents();
-	
-	public SMMMeasure getMeasureByName(String measure,String agentId);
+    SMMMeasure getMeasureByName(String measure, String agentId);
 
 }

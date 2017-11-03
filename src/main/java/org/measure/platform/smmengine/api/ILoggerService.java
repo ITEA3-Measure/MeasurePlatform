@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.measure.smm.log.MeasureLog;
 
+public interface ILoggerService {
+    List<MeasureLog> getMeasureExecutionLogs();
 
-public interface ILoggerService {	
-	public List<MeasureLog> getMeasureExecutionLogs();
-	public void addMeasureExecutionLog(MeasureLog log);
+    void addMeasureExecutionLog(MeasureLog log);
 
 }

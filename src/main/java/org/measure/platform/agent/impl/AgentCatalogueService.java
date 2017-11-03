@@ -17,62 +17,58 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope(value = "singleton")
 public class AgentCatalogueService implements IRemoteCatalogueService {
+    private final Logger log = LoggerFactory.getLogger(AgentCatalogueService.class);
 
-	private final Logger log = LoggerFactory.getLogger(AgentCatalogueService.class);	
-	
-	private Map<String,RemoteAgent> agentMap = new HashMap<>();
+    private Map<String, RemoteAgent> agentMap = new HashMap<>();
 
-	@Override
-	public void registerRemoteMeasure(SMMMeasure remoteMeasure, String agentName) {	
+    @Override
+    public void registerRemoteMeasure(SMMMeasure remoteMeasure, String agentName) {
+        RemoteAgent agent = agentMap.get(agentName);
+        
+        if(agent == null){
+            agent = new RemoteAgent(agentName);
+            agentMap.put(agentName, agent);
+        }
+        
+        
+        if(!agent.getMeasures().containsKey(remoteMeasure.getName())){
+            agent.getMeasures().put(remoteMeasure.getName(),remoteMeasure);
+        }
+        
+        log.info("Register Remote Measure \"" +remoteMeasure.getName()+ "\" form " + agentName);
+    }
 
-		RemoteAgent agent = agentMap.get(agentName);
-		
-		if(agent == null){
-			agent = new RemoteAgent(agentName);
-			agentMap.put(agentName, agent);
-		}
-		
-		
-		if(!agent.getMeasures().containsKey(remoteMeasure.getName())){
-			agent.getMeasures().put(remoteMeasure.getName(),remoteMeasure);
-		}
-		
-		log.info("Register Remote Measure \"" +remoteMeasure.getName()+ "\" form " + agentName);
-	}
+    @Override
+    public List<SMMMeasure> getAllMeasures() {
+        List<SMMMeasure> result = new ArrayList<>();    
+        for(RemoteAgent agent : agentMap.values()){
+            result.addAll(agent.getMeasures().values());
+        }
+        return result;
+    }
 
-	@Override
-	public List<SMMMeasure> getAllMeasures() {
-		List<SMMMeasure> result = new ArrayList<>();	
-		for(RemoteAgent agent : agentMap.values()){
-			result.addAll(agent.getMeasures().values());
-		}
-		return result;
-	}
+    @Override
+    public RemoteAgent getAgent(String agentId) {
+        return agentMap.get(agentId);
+    }
 
-	@Override
-	public RemoteAgent getAgent(String agentId){
-		return agentMap.get(agentId);
-	}
-	
-	@Override
-	public void unregisterAgent(String agentId) {		
-		agentMap.remove(agentId);
-	}
+    @Override
+    public void unregisterAgent(String agentId) {
+        agentMap.remove(agentId);
+    }
 
+    @Override
+    public Collection<RemoteAgent> getAllAgents() {
+        return this.agentMap.values();
+    }
 
-	@Override
-	public Collection<RemoteAgent> getAllAgents() {
-		return this.agentMap.values();
-	}
-
-	@Override
-	public SMMMeasure getMeasureByName(String measure, String agentId) {
-		RemoteAgent agent = this.agentMap.get(agentId);
-		if(agent != null){
-			return agent.getMeasures().get(measure);
-		}
-		return null;
-	}
-	
+    @Override
+    public SMMMeasure getMeasureByName(String measure, String agentId) {
+        RemoteAgent agent = this.agentMap.get(agentId);
+        if(agent != null){
+            return agent.getMeasures().get(measure);
+        }
+        return null;
+    }
 
 }

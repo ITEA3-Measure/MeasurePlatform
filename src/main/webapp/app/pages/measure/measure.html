@@ -25,6 +25,7 @@
 				<th><span>Measure Description</span></th>
 				<th><span>Measure Dependency</span></th>
 				<th><span>Scope Properties</span></th>
+				<th><span>Unit</span></th>
 				<th><span>Hosting</span></th>
 				<th></th>
 			</tr>
@@ -59,10 +60,18 @@
 						ng-repeat="scopePropertie in measure.scopeProperties"
 						style="margin-bottom: 0px;">
 						<dt style="text-align: left;font-weight: normal;">{{scopePropertie.name}}</dt>
-						<dd>{{scopePropertie.defaultValue}}</dd>
+						<dd style="color: #8787dd">{{scopePropertie.defaultValue}}</dd>
 					</dl>
 
 
+				</td>
+				<td style="vertical-align: top;">
+					<dl class="dl-horizontal"
+						ng-repeat="field in measure.unit.fields"
+						style="margin-bottom: 0px;">
+						<dt style="text-align: left;font-weight: normal;">{{field.fieldName}}</dt>
+						<dd style="color: #8787dd">{{field.fieldType}}</dd>
+					</dl>
 				</td>
 				<td style="vertical-align: top;">
 					<h4 style="margin-top: 0px;"

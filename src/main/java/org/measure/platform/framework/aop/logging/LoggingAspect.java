@@ -20,7 +20,6 @@ import org.springframework.core.env.Environment;
  */
 @Aspect
 public class LoggingAspect {
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Inject
@@ -35,7 +34,7 @@ public class LoggingAspect {
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
             log.error("Exception in {}.{}() with cause = \'{}\' and exception = \'{}\'", joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(), e.getCause() != null? e.getCause() : "NULL", e.getMessage(), e);
-
+        
         } else {
             log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(), e.getCause() != null? e.getCause() : "NULL");
@@ -58,8 +57,9 @@ public class LoggingAspect {
         } catch (IllegalArgumentException e) {
             log.error("Illegal argument: {} in {}.{}()", Arrays.toString(joinPoint.getArgs()),
                     joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
-
+        
             throw e;
         }
     }
+
 }

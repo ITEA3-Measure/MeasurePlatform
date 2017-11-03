@@ -14,7 +14,6 @@ import org.springframework.data.jpa.repository.Query;
  * Spring Data JPA repository for the User entity.
  */
 public interface UserRepository extends JpaRepository<User, Long> {
-
     Optional<User> findOneByActivationKey(String activationKey);
 
     List<User> findAllByActivatedIsFalseAndCreatedDateBefore(ZonedDateTime dateTime);

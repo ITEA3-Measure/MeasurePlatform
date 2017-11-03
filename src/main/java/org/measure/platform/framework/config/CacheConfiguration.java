@@ -25,7 +25,6 @@ import com.codahale.metrics.ehcache.InstrumentedEhcache;
 @EnableCaching
 @AutoConfigureAfter(value = { MetricsConfiguration.class, DatabaseConfiguration.class })
 public class CacheConfiguration {
-
     private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
 
     @PersistenceContext
@@ -59,4 +58,5 @@ public class CacheConfiguration {
         ehCacheManager.setCacheManager(cacheManager);
         return ehCacheManager;
     }
+
 }

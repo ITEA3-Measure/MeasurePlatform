@@ -6,30 +6,28 @@ import java.util.List;
 import org.measure.smm.measure.model.SMMMeasure;
 
 public class MeasureAgent {
-	
-	private String agentName;
-	
-	
-	private List<SMMMeasure> providedMeasures;
+    private String agentName;
 
-	public MeasureAgent(){
-		this.providedMeasures = new ArrayList<>();
-	}
-	
-	public String getAgentName() {
-		return agentName;
-	}
+    private List<SMMMeasure> providedMeasures;
 
-	public void setAgentName(String agentName) {
-		this.agentName = agentName;
-	}
+    public MeasureAgent() {
+        this.providedMeasures = new ArrayList<>();
+    }
 
-	public List<SMMMeasure> getProvidedMeasures() {
-		return providedMeasures;
-	}
+    public String getAgentName() {
+        return agentName;
+    }
 
-	public void setProvidedMeasures(List<SMMMeasure> providedMeasures) {
-		this.providedMeasures = providedMeasures;
-	}
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
+    }
+
+    public List<SMMMeasure> getProvidedMeasures() {
+        return providedMeasures;
+    }
+
+    public void setProvidedMeasures(List<SMMMeasure> providedMeasures) {
+        this.providedMeasures = providedMeasures;
+    }
 
 }

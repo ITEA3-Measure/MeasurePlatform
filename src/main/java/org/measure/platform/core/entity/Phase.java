@@ -27,197 +27,194 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "phase")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Phase implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @NotNull
+    @Column(name = "phase_name", nullable = false)
+    private String phaseName;
 
-	@NotNull
-	@Column(name = "phase_name", nullable = false)
-	private String phaseName;
+    @Column(name = "phase_description")
+    private String phaseDescription;
 
-	@Column(name = "phase_description")
-	private String phaseDescription;
+    @Column(name = "phase_order")
+    private String order;
 
-	@ManyToOne
-	private Project project;
+    @ManyToOne
+    private Project project;
 
-	@OneToMany(mappedBy = "phase")
-	@JsonIgnore
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private Set<Dashboard> dashboards = new HashSet<>();
+    @OneToMany(mappedBy = "phase")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Dashboard> dashboards = new HashSet<>();
 
-	@OneToMany(mappedBy = "phase")
-	@JsonIgnore
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private Set<MeasureView> views = new HashSet<>();
-	
-	
-	@OneToMany(mappedBy = "phaseoverview")
-	@JsonIgnore
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private Set<MeasureView> overviews = new HashSet<>();
+    @OneToMany(mappedBy = "phase")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<MeasureView> views = new HashSet<>();
 
-	@Column(name = "phase_order")
-	private String order;
+    @OneToMany(mappedBy = "phaseoverview")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<MeasureView> overviews = new HashSet<>();
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setOrder(String order) {
-		this.order = order;
-	}
+    public void setOrder(String order) {
+        this.order = order;
+    }
 
-	public String getOrder() {
-		return order;
-	}
+    public String getOrder() {
+        return order;
+    }
 
-	public String getPhaseName() {
-		return phaseName;
-	}
+    public String getPhaseName() {
+        return phaseName;
+    }
 
-	public Phase phaseName(String phaseName) {
-		this.phaseName = phaseName;
-		return this;
-	}
+    public Phase phaseName(String phaseName) {
+        this.phaseName = phaseName;
+        return this;
+    }
 
-	public void setPhaseName(String phaseName) {
-		this.phaseName = phaseName;
-	}
+    public void setPhaseName(String phaseName) {
+        this.phaseName = phaseName;
+    }
 
-	public String getPhaseDescription() {
-		return phaseDescription;
-	}
+    public String getPhaseDescription() {
+        return phaseDescription;
+    }
 
-	public Phase phaseDescription(String phaseDescription) {
-		this.phaseDescription = phaseDescription;
-		return this;
-	}
+    public Phase phaseDescription(String phaseDescription) {
+        this.phaseDescription = phaseDescription;
+        return this;
+    }
 
-	public void setPhaseDescription(String phaseDescription) {
-		this.phaseDescription = phaseDescription;
-	}
+    public void setPhaseDescription(String phaseDescription) {
+        this.phaseDescription = phaseDescription;
+    }
 
-	public Project getProject() {
-		return project;
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	public Phase project(Project project) {
-		this.project = project;
-		return this;
-	}
+    public Phase project(Project project) {
+        this.project = project;
+        return this;
+    }
 
-	public void setProject(Project project) {
-		this.project = project;
-	}
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
-	public Set<Dashboard> getDashboards() {
-		return dashboards;
-	}
+    public Set<Dashboard> getDashboards() {
+        return dashboards;
+    }
 
-	public Phase dashboards(Set<Dashboard> dashboards) {
-		this.dashboards = dashboards;
-		return this;
-	}
+    public Phase dashboards(Set<Dashboard> dashboards) {
+        this.dashboards = dashboards;
+        return this;
+    }
 
-	public Phase addDashboards(Dashboard dashboard) {
-		dashboards.add(dashboard);
-		dashboard.setPhase(this);
-		return this;
-	}
+    public Phase addDashboards(Dashboard dashboard) {
+        dashboards.add(dashboard);
+        dashboard.setPhase(this);
+        return this;
+    }
 
-	public Phase removeDashboards(Dashboard dashboard) {
-		dashboards.remove(dashboard);
-		dashboard.setPhase(null);
-		return this;
-	}
+    public Phase removeDashboards(Dashboard dashboard) {
+        dashboards.remove(dashboard);
+        dashboard.setPhase(null);
+        return this;
+    }
 
-	public void setDashboards(Set<Dashboard> dashboards) {
-		this.dashboards = dashboards;
-	}
+    public void setDashboards(Set<Dashboard> dashboards) {
+        this.dashboards = dashboards;
+    }
 
-	public Set<MeasureView> getViews() {
-		return views;
-	}
+    public Set<MeasureView> getViews() {
+        return views;
+    }
 
-	public Phase views(Set<MeasureView> measureViews) {
-		this.views = measureViews;
-		return this;
-	}
+    public Phase views(Set<MeasureView> measureViews) {
+        this.views = measureViews;
+        return this;
+    }
 
-	public Phase addViews(MeasureView measureView) {
-		views.add(measureView);
-		measureView.setPhase(this);
-		return this;
-	}
-	
-	public Phase removeViews(MeasureView measureView) {
-		views.remove(measureView);
-		measureView.setPhase(null);
-		return this;
-	}
-	
-	public void setViews(Set<MeasureView> measureViews) {
-		this.views = measureViews;
-	}
+    public Phase addViews(MeasureView measureView) {
+        views.add(measureView);
+        measureView.setPhase(this);
+        return this;
+    }
 
-	public Set<MeasureView> getOverviews() {
-		return overviews;
-	}
-	
-	public Phase overviews(Set<MeasureView> measureViews) {
-		this.overviews = measureViews;
-		return this;
-	}
+    public Phase removeViews(MeasureView measureView) {
+        views.remove(measureView);
+        measureView.setPhase(null);
+        return this;
+    }
 
-	public Phase addOverviews(MeasureView measureView) {
-		overviews.add(measureView);
-		measureView.setPhaseoverview(this);
-		return this;
-	}
-	
-	public Phase removeOverviews(MeasureView measureView) {
-		overviews.remove(measureView);
-		measureView.setPhaseoverview(null);
-		return this;
-	}
+    public void setViews(Set<MeasureView> measureViews) {
+        this.views = measureViews;
+    }
 
-	public void setOverviews(Set<MeasureView> measureViews) {
-		this.overviews = measureViews;
-	}
+    public Set<MeasureView> getOverviews() {
+        return overviews;
+    }
 
+    public Phase overviews(Set<MeasureView> measureViews) {
+        this.overviews = measureViews;
+        return this;
+    }
 
+    public Phase addOverviews(MeasureView measureView) {
+        overviews.add(measureView);
+        measureView.setPhaseoverview(this);
+        return this;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		Phase phase = (Phase) o;
-		if (phase.id == null || id == null) {
-			return false;
-		}
-		return Objects.equals(id, phase.id);
-	}
+    public Phase removeOverviews(MeasureView measureView) {
+        overviews.remove(measureView);
+        measureView.setPhaseoverview(null);
+        return this;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(id);
-	}
+    public void setOverviews(Set<MeasureView> measureViews) {
+        this.overviews = measureViews;
+    }
 
-	@Override
-	public String toString() {
-		return "Phase{" + "id=" + id + ", phaseName='" + phaseName + "'" + ", phaseDescription='" + phaseDescription
-				+ "'}";
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Phase phase = (Phase) o;
+        if (phase.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, phase.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Phase{" + "id=" + id + ", phaseName='" + phaseName + "'" + ", phaseDescription='" + phaseDescription
+                        + "'}";
+    }
+
 }

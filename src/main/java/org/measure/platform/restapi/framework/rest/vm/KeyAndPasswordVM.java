@@ -4,7 +4,6 @@ package org.measure.platform.restapi.framework.rest.vm;
  * View Model object for storing the user's key and password.
  */
 public class KeyAndPasswordVM {
-
     private String key;
 
     private String newPassword;
@@ -27,4 +26,5 @@ public class KeyAndPasswordVM {
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
+
 }

@@ -7,9 +7,8 @@ import org.measure.smm.log.MeasureLog;
 import org.measure.smm.measure.api.IMeasurement;
 
 public interface IRemoteMeasureExecutionService {
+    void registerRemoteExecution(MeasureLog executionLog);
 
-	void registerRemoteExecution(MeasureLog executionLog);
-
-	List<IMeasurement> executeRemoteMeasure(MeasureInstance measure, MeasureLog log, boolean storeProp);
+    List<IMeasurement> executeRemoteMeasure(MeasureInstance measure, MeasureLog log, boolean storeProp);
 
 }

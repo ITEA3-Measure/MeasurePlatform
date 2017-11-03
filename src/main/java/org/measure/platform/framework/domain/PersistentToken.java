@@ -18,14 +18,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Persistent tokens are used by Spring Security to automatically log in users.
- *
+ * 
  * @see org.measure.platform.framework.security.CustomPersistentRememberMeServices
  */
 @Entity
 @Table(name = "jhi_persistent_token")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class PersistentToken implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private static final int MAX_USER_AGENT_LEN = 255;
@@ -37,17 +36,17 @@ public class PersistentToken implements Serializable {
     @NotNull
     @Column(name = "token_value", nullable = false)
     private String tokenValue;
-    
-    @Column(name = "token_date")
-    private LocalDate tokenDate;
 
-    //an IPV6 address max length is 39 characters
+//an IPV6 address max length is 39 characters
     @Size(min = 0, max = 39)
     @Column(name = "ip_address", length = 39)
     private String ipAddress;
 
     @Column(name = "user_agent")
     private String userAgent;
+
+    @Column(name = "token_date")
+    private LocalDate tokenDate;
 
     @JsonIgnore
     @ManyToOne
@@ -113,13 +112,12 @@ public class PersistentToken implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
+        
         PersistentToken that = (PersistentToken) o;
-
+        
         if (!series.equals(that.series)) {
             return false;
         }
-
         return true;
     }
 
@@ -131,11 +129,12 @@ public class PersistentToken implements Serializable {
     @Override
     public String toString() {
         return "PersistentToken{" +
-            "series='" + series + '\'' +
-            ", tokenValue='" + tokenValue + '\'' +
-            ", tokenDate=" + tokenDate +
-            ", ipAddress='" + ipAddress + '\'' +
-            ", userAgent='" + userAgent + '\'' +
-            "}";
+                    "series='" + series + '\'' +
+                    ", tokenValue='" + tokenValue + '\'' +
+                    ", tokenDate=" + tokenDate +
+                    ", ipAddress='" + ipAddress + '\'' +
+                    ", userAgent='" + userAgent + '\'' +
+                    "}";
     }
+
 }

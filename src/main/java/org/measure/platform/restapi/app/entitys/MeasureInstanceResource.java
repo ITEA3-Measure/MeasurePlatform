@@ -44,33 +44,31 @@ import com.codahale.metrics.annotation.Timed;
 @RestController
 @RequestMapping("/api")
 public class MeasureInstanceResource {
-
     private final Logger log = LoggerFactory.getLogger(MeasureInstanceResource.class);
-        
+
     @Inject
     private MeasureInstanceService measureInstanceService;
-    
+
     @Inject
-	private IShedulingService shedulingService;
-    
+    private IShedulingService shedulingService;
+
     @Inject
     private NotificationService notificationService;
-    
+
     @Inject
-    private IMeasurementStorage storageService; 
-    
+    private IMeasurementStorage storageService;
+
     @Inject
     private IMeasureCatalogueService catalogueService;
-    
+
     @Inject
     private IRemoteCatalogueService remoteCatalogueService;
-    
+
     /**
      * POST  /measure-instances : Create a new measureInstance.
-     *
      * @param measureInstance the measureInstance to create
      * @return the ResponseEntity with status 201 (Created) and with body the new measureInstance, or with status 400 (Bad Request) if the measureInstance has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/measure-instances")
     @Timed
@@ -82,17 +80,17 @@ public class MeasureInstanceResource {
         
         // Save Measure Instance
         MeasureInstance result = measureInstanceService.save(measureInstance);
-       
+               
         
         // Create Index mapping for measure Unite
         SMMMeasure measureDefinition =  null;
         
         if(measureInstance.isIsRemote()){
-        	measureDefinition = remoteCatalogueService.getMeasureByName(measureInstance.getMeasureName(), measureInstance.getRemoteLabel());
+            measureDefinition = remoteCatalogueService.getMeasureByName(measureInstance.getMeasureName(), measureInstance.getRemoteLabel());
         }else{
-        	measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
+            measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
         }
-
+        
         
         // Create Notification related to the creation of the  new Measure Instance
         Notification notif = new Notification();
@@ -103,20 +101,18 @@ public class MeasureInstanceResource {
         notif.setNotificationType(NotificationType.INFO);
         notif.setProject(result.getProject());
         notificationService.save(notif);
-        
         return ResponseEntity.created(new URI("/api/measure-instances/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("measureInstance", result.getId().toString()))
-            .body(result);
+                    .headers(HeaderUtil.createEntityCreationAlert("measureInstance", result.getId().toString()))
+                    .body(result);
     }
 
     /**
      * PUT  /measure-instances : Updates an existing measureInstance.
-     *
      * @param measureInstance the measureInstance to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated measureInstance,
      * or with status 400 (Bad Request) if the measureInstance is not valid,
      * or with status 500 (Internal Server Error) if the measureInstance couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/measure-instances")
     @Timed
@@ -127,13 +123,12 @@ public class MeasureInstanceResource {
         }
         MeasureInstance result = measureInstanceService.save(measureInstance);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("measureInstance", measureInstance.getId().toString()))
-            .body(result);
+                    .headers(HeaderUtil.createEntityUpdateAlert("measureInstance", measureInstance.getId().toString()))
+                    .body(result);
     }
 
     /**
      * GET  /measure-instances : get all the measureInstances.
-     *
      * @return the ResponseEntity with status 200 (OK) and the list of measureInstances in body
      */
     @GetMapping("/measure-instances")
@@ -142,32 +137,27 @@ public class MeasureInstanceResource {
         log.debug("REST request to get all MeasureInstances");
         return measureInstanceService.findAll();
     }
-    
-    
-    
-    
+
     /**
      * GET  /measure-instances : get all the measureInstances.
-     *
      * @return the ResponseEntity with status 200 (OK) and the list of measureInstances in body
      */
     @GetMapping("/measure-instances/bymeasure/{measureRef}")
     @Timed
     public List<MeasureInstance> getMeasureInstancesByMeasureReference(@PathVariable(name="measureRef") String measureRef) {
-    	return measureInstanceService.findMeasureInstanceByReference(measureRef);
+        return measureInstanceService.findMeasureInstanceByReference(measureRef);
     }
-    
+
     @GetMapping("/project-measure-instances/{id}")
     @Timed
     public List<MeasureInstance> getProjectMeasureInstances(@PathVariable(name="id") Long id) {
         log.debug("REST request to get all MeasureInstances");      
-        List<MeasureInstance> result = measureInstanceService.findMeasureInstancesByProject(id);        
+        List<MeasureInstance> result = measureInstanceService.findMeasureInstancesByProject(id);
         return result;
     }
 
     /**
      * GET  /measure-instances/:id : get the "id" measureInstance.
-     *
      * @param id the id of the measureInstance to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the measureInstance, or with status 404 (Not Found)
      */
@@ -177,15 +167,14 @@ public class MeasureInstanceResource {
         log.debug("REST request to get MeasureInstance : {}", id);
         MeasureInstance measureInstance = measureInstanceService.findOne(id);
         return Optional.ofNullable(measureInstance)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                    .map(result -> new ResponseEntity<>(
+                        result,
+                        HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
      * DELETE  /measure-instances/:id : delete the "id" measureInstance.
-     *
      * @param id the id of the measureInstance to delete
      * @return the ResponseEntity with status 200 (OK)
      */
@@ -208,16 +197,12 @@ public class MeasureInstanceResource {
             notif.setProject(measureInstance.getProject());
             notificationService.save(notif);
         }catch(Exception e){
-        	e.printStackTrace();
+            e.printStackTrace();
         }
-
+        
         
         this.shedulingService.removeMeasure(id);
         this.measureInstanceService.delete(id);
-        
-  
-        
-        
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("measureInstance", id.toString())).build();
     }
 

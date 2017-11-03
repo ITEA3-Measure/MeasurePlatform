@@ -26,14 +26,11 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
  */
 @Service
 public class MailService {
-
     private final Logger log = LoggerFactory.getLogger(MailService.class);
 
     private static final String USER = "user";
-    private static final String BASE_URL = "baseUrl";
 
-    @Inject
-    private JHipsterProperties jHipsterProperties;
+    private static final String BASE_URL = "baseUrl";
 
     @Inject
     private JavaMailSenderImpl javaMailSender;
@@ -44,11 +41,14 @@ public class MailService {
     @Inject
     private SpringTemplateEngine templateEngine;
 
+    @Inject
+    private JHipsterProperties jHipsterProperties;
+
     @Async
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
         log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
             isMultipart, isHtml, to, subject, content);
-
+        
         // Prepare message using a Spring helper
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
@@ -99,4 +99,5 @@ public class MailService {
         String subject = messageSource.getMessage("email.reset.title", null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
     }
+
 }

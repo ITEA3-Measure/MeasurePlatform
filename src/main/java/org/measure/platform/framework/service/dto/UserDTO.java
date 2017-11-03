@@ -15,7 +15,6 @@ import org.measure.platform.framework.domain.User;
  * A DTO representing a user, with his authorities.
  */
 public class UserDTO {
-
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
     private String login;
@@ -47,9 +46,7 @@ public class UserDTO {
                 .collect(Collectors.toSet()));
     }
 
-    public UserDTO(String login, String firstName, String lastName,
-        String email, boolean activated, String langKey, Set<String> authorities) {
-
+    public UserDTO(String login, String firstName, String lastName, String email, boolean activated, String langKey, Set<String> authorities) {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -90,13 +87,14 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", authorities=" + authorities +
-            "}";
+                    "login='" + login + '\'' +
+                    ", firstName='" + firstName + '\'' +
+                    ", lastName='" + lastName + '\'' +
+                    ", email='" + email + '\'' +
+                    ", activated=" + activated +
+                    ", langKey='" + langKey + '\'' +
+                    ", authorities=" + authorities +
+                    "}";
     }
+
 }

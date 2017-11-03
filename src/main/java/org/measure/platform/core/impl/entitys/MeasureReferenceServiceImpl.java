@@ -18,16 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class MeasureReferenceServiceImpl implements MeasureReferenceService{
-
+public class MeasureReferenceServiceImpl implements MeasureReferenceService {
     private final Logger log = LoggerFactory.getLogger(MeasureReferenceServiceImpl.class);
-    
+
     @Inject
     private MeasureReferenceRepository measureReferenceRepository;
 
     /**
      * Save a MeasureReference.
-     *
      * @param MeasureReference the entity to save
      * @return the persisted entity
      */
@@ -38,25 +36,22 @@ public class MeasureReferenceServiceImpl implements MeasureReferenceService{
     }
 
     /**
-     *  Get all the measureProperties.
-     *  
-     *  @return the list of entities
+     * Get all the measureProperties.
+     * @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<MeasureReference> findAll() {
         log.debug("Request to get all MeasureProperties");
         List<MeasureReference> result = measureReferenceRepository.findAll();
-
         return result;
     }
 
     /**
-     *  Get one MeasureReference by id.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
+     * Get one MeasureReference by id.
+     * @param id the id of the entity
+     * @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public MeasureReference findOne(Long id) {
         log.debug("Request to get MeasureReference : {}", id);
         MeasureReference MeasureReference = measureReferenceRepository.findOne(id);
@@ -64,18 +59,18 @@ public class MeasureReferenceServiceImpl implements MeasureReferenceService{
     }
 
     /**
-     *  Delete the  MeasureReference by id.
-     *
-     *  @param id the id of the entity
+     * Delete the  MeasureReference by id.
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete MeasureReference : {}", id);
         measureReferenceRepository.delete(id);
     }
 
-	@Override
-	public List<MeasureReference> findByInstance(MeasureInstance instance) {
-		List<MeasureReference> result = measureReferenceRepository.findByMeasure(instance);
+    @Override
+    public List<MeasureReference> findByInstance(MeasureInstance instance) {
+        List<MeasureReference> result = measureReferenceRepository.findByMeasure(instance);
         return result;
-	}
+    }
+
 }

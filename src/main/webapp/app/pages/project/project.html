@@ -112,7 +112,7 @@
 						</div>
 						<!-- Phases section -->
 						<div class="bhoechie-tab-content" ng-class="vm.isActive('2')" ng-show="vm.isActive('2')">
-							<div class="container" style="width: 100%; float: left">
+							<div class="container" style="width: 60%; float: left;">
 
 								<!-- Timeline -->
 								<div class="timeline">
@@ -122,7 +122,7 @@
 
 									<!-- Panel -->
 									<article ng-repeat="phase in vm.phases  | orderBy:'order'"
-										class="panel panel-phase">
+										class="panel panel-phase" style="min-height: 200px">
 
 										<!-- Icon -->
 										<div class="panel-heading icon"></div>
@@ -197,7 +197,6 @@
 									</article>
 
 
-									<!-- Panel -->
 									<article class="panel panel-default panel-outline">
 										<!-- Icon -->
 										<div class="panel-heading icon">
@@ -207,10 +206,8 @@
 											</button>
 										</div>
 									</article>
-									<!-- /Panel -->
 
 								</div>
-								<!-- /Timeline -->
 
 							</div>
 						</div>

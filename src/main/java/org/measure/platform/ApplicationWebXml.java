@@ -9,7 +9,6 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  * This will be invoked only when the application is deployed to a servlet container like Tomcat, Jboss etc.
  */
 public class ApplicationWebXml extends SpringBootServletInitializer {
-
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         /**
@@ -18,4 +17,5 @@ public class ApplicationWebXml extends SpringBootServletInitializer {
         DefaultProfileUtil.addDefaultProfile(application.application());
         return application.sources(MeasurePlatformApp.class);
     }
+
 }

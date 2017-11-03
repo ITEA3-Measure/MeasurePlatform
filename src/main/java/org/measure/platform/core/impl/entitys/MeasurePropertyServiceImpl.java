@@ -18,16 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class MeasurePropertyServiceImpl implements MeasurePropertyService{
-
+public class MeasurePropertyServiceImpl implements MeasurePropertyService {
     private final Logger log = LoggerFactory.getLogger(MeasurePropertyServiceImpl.class);
-    
+
     @Inject
     private MeasurePropertyRepository measurePropertyRepository;
 
     /**
      * Save a measureProperty.
-     *
      * @param measureProperty the entity to save
      * @return the persisted entity
      */
@@ -38,25 +36,22 @@ public class MeasurePropertyServiceImpl implements MeasurePropertyService{
     }
 
     /**
-     *  Get all the measureProperties.
-     *  
-     *  @return the list of entities
+     * Get all the measureProperties.
+     * @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<MeasureProperty> findAll() {
         log.debug("Request to get all MeasureProperties");
         List<MeasureProperty> result = measurePropertyRepository.findAll();
-
         return result;
     }
 
     /**
-     *  Get one measureProperty by id.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
+     * Get one measureProperty by id.
+     * @param id the id of the entity
+     * @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public MeasureProperty findOne(Long id) {
         log.debug("Request to get MeasureProperty : {}", id);
         MeasureProperty measureProperty = measurePropertyRepository.findOne(id);
@@ -64,18 +59,18 @@ public class MeasurePropertyServiceImpl implements MeasurePropertyService{
     }
 
     /**
-     *  Delete the  measureProperty by id.
-     *
-     *  @param id the id of the entity
+     * Delete the  measureProperty by id.
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete MeasureProperty : {}", id);
         measurePropertyRepository.delete(id);
     }
 
-	@Override
-	public List<MeasureProperty> findByInstance(MeasureInstance instance) {
-		List<MeasureProperty> result = measurePropertyRepository.findByMeasure(instance);
+    @Override
+    public List<MeasureProperty> findByInstance(MeasureInstance instance) {
+        List<MeasureProperty> result = measurePropertyRepository.findByMeasure(instance);
         return result;
-	}
+    }
+
 }

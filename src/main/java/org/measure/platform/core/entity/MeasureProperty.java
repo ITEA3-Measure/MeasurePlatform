@@ -22,7 +22,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "measure_property")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class MeasureProperty implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,8 +34,7 @@ public class MeasureProperty implements Serializable {
 
     @Column(name = "property_value")
     private String propertyValue;
-    
-    
+
     @Column(name = "property_type")
     private String propertyType;
 
@@ -77,7 +75,6 @@ public class MeasureProperty implements Serializable {
         this.propertyValue = propertyValue;
     }
 
-    
     public String getPropertyType() {
         return propertyType;
     }
@@ -90,7 +87,7 @@ public class MeasureProperty implements Serializable {
     public void setPropertyType(String propertyType) {
         this.propertyType = propertyType;
     }
-    
+
     public MeasureInstance getMeasureInstance() {
         return measureInstance;
     }
@@ -127,9 +124,10 @@ public class MeasureProperty implements Serializable {
     @Override
     public String toString() {
         return "MeasureProperty{" +
-            "id=" + id +
-            ", propertyName='" + propertyName + "'" +
-            ", propertyValue='" + propertyValue + "'" +
-            '}';
+                    "id=" + id +
+                    ", propertyName='" + propertyName + "'" +
+                    ", propertyValue='" + propertyValue + "'" +
+                    '}';
     }
+
 }

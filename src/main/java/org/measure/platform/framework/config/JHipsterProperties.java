@@ -7,13 +7,14 @@ import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * Properties specific to JHipster.
- *
+ * 
  * <p>
- *     Properties are configured in the application.yml file.
+ * Properties are configured in the application.yml file.
  * </p>
  */
 @ConfigurationProperties(prefix = "jhipster", ignoreUnknownFields = false)
 public class JHipsterProperties {
+    private final CorsConfiguration cors = new CorsConfiguration();
 
     private final Async async = new Async();
 
@@ -29,9 +30,9 @@ public class JHipsterProperties {
 
     private final Metrics metrics = new Metrics();
 
-    private final CorsConfiguration cors = new CorsConfiguration();
-
     private final Ribbon ribbon = new Ribbon();
+
+    private final Logging logging = new Logging();
 
     public Async getAsync() {
         return async;
@@ -69,8 +70,11 @@ public class JHipsterProperties {
         return ribbon;
     }
 
-    public static class Async {
+    public Logging getLogging() {
+        return logging;
+    }
 
+    public static class Async {
         private int corePoolSize = 2;
 
         private int maxPoolSize = 50;
@@ -100,10 +104,10 @@ public class JHipsterProperties {
         public void setQueueCapacity(int queueCapacity) {
             this.queueCapacity = queueCapacity;
         }
+
     }
 
     public static class Http {
-
         private final Cache cache = new Cache();
 
         public Cache getCache() {
@@ -111,7 +115,6 @@ public class JHipsterProperties {
         }
 
         public static class Cache {
-
             private int timeToLiveInDays = 1461;
 
             public int getTimeToLiveInDays() {
@@ -121,7 +124,9 @@ public class JHipsterProperties {
             public void setTimeToLiveInDays(int timeToLiveInDays) {
                 this.timeToLiveInDays = timeToLiveInDays;
             }
+
         }
+
     }
 
     public static class Cache {
@@ -132,7 +137,6 @@ public class JHipsterProperties {
         }
 
         public static class Ehcache {
-
             private String maxBytesLocalHeap = "16M";
 
             public String getMaxBytesLocalHeap() {
@@ -142,11 +146,12 @@ public class JHipsterProperties {
             public void setMaxBytesLocalHeap(String maxBytesLocalHeap) {
                 this.maxBytesLocalHeap = maxBytesLocalHeap;
             }
+
         }
+
     }
 
     public static class Mail {
-
         private String from = "MeasurePlatform@localhost";
 
         public String getFrom() {
@@ -156,10 +161,10 @@ public class JHipsterProperties {
         public void setFrom(String from) {
             this.from = from;
         }
+
     }
 
     public static class Security {
-
         private final RememberMe rememberMe = new RememberMe();
 
         public RememberMe getRememberMe() {
@@ -167,7 +172,6 @@ public class JHipsterProperties {
         }
 
         public static class RememberMe {
-
             @NotNull
             private String key;
 
@@ -178,11 +182,12 @@ public class JHipsterProperties {
             public void setKey(String key) {
                 this.key = key;
             }
+
         }
+
     }
 
     public static class Swagger {
-
         private String title = "MeasurePlatform API";
 
         private String description = "MeasurePlatform API documentation";
@@ -272,10 +277,10 @@ public class JHipsterProperties {
         public void setLicenseUrl(String licenseUrl) {
             this.licenseUrl = licenseUrl;
         }
+
     }
 
     public static class Metrics {
-
         private final Jmx jmx = new Jmx();
 
         private final Spark spark = new Spark();
@@ -301,7 +306,6 @@ public class JHipsterProperties {
         }
 
         public static class Jmx {
-
             private boolean enabled = true;
 
             public boolean isEnabled() {
@@ -311,10 +315,10 @@ public class JHipsterProperties {
             public void setEnabled(boolean enabled) {
                 this.enabled = enabled;
             }
+
         }
 
         public static class Spark {
-
             private boolean enabled = false;
 
             private String host = "localhost";
@@ -344,10 +348,10 @@ public class JHipsterProperties {
             public void setPort(int port) {
                 this.port = port;
             }
+
         }
 
         public static class Graphite {
-
             private boolean enabled = false;
 
             private String host = "localhost";
@@ -387,10 +391,10 @@ public class JHipsterProperties {
             public void setPrefix(String prefix) {
                 this.prefix = prefix;
             }
+
         }
 
-        public static  class Logs {
-
+        public static class Logs {
             private boolean enabled = false;
 
             private long reportFrequency = 60;
@@ -410,21 +414,19 @@ public class JHipsterProperties {
             public void setEnabled(boolean enabled) {
                 this.enabled = enabled;
             }
+
         }
+
     }
 
-    private final Logging logging = new Logging();
-
-    public Logging getLogging() { return logging; }
-
     public static class Logging {
-
         private final Logstash logstash = new Logstash();
 
-        public Logstash getLogstash() { return logstash; }
+        public Logstash getLogstash() {
+            return logstash;
+        }
 
         public static class Logstash {
-
             private boolean enabled = false;
 
             private String host = "localhost";
@@ -433,26 +435,43 @@ public class JHipsterProperties {
 
             private int queueSize = 512;
 
-            public boolean isEnabled() { return enabled; }
+            public boolean isEnabled() {
+                return enabled;
+            }
 
-            public void setEnabled(boolean enabled) { this.enabled = enabled; }
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
 
-            public String getHost() { return host; }
+            public String getHost() {
+                return host;
+            }
 
-            public void setHost(String host) { this.host = host; }
+            public void setHost(String host) {
+                this.host = host;
+            }
 
-            public int getPort() { return port; }
+            public int getPort() {
+                return port;
+            }
 
-            public void setPort(int port) { this.port = port; }
+            public void setPort(int port) {
+                this.port = port;
+            }
 
-            public int getQueueSize() { return queueSize; }
+            public int getQueueSize() {
+                return queueSize;
+            }
 
-            public void setQueueSize(int queueSize) { this.queueSize = queueSize; }
+            public void setQueueSize(int queueSize) {
+                this.queueSize = queueSize;
+            }
+
         }
+
     }
 
     public static class Ribbon {
-
         private String[] displayOnActiveProfiles;
 
         public String[] getDisplayOnActiveProfiles() {
@@ -462,5 +481,7 @@ public class JHipsterProperties {
         public void setDisplayOnActiveProfiles(String[] displayOnActiveProfiles) {
             this.displayOnActiveProfiles = displayOnActiveProfiles;
         }
+
     }
+
 }

@@ -19,7 +19,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "jhi_authority")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Authority implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @NotNull
@@ -44,13 +43,12 @@ public class Authority implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
+        
         Authority authority = (Authority) o;
-
+        
         if (name != null ? !name.equals(authority.name) : authority.name != null) {
             return false;
         }
-
         return true;
     }
 
@@ -62,7 +60,8 @@ public class Authority implements Serializable {
     @Override
     public String toString() {
         return "Authority{" +
-            "name='" + name + '\'' +
-            "}";
+                    "name='" + name + '\'' +
+                    "}";
     }
+
 }

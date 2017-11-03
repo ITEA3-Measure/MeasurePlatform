@@ -8,10 +8,10 @@ import java.util.List;
  * View Model for transferring error message with a list of field errors.
  */
 public class ErrorVM implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private final String message;
+
     private final String description;
 
     private List<FieldErrorVM> fieldErrors;
@@ -49,4 +49,5 @@ public class ErrorVM implements Serializable {
     public List<FieldErrorVM> getFieldErrors() {
         return fieldErrors;
     }
+
 }

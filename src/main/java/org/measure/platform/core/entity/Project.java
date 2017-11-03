@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "project")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Project implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -43,17 +42,17 @@ public class Project implements Serializable {
     @Column(name = "project_description")
     private String projectDescription;
 
-    @Column(name = "creation_date")
-    private ZonedDateTime creationDate;
-
     @Column(name = "project_image")
     private String projectImage;
+
+    @Column(name = "creation_date")
+    private ZonedDateTime creationDate;
 
     @OneToMany(mappedBy = "project")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Phase> phases = new HashSet<>();
-     
+
     @OneToMany(mappedBy = "project")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -63,17 +62,16 @@ public class Project implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureInstance> instances = new HashSet<>();
-    
-	@OneToMany(mappedBy = "project")
-	@JsonIgnore
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private Set<MeasureView> views = new HashSet<>();
-	
-	
-	@OneToMany(mappedBy = "projectoverview")
-	@JsonIgnore
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private Set<MeasureView> overviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<MeasureView> views = new HashSet<>();
+
+    @OneToMany(mappedBy = "projectoverview")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<MeasureView> overviews = new HashSet<>();
 
     @ManyToOne
     private User owner;
@@ -162,7 +160,7 @@ public class Project implements Serializable {
     public void setPhases(Set<Phase> phases) {
         this.phases = phases;
     }
-    
+
     public Set<Notification> getNotifications() {
         return notifications;
     }
@@ -173,14 +171,14 @@ public class Project implements Serializable {
     }
 
     public Project addNotifications(Notification phase) {
-    	notifications.add(phase);
+        notifications.add(phase);
         phase.setProject(this);
         return this;
     }
 
     public Project removeNotifications(Notification notification) {
-    	notifications.remove(notification);
-    	notification.setProject(null);
+        notifications.remove(notification);
+        notification.setProject(null);
         return this;
     }
 
@@ -226,56 +224,56 @@ public class Project implements Serializable {
         this.owner = user;
     }
 
-	public Set<MeasureView> getViews() {
-		return views;
-	}
+    public Set<MeasureView> getViews() {
+        return views;
+    }
 
-	public Project views(Set<MeasureView> measureViews) {
-		this.views = measureViews;
-		return this;
-	}
+    public Project views(Set<MeasureView> measureViews) {
+        this.views = measureViews;
+        return this;
+    }
 
-	public Project addViews(MeasureView measureView) {
-		views.add(measureView);
-		measureView.setProject(this);
-		return this;
-	}
-	
-	public Project removeViews(MeasureView measureView) {
-		views.remove(measureView);
-		measureView.setProject(null);
-		return this;
-	}
-	
-	public void setViews(Set<MeasureView> measureViews) {
-		this.views = measureViews;
-	}
+    public Project addViews(MeasureView measureView) {
+        views.add(measureView);
+        measureView.setProject(this);
+        return this;
+    }
 
-	public Set<MeasureView> getOverviews() {
-		return overviews;
-	}
-	
-	public Project overviews(Set<MeasureView> measureViews) {
-		this.overviews = measureViews;
-		return this;
-	}
+    public Project removeViews(MeasureView measureView) {
+        views.remove(measureView);
+        measureView.setProject(null);
+        return this;
+    }
 
-	public Project addOverviews(MeasureView measureView) {
-		overviews.add(measureView);
-		measureView.setProjectoverview(this);
-		return this;
-	}
-	
-	public Project removeOverviews(MeasureView measureView) {
-		overviews.remove(measureView);
-		measureView.setProjectoverview(null);
-		return this;
-	}
+    public void setViews(Set<MeasureView> measureViews) {
+        this.views = measureViews;
+    }
 
-	public void setOverviews(Set<MeasureView> measureViews) {
-		this.overviews = measureViews;
-	}
-	
+    public Set<MeasureView> getOverviews() {
+        return overviews;
+    }
+
+    public Project overviews(Set<MeasureView> measureViews) {
+        this.overviews = measureViews;
+        return this;
+    }
+
+    public Project addOverviews(MeasureView measureView) {
+        overviews.add(measureView);
+        measureView.setProjectoverview(this);
+        return this;
+    }
+
+    public Project removeOverviews(MeasureView measureView) {
+        overviews.remove(measureView);
+        measureView.setProjectoverview(null);
+        return this;
+    }
+
+    public void setOverviews(Set<MeasureView> measureViews) {
+        this.overviews = measureViews;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -299,11 +297,12 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return "Project{" +
-            "id=" + id +
-            ", projectName='" + projectName + "'" +
-            ", projectDescription='" + projectDescription + "'" +
-            ", creationDate='" + creationDate + "'" +
-            ", projectImage='" + projectImage + "'" +
-            '}';
+                    "id=" + id +
+                    ", projectName='" + projectName + "'" +
+                    ", projectDescription='" + projectDescription + "'" +
+                    ", creationDate='" + creationDate + "'" +
+                    ", projectImage='" + projectImage + "'" +
+                    '}';
     }
+
 }

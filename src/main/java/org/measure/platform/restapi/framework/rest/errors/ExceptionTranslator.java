@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ControllerAdvice
 public class ExceptionTranslator {
-
     @ExceptionHandler(ConcurrencyFailureException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     @ResponseBody
@@ -36,7 +35,6 @@ public class ExceptionTranslator {
     public ErrorVM processValidationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
-
         return processFieldErrors(fieldErrors);
     }
 
@@ -56,11 +54,10 @@ public class ExceptionTranslator {
 
     private ErrorVM processFieldErrors(List<FieldError> fieldErrors) {
         ErrorVM dto = new ErrorVM(ErrorConstants.ERR_VALIDATION);
-
+        
         for (FieldError fieldError : fieldErrors) {
             dto.add(fieldError.getObjectName(), fieldError.getField(), fieldError.getCode());
         }
-
         return dto;
     }
 
@@ -85,4 +82,5 @@ public class ExceptionTranslator {
         }
         return builder.body(errorVM);
     }
+
 }

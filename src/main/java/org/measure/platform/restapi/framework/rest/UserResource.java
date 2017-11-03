@@ -39,7 +39,7 @@ import com.codahale.metrics.annotation.Timed;
 
 /**
  * REST controller for managing users.
- *
+ * 
  * <p>This class accesses the User entity, and needs to fetch its collection of authorities.</p>
  * <p>
  * For a normal use-case, it would be better to have an eager relationship between User and Authority,
@@ -64,7 +64,6 @@ import com.codahale.metrics.annotation.Timed;
 @RestController
 @RequestMapping("/api")
 public class UserResource {
-
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
     @Inject
@@ -83,18 +82,17 @@ public class UserResource {
      * mail with an activation link.
      * The user needs to be activated on creation.
      * </p>
-     *
      * @param managedUserVM the user to create
      * @param request the HTTP request
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/users")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<?> createUser(@RequestBody ManagedUserVM managedUserVM, HttpServletRequest request) throws URISyntaxException {
         log.debug("REST request to save User : {}", managedUserVM);
-
+        
         //Lowercase the user login before comparing with database
         if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest()
@@ -121,7 +119,6 @@ public class UserResource {
 
     /**
      * PUT  /users : Updates an existing User.
-     *
      * @param managedUserVM the user to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated user,
      * or with status 400 (Bad Request) if the login or email is already in use,
@@ -143,23 +140,20 @@ public class UserResource {
         userService.updateUser(managedUserVM.getId(), managedUserVM.getLogin(), managedUserVM.getFirstName(),
             managedUserVM.getLastName(), managedUserVM.getEmail(), managedUserVM.isActivated(),
             managedUserVM.getLangKey(), managedUserVM.getAuthorities());
-
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createAlert("A user is updated with identifier " + managedUserVM.getLogin(), managedUserVM.getLogin()))
-            .body(new ManagedUserVM(userService.getUserWithAuthorities(managedUserVM.getId())));
+                    .headers(HeaderUtil.createAlert("A user is updated with identifier " + managedUserVM.getLogin(), managedUserVM.getLogin()))
+                    .body(new ManagedUserVM(userService.getUserWithAuthorities(managedUserVM.getId())));
     }
 
     /**
      * GET  /users : get all users.
-     * 
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
-     * @throws URISyntaxException if the pagination headers couldn't be generated
+     * @throws java.net.URISyntaxException if the pagination headers couldn't be generated
      */
     @GetMapping("/users")
     @Timed
-    public ResponseEntity<List<ManagedUserVM>> getAllUsers(Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<ManagedUserVM>> getAllUsers(Pageable pageable) throws URISyntaxException {
         Page<User> page = userRepository.findAllWithAuthorities(pageable);
         List<ManagedUserVM> managedUserVMs = page.getContent().stream()
             .map(ManagedUserVM::new)
@@ -170,7 +164,6 @@ public class UserResource {
 
     /**
      * GET  /users/:login : get the "login" user.
-     *
      * @param login the login of the user to find
      * @return the ResponseEntity with status 200 (OK) and with body the "login" user, or with status 404 (Not Found)
      */
@@ -179,14 +172,13 @@ public class UserResource {
     public ResponseEntity<ManagedUserVM> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
         return userService.getUserWithAuthoritiesByLogin(login)
-                .map(ManagedUserVM::new)
-                .map(managedUserVM -> new ResponseEntity<>(managedUserVM, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                        .map(ManagedUserVM::new)
+                        .map(managedUserVM -> new ResponseEntity<>(managedUserVM, HttpStatus.OK))
+                        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
      * DELETE /users/:login : delete the "login" User.
-     *
      * @param login the login of the user to delete
      * @return the ResponseEntity with status 200 (OK)
      */
@@ -198,4 +190,5 @@ public class UserResource {
         userService.deleteUser(login);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "A user is deleted with identifier " + login, login)).build();
     }
+
 }

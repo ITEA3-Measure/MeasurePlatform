@@ -21,79 +21,74 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "measure_view")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class MeasureView implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-      
+
     @Column(name = "mode")
     private String mode;
-        
+
     @Column(name = "viewname")
     private String name;
-    
+
     @Column(name = "viewdescription")
     private String description;
-    
+
     @Column(name = "viewsize")
     private String size;
-    
+
     @Column(name = "viewtype")
     private String type;
-    
+
     @Column(name = "viewauto")
     private Boolean auto;
-    
+
     @Column(name = "time_periode")
     private String timePeriode;
-    
+
     @Column(name = "time_agregation")
     private String timeAgregation;
-    
+
     @Column(name = "view_data")
-    private String viewData;  
-    
+    private String viewData;
+
     @Column(name = "kibana_name")
     private String kibanaName;
-    
+
     @Column(name = "visualised_property")
     private String visualisedProperty = "value";
-    
+
     @Column(name = "date_index")
     private String dateIndex = "postDate";
-    
+
     @Column(name = "color")
     private String color = "color";
- 
+
     @ManyToOne
     private Project projectoverview;
-    
-    
+
     @ManyToOne
     private Project project;
 
     @ManyToOne
     private Phase phaseoverview;
-    
-    
+
     @ManyToOne
     private Phase phase;
 
     @ManyToOne
     private Dashboard dashboard;
-    
+
     @ManyToOne
     private MeasureInstance measureinstance;
-         
 
-    
     public String getName() {
         return name;
     }
 
-	public MeasureView name(String name) {
+    public MeasureView name(String name) {
         this.name = name;
         return this;
     }
@@ -101,12 +96,12 @@ public class MeasureView implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getMode() {
         return mode;
     }
 
-	public MeasureView mode(String mode) {
+    public MeasureView mode(String mode) {
         this.mode = mode;
         return this;
     }
@@ -114,13 +109,12 @@ public class MeasureView implements Serializable {
     public void setMode(String mode) {
         this.mode = mode;
     }
-    
 
     public String getDescription() {
         return description;
     }
 
-	public MeasureView description(String description) {
+    public MeasureView description(String description) {
         this.description = description;
         return this;
     }
@@ -128,12 +122,12 @@ public class MeasureView implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public String getSize() {
         return size;
     }
 
-	public MeasureView size(String size) {
+    public MeasureView size(String size) {
         this.size = size;
         return this;
     }
@@ -141,13 +135,12 @@ public class MeasureView implements Serializable {
     public void setSize(String size) {
         this.size = size;
     }
-    
-    
+
     public String getType() {
         return type;
     }
 
-	public MeasureView type(String type) {
+    public MeasureView type(String type) {
         this.type = type;
         return this;
     }
@@ -155,12 +148,12 @@ public class MeasureView implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-    
+
     public String getKibanaName() {
         return kibanaName;
     }
 
-	public MeasureView kibanaName(String kibanaName) {
+    public MeasureView kibanaName(String kibanaName) {
         this.kibanaName = kibanaName;
         return this;
     }
@@ -168,13 +161,12 @@ public class MeasureView implements Serializable {
     public void setKibanaName(String kibanaName) {
         this.kibanaName = kibanaName;
     }
-    
-    
+
     public String getColor() {
         return color;
     }
 
-	public MeasureView color(String color) {
+    public MeasureView color(String color) {
         this.color = color;
         return this;
     }
@@ -182,12 +174,12 @@ public class MeasureView implements Serializable {
     public void setColor(String color) {
         this.color = color;
     }
-    
+
     public Boolean isAuto() {
         return auto;
     }
 
-	public MeasureView auto(Boolean auto) {
+    public MeasureView auto(Boolean auto) {
         this.auto = auto;
         return this;
     }
@@ -195,12 +187,12 @@ public class MeasureView implements Serializable {
     public void setAuto(Boolean auto) {
         this.auto = auto;
     }
-    
+
     public String getTimePeriode() {
         return timePeriode;
     }
 
-	public MeasureView timePeriode(String timePeriode) {
+    public MeasureView timePeriode(String timePeriode) {
         this.timePeriode = timePeriode;
         return this;
     }
@@ -208,12 +200,12 @@ public class MeasureView implements Serializable {
     public void setTimePeriode(String timePeriode) {
         this.timePeriode = timePeriode;
     }
-    
+
     public String getTimeAgregation() {
         return timeAgregation;
     }
 
-	public MeasureView interval(String timeAgregation) {
+    public MeasureView interval(String timeAgregation) {
         this.timeAgregation = timeAgregation;
         return this;
     }
@@ -221,7 +213,6 @@ public class MeasureView implements Serializable {
     public void setTimeAgregation(String timeAgregation) {
         this.timeAgregation = timeAgregation;
     }
-    
 
     public Long getId() {
         return id;
@@ -231,26 +222,24 @@ public class MeasureView implements Serializable {
         this.id = id;
     }
 
-
-    
     public MeasureView project(Project project) {
         this.project = project;
         return this;
     }
-    
-    public Project getProject() {
-		return project;
-	}
 
-	public void setProject(Project project) {
-		this.project = project;
-	}
-	
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
     public String getVisualisedProperty() {
         return visualisedProperty;
     }
 
-	public MeasureView visualisedProperty(String visualisedProperty) {
+    public MeasureView visualisedProperty(String visualisedProperty) {
         this.visualisedProperty = visualisedProperty;
         return this;
     }
@@ -258,13 +247,12 @@ public class MeasureView implements Serializable {
     public void setVisualisedProperty(String visualisedProperty) {
         this.visualisedProperty = visualisedProperty;
     }
-    
-    
+
     public String getDateIndex() {
         return dateIndex;
     }
 
-	public MeasureView dateIndex(String dateIndex) {
+    public MeasureView dateIndex(String dateIndex) {
         this.dateIndex = dateIndex;
         return this;
     }
@@ -273,12 +261,11 @@ public class MeasureView implements Serializable {
         this.dateIndex = dateIndex;
     }
 
-
     public String getViewData() {
         return viewData;
     }
 
-	public MeasureView viewData(String viewData) {
+    public MeasureView viewData(String viewData) {
         this.viewData = viewData;
         return this;
     }
@@ -291,7 +278,7 @@ public class MeasureView implements Serializable {
         this.phase = phase;
         return this;
     }
-    
+
     public Phase getPhase() {
         return phase;
     }
@@ -300,7 +287,6 @@ public class MeasureView implements Serializable {
         this.phase = phase;
     }
 
-    
     public MeasureInstance getMeasureinstance() {
         return measureinstance;
     }
@@ -314,7 +300,6 @@ public class MeasureView implements Serializable {
         this.measureinstance = measureinstance;
     }
 
-    
     public Dashboard getDashboard() {
         return dashboard;
     }
@@ -327,34 +312,34 @@ public class MeasureView implements Serializable {
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
     }
-    
+
     public MeasureView projectoverview(Project project) {
         this.projectoverview = project;
         return this;
     }
-    
+
     public Project getProjectoverview() {
-		return projectoverview;
-	}
+        return projectoverview;
+    }
 
-	public void setProjectoverview(Project projectoverview) {
-		this.projectoverview = projectoverview;
-	}
-	
-   public MeasureView phaseoverview(Phase phase) {
-	    this.phaseoverview = phase;
-	    return this;
-	}
-	   
-	public Phase getPhaseoverview() {
-		return phaseoverview;
-	}
+    public void setProjectoverview(Project projectoverview) {
+        this.projectoverview = projectoverview;
+    }
 
-	public void setPhaseoverview(Phase phaseOverview) {
-		this.phaseoverview = phaseOverview;
-	}
+    public MeasureView phaseoverview(Phase phase) {
+        this.phaseoverview = phase;
+        return this;
+    }
 
-	@Override
+    public Phase getPhaseoverview() {
+        return phaseoverview;
+    }
+
+    public void setPhaseoverview(Phase phaseOverview) {
+        this.phaseoverview = phaseOverview;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -377,8 +362,9 @@ public class MeasureView implements Serializable {
     @Override
     public String toString() {
         return "MeasureView{" +
-            "id=" + id +
-            ", viewData='" + viewData + "'" +
-            '}';
+                    "id=" + id +
+                    ", viewData='" + viewData + "'" +
+                    '}';
     }
+
 }

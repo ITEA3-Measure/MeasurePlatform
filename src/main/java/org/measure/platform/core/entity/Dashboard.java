@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "dashboard")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Dashboard implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -40,22 +39,22 @@ public class Dashboard implements Serializable {
 
     @Column(name = "dashboard_description")
     private String dashboardDescription;
-    
+
     @Column(name = "mode")
     private String mode;
-    
+
     @Column(name = "kibana_id")
     private String kibanaId;
-   
+
     @Column(name = "dashboard_content")
     private String content;
-      
+
     @Column(name = "auto")
-    private  Boolean auto;
-    
+    private Boolean auto;
+
     @Column(name = "size")
     private String size;
-    
+
     @Column(name = "time_periode")
     private String timePeriode;
 
@@ -100,9 +99,7 @@ public class Dashboard implements Serializable {
     public void setDashboardDescription(String dashboardDescription) {
         this.dashboardDescription = dashboardDescription;
     }
-    
-    
-    
+
     public String getMode() {
         return mode;
     }
@@ -115,8 +112,7 @@ public class Dashboard implements Serializable {
     public void setMode(String mode) {
         this.mode = mode;
     }
-    
-    
+
     public String geKibanaId() {
         return kibanaId;
     }
@@ -129,40 +125,38 @@ public class Dashboard implements Serializable {
     public void setKibanaId(String kibanaId) {
         this.kibanaId = kibanaId;
     }
-    
-    
-	public String getContent() {
-		return content;
-	}
-	
+
+    public String getContent() {
+        return content;
+    }
+
     public Dashboard content(String content) {
         this.content = content;
         return this;
     }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
-	
-	
-	public Boolean isAuto() {
-		return auto;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public Dashboard auto(Boolean auto) {
-		this.auto = auto;
-		return this;
-	}
+    public Boolean isAuto() {
+        return auto;
+    }
 
-	public void setAuto(Boolean auto) {
-		this.auto = auto;
-	}
-	
-	public String getTimePeriode() {
+    public Dashboard auto(Boolean auto) {
+        this.auto = auto;
+        return this;
+    }
+
+    public void setAuto(Boolean auto) {
+        this.auto = auto;
+    }
+
+    public String getTimePeriode() {
         return timePeriode;
     }
 
-	public Dashboard timePeriode(String timePeriode) {
+    public Dashboard timePeriode(String timePeriode) {
         this.timePeriode = timePeriode;
         return this;
     }
@@ -170,21 +164,21 @@ public class Dashboard implements Serializable {
     public void setTimePeriode(String timePeriode) {
         this.timePeriode = timePeriode;
     }
-	
-	public String getSize() {
-		return size;
-	}
-	
+
+    public String getSize() {
+        return size;
+    }
+
     public Dashboard size(String size) {
         this.size = size;
         return this;
     }
 
-	public void setSize(String size) {
-		this.size = size;
-	}
+    public void setSize(String size) {
+        this.size = size;
+    }
 
-	public Phase getPhase() {
+    public Phase getPhase() {
         return phase;
     }
 
@@ -245,9 +239,10 @@ public class Dashboard implements Serializable {
     @Override
     public String toString() {
         return "Dashboard{" +
-            "id=" + id +
-            ", dashboardName='" + dashboardName + "'" +
-            ", dashboardDescription='" + dashboardDescription + "'" +
-            '}';
+                    "id=" + id +
+                    ", dashboardName='" + dashboardName + "'" +
+                    ", dashboardDescription='" + dashboardDescription + "'" +
+                    '}';
     }
+
 }

@@ -24,15 +24,14 @@ import ch.qos.logback.classic.LoggerContext;
 @RestController
 @RequestMapping("/management/jhipster")
 public class LogsResource {
-
     @GetMapping("/logs")
     @Timed
     public List<LoggerVM> getList() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         return context.getLoggerList()
-            .stream()
-            .map(LoggerVM::new)
-            .collect(Collectors.toList());
+                    .stream()
+                    .map(LoggerVM::new)
+                    .collect(Collectors.toList());
     }
 
     @PutMapping("/logs")
@@ -42,4 +41,5 @@ public class LogsResource {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));
     }
+
 }

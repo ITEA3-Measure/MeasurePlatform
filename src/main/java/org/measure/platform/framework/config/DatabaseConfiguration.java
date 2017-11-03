@@ -23,7 +23,6 @@ import liquibase.integration.spring.SpringLiquibase;
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 public class DatabaseConfiguration {
-
     private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
     @Inject
@@ -31,7 +30,6 @@ public class DatabaseConfiguration {
 
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource, LiquibaseProperties liquibaseProperties) {
-
         // Use liquibase.integration.spring.SpringLiquibase if you don't want Liquibase to start asynchronously
         SpringLiquibase liquibase = new AsyncSpringLiquibase();
         liquibase.setDataSource(dataSource);
@@ -52,4 +50,5 @@ public class DatabaseConfiguration {
     public Hibernate4Module hibernate4Module() {
         return new Hibernate4Module();
     }
+
 }

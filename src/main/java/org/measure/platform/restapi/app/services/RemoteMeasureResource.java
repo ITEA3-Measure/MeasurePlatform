@@ -27,53 +27,53 @@ import com.codahale.metrics.annotation.Timed;
 @RestController
 @RequestMapping(value = "api/remote-measure")
 public class RemoteMeasureResource {
+    @Inject
+     IRemoteCatalogueService remoteCatalogue;
 
-	@Inject
-	IRemoteCatalogueService remoteCatalogue;
+    @Inject
+     IShedulingService schedulingService;
 
-	@Inject
-	IShedulingService schedulingService;
+    @Inject
+     IRemoteMeasureExecutionService remoteExecutionService;
 
-	@Inject
-	IRemoteMeasureExecutionService remoteExecutionService;
-	
-	@Inject 
-	IAgentManager agentService;
+    @Inject
+     IAgentManager agentService;
 
-	@PutMapping("/registration")
-	@Timed
-	public void registerMeasure(@Valid @RequestBody SMMMeasure measureDefinition)  {
-		try{
-			this.remoteCatalogue.registerRemoteMeasure(measureDefinition,measureDefinition.getAgentId());
-			this.agentService.registerLifeSign(measureDefinition.getAgentId());
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+    @PutMapping("/registration")
+    @Timed
+    public void registerMeasure(@Valid @RequestBody SMMMeasure measureDefinition) {
+        try{
+            this.remoteCatalogue.registerRemoteMeasure(measureDefinition,measureDefinition.getAgentId());
+            this.agentService.registerLifeSign(measureDefinition.getAgentId());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * GET /agents : get all the agents.
-	 */
-	@PostMapping("/execution-list")
-	@Timed
-	public @ResponseBody RemoteMeasureInstanceList getMeasureExecutions(@RequestParam("id") String agentId) {		
-		RemoteMeasureInstanceList list = new RemoteMeasureInstanceList();
-		list.getRemoteInstances().addAll(schedulingService.getSheduledRemoteMeasure(agentId));
-		return list;
-	}
+    /**
+     * GET /agents : get all the agents.
+     */
+    @PostMapping("/execution-list")
+    @Timed
+    public @ResponseBody RemoteMeasureInstanceList getMeasureExecutions(@RequestParam("id") String agentId) {
+        RemoteMeasureInstanceList list = new RemoteMeasureInstanceList();
+        list.getRemoteInstances().addAll(schedulingService.getSheduledRemoteMeasure(agentId));
+        return list;
+    }
 
-	@PutMapping("/measure-execution")
-	@Timed
-	public void registerMeasurement(@RequestBody MeasureLog executionResult) {
-		remoteExecutionService.registerRemoteExecution(executionResult);
-	}
+    @PutMapping("/measure-execution")
+    @Timed
+    public void registerMeasurement(@RequestBody MeasureLog executionResult) {
+        remoteExecutionService.registerRemoteExecution(executionResult);
+    }
 
-	/**
-	 * GET /agents : get all the agents.
-	 */
-	@GetMapping("/agent-list")
-	@Timed
-	public List<MeasureAgent> getAllAgents() {
-		return agentService.getAgents();
-	}
+    /**
+     * GET /agents : get all the agents.
+     */
+    @GetMapping("/agent-list")
+    @Timed
+    public List<MeasureAgent> getAllAgents() {
+        return agentService.getAgents();
+    }
+
 }

@@ -50,12 +50,10 @@ import org.springframework.transaction.annotation.Transactional;
  * couldn't be cleanly extended.
  */
 @Service
-public class CustomPersistentRememberMeServices extends
-    AbstractRememberMeServices {
-
+public class CustomPersistentRememberMeServices extends AbstractRememberMeServices {
     private final Logger log = LoggerFactory.getLogger(CustomPersistentRememberMeServices.class);
 
-    // Token is valid for one month
+// Token is valid for one month
     private static final int TOKEN_VALIDITY_DAYS = 31;
 
     private static final int TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * TOKEN_VALIDITY_DAYS;
@@ -73,20 +71,16 @@ public class CustomPersistentRememberMeServices extends
     private UserRepository userRepository;
 
     @Inject
-    public CustomPersistentRememberMeServices(JHipsterProperties jHipsterProperties, org.springframework.security.core.userdetails
-        .UserDetailsService userDetailsService) {
-
+    public CustomPersistentRememberMeServices(JHipsterProperties jHipsterProperties, org.springframework.security.core.userdetails.UserDetailsService userDetailsService) {
         super(jHipsterProperties.getSecurity().getRememberMe().getKey(), userDetailsService);
         random = new SecureRandom();
     }
 
     @Override
-    protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request,
-        HttpServletResponse response) {
-
+    protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response) {
         PersistentToken token = getPersistentToken(cookieTokens);
         String login = token.getUser().getLogin();
-
+        
         // Token also matches, so login is valid. Update the token value, keeping the *same* series number.
         log.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
         token.setTokenDate(LocalDate.now());
@@ -104,11 +98,9 @@ public class CustomPersistentRememberMeServices extends
     }
 
     @Override
-    protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication
-        successfulAuthentication) {
-
+    protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication successfulAuthentication) {
         String login = successfulAuthentication.getName();
-
+        
         log.debug("Creating new persistent login for user {}", login);
         PersistentToken token = userRepository.findOneByLogin(login).map(u -> {
             PersistentToken t = new PersistentToken();
@@ -163,12 +155,12 @@ public class CustomPersistentRememberMeServices extends
         String presentedSeries = cookieTokens[0];
         String presentedToken = cookieTokens[1];
         PersistentToken token = persistentTokenRepository.findOne(presentedSeries);
-
+        
         if (token == null) {
             // No series match, so we can't authenticate using this cookie
             throw new RememberMeAuthenticationException("No persistent token found for series id: " + presentedSeries);
         }
-
+        
         // We have a match for this user/series combination
         log.info("presentedToken={} / tokenValue={}", presentedToken, token.getTokenValue());
         if (!presentedToken.equals(token.getTokenValue())) {
@@ -177,7 +169,7 @@ public class CustomPersistentRememberMeServices extends
             throw new CookieTheftException("Invalid remember-me token (Series/token) mismatch. Implies previous " +
                 "cookie theft attack.");
         }
-
+        
         if (token.getTokenDate().plusDays(TOKEN_VALIDITY_DAYS).isBefore(LocalDate.now())) {
             persistentTokenRepository.delete(token);
             throw new RememberMeAuthenticationException("Remember-me login has expired");
@@ -202,4 +194,5 @@ public class CustomPersistentRememberMeServices extends
             new String[]{token.getSeries(), token.getTokenValue()},
             TOKEN_VALIDITY_SECONDS, request, response);
     }
+
 }

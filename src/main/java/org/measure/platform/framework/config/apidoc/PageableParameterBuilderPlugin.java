@@ -32,6 +32,7 @@ import springfox.documentation.swagger.common.SwaggerPluginSupport;
 @Profile(Constants.SPRING_PROFILE_SWAGGER)
 public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
     private final TypeNameExtractor nameExtractor;
+
     private final TypeResolver resolver;
 
     @Autowired
@@ -45,8 +46,7 @@ public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
         return true;
     }
 
-    private Function<ResolvedType, ? extends ModelReference>
-    createModelRefFactory(ParameterContext context) {
+    private Function<ResolvedType,? extends ModelReference> createModelRefFactory(ParameterContext context) {
         ModelContext modelContext = inputParam(context.methodParameter().getParameterType(),
             context.getDocumentationType(),
             context.getAlternateTypeProvider(),
@@ -62,10 +62,10 @@ public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
         if (type != null && Pageable.class.isAssignableFrom(type)) {
             Function<ResolvedType, ? extends ModelReference> factory =
                 createModelRefFactory(context);
-
+        
             ModelReference intModel = factory.apply(resolver.resolve(Integer.TYPE));
             ModelReference stringModel = factory.apply(resolver.resolve(List.class, String.class));
-
+        
             List<Parameter> parameters = newArrayList(
                 context.parameterBuilder()
                     .parameterType("query").name("page").modelRef(intModel)
@@ -81,7 +81,7 @@ public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
                         + "Default sort order is ascending. "
                         + "Multiple sort criteria are supported.")
                     .build());
-
+        
             context.getOperationContext().operationBuilder().parameters(parameters);
         }
     }

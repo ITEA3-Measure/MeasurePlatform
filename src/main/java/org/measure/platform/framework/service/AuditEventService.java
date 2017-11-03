@@ -22,32 +22,29 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class AuditEventService {
-
     private PersistenceAuditEventRepository persistenceAuditEventRepository;
 
     private AuditEventConverter auditEventConverter;
 
     @Inject
-    public AuditEventService(
-        PersistenceAuditEventRepository persistenceAuditEventRepository,
-        AuditEventConverter auditEventConverter) {
-
+    public AuditEventService(PersistenceAuditEventRepository persistenceAuditEventRepository, AuditEventConverter auditEventConverter) {
         this.persistenceAuditEventRepository = persistenceAuditEventRepository;
         this.auditEventConverter = auditEventConverter;
     }
 
     public Page<AuditEvent> findAll(Pageable pageable) {
         return persistenceAuditEventRepository.findAll(pageable)
-            .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
+                    .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
     }
 
     public Page<AuditEvent> findByDates(LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable) {
         return persistenceAuditEventRepository.findAllByAuditEventDateBetween(fromDate, toDate, pageable)
-            .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
+                    .map(persistentAuditEvents -> auditEventConverter.convertToAuditEvent(persistentAuditEvents));
     }
 
     public Optional<AuditEvent> find(Long id) {
         return Optional.ofNullable(persistenceAuditEventRepository.findOne(id)).map
-            (auditEventConverter::convertToAuditEvent);
+                    (auditEventConverter::convertToAuditEvent);
     }
+
 }

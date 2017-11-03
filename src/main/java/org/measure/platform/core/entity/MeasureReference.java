@@ -20,28 +20,25 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "measure_reference")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class MeasureReference implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    private Integer numberRef;
 
-	private Integer numberRef;
-	
-	private String role;
-		
-	@Column(name = "filter_expression")
-	private String filterExpression;
+    private String role;
 
-	@ManyToOne
-	private MeasureInstance ownerInstance;
-	
-	
-	@ManyToOne
-	private MeasureInstance referencedInstance;
-	
-	
+    @Column(name = "filter_expression")
+    private String filterExpression;
+
+    @ManyToOne
+    private MeasureInstance ownerInstance;
+
+    @ManyToOne
+    private MeasureInstance referencedInstance;
+
     public Long getId() {
         return id;
     }
@@ -49,7 +46,7 @@ public class MeasureReference implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public Integer getNumberRef() {
         return numberRef;
     }
@@ -62,10 +59,8 @@ public class MeasureReference implements Serializable {
     public void setNumberRef(Integer numberRef) {
         this.numberRef = numberRef;
     }
-    
 
-
-	public String getRole() {
+    public String getRole() {
         return role;
     }
 
@@ -77,8 +72,8 @@ public class MeasureReference implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
-    
-	public String getFilterExpression() {
+
+    public String getFilterExpression() {
         return filterExpression;
     }
 
@@ -90,7 +85,7 @@ public class MeasureReference implements Serializable {
     public void setFilterExpression(String filterExpression) {
         this.filterExpression = filterExpression;
     }
-    
+
     public MeasureInstance getOwnerInstance() {
         return ownerInstance;
     }
@@ -117,8 +112,9 @@ public class MeasureReference implements Serializable {
         this.referencedInstance = referencedInstance;
     }
 
-	@Override
-	public String toString() {
-		return "MeasureReference{" + "id=" + id + '}';
-	}
+    @Override
+    public String toString() {
+        return "MeasureReference{" + "id=" + id + '}';
+    }
+
 }

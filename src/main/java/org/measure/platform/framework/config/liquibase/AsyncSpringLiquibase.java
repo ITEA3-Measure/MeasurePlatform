@@ -16,21 +16,20 @@ import liquibase.integration.spring.SpringLiquibase;
 /**
  * Specific liquibase.integration.spring.SpringLiquibase that will update the database asynchronously.
  * <p>
- *     By default, this asynchronous version only works when using the "dev" profile.<p>
- *     The standard liquibase.integration.spring.SpringLiquibase starts Liquibase in the current thread:
- *     <ul>
- *         <li>This is needed if you want to do some database requests at startup</li>
- *         <li>This ensure that the database is ready when the application starts</li>
- *     </ul>
- *     But as this is a rather slow process, we use this asynchronous version to speed up our start-up time:
- *     <ul>
- *         <li>On a recent MacBook Pro, start-up time is down from 14 seconds to 8 seconds</li>
- *         <li>In production, this can help your application run on platforms like Heroku, where it must start/restart very quickly</li>
- *     </ul>
+ * By default, this asynchronous version only works when using the "dev" profile.<p>
+ * The standard liquibase.integration.spring.SpringLiquibase starts Liquibase in the current thread:
+ * <ul>
+ * <li>This is needed if you want to do some database requests at startup</li>
+ * <li>This ensure that the database is ready when the application starts</li>
+ * </ul>
+ * But as this is a rather slow process, we use this asynchronous version to speed up our start-up time:
+ * <ul>
+ * <li>On a recent MacBook Pro, start-up time is down from 14 seconds to 8 seconds</li>
+ * <li>In production, this can help your application run on platforms like Heroku, where it must start/restart very quickly</li>
+ * </ul>
  */
 public class AsyncSpringLiquibase extends SpringLiquibase {
-
-    // named "logger" because there is already a field called "log" in "SpringLiquibase"
+// named "logger" because there is already a field called "log" in "SpringLiquibase"
     private final Logger logger = LoggerFactory.getLogger(AsyncSpringLiquibase.class);
 
     @Inject
@@ -68,4 +67,5 @@ public class AsyncSpringLiquibase extends SpringLiquibase {
         watch.stop();
         logger.debug("Started Liquibase in {} ms", watch.getTotalTimeMillis());
     }
+
 }

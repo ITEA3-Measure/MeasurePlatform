@@ -22,22 +22,20 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class PhaseServiceImpl implements PhaseService{
-
+public class PhaseServiceImpl implements PhaseService {
     private final Logger log = LoggerFactory.getLogger(PhaseServiceImpl.class);
-    
+
     @Inject
     private PhaseRepository phaseRepository;
-    
+
     @Inject
     private DashboardService dashboardService;
-    
-	@Inject
-	private MeasureViewService viewService;
+
+    @Inject
+    private MeasureViewService viewService;
 
     /**
      * Save a phase.
-     *
      * @param phase the entity to save
      * @return the persisted entity
      */
@@ -48,29 +46,27 @@ public class PhaseServiceImpl implements PhaseService{
     }
 
     /**
-     *  Get all the phases.
-     *  
-     *  @return the list of entities
+     * Get all the phases.
+     * @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<Phase> findAll() {
         List<Phase> result = phaseRepository.findAll();
         return result;
     }
-    
-	@Override
-	public List<Phase> findByProject(Project project) {
+
+    @Override
+    public List<Phase> findByProject(Project project) {
         List<Phase> result = phaseRepository.findByProject(project);
         return result;
-	}
+    }
 
     /**
-     *  Get one phase by id.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
+     * Get one phase by id.
+     * @param id the id of the entity
+     * @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Phase findOne(Long id) {
         log.debug("Request to get Phase : {}", id);
         Phase phase = phaseRepository.findOne(id);
@@ -78,26 +74,23 @@ public class PhaseServiceImpl implements PhaseService{
     }
 
     /**
-     *  Delete the  phase by id.
-     *
-     *  @param id the id of the entity
+     * Delete the  phase by id.
+     * @param id the id of the entity
      */
     public void delete(Long id) {
-
-    	for(Dashboard dash : dashboardService.findByPhase(id)){
-    		dashboardService.delete(dash.getId());
-    	}
-    	
-    	for(MeasureView view : viewService.findByPhaseOverview(id)){
-    		viewService.delete(view.getId());
-    	}
-    	
-    	for(MeasureView view : viewService.findByPhase(id)){
-    		viewService.delete(view.getId());
-    	}
-    	
+        for(Dashboard dash : dashboardService.findByPhase(id)){
+            dashboardService.delete(dash.getId());
+        }
+        
+        for(MeasureView view : viewService.findByPhaseOverview(id)){
+            viewService.delete(view.getId());
+        }
+        
+        for(MeasureView view : viewService.findByPhase(id)){
+            viewService.delete(view.getId());
+        }
+        
         phaseRepository.delete(id);
     }
-
 
 }

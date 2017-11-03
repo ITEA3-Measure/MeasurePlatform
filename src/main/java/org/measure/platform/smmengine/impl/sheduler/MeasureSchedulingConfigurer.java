@@ -14,25 +14,25 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 @EnableScheduling
 public class MeasureSchedulingConfigurer implements SchedulingConfigurer {
+    @Inject
+    private SchedulingService sheduleService;
 
-	@Inject
-	private SchedulingService sheduleService;
+    @Inject
+    private MeasureInstanceService measureInstanceService;
 
-	@Inject
-	private MeasureInstanceService measureInstanceService;
+    @Bean()
+    public ThreadPoolTaskScheduler taskScheduler() {
+        return new ThreadPoolTaskScheduler();
+    }
 
-	@Bean()
-	public ThreadPoolTaskScheduler taskScheduler() {
-		return new ThreadPoolTaskScheduler();
-	}
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        taskRegistrar.setTaskScheduler(taskScheduler());    
+        for(MeasureInstance measure : measureInstanceService.findAll()){
+            if(measure.isIsShedule()!= null && measure.isIsShedule()){
+                sheduleService.scheduleMeasure(measure);
+            }
+        }
+    }
 
-	@Override
-	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-		taskRegistrar.setTaskScheduler(taskScheduler());	
-		for(MeasureInstance measure : measureInstanceService.findAll()){
-			if(measure.isIsShedule()!= null && measure.isIsShedule()){
-				sheduleService.scheduleMeasure(measure);
-			}
-		}	
-	}
 }

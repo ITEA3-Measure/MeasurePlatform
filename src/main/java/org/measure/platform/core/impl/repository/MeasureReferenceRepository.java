@@ -13,8 +13,7 @@ import org.springframework.data.repository.query.Param;
  */
 @SuppressWarnings("unused")
 public interface MeasureReferenceRepository extends JpaRepository<MeasureReference,Long> {
-
     @Query(value = "select p from MeasureReference p where p.ownerInstance = :minstance")
-	List<MeasureReference> findByMeasure(@Param("minstance")MeasureInstance minstance);
+    List<MeasureReference> findByMeasure(@Param("minstance") MeasureInstance minstance);
 
 }

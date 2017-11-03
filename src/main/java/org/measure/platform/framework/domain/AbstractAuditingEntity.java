@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Audited
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractAuditingEntity implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @CreatedBy
@@ -32,15 +31,15 @@ public abstract class AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     private String createdBy;
 
-    @CreatedDate
-    @Column(name = "created_date", nullable = false)
-    @JsonIgnore
-    private ZonedDateTime createdDate = ZonedDateTime.now();
-
     @LastModifiedBy
     @Column(name = "last_modified_by", length = 50)
     @JsonIgnore
     private String lastModifiedBy;
+
+    @CreatedDate
+    @Column(name = "created_date", nullable = false)
+    @JsonIgnore
+    private ZonedDateTime createdDate = ZonedDateTime.now();
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
@@ -78,4 +77,5 @@ public abstract class AbstractAuditingEntity implements Serializable {
     public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
 }

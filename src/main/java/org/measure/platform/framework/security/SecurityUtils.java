@@ -13,13 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Utility class for Spring Security.
  */
 public final class SecurityUtils {
-
     private SecurityUtils() {
     }
 
     /**
      * Get the login of the current user.
-     *
      * @return the login of the current user
      */
     public static String getCurrentUserLogin() {
@@ -39,7 +37,6 @@ public final class SecurityUtils {
 
     /**
      * Check if a user is authenticated.
-     *
      * @return true if the user is authenticated, false otherwise
      */
     public static boolean isAuthenticated() {
@@ -61,9 +58,8 @@ public final class SecurityUtils {
 
     /**
      * If the current user has a specific authority (security role).
-     *
+     * 
      * <p>The name of this method comes from the isUserInRole() method in the Servlet API</p>
-     *
      * @param authority the authority to check
      * @return true if the current user has the authority, false otherwise
      */
@@ -78,4 +74,5 @@ public final class SecurityUtils {
         }
         return false;
     }
+
 }

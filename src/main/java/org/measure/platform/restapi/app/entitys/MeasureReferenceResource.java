@@ -33,21 +33,19 @@ import com.codahale.metrics.annotation.Timed;
 @RestController
 @RequestMapping("/api")
 public class MeasureReferenceResource {
-
     private final Logger log = LoggerFactory.getLogger(MeasureReferenceResource.class);
-        
+
     @Inject
     private MeasureReferenceService measureReferenceService;
-    
+
     @Inject
     private MeasureInstanceService measureInstanceService;
 
     /**
      * POST  /measure-references : Create a new measureReference.
-     *
      * @param measureReference the measureReference to create
      * @return the ResponseEntity with status 201 (Created) and with body the new measureReference, or with status 400 (Bad Request) if the measureReference has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/measure-references")
     @Timed
@@ -58,18 +56,17 @@ public class MeasureReferenceResource {
         }
         MeasureReference result = measureReferenceService.save(measureReference);
         return ResponseEntity.created(new URI("/api/measure-references/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("measureReference", result.getId().toString()))
-            .body(result);
+                    .headers(HeaderUtil.createEntityCreationAlert("measureReference", result.getId().toString()))
+                    .body(result);
     }
 
     /**
      * PUT  /measure-references : Updates an existing measureReference.
-     *
      * @param measureReference the measureReference to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated measureReference,
      * or with status 400 (Bad Request) if the measureReference is not valid,
      * or with status 500 (Internal Server Error) if the measureReference couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/measure-references")
     @Timed
@@ -80,13 +77,12 @@ public class MeasureReferenceResource {
         }
         MeasureReference result = measureReferenceService.save(measureReference);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("measureReference", measureReference.getId().toString()))
-            .body(result);
+                    .headers(HeaderUtil.createEntityUpdateAlert("measureReference", measureReference.getId().toString()))
+                    .body(result);
     }
 
     /**
      * GET  /measure-references : get all the measureReferences.
-     *
      * @return the ResponseEntity with status 200 (OK) and the list of measureReferences in body
      */
     @GetMapping("/measure-references")
@@ -94,11 +90,10 @@ public class MeasureReferenceResource {
     public List<MeasureReference> getAllMeasureReferences() {
         log.debug("REST request to get all MeasureReferences");
         return measureReferenceService.findAll();
-    }   
+    }
 
     /**
      * GET  /measure-references/:id : get the "id" measureReference.
-     *
      * @param id the id of the measureReference to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the measureReference, or with status 404 (Not Found)
      */
@@ -108,15 +103,14 @@ public class MeasureReferenceResource {
         log.debug("REST request to get MeasureReference : {}", id);
         MeasureReference measureReference = measureReferenceService.findOne(id);
         return Optional.ofNullable(measureReference)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                    .map(result -> new ResponseEntity<>(
+                        result,
+                        HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
      * DELETE  /measure-references/:id : delete the "id" measureReference.
-     *
      * @param id the id of the measureReference to delete
      * @return the ResponseEntity with status 200 (OK)
      */
@@ -127,16 +121,15 @@ public class MeasureReferenceResource {
         measureReferenceService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("measureReference", id.toString())).build();
     }
-    
+
     /**
      * GET  /measure-references : get all the measureReferences.
-     *
      * @return the ResponseEntity with status 200 (OK) and the list of measureReferences in body
      */
     @GetMapping("/measure-references/byinstance/{id}")
     @Timed
-    public List<MeasureReference> getMeasureReferencesByInstanceId(@PathVariable Long id) {	
-    	return measureReferenceService.findByInstance(measureInstanceService.findOne(id));
+    public List<MeasureReference> getMeasureReferencesByInstanceId(@PathVariable Long id) {
+        return measureReferenceService.findByInstance(measureInstanceService.findOne(id));
     }
 
 }

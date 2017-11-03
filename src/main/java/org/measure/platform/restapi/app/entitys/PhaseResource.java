@@ -33,22 +33,19 @@ import com.codahale.metrics.annotation.Timed;
 @RestController
 @RequestMapping("/api")
 public class PhaseResource {
-
     private final Logger log = LoggerFactory.getLogger(PhaseResource.class);
-        
+
     @Inject
     private PhaseService phaseService;
-    
+
     @Inject
     private ProjectService projectService;
 
-
     /**
      * POST  /phases : Create a new phase.
-     *
      * @param phase the phase to create
      * @return the ResponseEntity with status 201 (Created) and with body the new phase, or with status 400 (Bad Request) if the phase has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/phases")
     @Timed
@@ -59,18 +56,17 @@ public class PhaseResource {
         }
         Phase result = phaseService.save(phase);
         return ResponseEntity.created(new URI("/api/phases/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("phase", result.getId().toString()))
-            .body(result);
+                    .headers(HeaderUtil.createEntityCreationAlert("phase", result.getId().toString()))
+                    .body(result);
     }
 
     /**
      * PUT  /phases : Updates an existing phase.
-     *
      * @param phase the phase to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated phase,
      * or with status 400 (Bad Request) if the phase is not valid,
      * or with status 500 (Internal Server Error) if the phase couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/phases")
     @Timed
@@ -81,13 +77,12 @@ public class PhaseResource {
         }
         Phase result = phaseService.save(phase);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("phase", phase.getId().toString()))
-            .body(result);
+                    .headers(HeaderUtil.createEntityUpdateAlert("phase", phase.getId().toString()))
+                    .body(result);
     }
 
     /**
      * GET  /phases : get all the phases.
-     *
      * @return the ResponseEntity with status 200 (OK) and the list of phases in body
      */
     @GetMapping("/phases")
@@ -96,18 +91,15 @@ public class PhaseResource {
         log.debug("REST request to get all Phases");
         return phaseService.findAll();
     }
-    
 
     @GetMapping("/phases/byproject/{id}")
     @Timed
-    public List<Phase> getPhasesByProject(@PathVariable Long id) {	
+    public List<Phase> getPhasesByProject(@PathVariable Long id) {
         return phaseService.findByProject(projectService.findOne(id));
     }
-    
 
     /**
      * GET  /phases/:id : get the "id" phase.
-     *
      * @param id the id of the phase to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the phase, or with status 404 (Not Found)
      */
@@ -117,15 +109,14 @@ public class PhaseResource {
         log.debug("REST request to get Phase : {}", id);
         Phase phase = phaseService.findOne(id);
         return Optional.ofNullable(phase)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                    .map(result -> new ResponseEntity<>(
+                        result,
+                        HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
      * DELETE  /phases/:id : delete the "id" phase.
-     *
      * @param id the id of the phase to delete
      * @return the ResponseEntity with status 200 (OK)
      */

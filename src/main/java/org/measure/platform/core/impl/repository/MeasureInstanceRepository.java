@@ -13,10 +13,10 @@ import org.springframework.data.repository.query.Param;
  */
 @SuppressWarnings("unused")
 public interface MeasureInstanceRepository extends JpaRepository<MeasureInstance,Long> {
-	
     @Query(value = "select i from MeasureInstance i where i.project = :project")
-    List<MeasureInstance> findByProject(@Param("project")Project project);
+    List<MeasureInstance> findByProject(@Param("project") Project project);
 
     @Query(value = "select i from MeasureInstance i where i.measureName = :measureid")
-	List<MeasureInstance> findByMeasure(@Param("measureid") String measureid);
+    List<MeasureInstance> findByMeasure(@Param("measureid") String measureid);
+
 }

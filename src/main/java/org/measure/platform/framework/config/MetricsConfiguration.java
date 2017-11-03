@@ -1,6 +1,5 @@
 package org.measure.platform.framework.config;
 
-
 import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
@@ -35,11 +34,14 @@ import fr.ippon.spark.metrics.SparkReporter;
 @Configuration
 @EnableMetrics(proxyTargetClass = true)
 public class MetricsConfiguration extends MetricsConfigurerAdapter {
-
     private static final String PROP_METRIC_REG_JVM_MEMORY = "jvm.memory";
+
     private static final String PROP_METRIC_REG_JVM_GARBAGE = "jvm.garbage";
+
     private static final String PROP_METRIC_REG_JVM_THREADS = "jvm.threads";
+
     private static final String PROP_METRIC_REG_JVM_FILES = "jvm.files";
+
     private static final String PROP_METRIC_REG_JVM_BUFFERS = "jvm.buffers";
 
     private final Logger log = LoggerFactory.getLogger(MetricsConfiguration.class);
@@ -48,11 +50,11 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
 
     private HealthCheckRegistry healthCheckRegistry = new HealthCheckRegistry();
 
-    @Inject
-    private JHipsterProperties jHipsterProperties;
-
     @Autowired(required = false)
     private HikariDataSource hikariDataSource;
+
+    @Inject
+    private JHipsterProperties jHipsterProperties;
 
     @Override
     @Bean
@@ -83,7 +85,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
             JmxReporter jmxReporter = JmxReporter.forRegistry(metricRegistry).build();
             jmxReporter.start();
         }
-
+        
         if (jHipsterProperties.getMetrics().getLogs().isEnabled()) {
             log.info("Initializing Metrics Log reporting");
             final Slf4jReporter reporter = Slf4jReporter.forRegistry(metricRegistry)
@@ -98,7 +100,6 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
     @Configuration
     @ConditionalOnClass(Graphite.class)
     public static class GraphiteRegistry {
-
         private final Logger log = LoggerFactory.getLogger(GraphiteRegistry.class);
 
         @Inject
@@ -123,12 +124,12 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
                 graphiteReporter.start(1, TimeUnit.MINUTES);
             }
         }
+
     }
 
     @Configuration
     @ConditionalOnClass(SparkReporter.class)
     public static class SparkRegistry {
-
         private final Logger log = LoggerFactory.getLogger(SparkRegistry.class);
 
         @Inject
@@ -150,6 +151,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
                 sparkReporter.start(1, TimeUnit.MINUTES);
             }
         }
+
     }
 
 }

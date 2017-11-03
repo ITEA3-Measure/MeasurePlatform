@@ -5,7 +5,10 @@ import org.measure.smm.log.MeasureLog;
 import org.measure.smm.measure.api.IMeasure;
 
 public interface IMeasureExecutionService {
-	public MeasureLog executeMeasure(MeasureInstance measure,IMeasure measureImpl);
-	public MeasureLog testMeasure(Long measureInstanceId);
-	public MeasureLog executeMeasure(Long instanceId);
+    MeasureLog executeMeasure(MeasureInstance measure, IMeasure measureImpl);
+
+    MeasureLog testMeasure(Long measureInstanceId);
+
+    MeasureLog executeMeasure(Long instanceId);
+
 }

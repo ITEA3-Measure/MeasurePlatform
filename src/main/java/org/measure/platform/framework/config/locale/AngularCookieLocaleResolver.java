@@ -3,26 +3,24 @@ package org.measure.platform.framework.config.locale;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.TimeZoneAwareLocaleContext;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.util.WebUtils;
-import javax.servlet.http.*;
-
 
 /**
  * Angular cookie saved the locale with a double quote (%22en%22).
  * So the default CookieLocaleResolver#StringUtils.parseLocaleString(localePart)
  * is not able to parse the locale.
- *
+ * 
  * This class will check if a double quote has been added, if so it will remove it.
  */
-
-
-
 public class AngularCookieLocaleResolver extends CookieLocaleResolver {
-
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
         parseLocaleCookieIfNecessary(request);
@@ -33,16 +31,16 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
     public LocaleContext resolveLocaleContext(final HttpServletRequest request) {
         parseLocaleCookieIfNecessary(request);
         return new TimeZoneAwareLocaleContext() {
-            @Override
-            public Locale getLocale() {
-                return (Locale) request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME);
-            }
-
-            @Override
-            public TimeZone getTimeZone() {
-                return (TimeZone) request.getAttribute(TIME_ZONE_REQUEST_ATTRIBUTE_NAME);
-            }
-        };
+                    @Override
+                    public Locale getLocale() {
+                        return (Locale) request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME);
+                    }
+        
+                    @Override
+                    public TimeZone getTimeZone() {
+                        return (TimeZone) request.getAttribute(TIME_ZONE_REQUEST_ATTRIBUTE_NAME);
+                    }
+                };
     }
 
     @Override
@@ -59,10 +57,10 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
             TimeZone timeZone = null;
             if (cookie != null) {
                 String value = cookie.getValue();
-
+        
                 // Remove the double quote
                 value = StringUtils.replace(value, "%22", "");
-
+        
                 String localePart = value;
                 String timeZonePart = null;
                 int spaceIndex = localePart.indexOf(' ');
@@ -81,9 +79,10 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
             }
             request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME,
                 (locale != null ? locale: determineDefaultLocale(request)));
-
+        
             request.setAttribute(TIME_ZONE_REQUEST_ATTRIBUTE_NAME,
                 (timeZone != null ? timeZone : determineDefaultTimeZone(request)));
         }
     }
+
 }

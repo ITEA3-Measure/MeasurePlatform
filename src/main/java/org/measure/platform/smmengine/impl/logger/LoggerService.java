@@ -10,21 +10,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("singleton")
-public class LoggerService implements ILoggerService{
+public class LoggerService implements ILoggerService {
+    private List<MeasureLog> logs = new ArrayList<>();
 
-	private List<MeasureLog> logs = new ArrayList<>();
+    @Override
+    public List<MeasureLog> getMeasureExecutionLogs() {
+        return logs;
+    }
 
-	@Override
-	public List<MeasureLog> getMeasureExecutionLogs() {
-		return logs;
-	}
-
-	@Override
-	public void addMeasureExecutionLog(MeasureLog log) {
-		if(logs.size() > 20){
-			logs.remove(logs.size()-1);
-		}
-		logs.add(0,log);
-	}
+    @Override
+    public void addMeasureExecutionLog(MeasureLog log) {
+        if(logs.size() > 20){
+            logs.remove(logs.size()-1);
+        }
+        logs.add(0,log);
+    }
 
 }

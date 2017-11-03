@@ -10,15 +10,14 @@ import org.measure.smm.measure.model.SMMMeasure;
  * Service Interface for managing measure repository.
  */
 public interface IMeasureCatalogueService {
-	
-	public void storeMeasure(Path measure);
-	
-	public List<SMMMeasure> getAllMeasures();
-	
-	public SMMMeasure getMeasure(String measureId);
+    void storeMeasure(Path measure);
 
-	public void deleteMeasure(String measureId);
-	
-	public IMeasure getMeasureImplementation(String measureId);
+    List<SMMMeasure> getAllMeasures();
+
+    SMMMeasure getMeasure(String measureId);
+
+    void deleteMeasure(String measureId);
+
+    IMeasure getMeasureImplementation(String measureId);
 
 }

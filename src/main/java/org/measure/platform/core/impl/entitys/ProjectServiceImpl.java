@@ -26,105 +26,96 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ProjectServiceImpl implements ProjectService {
+    private final Logger log = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
-	private final Logger log = LoggerFactory.getLogger(ProjectServiceImpl.class);
+    @Inject
+    private ProjectRepository projectRepository;
 
-	@Inject
-	private ProjectRepository projectRepository;
+    @Inject
+    private MeasureInstanceService measureInstanceService;
 
-	@Inject
-	private MeasureInstanceService measureInstanceService;
+    @Inject
+    private PhaseService phaseService;
 
-	@Inject
-	private PhaseService phaseService;
+    @Inject
+    private MeasureViewService viewService;
 
-	@Inject
-	private MeasureViewService viewService;
-	
-	@Inject
-	private NotificationService notifService;
+    @Inject
+    private NotificationService notifService;
 
-	/**
-	 * Save a project.
-	 *
-	 * @param project
-	 *            the entity to save
-	 * @return the persisted entity
-	 */
-	public Project save(Project project) {
-		log.debug("Request to save Project : {}", project);
-		Project result = projectRepository.save(project);
-		return result;
-	}
-
-	/**
-	 * Get all the projects.
-	 * 
-	 * @return the list of entities
-	 */
-	@Transactional(readOnly = true)
-	public List<Project> findAll() {
-		log.debug("Request to get all Projects");
-		List<Project> result = projectRepository.findAll();
-
-		return result;
-	}
-
-	/**
-	 * Get all the projects.
-	 * 
-	 * @return the list of entities
-	 */
-	@Transactional(readOnly = true)
-	public List<Project> findAllByOwner() {
-		List<Project> result = projectRepository.findByOwnerIsCurrentUser();
-		return result;
-	}
-
-	/**
-	 * Get one project by id.
-	 *
-	 * @param id
-	 *            the id of the entity
-	 * @return the entity
-	 */
-	@Transactional(readOnly = true)
-	public Project findOne(Long id) {
-		log.debug("Request to get Project : {}", id);
-		Project project = projectRepository.findOne(id);
-		return project;
-	}
-
-	/**
-     *  Delete the  project by id.
-     *
-     *  @param id the id of the entity
+    /**
+     * Save a project.
+     * @param project the entity to save
+     * @return the persisted entity
      */
-    public void delete(Long id) {	
-    		
-		Project project = projectRepository.findOne(id);
-		for(Phase phase : phaseService.findByProject(project)){
-			phaseService.delete(phase.getId());
-		}
-		
-		for(MeasureView view : viewService.findByProjectOverview(id)){
-			viewService.delete(view.getId());
-		}
-		
-		for(MeasureView view : viewService.findByProject(id)){
-			viewService.delete(view.getId());
-		}
-						
-		for (MeasureInstance instance : measureInstanceService.findMeasureInstancesByProject(id)) {
-			measureInstanceService.delete(instance.getId());
-		}
-		
-		for (Notification notif : notifService.findAllByProject(project)) {
-			notifService.delete(notif.getId());
-		}
-		
-		
-		
-    	projectRepository.delete(id);
+    public Project save(Project project) {
+        log.debug("Request to save Project : {}", project);
+        Project result = projectRepository.save(project);
+        return result;
     }
+
+    /**
+     * Get all the projects.
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public List<Project> findAll() {
+        log.debug("Request to get all Projects");
+        List<Project> result = projectRepository.findAll();
+        return result;
+    }
+
+    /**
+     * Get all the projects.
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public List<Project> findAllByOwner() {
+        List<Project> result = projectRepository.findByOwnerIsCurrentUser();
+        return result;
+    }
+
+    /**
+     * Get one project by id.
+     * @param id the id of the entity
+     * @return the entity
+     */
+    @Transactional(readOnly = true)
+    public Project findOne(Long id) {
+        log.debug("Request to get Project : {}", id);
+        Project project = projectRepository.findOne(id);
+        return project;
+    }
+
+    /**
+     * Delete the  project by id.
+     * @param id the id of the entity
+     */
+    public void delete(Long id) {
+        Project project = projectRepository.findOne(id);
+        for(Phase phase : phaseService.findByProject(project)){
+            phaseService.delete(phase.getId());
+        }
+        
+        for(MeasureView view : viewService.findByProjectOverview(id)){
+            viewService.delete(view.getId());
+        }
+        
+        for(MeasureView view : viewService.findByProject(id)){
+            viewService.delete(view.getId());
+        }
+                        
+        for (MeasureInstance instance : measureInstanceService.findMeasureInstancesByProject(id)) {
+            measureInstanceService.delete(instance.getId());
+        }
+        
+        for (Notification notif : notifService.findAllByProject(project)) {
+            notifService.delete(notif.getId());
+        }
+        
+        
+        
+        projectRepository.delete(id);
+    }
+
 }

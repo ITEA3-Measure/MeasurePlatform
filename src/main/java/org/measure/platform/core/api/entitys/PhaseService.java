@@ -9,36 +9,32 @@ import org.measure.platform.core.entity.Project;
  * Service Interface for managing Phase.
  */
 public interface PhaseService {
-
     /**
      * Save a phase.
-     *
      * @param phase the entity to save
      * @return the persisted entity
      */
     Phase save(Phase phase);
 
     /**
-     *  Get all the phases.
-     *  
-     *  @return the list of entities
+     * Get all the phases.
+     * @return the list of entities
      */
     List<Phase> findAll();
 
     /**
-     *  Get the "id" phase.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
+     * Get the "id" phase.
+     * @param id the id of the entity
+     * @return the entity
      */
     Phase findOne(Long id);
 
     /**
-     *  Delete the "id" phase.
-     *
-     *  @param id the id of the entity
+     * Delete the "id" phase.
+     * @param id the id of the entity
      */
     void delete(Long id);
 
-	List<Phase> findByProject(Project findOne);
+    List<Phase> findByProject(Project findOne);
+
 }

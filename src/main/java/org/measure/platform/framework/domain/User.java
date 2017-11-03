@@ -35,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -113,7 +112,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
         return login;
     }
 
-    //Lowercase the login before saving it in database
+//Lowercase the login before saving it in database
     public void setLogin(String login) {
         this.login = login.toLowerCase(Locale.ENGLISH);
     }
@@ -175,11 +174,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     }
 
     public ZonedDateTime getResetDate() {
-       return resetDate;
+        return resetDate;
     }
 
     public void setResetDate(ZonedDateTime resetDate) {
-       this.resetDate = resetDate;
+        this.resetDate = resetDate;
     }
 
     public String getLangKey() {
@@ -214,13 +213,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
+        
         User user = (User) o;
-
+        
         if (!login.equals(user.login)) {
             return false;
         }
-
         return true;
     }
 
@@ -232,13 +230,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", activated='" + activated + '\'' +
-            ", langKey='" + langKey + '\'' +
-            ", activationKey='" + activationKey + '\'' +
-            "}";
+                    "login='" + login + '\'' +
+                    ", firstName='" + firstName + '\'' +
+                    ", lastName='" + lastName + '\'' +
+                    ", email='" + email + '\'' +
+                    ", activated='" + activated + '\'' +
+                    ", langKey='" + langKey + '\'' +
+                    ", activationKey='" + activationKey + '\'' +
+                    "}";
     }
+
 }

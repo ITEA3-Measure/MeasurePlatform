@@ -12,7 +12,6 @@ import org.springframework.core.env.Environment;
  * If the value is not available in <code>application.yml</code> then <code>dev</code> profile will be used as default.
  */
 public final class DefaultProfileUtil {
-
     private static final String SPRING_PROFILE_DEFAULT = "spring.profiles.default";
 
     private DefaultProfileUtil() {
@@ -20,7 +19,6 @@ public final class DefaultProfileUtil {
 
     /**
      * Set a default to use when no profile is configured.
-     *
      * @param app the spring application
      */
     public static void addDefaultProfile(SpringApplication app) {
@@ -44,4 +42,5 @@ public final class DefaultProfileUtil {
         }
         return profiles;
     }
+
 }

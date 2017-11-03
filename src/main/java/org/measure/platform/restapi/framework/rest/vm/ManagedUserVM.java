@@ -12,22 +12,22 @@ import org.measure.platform.framework.service.dto.UserDTO;
  * View Model extending the UserDTO, which is meant to be used in the user management UI.
  */
 public class ManagedUserVM extends UserDTO {
-
     public static final int PASSWORD_MIN_LENGTH = 4;
+
     public static final int PASSWORD_MAX_LENGTH = 100;
 
     private Long id;
 
     private String createdBy;
 
-    private ZonedDateTime createdDate;
-
     private String lastModifiedBy;
-
-    private ZonedDateTime lastModifiedDate;
 
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
+
+    private ZonedDateTime createdDate;
+
+    private ZonedDateTime lastModifiedDate;
 
     public ManagedUserVM() {
     }
@@ -42,9 +42,7 @@ public class ManagedUserVM extends UserDTO {
         this.password = null;
     }
 
-    public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
-                         String email, boolean activated, String langKey, Set<String> authorities,
-                         String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate) {
+    public ManagedUserVM(Long id, String login, String password, String firstName, String lastName, String email, boolean activated, String langKey, Set<String> authorities, String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate) {
         super(login, firstName, lastName, email, activated, langKey, authorities);
         this.id = id;
         this.createdBy = createdBy;
@@ -61,7 +59,6 @@ public class ManagedUserVM extends UserDTO {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getCreatedBy() {
         return createdBy;
@@ -102,11 +99,12 @@ public class ManagedUserVM extends UserDTO {
     @Override
     public String toString() {
         return "ManagedUserVM{" +
-            "id=" + id +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            "} " + super.toString();
+                    "id=" + id +
+                    ", createdBy=" + createdBy +
+                    ", createdDate=" + createdDate +
+                    ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                    ", lastModifiedDate=" + lastModifiedDate +
+                    "} " + super.toString();
     }
+
 }

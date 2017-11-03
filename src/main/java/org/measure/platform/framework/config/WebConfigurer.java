@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.EnumSet;
 
 import javax.inject.Inject;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 import org.measure.platform.restapi.framework.filter.CachingHttpHeadersFilter;
 import org.slf4j.Logger;
@@ -26,24 +31,22 @@ import org.springframework.web.filter.CorsFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
-import javax.servlet.*;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Configuration
 public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
-
     private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
     @Inject
     private Environment env;
 
-    @Inject
-    private JHipsterProperties jHipsterProperties;
-
     @Autowired(required = false)
     private MetricRegistry metricRegistry;
+
+    @Inject
+    private JHipsterProperties jHipsterProperties;
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -87,7 +90,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     }
 
     /**
-     *  Resolve path prefix to static resources.
+     * Resolve path prefix to static resources.
      */
     private String resolvePathPrefix() {
         String fullExecutablePath = this.getClass().getResource("").getPath();
@@ -103,13 +106,12 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     /**
      * Initializes the caching HTTP Headers Filter.
      */
-    private void initCachingHttpHeadersFilter(ServletContext servletContext,
-                                              EnumSet<DispatcherType> disps) {
+    private void initCachingHttpHeadersFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
         log.debug("Registering Caching HTTP Headers Filter");
         FilterRegistration.Dynamic cachingHttpHeadersFilter =
             servletContext.addFilter("cachingHttpHeadersFilter",
                 new CachingHttpHeadersFilter(jHipsterProperties));
-
+        
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/content/*");
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/app/*");
         cachingHttpHeadersFilter.setAsyncSupported(true);
@@ -124,18 +126,18 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
             metricRegistry);
         servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY,
             metricRegistry);
-
+        
         log.debug("Registering Metrics Filter");
         FilterRegistration.Dynamic metricsFilter = servletContext.addFilter("webappMetricsFilter",
             new InstrumentedFilter());
-
+        
         metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
         metricsFilter.setAsyncSupported(true);
-
+        
         log.debug("Registering Metrics Servlet");
         ServletRegistration.Dynamic metricsAdminServlet =
             servletContext.addServlet("metricsServlet", new MetricsServlet());
-
+        
         metricsAdminServlet.addMapping("/management/jhipster/metrics/*");
         metricsAdminServlet.setAsyncSupported(true);
         metricsAdminServlet.setLoadOnStartup(2);
@@ -152,4 +154,5 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         source.registerCorsConfiguration("/oauth/**", config);
         return new CorsFilter(source);
     }
+
 }
