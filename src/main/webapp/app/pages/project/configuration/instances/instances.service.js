@@ -26,6 +26,10 @@
 				url : 'api/measure-references/byinstance/:id',
 				method : 'GET',
 				isArray : true
+			},'checkname' : {
+				url : 'api/existing-measure/:name',
+				method : 'GET',
+				isArray : false
 			},
 			'update' : {
 				url : 'api/measure-instances/:id',

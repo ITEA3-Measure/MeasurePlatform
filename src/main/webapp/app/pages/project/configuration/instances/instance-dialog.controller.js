@@ -211,16 +211,28 @@
 			$uibModalInstance.dismiss('cancel');
 		}
 
+		vm.errorMessage = "";
 		function save() {
-			vm.isSaving = true;
-			if(vm.measureInstance == null){
-				ProjectInstances.save(vm.measureInstance,
-						onSaveSuccess, onSaveError);
-			}else{
-				ProjectInstances.update(vm.measureInstance,
-						onSaveSuccess, onSaveError);
-			}
-			
+			vm.isSaving = true;		
+			ProjectInstances.checkname(
+					{
+						name : vm.measureInstance.instanceName
+					},
+					function(result) {
+						if(result.id == null){
+							if(vm.measureInstance == null){
+								ProjectInstances.save(vm.measureInstance,
+										onSaveSuccess, onSaveError);
+							}else{
+								ProjectInstances.update(vm.measureInstance,
+										onSaveSuccess, onSaveError);
+							}
+						}else{
+							vm.isSaving = false;
+							vm.errorMessage = "An Instance with the same name already exist"
+						}
+					});
+	
 		}
 
 		function onSaveSuccess(result) {

@@ -111,4 +111,9 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
         measureInstanceRepository.delete(id);
     }
 
+	@Override
+	public List<MeasureInstance> findMeasureInstancesByName(String name) {
+		return  measureInstanceRepository.findByName(name);
+	}
+
 }

@@ -8,26 +8,9 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-        $stateProvider.state('appproject', {
+        $stateProvider.state('appproject.edit', {
             parent: 'app',
-            url: '/pages/project/:id',
-            data: {
-                authorities: []
-            },
-            views: {
-                'content@': {
-                    templateUrl: 'app/pages/project/project.html',
-                    controller: 'AppProjectController',
-                    controllerAs: 'vm'
-                }
-            },resolve: {
-                entity: ['$stateParams', 'Project', function($stateParams, Project) {
-                    return Project.get({id : $stateParams.id}).$promise;
-                }]
-            }
-        }).state('appproject.edit', {
-            parent: 'appproject',
-            url: '/edit',
+            url: '/project/:id/editproject',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -44,15 +27,15 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('appproject', null, { reload: 'appproject' });
+                    $state.go('projectoverview', null, { reload: 'projectoverview' });
                 }, function() {
                     $state.go('^');
                 });
             }]
         })
         .state('appproject.delete', {
-            parent: 'appproject',
-            url: '/delete',
+            parent: 'app',
+            url: '/project/:id/deleteproject',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -68,7 +51,7 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('home', null, { reload: 'home' });
+                    $state.go('catalogue', null, { reload: 'catalogue' });
                 }, function() {
                     $state.go('^');
                 });

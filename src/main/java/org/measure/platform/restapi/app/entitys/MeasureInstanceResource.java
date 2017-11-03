@@ -91,7 +91,6 @@ public class MeasureInstanceResource {
             measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
         }
         
-        
         // Create Notification related to the creation of the  new Measure Instance
         Notification notif = new Notification();
         notif.setNotificationTitle("Measure Registred");
@@ -155,6 +154,18 @@ public class MeasureInstanceResource {
         List<MeasureInstance> result = measureInstanceService.findMeasureInstancesByProject(id);
         return result;
     }
+    
+    
+    @GetMapping("/existing-measure/{name}")
+    @Timed
+    public MeasureInstance isExistingMeasure(@PathVariable(name="name") String name) { 
+    	List<MeasureInstance> result =  measureInstanceService.findMeasureInstancesByName(name) ;
+        if(result!= null && !result.isEmpty()){
+        	return result.get(0);
+        }
+        return null;
+    }
+
 
     /**
      * GET  /measure-instances/:id : get the "id" measureInstance.

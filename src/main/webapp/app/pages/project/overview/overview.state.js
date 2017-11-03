@@ -108,6 +108,54 @@
                     $state.go('projectoverview');
                 });
             }]
+        }).state('projectoverview.edit', {
+            parent: 'projectoverview',
+            url: 'editproject/',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/project/edition/project-dialog.html',
+                    controller: 'AppProjectDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: ['Project', function(Project) {
+                            return Project.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('projectoverview', null, { reload: 'projectoverview' });
+                }, function() {
+                    $state.go('projectoverview');
+                });
+            }]
+        })
+        .state('projectoverview.delete', {
+            parent: 'projectoverview',
+            url: 'deleteproject/',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/project/edition/project-delete-dialog.html',
+                    controller: 'AppProjectDeleteController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['Project', function(Project) {
+                            return Project.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('catalogue', null, { reload: 'catalogue' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
         });
     }
 })();

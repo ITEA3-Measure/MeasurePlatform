@@ -19,4 +19,7 @@ public interface MeasureInstanceRepository extends JpaRepository<MeasureInstance
     @Query(value = "select i from MeasureInstance i where i.measureName = :measureid")
     List<MeasureInstance> findByMeasure(@Param("measureid") String measureid);
 
+    @Query(value = "select i from MeasureInstance i where i.instanceName = :measureInstanceName")
+    List<MeasureInstance> findByName(@Param("measureInstanceName")String name);
+
 }

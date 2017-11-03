@@ -42,4 +42,6 @@ public interface MeasureInstanceService {
 
     List<MeasureInstance> findMeasureInstanceByReference(String id);
 
+    List<MeasureInstance> findMeasureInstancesByName(String name);
+
 }
