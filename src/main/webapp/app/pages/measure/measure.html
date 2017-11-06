@@ -39,48 +39,77 @@
 				</a></td>
 
 
-				<td style="vertical-align: top;">
-					{{measure.name}}
-				</td>
+				<td style="vertical-align: top;">{{measure.name}}</td>
 				<td style="vertical-align: top;">{{measure.description}}</td>
 				<td style="vertical-align: top;">
 
-					<dl class="dl-horizontal"
-						g-repeat="reference in measure.references"
-						style="margin-bottom: 0px;">
-						<dt style="text-align: left;">{{reference.role}}</dt>
-						<dd>{{reference.measureRef}}</dd>
-					</dl>
+					<button class="btn btn-default btn-sm"
+						ng-click="vm.showDependencies(measure.id,measure.showDependencies==false)">
+						{{measure.references.length}} dependencies <span
+							ng-if="measure.showDependencies==false"
+							class="glyphicon glyphicon glyphicon-eye-open"></span> <span
+							class="hidden-xs hidden-sm"></span> <span
+							ng-if="measure.showDependencies"
+							class="glyphicon glyphicon glyphicon-eye-close"></span> <span
+							class="hidden-xs hidden-sm"></span>
+					</button>
+					<div ng-if="measure.showDependencies">
+						<dl class="dl-horizontal"
+							g-repeat="reference in measure.references"
+							style="margin-bottom: 0px;">
+							<dt style="text-align: left;">{{reference.role}}</dt>
+							<dd>{{reference.measureRef}}</dd>
+						</dl>
+					</div>
 
 				</td>
 				<td style="vertical-align: top;">
 
-
-					<dl class="dl-horizontal"
-						ng-repeat="scopePropertie in measure.scopeProperties"
-						style="margin-bottom: 0px;">
-						<dt style="text-align: left;font-weight: normal;">{{scopePropertie.name}}</dt>
-						<dd style="color: #8787dd">{{scopePropertie.defaultValue}}</dd>
-					</dl>
-
+					<button class="btn btn-default btn-sm"
+						ng-click="vm.showProperties(measure.id,measure.showProperties==false)">
+						{{measure.scopeProperties.length}} properties <span
+							ng-if="measure.showProperties==false"
+							class="glyphicon glyphicon glyphicon-eye-open"></span> <span
+							class="hidden-xs hidden-sm"></span> <span
+							ng-if="measure.showProperties"
+							class="glyphicon glyphicon glyphicon-eye-close"></span> <span
+							class="hidden-xs hidden-sm"></span>
+					</button>
+					<div ng-if="measure.showProperties">
+						<dl class="dl-horizontal"
+							ng-repeat="scopePropertie in measure.scopeProperties"
+							style="margin-bottom: 0px;">
+							<dt style="text-align: left; font-weight: normal;">{{scopePropertie.name}}</dt>
+							<dd style="color: #8787dd">{{scopePropertie.defaultValue}}</dd>
+						</dl>
+					</div>
 
 				</td>
 				<td style="vertical-align: top;">
-					<dl class="dl-horizontal"
-						ng-repeat="field in measure.unit.fields"
-						style="margin-bottom: 0px;">
-						<dt style="text-align: left;font-weight: normal;">{{field.fieldName}}</dt>
-						<dd style="color: #8787dd">{{field.fieldType}}</dd>
-					</dl>
+					<button class="btn btn-default btn-sm"
+						ng-click="vm.showUnites(measure.id,measure.showUnites==false)">
+						{{measure.unit.fields.length}} data types <span
+							ng-if="measure.showUnites==false"
+							class="glyphicon glyphicon glyphicon-eye-open"></span> <span
+							class="hidden-xs hidden-sm"></span> <span
+							ng-if="measure.showUnites"
+							class="glyphicon glyphicon glyphicon-eye-close"></span> <span
+							class="hidden-xs hidden-sm"></span>
+					</button>
+					<div ng-if="measure.showUnites">
+						<dl class="dl-horizontal" ng-repeat="field in measure.unit.fields"
+							style="margin-bottom: 0px;">
+							<dt style="text-align: left; font-weight: normal;">{{field.fieldName}}</dt>
+							<dd style="color: #8787dd">{{field.fieldType}}</dd>
+						</dl>
+					</div>
 				</td>
 				<td style="vertical-align: top;">
-					<h4 style="margin-top: 0px;"
-						ng-show="measure.agentId == null">
+					<h4 style="margin-top: 0px;" ng-show="measure.agentId == null">
 						<span class="label label-primary" style="height: 50px;">Measure
 							Platform</span>
 					</h4>
-					<h4 style="margin-top: 0px;"
-						ng-show="measure.agentId != null">
+					<h4 style="margin-top: 0px;" ng-show="measure.agentId != null">
 						<span class="label label-warning">{{measure.agentId}}</span>
 					</h4>
 				</td>

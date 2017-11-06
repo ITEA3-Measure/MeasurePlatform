@@ -118,16 +118,14 @@
 							<div class="row" style="padding: 5px;">
 
 								<div ng-repeat="notification in vm.notifications">
-									<div ng-show="{{notification.notificationType =='INFO'}}"
-										class="bs-calltoaction bs-calltoaction-info">
-										<div class="row">
+									<div class="notice notice-success" ng-show="{{notification.notificationType =='SUCCESS'}}">
+												<div class="row">
 											<div class="col-md-1 cta-button">
-												<h4 class="cta-title">{{notification.notificationDate |
-													date:'dd.MM.yyyy HH:mm:ss'}}</h4>
+												<h5 class="cta-title">{{notification.notificationDate |
+													date:'dd.MM.yyyy HH:mm:ss'}}</h5>
 											</div>
 											<div class="col-md-10 cta-contents">
-
-												<h1 class="cta-title">{{notification.notificationTitle}}</h1>
+												<h4 class="cta-title"> <strong>{{notification.notificationTitle}} </strong></h4> 
 												<div class="cta-desc">
 													<p>{{notification.notificationContent}}</p>
 												</div>
@@ -136,21 +134,18 @@
 												style="vertical-align: bottom;">
 
 												<a ng-click="vm.validateNotification(notification.id)"
-													class="btn btn-lg btn-block btn-info">Ok</a>
+													class="btn btn-lg btn-block btn-default">Ok</a>
 											</div>
 										</div>
 									</div>
-
-									<div ng-show="{{notification.notificationType =='SUCCESS'}}"
-										class="bs-calltoaction bs-calltoaction-success">
-										<div class="row">
+									<div class="notice notice-danger" ng-show="{{notification.notificationType =='ERROR'}}">
+												<div class="row">
 											<div class="col-md-1 cta-button">
-												<h4 class="cta-title">{{notification.notificationDate |
-													date:'dd.MM.yyyy HH:mm:ss'}}</h4>
+												<h5 class="cta-title">{{notification.notificationDate |
+													date:'dd.MM.yyyy HH:mm:ss'}}</h5>
 											</div>
 											<div class="col-md-10 cta-contents">
-
-												<h1 class="cta-title">{{notification.notificationTitle}}</h1>
+												<h4 class="cta-title"> <strong>{{notification.notificationTitle}} </strong></h4> 
 												<div class="cta-desc">
 													<p>{{notification.notificationContent}}</p>
 												</div>
@@ -159,52 +154,53 @@
 												style="vertical-align: bottom;">
 
 												<a ng-click="vm.validateNotification(notification.id)"
-													class="btn btn-lg btn-block btn-info">Ok</a>
+													class="btn btn-lg btn-block btn-default">Ok</a>
 											</div>
 										</div>
 									</div>
-
-									<div ng-show="{{notification.notificationType =='WARNING'}}"
-										class="bs-calltoaction bs-calltoaction-warning">
+									<div class="notice notice-info" ng-show="{{notification.notificationType =='INFO'}}">
 										<div class="row">
 											<div class="col-md-1 cta-button">
-												<h4 class="cta-title">{{notification.notificationDate |
-													date:'dd.MM.yyyy HH:mm:ss'}}</h4>
+												<h5 class="cta-title">{{notification.notificationDate |
+													date:'dd.MM.yyyy HH:mm:ss'}}</h5>
 											</div>
 											<div class="col-md-10 cta-contents">
-												<h1 class="cta-title">{{notification.notificationTitle}}</h1>
+												<h4 class="cta-title"> <strong>{{notification.notificationTitle}} </strong></h4> 
 												<div class="cta-desc">
 													<p>{{notification.notificationContent}}</p>
 												</div>
 											</div>
 											<div class="col-md-1 cta-button"
 												style="vertical-align: bottom;">
+
 												<a ng-click="vm.validateNotification(notification.id)"
-													class="btn btn-lg btn-block btn-info">Ok</a>
+													class="btn btn-lg btn-block btn-default">Ok</a>
 											</div>
 										</div>
 									</div>
-
-									<div ng-show="{{notification.notificationType =='ERROR'}}"
-										class="bs-calltoaction bs-calltoaction-danger">
-										<div class="row">
+									<div class="notice notice-warning" ng-show="{{notification.notificationType =='WARNING'}}">
+												<div class="row">
 											<div class="col-md-1 cta-button">
-												<h4 class="cta-title">{{notification.notificationDate |
-													date:'dd.MM.yyyy HH:mm:ss'}}</h4>
+												<h5 class="cta-title">{{notification.notificationDate |
+													date:'dd.MM.yyyy HH:mm:ss'}}</h5>
 											</div>
 											<div class="col-md-10 cta-contents">
-												<h1 class="cta-title">{{notification.notificationTitle}}</h1>
+												<h4 class="cta-title"> <strong>{{notification.notificationTitle}} </strong></h4> 
 												<div class="cta-desc">
 													<p>{{notification.notificationContent}}</p>
 												</div>
 											</div>
 											<div class="col-md-1 cta-button"
 												style="vertical-align: bottom;">
+
 												<a ng-click="vm.validateNotification(notification.id)"
-													class="btn btn-lg btn-block btn-info">Ok</a>
+													class="btn btn-lg btn-block btn-default">Ok</a>
 											</div>
 										</div>
 									</div>
+							
+									
+									
 								</div>
 							</div>
 						</div>

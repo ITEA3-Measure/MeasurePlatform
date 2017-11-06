@@ -6,20 +6,18 @@
 
 	AppProjectInstancesController.$inject = [ '$location', '$scope',
 			'Principal', 'LoginService', '$state', 'entity', 'Home',
-			'ProjectInstances', 'MeasureAgentService','Notification' ];
+			'ProjectInstances', 'MeasureAgentService', 'Notification' ];
 
 	function AppProjectInstancesController($location, $scope, Principal,
 			LoginService, $state, entity, Home, ProjectInstances,
-			MeasureAgentService,Notification) {
+			MeasureAgentService, Notification) {
 		var vm = this;
 
-
 		vm.project = entity;
-		
-		
+
 		vm.measureInstances = [];
 		loadInstances(vm.project.id);
-		
+
 		function loadInstances(id) {
 			ProjectInstances.instances({
 				id : id
@@ -28,6 +26,8 @@
 				for (var i = 0; i < vm.measureInstances.length; i++) {
 					vm.measureInstances[i].properties = [];
 					vm.measureInstances[i].ownedReferences = [];
+					vm.measureInstances[i].showProperties = false;
+					vm.measureInstances[i].showDependencies = false;
 
 					loadReference(vm.measureInstances[i].id);
 					loadProperties(vm.measureInstances[i].id);
@@ -39,7 +39,24 @@
 				}
 			});
 		}
+
+		vm.showProperties = showProperties
+		function showProperties(id, show) {
+			for (var j = 0; j < vm.measureInstances.length; j++) {
+				if (vm.measureInstances[j].id == id) {
+					vm.measureInstances[j].showProperties = show;
+				}
+			}
+		}
 		
+		vm.showDependencies = showDependencies
+		function showDependencies(id, show) {
+			for (var j = 0; j < vm.measureInstances.length; j++) {
+				if (vm.measureInstances[j].id == id) {
+					vm.measureInstances[j].showDependencies = show;
+				}
+			}
+		}
 
 		vm.agents = [];
 		loadAgents();
@@ -49,9 +66,6 @@
 				vm.agents = result;
 			});
 		}
-
-
-		
 
 		vm.startSheduling = startSheduling
 		vm.stopSheduling = stopSheduling
@@ -66,7 +80,8 @@
 								for (var i = 0; i < result.length; i++) {
 									for (var j = 0; j < vm.measureInstances.length; j++) {
 										if (vm.measureInstances[j].id == result[i].measureInstance.id) {
-											vm.measureInstances[j].properties.push(result[i]);
+											vm.measureInstances[j].properties
+													.push(result[i]);
 										}
 									}
 								}
@@ -90,8 +105,6 @@
 				}
 			});
 		}
-
-
 
 		function isShedule(id) {
 			ProjectInstances.isShedule({
@@ -165,7 +178,7 @@
 								}
 							});
 		}
-		
+
 		vm.notifications = [];
 		loadNotificationByProject(vm.project.id);
 
