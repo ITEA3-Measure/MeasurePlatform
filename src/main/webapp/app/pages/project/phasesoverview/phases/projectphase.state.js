@@ -67,7 +67,7 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('appproject', null, { reload: 'appproject' });
+                    $state.go('phasesoverview', null, { reload: 'phasesoverview' });
                 }, function() {
                     $state.go('^');
                 });
