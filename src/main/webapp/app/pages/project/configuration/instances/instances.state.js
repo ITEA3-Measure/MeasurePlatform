@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
     	   $stateProvider.state('projectinstances', {
             parent: 'app',
-            url: '/project/:id/configuration',
+            url: '/project/:id/configuration/instances',
             data: {
                 authorities: []
             },

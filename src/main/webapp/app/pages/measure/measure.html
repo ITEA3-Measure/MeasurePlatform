@@ -17,122 +17,125 @@
 			<span class="glyphicon glyphicon-import" aria-hiden="true"></span>
 		</button>
 	</div>
-	<table class="jh-table table table-striped">
-		<thead>
-			<tr>
-				<th><span>Type</span></th>
-				<th><span>Measure Name</span></th>
-				<th><span>Measure Description</span></th>
-				<th><span>Measure Dependency</span></th>
-				<th><span>Scope Properties</span></th>
-				<th><span>Unit</span></th>
-				<th><span>Hosting</span></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="measure in vm.measures track by measure.name">
-				<td style="vertical-align: top;"><a href="#"> <img
-						class="media-object"
-						ng-src="content/images/{{measure.type}}_big.png"
-						title="Direct Measure" style="width: 20px;">
-				</a></td>
+
+	<ul class="nav nav-tabs">
+		<li role="presentation" ng-repeat="category in vm.category"
+			ng-class="vm.isActive($index)"><a
+			ng-click="vm.setActive($index)">{{category}}</a></li>
+	</ul>
+
+	<div class="well-dashboard" style="min-height: 300px;">
+		<table class="jh-table table table-striped">
+			<thead>
+				<tr>
+					<th><span>Type</span></th>
+					<th><span>Measure Name</span></th>
+					<th><span>Measure Description</span></th>
+					<th><span>Measure Dependency</span></th>
+					<th><span>Scope Properties</span></th>
+					<th><span>Unit</span></th>
+					<th><span>Hosting</span></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="measure in vm.measuresInCategory track by measure.name">
+					<td style="vertical-align: top;"><a href="#"> <img
+							class="media-object"
+							ng-src="content/images/{{measure.type}}_big.png"
+							title="Direct Measure" style="width: 20px;">
+					</a></td>
 
 
-				<td style="vertical-align: top;"><h4 style="margin: 0px;">{{measure.name}}</h4></td>
-				<td style="vertical-align: top;">{{measure.description}}</td>
-				<td style="vertical-align: top;">
+					<td style="vertical-align: top;"><h4 style="margin: 0px;">{{measure.name}}</h4></td>
+					<td style="vertical-align: top;">{{measure.description}}</td>
+					<td style="vertical-align: top;">
 
-					<button class="btn btn-default btn-sm"
-						ng-click="vm.showDependencies(measure.id,measure.showDependencies==false)">
-						{{measure.references.length}} dependencies <span
-							ng-if="measure.showDependencies==false"
-							class="glyphicon glyphicon glyphicon-eye-open"></span> <span
-							class="hidden-xs hidden-sm"></span> <span
-							ng-if="measure.showDependencies"
-							class="glyphicon glyphicon glyphicon-eye-close"></span> <span
-							class="hidden-xs hidden-sm"></span>
-					</button>
-					<div ng-if="measure.showDependencies">
-						<dl class="dl-horizontal"
-							g-repeat="reference in measure.references"
-							style="margin-bottom: 0px;">
-							<dt style="text-align: left;">{{reference.role}}</dt>
-							<dd>{{reference.measureRef}}</dd>
-						</dl>
-					</div>
-
-				</td>
-				<td style="vertical-align: top;">
-
-					<button class="btn btn-default btn-sm"
-						ng-click="vm.showProperties(measure.id,measure.showProperties==false)">
-						{{measure.scopeProperties.length}} properties <span
-							ng-if="measure.showProperties==false"
-							class="glyphicon glyphicon glyphicon-eye-open"></span> <span
-							class="hidden-xs hidden-sm"></span> <span
-							ng-if="measure.showProperties"
-							class="glyphicon glyphicon glyphicon-eye-close"></span> <span
-							class="hidden-xs hidden-sm"></span>
-					</button>
-					<div ng-if="measure.showProperties">
-						<dl class="dl-horizontal"
-							ng-repeat="scopePropertie in measure.scopeProperties"
-							style="margin-bottom: 0px;">
-							<dt style="text-align: left; font-weight: normal;">{{scopePropertie.name}}</dt>
-							<dd style="color: #8787dd">{{scopePropertie.defaultValue}}</dd>
-						</dl>
-					</div>
-
-				</td>
-				<td style="vertical-align: top;">
-					<button class="btn btn-default btn-sm"
-						ng-click="vm.showUnites(measure.id,measure.showUnites==false)">
-						{{measure.unit.fields.length}} data types <span
-							ng-if="measure.showUnites==false"
-							class="glyphicon glyphicon glyphicon-eye-open"></span> <span
-							class="hidden-xs hidden-sm"></span> <span
-							ng-if="measure.showUnites"
-							class="glyphicon glyphicon glyphicon-eye-close"></span> <span
-							class="hidden-xs hidden-sm"></span>
-					</button>
-					<div ng-if="measure.showUnites">
-						<dl class="dl-horizontal" ng-repeat="field in measure.unit.fields"
-							style="margin-bottom: 0px;">
-							<dt style="text-align: left; font-weight: normal;">{{field.fieldName}}</dt>
-							<dd style="color: #8787dd">{{field.fieldType}}</dd>
-						</dl>
-					</div>
-				</td>
-				<td style="vertical-align: top;">
-					<h4 style="margin-top: 0px;" ng-show="measure.agentId == null">
-						<span class="label label-primary" style="height: 50px;">Measure
-							Platform</span>
-					</h4>
-					<h4 style="margin-top: 0px;" ng-show="measure.agentId != null">
-						<span class="label label-warning">{{measure.agentId}}</span>
-					</h4>
-				</td>
-				<td class="text-right" style="vertical-align: top;">
-					<div class="btn-group flex-btn-group-container"
-						ng-show="measure.callbackAdress == null">
-						<button type="submit" ui-sref="measure.delete({id:measure.name})"
-							class="btn btn-danger btn-sm">
-							<span class="glyphicon glyphicon-remove-circle"></span> <span
+						<button class="btn btn-default btn-sm"
+							ng-click="vm.showDependencies(measure.name,measure.showDependencies==false)">
+							{{measure.references.length}} dependencies <span
+								ng-if="measure.showDependencies==false"
+								class="glyphicon glyphicon glyphicon-eye-open"></span> <span
+								class="hidden-xs hidden-sm"></span> <span
+								ng-if="measure.showDependencies"
+								class="glyphicon glyphicon glyphicon-eye-close"></span> <span
 								class="hidden-xs hidden-sm"></span>
 						</button>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+						<div ng-if="measure.showDependencies">
+							<dl class="dl-horizontal"
+								g-repeat="reference in measure.references"
+								style="margin-bottom: 0px;">
+								<dt style="text-align: left;">{{reference.role}}</dt>
+								<dd>{{reference.measureRef}}</dd>
+							</dl>
+						</div>
+
+					</td>
+					<td style="vertical-align: top;">
+
+						<button class="btn btn-default btn-sm"
+							ng-click="vm.showProperties(measure.name,measure.showProperties==false)">
+							{{measure.scopeProperties.length}} properties <span
+								ng-if="measure.showProperties==false"
+								class="glyphicon glyphicon glyphicon-eye-open"></span> <span
+								class="hidden-xs hidden-sm"></span> <span
+								ng-if="measure.showProperties"
+								class="glyphicon glyphicon glyphicon-eye-close"></span> <span
+								class="hidden-xs hidden-sm"></span>
+						</button>
+						<div ng-if="measure.showProperties">
+							<dl class="dl-horizontal"
+								ng-repeat="scopePropertie in measure.scopeProperties"
+								style="margin-bottom: 0px;">
+								<dt style="text-align: left; font-weight: normal;">{{scopePropertie.name}}</dt>
+								<dd style="color: #8787dd">{{scopePropertie.defaultValue}}</dd>
+							</dl>
+						</div>
+
+					</td>
+					<td style="vertical-align: top;">
+						<button class="btn btn-default btn-sm"
+							ng-click="vm.showUnites(measure.name,measure.showUnites==false)">
+							{{measure.unit.fields.length}} data types <span
+								ng-if="measure.showUnites==false"
+								class="glyphicon glyphicon glyphicon-eye-open"></span> <span
+								class="hidden-xs hidden-sm"></span> <span
+								ng-if="measure.showUnites"
+								class="glyphicon glyphicon glyphicon-eye-close"></span> <span
+								class="hidden-xs hidden-sm"></span>
+						</button>
+						<div ng-if="measure.showUnites">
+							<dl class="dl-horizontal"
+								ng-repeat="field in measure.unit.fields"
+								style="margin-bottom: 0px;">
+								<dt style="text-align: left; font-weight: normal;">{{field.fieldName}}</dt>
+								<dd style="color: #8787dd">{{field.fieldType}}</dd>
+							</dl>
+						</div>
+					</td>
+					<td style="vertical-align: top;">
+						<h4 style="margin-top: 0px;" ng-show="measure.agentId == null">
+							<span class="label label-primary" style="height: 50px;">Measure
+								Platform</span>
+						</h4>
+						<h4 style="margin-top: 0px;" ng-show="measure.agentId != null">
+							<span class="label label-warning">{{measure.agentId}}</span>
+						</h4>
+					</td>
+					<td class="text-right" style="vertical-align: top;">
+						<div class="btn-group flex-btn-group-container"
+							ng-show="measure.callbackAdress == null">
+							<button type="submit" ui-sref="measure.delete({id:measure.name})"
+								class="btn btn-danger btn-sm">
+								<span class="glyphicon glyphicon-remove-circle"></span> <span
+									class="hidden-xs hidden-sm"></span>
+							</button>
+						</div>
+					</td>
+				
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
 </div>
-
-
-
-
-
-
-
-
-

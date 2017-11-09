@@ -61,152 +61,164 @@
 					<!-- Project Overview section -->
 					<div class="bhoechie-tab-content">
 
-						<div style="float: right; margin-top: 0px">
-							<button class="btn btn-link" ui-sref="projectinstances.new">
-								<span class="glyphicon glyphicon-plus" aria-hiden="true"></span>
-							</button>
-						</div>
 
-						<table class="jh-table table table-condensed table-responsive">
-							<thead>
-								<tr>
-									<th><span>Type</span></th>
-									<th><span>Measure Instance</span></th>
-									<th><span>Based on Measure</span></th>
-									<th><span>Input Instances</span></th>
-									<th><span>Scope</span></th>
-									<th><span>Executed On</span></th>
-									<th><span>Schedule</span></th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="instance in vm.measureInstances">
-									<td style="vertical-align: top;"><a href="#"> <img
-											class="media-object"
-											ng-src="content/images/{{instance.measureType}}_big.png"
-											title="Direct Measure" style="width: 20px;">
-									</a></td>
+						<ul class="nav nav-tabs">
+							<li role="presentation"><a
+								ui-sref="generalconf({id:vm.project.id})">General
+									Configuration</a></li>
+							<li role="presentation" class="active"><a
+								ui-sref="projectinstances({id:vm.project.id})">Measures</a></li>
+							<li role="presentation"><a>Analysis Tool 1 ...</a></li>
+						</ul>
+						<div class="well-dashboard" style="min-height: 300px;">
+							<div style="float: right; margin-top: 0px">
+								<button class="btn btn-link" ui-sref="projectinstances.new">
+									<span class="glyphicon glyphicon-plus" aria-hiden="true"></span>
+								</button>
+							</div>
 
-									<td style="vertical-align: top;"><h4 style="margin: 0px;">{{instance.instanceName}}</h4></td>
-									<td style="vertical-align: top;"><h4 style="margin: 0px;">{{instance.measureName}}</h4></td>
-									<td style="vertical-align: top;">
-										<button class="btn btn-default btn-sm"
-											ng-click="vm.showDependencies(instance.id,instance.showDependencies==false)">
-											{{instance.ownedReferences.length}} dependencies <span
-												ng-if="instance.showDependencies==false"
-												class="glyphicon glyphicon glyphicon-eye-open"></span> <span
-												class="hidden-xs hidden-sm"></span> <span
-												ng-if="instance.showDependencies"
-												class="glyphicon glyphicon glyphicon-eye-close"></span> <span
-												class="hidden-xs hidden-sm"></span>
-										</button>
-										<div ng-if="instance.showDependencies">
-											<div ng-repeat="required in instance.ownedReferences">
-												<span class="label label-success"
-													ng-show="required.status == 'true'">{{required.role}}
-													: {{required.referencedInstance.instanceName}}</span> <span
-													class="label label-danger"
-													ng-show="required.status == 'false'">{{required.role}}
-													: {{required.referencedInstance.instanceName}}</span>
+							<table class="jh-table table table-condensed table-responsive">
+								<thead>
+									<tr>
+										<th><span>Type</span></th>
+										<th><span>Measure Instance</span></th>
+										<th><span>Based on Measure</span></th>
+										<th><span>Input Instances</span></th>
+										<th><span>Scope</span></th>
+										<th><span>Executed On</span></th>
+										<th><span>Schedule</span></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="instance in vm.measureInstances">
+										<td style="vertical-align: top;"><a href="#"> <img
+												class="media-object"
+												ng-src="content/images/{{instance.measureType}}_big.png"
+												title="Direct Measure" style="width: 20px;">
+										</a></td>
+
+										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{instance.instanceName}}</h4></td>
+										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{instance.measureName}}</h4></td>
+										<td style="vertical-align: top;">
+											<button class="btn btn-default btn-sm"
+												ng-click="vm.showDependencies(instance.id,instance.showDependencies==false)">
+												{{instance.ownedReferences.length}} dependencies <span
+													ng-if="instance.showDependencies==false"
+													class="glyphicon glyphicon glyphicon-eye-open"></span> <span
+													class="hidden-xs hidden-sm"></span> <span
+													ng-if="instance.showDependencies"
+													class="glyphicon glyphicon glyphicon-eye-close"></span> <span
+													class="hidden-xs hidden-sm"></span>
+											</button>
+											<div ng-if="instance.showDependencies">
+												<div ng-repeat="required in instance.ownedReferences">
+													<span class="label label-success"
+														ng-show="required.status == 'true'">{{required.role}}
+														: {{required.referencedInstance.instanceName}}</span> <span
+														class="label label-danger"
+														ng-show="required.status == 'false'">{{required.role}}
+														: {{required.referencedInstance.instanceName}}</span>
+												</div>
 											</div>
-										</div>
-									</td>
-									<td style="vertical-align: top;">
-										<button class="btn btn-default btn-sm"
-											ng-click="vm.showProperties(instance.id,instance.showProperties==false)">
-											{{instance.properties.length}} properties <span
-												ng-if="instance.showProperties==false"
-												class="glyphicon glyphicon glyphicon-eye-open"></span> <span
-												class="hidden-xs hidden-sm"></span> <span
-												ng-if="instance.showProperties"
-												class="glyphicon glyphicon glyphicon-eye-close"></span> <span
-												class="hidden-xs hidden-sm"></span>
-										</button>
-										<div ng-if="instance.showProperties">
-											<dl class="dl-horizontal"
-												ng-repeat="property in instance.properties"
-												style="margin-bottom: 0px;">
-												<dt style="text-align: left;">{{property.propertyName}}</dt>
-
-												<dd>
-													<div ng-switch="property.propertyType">
-														<div ng-switch-when="PASSWORD">**********</div>
-														<div ng-switch-when="DATE">{{property.propertyValue
-															|date:'yyyy-MM-dd HH:mm:ss'}}</div>
-														<div ng-switch-default>{{property.propertyValue}}</div>
-													</div>
-												</dd>
-											</dl>
-										</div>
-									</td>
-									<td style="vertical-align: top;">
-										<div ng-show="!instance.isRemote">
-											<h3 style="margin: 0px;">
-												<span class="label label-success">Measure Platform</span>
-											</h3>
-										</div>
-
-										<div ng-show="instance.isRemote">
-											<h3 style="margin: 0px;">
-												<span ng-show="instance.agentEnable"
-													class="label label-success">{{instance.remoteLabel}}</span>
-											</h3>
-											<h3 style="margin: 0px;">
-												<span ng-show="!instance.agentEnable"
-													class="label label-danger">{{instance.remoteLabel}}</span>
-											</h3>
-
-										</div>
-									</td>
-
-									<td style="vertical-align: top;">
-										<button
-											class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
-											ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
-											<span class="glyphicon glyphicon glyphicon-off"></span> <span
-												class="hidden-xs hidden-sm"></span>
-										</button>
-									</td>
-									<td style="vertical-align: top;" class="text-right">
-
-										<div class="btn-group flex-btn-group-container">
-											<button type="submit" ng-show="!instance.isRemote"
-												ui-sref="projectinstances.test({instanceId:instance.id})"
-												class="btn btn-primary btn-sm">
-												<span class="glyphicon glyphicon-flash"></span> <span
+										</td>
+										<td style="vertical-align: top;">
+											<button class="btn btn-default btn-sm"
+												ng-click="vm.showProperties(instance.id,instance.showProperties==false)">
+												{{instance.properties.length}} properties <span
+													ng-if="instance.showProperties==false"
+													class="glyphicon glyphicon glyphicon-eye-open"></span> <span
+													class="hidden-xs hidden-sm"></span> <span
+													ng-if="instance.showProperties"
+													class="glyphicon glyphicon glyphicon-eye-close"></span> <span
 													class="hidden-xs hidden-sm"></span>
 											</button>
-											<button type="submit" ng-show="!instance.isRemote"
-												ui-sref="projectinstances.execute({instanceId:instance.id})"
-												class="btn btn-primary btn-sm">
-												<span class="glyphicon glyphicon-play"></span> <span
-													class="hidden-xs hidden-sm"></span>
-											</button>
-											<button type="submit"
-												ui-sref="projectinstances.edit({instanceId:instance.id})"
-												class="btn btn-primary btn-sm">
-												<span class="glyphicon glyphicon-pencil"></span> <span
-													class="hidden-xs hidden-sm"></span>
-											</button>
+											<div ng-if="instance.showProperties">
+												<dl class="dl-horizontal"
+													ng-repeat="property in instance.properties"
+													style="margin-bottom: 0px;">
+													<dt style="text-align: left;">{{property.propertyName}}</dt>
 
-											<button type="submit"
-												ui-sref="projectinstances.delete({instanceId:instance.id})"
-												class="btn btn-danger btn-sm">
-												<span class="glyphicon glyphicon-remove-circle"></span> <span
+													<dd>
+														<div ng-switch="property.propertyType">
+															<div ng-switch-when="PASSWORD">**********</div>
+															<div ng-switch-when="DATE">{{property.propertyValue
+																|date:'yyyy-MM-dd HH:mm:ss'}}</div>
+															<div ng-switch-default>{{property.propertyValue}}</div>
+														</div>
+													</dd>
+												</dl>
+											</div>
+										</td>
+										<td style="vertical-align: top;">
+											<div ng-show="!instance.isRemote">
+												<h3 style="margin: 0px;">
+													<span class="label label-success">Measure Platform</span>
+												</h3>
+											</div>
+
+											<div ng-show="instance.isRemote">
+												<h3 style="margin: 0px;">
+													<span ng-show="instance.agentEnable"
+														class="label label-success">{{instance.remoteLabel}}</span>
+												</h3>
+												<h3 style="margin: 0px;">
+													<span ng-show="!instance.agentEnable"
+														class="label label-danger">{{instance.remoteLabel}}</span>
+												</h3>
+
+											</div>
+										</td>
+
+										<td style="vertical-align: top;">
+											<button
+												class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
+												ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
+												<span class="glyphicon glyphicon glyphicon-off"></span> <span
 													class="hidden-xs hidden-sm"></span>
 											</button>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+										</td>
+										<td style="vertical-align: top;" class="text-right">
+
+											<div class="btn-group flex-btn-group-container">
+												<button type="submit" ng-show="!instance.isRemote"
+													ui-sref="projectinstances.test({instanceId:instance.id})"
+													class="btn btn-primary btn-sm">
+													<span class="glyphicon glyphicon-flash"></span> <span
+														class="hidden-xs hidden-sm"></span>
+												</button>
+												<button type="submit" ng-show="!instance.isRemote"
+													ui-sref="projectinstances.execute({instanceId:instance.id})"
+													class="btn btn-primary btn-sm">
+													<span class="glyphicon glyphicon-play"></span> <span
+														class="hidden-xs hidden-sm"></span>
+												</button>
+												<button type="submit"
+													ui-sref="projectinstances.edit({instanceId:instance.id})"
+													class="btn btn-primary btn-sm">
+													<span class="glyphicon glyphicon-pencil"></span> <span
+														class="hidden-xs hidden-sm"></span>
+												</button>
+
+												<button type="submit"
+													ui-sref="projectinstances.delete({instanceId:instance.id})"
+													class="btn btn-danger btn-sm">
+													<span class="glyphicon glyphicon-remove-circle"></span> <span
+														class="hidden-xs hidden-sm"></span>
+												</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
 
 
 
