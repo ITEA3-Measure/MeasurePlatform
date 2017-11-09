@@ -80,12 +80,9 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
         try {
             File repository = new File(measurePath);
             for (File file : repository.listFiles()) {
-                if (file.getName().equals(measureId)) {
-                    
-                    
+                if (file.getName().equals(measureId)) {                           
                     SMMMeasure definition = MeasurePackager.getMeasureData(file.toPath().resolve(MeasurePackager.MEATADATAFILE));
-                    indexManager.deleteIndex(definition);    
-                    
+                    indexManager.deleteIndex(definition);      
                     FileUtils.deleteDirectory(file);
                     break;
                 }
@@ -174,7 +171,8 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
         Path measureData = repository.resolve(measureId).resolve(MeasurePackager.MEATADATAFILE);
         if (measureData.toFile().exists()) {
             try {
-                return MeasurePackager.getMeasureData(measureData);
+            	SMMMeasure measure = MeasurePackager.getMeasureData(measureData);
+                return measure;
             } catch (JAXBException | IOException e) {
                 log.error(e.getLocalizedMessage());
             }

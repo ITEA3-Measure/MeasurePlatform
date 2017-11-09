@@ -98,7 +98,6 @@ public class MeasureResource {
     @GetMapping("/{id}")
     @Timed
     public ResponseEntity<SMMMeasure> getMeasure(@PathVariable String id) {
-        System.out.println("GET " + id);
         SMMMeasure measure = measureCatalogue.getMeasure(id);
         return Optional.ofNullable(measure).map(result -> new ResponseEntity<>(result, HttpStatus.OK))
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
