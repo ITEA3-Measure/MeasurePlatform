@@ -39,7 +39,7 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 
     @Inject
     private IElasticsearchIndexManager indexManager;
-
+    
     @Override
     public void storeMeasure(Path measure) {
         try {
