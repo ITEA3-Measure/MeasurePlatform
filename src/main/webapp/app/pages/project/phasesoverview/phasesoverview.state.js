@@ -105,54 +105,6 @@
                     $state.go('phasesoverview');
                 });
             }]
-        }).state('phasesoverview.editproject', {
-            parent: 'phasesoverview',
-            url: 'editproject/',
-            data: {
-                authorities: ['ROLE_USER']
-            },
-            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                $uibModal.open({
-                    templateUrl: 'app/pages/project/edition/project-dialog.html',
-                    controller: 'AppProjectDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    size: 'lg',
-                    resolve: {
-                        entity: ['Project', function(Project) {
-                            return Project.get({id : $stateParams.id}).$promise;
-                        }]
-                    }
-                }).result.then(function() {
-                    $state.go('phasesoverview', null, { reload: 'phasesoverview' });
-                }, function() {
-                    $state.go('phasesoverview');
-                });
-            }]
-        })
-        .state('phasesoverview.deleteproject', {
-            parent: 'phasesoverview',
-            url: 'deleteproject/',
-            data: {
-                authorities: ['ROLE_USER']
-            },
-            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                $uibModal.open({
-                    templateUrl: 'app/pages/project/edition/project-delete-dialog.html',
-                    controller: 'AppProjectDeleteController',
-                    controllerAs: 'vm',
-                    size: 'md',
-                    resolve: {
-                        entity: ['Project', function(Project) {
-                            return Project.get({id : $stateParams.id}).$promise;
-                        }]
-                    }
-                }).result.then(function() {
-                    $state.go('catalogue', null, { reload: 'catalogue' });
-                }, function() {
-                    $state.go('^');
-                });
-            }]
         });
     }
 })();

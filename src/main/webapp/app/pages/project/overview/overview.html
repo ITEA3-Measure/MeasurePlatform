@@ -12,16 +12,6 @@
 
 			</div>
 			<h2>{{vm.project.projectName}}</h2>
-				<div style="float: right; margin-top: -35px;">
-				<button class="btn btn-link"
-					ui-sref="projectoverview.edit({id:vm.project.id})">
-					<span class="glyphicon glyphicon-pencil" aria-hiden="true"></span>
-				</button>
-				<button class="btn btn-link"
-					ui-sref="projectoverview.delete({id:vm.project.id})">
-					<span class="glyphicon glyphicon-remove" aria-hiden="true"></span>
-				</button>
-			</div>
 			<h4>{{vm.project.projectDescription}}</h4>
 		</div>
 
@@ -60,21 +50,20 @@
 
 					<div class="bhoechie-tab-content">
 
-						<div style="float: right;">
-							<button class="btn btn-link" style="float: right;"
-								ng-show="!vm.edit" ng-click="vm.edition()">
-								<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
-							</button>
-							<button class="btn btn-default active" style="float: right;"
-								ng-show="vm.edit" ng-click="vm.edition()">
-								<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
-							</button>
-						</div>
+
+						<button class="btn btn-link" style="float: right;"
+							ng-show="!vm.edit" ng-click="vm.edition()">
+							<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
+						</button>
+						<button class="btn btn-default active" style="float: right;"
+							ng-show="vm.edit" ng-click="vm.edition()">
+							<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
+						</button>
+
 						<div
 							style="display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
 
-
-							<div ng-repeat="measureview in vm.project.measureview" style="">
+							<div ng-repeat="measureview in vm.project.measureview">
 								<div class="row">
 									<div class="thumbnail"
 										style="margin-left: 20px; margin-right: 20px; text-align: center;">

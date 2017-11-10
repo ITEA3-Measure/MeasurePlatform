@@ -15,16 +15,6 @@
 
 			</div>
 			<h2>{{vm.project.projectName}}</h2>
-			<div style="float: right; margin-top: -35px;">
-				<button class="btn btn-link"
-					ui-sref="projectinstances.editproject({id:vm.project.id})">
-					<span class="glyphicon glyphicon-pencil" aria-hiden="true"></span>
-				</button>
-				<button class="btn btn-link"
-					ui-sref="projectinstances.deleteproject({id:vm.project.id})">
-					<span class="glyphicon glyphicon-remove" aria-hiden="true"></span>
-				</button>
-			</div>
 			<h4>{{vm.project.projectDescription}}</h4>
 		</div>
 
@@ -62,13 +52,183 @@
 					<div class="bhoechie-tab-content">
 
 						<ul class="nav nav-tabs">
-							<li role="presentation" class="active"> <a ui-sref="generalconf({id:vm.project.id})">General</a></li>
-							<li role="presentation"> <a ui-sref="projectinstances({id:vm.project.id})">Measures Instances</a></li>
-							<li role="presentation"> <a >Analysis Tool 1</a></li>
+							<li role="presentation"><a
+								ui-sref="projectinstances({id:vm.project.id})">Measures
+									Instances</a></li>
+							<li role="presentation" class="active"><a
+								ui-sref="generalconf({id:vm.project.id})">Project
+									Configuration</a></li>
+							<li role="presentation"><a>Analysis Tool 1</a></li>
 						</ul>
-						<div  class="well-dashboard" style="min-height: 300px;">
-							TODO : General Project Configuration
-						</div>	
+						<div class="well-dashboard" style="min-height: 300px;">
+
+							<div style="float: right; margin-top: 0px; text-align: right;">
+
+								<h4 style="margin: 0px; margin-top: -15px;">
+									<a ui-sref="projectinstances.editproject({id:vm.project.id})">
+										Edit Project <span class="glyphicon glyphicon-pencil"
+										aria-hiden="true">
+									</a>
+								</h4>
+
+								<h4 style="margin-top: 5px;">
+									<a ui-sref="projectinstances.deleteproject({id:vm.project.id})"
+										style="color: red;"> Delete Project <span
+										class="glyphicon glyphicon-remove" aria-hiden="true"></a>
+								</h4>
+							</div>
+							<div class="page-header">
+								<h4>
+									General Informations
+									</h41>
+							</div>
+
+
+
+							<div class="row">
+								<div class="col-md-2">
+									<img class="img-rounded" style="width: 100%; height: 100%;"
+										src="content/images/measureLogo.png"
+										ng-show="vm.project.projectImage == null" /> <img
+										class="img-rounded" style="width: 100%; height: 100%;"
+										src="{{vm.project.projectImage}}"
+										ng-show="vm.project.projectImage != null" />
+								</div>
+								<div class="col-md-6">
+									<div>
+										<div class="form-group">
+											<label class="control-label" for="field_projectName">Project
+												Name</label> <input type="text" class="form-control"
+												name="projectName" id="field_projectName"
+												ng-model="vm.project.projectName" disabled="true" />
+										</div>
+										<div class="form-group">
+											<label class="control-label" for="field_projectDescription">Project
+												Description</label>
+											<textarea rows="3" type="text" class="form-control"
+												name="projectDescription" id="field_projectDescription"
+												ng-model="vm.project.projectDescription" disabled="true" />
+										</div>
+										<div class="form-group">
+											<label class="control-label" for="field_creationDate">Creation
+												Date</label>
+											<div class="input-group">
+												<input id="field_creationDate" type="text"
+													class="form-control" name="creationDate"
+													datetime-picker="{{dateformat}}"
+													ng-model="vm.project.creationDate" disabled="true">
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														disabled="true">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+							<div class="page-header">
+								<h4>Analysis Tools</h4>
+							</div>
+
+							<table class="table  table-responsive"
+								style="width: 98%; margin: 20px;">
+
+								<tbody>
+
+									<tr>
+										<td style="vertical-align: top;"><a href="#"><img
+												class="img-rounded" style="width: 48px;"
+												src="content/images/multimedia.png" /> </a></td>
+
+										<td style="vertical-align: top;"><h3
+												style="margin-top: 5px; margin-bottom: 5px;">
+												Analysis Tool 1 <small></small>
+											</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
+											suscipit arcu nulla, sed scelerisque tellus accumsan vitae.
+											Sed ultricies lobortis nunc. Sed commodo, sem ac egestas
+											egestas, erat nisl faucibus metus, sit amet egestas ligula
+											mauris eu nisi. Curabitur vulputate vulputate nisl, quis
+											tristique tellus mollis nec. Suspendisse quis posuere libero.
+											Morbi porttitor congue lectus vel mattis. Proin pretium non
+											sapien et hendrerit.</td>
+
+
+										<td style="vertical-align: middle;">
+											<button
+												class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
+												ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
+												<span class="glyphicon glyphicon glyphicon-off"></span> <span
+													class="hidden-xs hidden-sm"></span>
+											</button>
+										</td>
+									</tr>
+
+									<tr>
+										<td style="vertical-align: top;"><a href="#"><img
+												class="img-rounded" style="width: 48px;"
+												src="content/images/multimedia.png" /> </a></td>
+
+										<td style="vertical-align: top;"><h3
+												style="margin-top: 5px; margin-bottom: 5px;">Analysis
+												Tool 2</h3>Lorem ipsum dolor sit amet, consectetur adipiscing
+											elit. Ut suscipit arcu nulla, sed scelerisque tellus accumsan
+											vitae. Sed ultricies lobortis nunc. Sed commodo, sem ac
+											egestas egestas, erat nisl faucibus metus, sit amet egestas
+											ligula mauris eu nisi. Curabitur vulputate vulputate nisl,
+											quis tristique tellus mollis nec. Suspendisse quis posuere
+											libero. Morbi porttitor congue lectus vel mattis. Proin
+											pretium non sapien et hendrerit.</td>
+
+
+										<td style="vertical-align: middle;">
+											<button
+												class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
+												ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
+												<span class="glyphicon glyphicon glyphicon-off"></span> <span
+													class="hidden-xs hidden-sm"></span>
+											</button>
+										</td>
+									</tr>
+
+									<tr>
+										<td style="vertical-align: top;"><a href="#"><img
+												class="img-rounded" style="width: 48px;"
+												src="content/images/multimedia.png" /> </a></td>
+
+										<td style="vertical-align: top;"><h3
+												style="margin-top: 5px; margin-bottom: 5px;">
+												Analysis Tool 3 <small></small>
+											</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
+											suscipit arcu nulla, sed scelerisque tellus accumsan vitae.
+											Sed ultricies lobortis nunc. Sed commodo, sem ac egestas
+											egestas, erat nisl faucibus metus, sit amet egestas ligula
+											mauris eu nisi. Curabitur vulputate vulputate nisl, quis
+											tristique tellus mollis nec. Suspendisse quis posuere libero.
+											Morbi porttitor congue lectus vel mattis. Proin pretium non
+											sapien et hendrerit.</td>
+
+
+										<td style="vertical-align: middle;">
+											<button
+												class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
+												ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
+												<span class="glyphicon glyphicon glyphicon-off"></span> <span
+													class="hidden-xs hidden-sm"></span>
+											</button>
+										</td>
+									</tr>
+
+
+								</tbody>
+							</table>
+
+
+						</div>
 					</div>
 				</div>
 			</div>
