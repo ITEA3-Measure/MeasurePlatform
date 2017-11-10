@@ -41,7 +41,13 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		TransportClient client = connection.getClient();
 
 		// Create Measure Index
+		createIndex(measureDefinition, indexName, client);
 
+		// Create Kibana Index
+		createAlias(indexName, client);
+	}
+
+	private void createIndex(SMMMeasure measureDefinition, final String indexName, TransportClient client) {
 		final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
 		if (!res.isExists()) {
 			final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
@@ -55,8 +61,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 				initData.put(fieldName, field.getFieldType().getInstance());
 				XContentBuilder mapping;
 				try {
-					mapping = jsonBuilder().startObject().startObject("properties").startObject(fieldName)
-							.field("type", fieldType).field("index", "true").endObject().endObject().endObject();
+					mapping = jsonBuilder().startObject().startObject("properties").startObject(fieldName).field("type", fieldType).field("index", "true").endObject().endObject().endObject();
 					createIndexRequestBuilder.addMapping(fieldName, mapping);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -69,9 +74,9 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 			// Push fake data
 			client.prepareIndex(indexName, "initialisation").setSource(initData).get();
 		}
+	}
 
-	
-
+	private void createAlias(final String indexName, TransportClient client) {
 		// create kibana alias 'BASE_INDEX' which mearge all index
 		client.admin().indices().prepareAliases().addAlias(indexName, BASE_INDEX).get();
 
@@ -121,11 +126,9 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		final String indexName = measureDefinition.getName().toLowerCase();
 
 		// Remove specific kibana alias for this measure
-		final AliasesExistResponse alias = client.admin().indices().prepareAliasesExist(indexName + "-alias").execute()
-				.actionGet();
+		final AliasesExistResponse alias = client.admin().indices().prepareAliasesExist(indexName + "-alias").execute().actionGet();
 		if (alias.isExists()) {
-			client.admin().indices().prepareAliases().removeAlias(indexName, indexName + "-alias").execute()
-					.actionGet();
+			client.admin().indices().prepareAliases().removeAlias(indexName, indexName + "-alias").execute().actionGet();
 			client.admin().indices().prepareAliases().removeAlias(indexName, BASE_INDEX).execute().actionGet();
 
 			// Delete index pattern
@@ -154,10 +157,15 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 	public void updateIndex(List<SMMMeasure> measures) {
 		TransportClient client = connection.getClient();
 		for (SMMMeasure measureDefinition : measures) {
-			final String indexName = measureDefinition.getName().toLowerCase() + "-alias";
+			final String indexName = measureDefinition.getName().toLowerCase();
 			final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
 			if (!res.isExists()) {
-				createIndexWithMapping(measureDefinition);
+				createIndex(measureDefinition, indexName, client);
+			}
+			
+			final AliasesExistResponse alias = client.admin().indices().prepareAliasesExist(indexName + "-alias").execute().actionGet();
+			if (!alias.isExists()) {
+				createAlias(indexName, client);
 			}
 		}
 	}
