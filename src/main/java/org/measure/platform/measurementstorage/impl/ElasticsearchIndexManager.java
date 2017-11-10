@@ -147,11 +147,13 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 
 	@Override
 	public void updateIndex(List<SMMMeasure> measures) {
+		System.out.println("Update Index :");
 		TransportClient client = connection.getClient();
 		for (SMMMeasure measureDefinition : measures) {	
 			final String indexName = measureDefinition.getName().toLowerCase() + "-alias";			
 			final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
 			if (!res.isExists()) {
+				System.out.println("Add " + measureDefinition + " To Index");
 				createIndexWithMapping(measureDefinition);
 			}
 		}	

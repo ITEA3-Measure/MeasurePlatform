@@ -1,14 +1,18 @@
 <div style="margin-left: 50px; margin-right: 50px;">
 	<div>
+	
+	
+		<div class="page-header">
+			<h1>Projects Catalogue</h1>
+		</div>
+	
 		<ol class="breadcrumb">
 			<li><a ui-sref="home">Home</a></li>
 			<li><a ui-sref="catalogue">Projects</a></li>
 		</ol>
 		
 		<div style="float: right; margin-top: 0px">
-			<button class="btn btn-link" ui-sref="catalogue.newproject">
-				<span class="glyphicon glyphicon-plus" aria-hiden="true"></span>
-			</button>
+			<h4><a ui-sref="catalogue.newproject">Create New Project <span class="glyphicon glyphicon-plus" aria-hiden="true"></a></h4>
 		</div>
 
 		<div ng-repeat="project in vm.projects"
