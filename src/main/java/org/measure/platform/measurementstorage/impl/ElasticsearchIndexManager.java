@@ -41,30 +41,36 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		TransportClient client = connection.getClient();
 
 		// Create Measure Index
-		final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
 
-		Map<String, Object> initData = new HashMap<>();
+		final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
+		if (!res.isExists()) {
+			final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
 
-		// ADD MAPPING
-		for (MeasureUnitField field : measureDefinition.getUnit().getFields()) {
-			String fieldName = field.getFieldName();
-			String fieldType = field.getFieldType().name().replaceFirst("u_", "");
-			initData.put(fieldName, field.getFieldType().getInstance());
-			XContentBuilder mapping;
-			try {
-				mapping = jsonBuilder().startObject().startObject("properties").startObject(fieldName)
-						.field("type", fieldType).field("index", "true").endObject().endObject().endObject();
-				createIndexRequestBuilder.addMapping(fieldName, mapping);
-			} catch (IOException e) {
-				e.printStackTrace();
+			Map<String, Object> initData = new HashMap<>();
+
+			// ADD MAPPING
+			for (MeasureUnitField field : measureDefinition.getUnit().getFields()) {
+				String fieldName = field.getFieldName();
+				String fieldType = field.getFieldType().name().replaceFirst("u_", "");
+				initData.put(fieldName, field.getFieldType().getInstance());
+				XContentBuilder mapping;
+				try {
+					mapping = jsonBuilder().startObject().startObject("properties").startObject(fieldName)
+							.field("type", fieldType).field("index", "true").endObject().endObject().endObject();
+					createIndexRequestBuilder.addMapping(fieldName, mapping);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
+
+			// Create the index
+			createIndexRequestBuilder.execute().actionGet();
+			
+			// Push fake data
+			client.prepareIndex(indexName, "initialisation").setSource(initData).get();
 		}
 
-		// Create the index
-		createIndexRequestBuilder.execute().actionGet();
-
-		// Push fake data
-		client.prepareIndex(indexName, "initialisation").setSource(initData).get();
+	
 
 		// create kibana alias 'BASE_INDEX' which mearge all index
 		client.admin().indices().prepareAliases().addAlias(indexName, BASE_INDEX).get();
@@ -137,7 +143,6 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 			final DeleteIndexRequestBuilder delIdx = client.admin().indices().prepareDelete(indexName);
 			delIdx.execute().actionGet();
 		}
-
 	}
 
 	@Override
@@ -147,16 +152,14 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 
 	@Override
 	public void updateIndex(List<SMMMeasure> measures) {
-		System.out.println("Update Index :");
 		TransportClient client = connection.getClient();
-		for (SMMMeasure measureDefinition : measures) {	
-			final String indexName = measureDefinition.getName().toLowerCase() + "-alias";			
+		for (SMMMeasure measureDefinition : measures) {
+			final String indexName = measureDefinition.getName().toLowerCase() + "-alias";
 			final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
 			if (!res.isExists()) {
-				System.out.println("Add " + measureDefinition + " To Index");
 				createIndexWithMapping(measureDefinition);
 			}
-		}	
+		}
 	}
 
 }
