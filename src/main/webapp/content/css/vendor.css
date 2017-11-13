@@ -1356,12 +1356,12 @@ input, button, select, textarea {
 }
 
 a {
-	color: #337ab7;
+	color: black;
 	text-decoration: none;
 }
 
 a:hover, a:focus {
-	color: #23527c;
+	color: #808080;
 	text-decoration: underline;
 }
 
@@ -5883,7 +5883,7 @@ button.list-group-item {
 	z-index: 2;
 	color: #fff;
 	background-color: #337ab7;
-	border-color: #337ab7;
+	border-color: #000000;
 }
 
 .list-group-item.active .list-group-item-heading, .list-group-item.active .list-group-item-heading>small,

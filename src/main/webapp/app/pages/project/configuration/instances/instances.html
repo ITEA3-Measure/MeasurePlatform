@@ -40,7 +40,7 @@
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a> <a ui-sref="projectinstances({id:vm.project.id})"
+						</a> <a ui-sref="generalconf({id:vm.project.id})"
 							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a>
@@ -53,22 +53,20 @@
 
 
 						<ul class="nav nav-tabs">
-
-							<li role="presentation" class="active"><a
-								ui-sref="projectinstances({id:vm.project.id})">Measures
-									Instances</a></li>
 							<li role="presentation"><a
 								ui-sref="generalconf({id:vm.project.id})">Project
 									Configuration</a></li>
+							<li role="presentation" class="active"><a
+								ui-sref="projectinstances({id:vm.project.id})">Measures
+									Instances</a></li>
+
 							<li role="presentation"><a>Analysis Tool 1</a></li>
 						</ul>
 						<div class="well-dashboard" style="min-height: 300px;">
 							<div style="float: right; margin-top: 0px">
 								<h4 style="margin-top: -10px;">
-									<a ui-sref="projectinstances.new">
-										New Measure  <span class="glyphicon glyphicon-plus"
-										aria-hiden="true">
-									</a>
+									<a ui-sref="projectinstances.new"> New Measure <span
+										class="glyphicon glyphicon-plus" aria-hiden="true"></a>
 								</h4>
 							</div>
 

@@ -14,7 +14,7 @@
 		vm.category = [];
 		vm.measuresInCategory = [];
 
-		vm.category.push('Measures');
+		
 		
 		// Tab Management
 		vm.selectedCategory = $cookies.get("selectedCategory");	
@@ -48,6 +48,15 @@
 						if(!find){
 							vm.category.push(vm.measures[j].category);
 						}
+					}else{
+						for (var i = 0; i < vm.category.length; i++) {
+							if(vm.category[i] == 'General'){
+								find = true;
+							}
+						}
+						if(!find){
+							vm.category.push('General');
+						}	
 					}
 				}
 				getMeasureInCategory(vm.category[vm.selectedCategory]);
@@ -117,7 +126,7 @@
 					vm.measuresInCategory.push(vm.measures[i]);
 				}
 				
-				if((vm.measures[i].category == null || vm.measures[i].category == "")   && category == "Measures"){
+				if((vm.measures[i].category == null || vm.measures[i].category == "")   && category == "General"){
 					vm.measuresInCategory.push(vm.measures[i]);
 				}
 			}
