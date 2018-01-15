@@ -47,5 +47,44 @@ public class AlertEvent implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AlertEventProperty> alerteventpropertys = new HashSet<>();
-    
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+
+	public ProjectAnalysis getProjectanalysis() {
+		return projectanalysis;
+	}
+
+	public void setProjectanalysis(ProjectAnalysis projectanalysis) {
+		this.projectanalysis = projectanalysis;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Set<AlertEventProperty> getAlerteventpropertys() {
+		return alerteventpropertys;
+	}
+
+	public void setAlerteventpropertys(Set<AlertEventProperty> alerteventpropertys) {
+		this.alerteventpropertys = alerteventpropertys;
+	} 
 }

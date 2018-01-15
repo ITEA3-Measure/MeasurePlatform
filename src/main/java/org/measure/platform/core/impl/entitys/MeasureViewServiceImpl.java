@@ -8,11 +8,13 @@ import javax.inject.Inject;
 import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.api.entitys.PhaseService;
+import org.measure.platform.core.api.entitys.ProjectAnalysisService;
 import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.entity.ProjectAnalysis;
 import org.measure.platform.core.impl.repository.MeasureViewRepository;
 import org.measure.platform.measurementstorage.api.IElasticsearchIndexManager;
 import org.slf4j.Logger;
@@ -42,6 +44,9 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 
     @Inject
     private ProjectService projectService;
+    
+    @Inject
+    private ProjectAnalysisService projectAnalysisService;
 
     @Inject
     private PhaseService phaseService;
@@ -236,5 +241,13 @@ public class MeasureViewServiceImpl implements MeasureViewService {
         Dashboard dashboard = dashboardService.findOne(id);
         return measureViewRepository.findByDashboard(dashboard);
     }
+    
+	@Override
+	public List<MeasureView> findByProjectAnalysis(Long id) {
+		ProjectAnalysis projectAnalysis = projectAnalysisService.findOne(id);
+		return measureViewRepository.findByProjectAnalysis(projectAnalysis);
+	}
+
+
 
 }

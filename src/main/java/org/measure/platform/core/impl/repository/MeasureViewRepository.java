@@ -7,6 +7,7 @@ import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.entity.ProjectAnalysis;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,5 +34,8 @@ public interface MeasureViewRepository extends JpaRepository<MeasureView,Long> {
 
     @Query(value = "select i from MeasureView i where i.measureinstance = :minstance")
     List<MeasureView> findByMeasure(@Param("minstance") MeasureInstance minstance);
+
+    @Query(value = "select i from MeasureView i where i.projectanalysis = :projectAnalysis")
+	List<MeasureView> findByProjectAnalysis(@Param("projectAnalysis") ProjectAnalysis projectAnalysis);
 
 }
