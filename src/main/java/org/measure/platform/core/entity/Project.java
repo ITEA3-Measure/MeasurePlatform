@@ -72,6 +72,16 @@ public class Project implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureView> overviews = new HashSet<>();
+    
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<ProjectAnalysis> projectanalysis = new HashSet<>();
+    
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<AlertEvent> alertevents = new HashSet<>();
 
     @ManyToOne
     private User owner;
@@ -273,8 +283,25 @@ public class Project implements Serializable {
     public void setOverviews(Set<MeasureView> measureViews) {
         this.overviews = measureViews;
     }
+    
+    
+    public Set<ProjectAnalysis> getProjectanalysis() {
+		return projectanalysis;
+	}
 
-    @Override
+	public void setProjectanalysis(Set<ProjectAnalysis> projectanalysis) {
+		this.projectanalysis = projectanalysis;
+	}
+	
+	public Set<AlertEvent> getAlertevents() {
+		return alertevents;
+	}
+
+	public void setAlertevents(Set<AlertEvent> alertevents) {
+		this.alertevents = alertevents;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

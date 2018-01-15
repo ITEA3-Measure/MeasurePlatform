@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity AlertEvent.
+    -->
+    <changeSet id="20171219133433-4" author="softeam">
+        
+       <addForeignKeyConstraint baseColumnNames="project_analysis_id"
+                                 baseTableName="alert_event"
+                                 constraintName="fk_alert_event_project_analysis_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project_analysis"/>
+                                 
+       <addForeignKeyConstraint baseColumnNames="project_id"
+                                 baseTableName="alert_event"
+                                 constraintName="fk_alert_event_project_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
+    </changeSet>
+</databaseChangeLog>

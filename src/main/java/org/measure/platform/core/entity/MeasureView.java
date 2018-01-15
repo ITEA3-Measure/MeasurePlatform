@@ -83,6 +83,10 @@ public class MeasureView implements Serializable {
 
     @ManyToOne
     private MeasureInstance measureinstance;
+    
+    @ManyToOne
+    private ProjectAnalysis projectanalysis;
+
 
     public String getName() {
         return name;
@@ -358,8 +362,17 @@ public class MeasureView implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+    
 
-    @Override
+    public ProjectAnalysis getProjectanalysis() {
+		return projectanalysis;
+	}
+
+	public void setProjectanalysis(ProjectAnalysis projectanalysis) {
+		this.projectanalysis = projectanalysis;
+	}
+
+	@Override
     public String toString() {
         return "MeasureView{" +
                     "id=" + id +
