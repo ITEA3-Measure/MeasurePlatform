@@ -1,4 +1,4 @@
-package org.measure.platform.measurementstorage.impl;
+package org.measure.platform.service.measurement.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
-import org.measure.platform.measurementstorage.api.IElasticsearchIndexManager;
-import org.measure.platform.measurementstorage.api.IMeasurementStorage;
-import org.measure.platform.restapi.app.services.dto.KibanaVisualisation;
+import org.measure.platform.restapi.measure.dto.KibanaVisualisation;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
+import org.measure.platform.service.measurement.api.IMeasurementStorage;
 import org.measure.smm.measure.api.IMeasurement;
 import org.measure.smm.measure.defaultimpl.measurements.DefaultMeasurement;
 import org.slf4j.Logger;

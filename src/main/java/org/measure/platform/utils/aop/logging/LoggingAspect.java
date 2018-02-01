@@ -1,4 +1,4 @@
-package org.measure.platform.framework.aop.logging;
+package org.measure.platform.utils.aop.logging;
 
 import java.util.Arrays;
 
@@ -10,7 +10,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.measure.platform.framework.config.Constants;
+import org.measure.platform.utils.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;

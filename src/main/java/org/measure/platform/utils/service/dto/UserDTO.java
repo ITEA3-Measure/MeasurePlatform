@@ -1,4 +1,4 @@
-package org.measure.platform.framework.service.dto;
+package org.measure.platform.utils.service.dto;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.measure.platform.framework.config.Constants;
-import org.measure.platform.framework.domain.Authority;
-import org.measure.platform.framework.domain.User;
+import org.measure.platform.utils.config.Constants;
+import org.measure.platform.utils.domain.Authority;
+import org.measure.platform.utils.domain.User;
 
 /**
  * A DTO representing a user, with his authorities.

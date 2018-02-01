@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.framework.service.AuditEventService;
 import org.measure.platform.restapi.framework.rest.util.PaginationUtil;
+import org.measure.platform.utils.service.AuditEventService;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package org.measure.platform.smmengine.impl.measureexecution;
+package org.measure.platform.service.smmengine.impl.measureexecution;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,10 +11,10 @@ import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasurePropertyService;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureProperty;
-import org.measure.platform.measurementstorage.api.IMeasurementStorage;
-import org.measure.platform.smmengine.api.ILoggerService;
-import org.measure.platform.smmengine.api.IRemoteMeasureExecutionService;
-import org.measure.platform.smmengine.api.IShedulingService;
+import org.measure.platform.service.measurement.api.IMeasurementStorage;
+import org.measure.platform.service.smmengine.api.ILoggerService;
+import org.measure.platform.service.smmengine.api.IRemoteMeasureExecutionService;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.log.MeasureLog;
 import org.measure.smm.measure.api.IMeasurement;
 import org.measure.smm.remote.RemoteMeasureInstance;
@@ -33,7 +33,7 @@ public class RemoteMeasureExecutionService implements IRemoteMeasureExecutionSer
     private IMeasurementStorage measurementStorage;
 
     @Inject
-    private IShedulingService shedulingService;
+    private ISchedulingService shedulingService;
 
     @Inject
     private MeasureInstanceService measureInstanceService;

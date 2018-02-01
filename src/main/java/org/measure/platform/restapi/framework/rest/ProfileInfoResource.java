@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.framework.config.DefaultProfileUtil;
-import org.measure.platform.framework.config.JHipsterProperties;
+import org.measure.platform.utils.config.DefaultProfileUtil;
+import org.measure.platform.utils.config.JHipsterProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

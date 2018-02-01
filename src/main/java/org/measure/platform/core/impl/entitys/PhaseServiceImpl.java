@@ -56,6 +56,7 @@ public class PhaseServiceImpl implements PhaseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Phase> findByProject(Project project) {
         List<Phase> result = phaseRepository.findByProject(project);
         return result;

@@ -1,4 +1,4 @@
 /**
  * JPA domain objects.
  */
-package org.measure.platform.framework.domain;
+package org.measure.platform.utils.domain;

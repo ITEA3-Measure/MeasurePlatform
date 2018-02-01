@@ -1,6 +1,6 @@
-package org.measure.platform.restapi.app.services;
+package org.measure.platform.restapi.measure;
 
-import org.measure.platform.restapi.app.services.dto.PlatformConfiguration;
+import org.measure.platform.restapi.measure.dto.PlatformConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

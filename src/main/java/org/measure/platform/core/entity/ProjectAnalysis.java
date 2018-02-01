@@ -62,7 +62,7 @@ public class ProjectAnalysis implements Serializable {
     @OneToMany(mappedBy = "projectanalysis")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<MeasureView> measureviews = new HashSet<>();
+    private Set<AnalysisCard> analysiscards = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -128,14 +128,11 @@ public class ProjectAnalysis implements Serializable {
 		this.alertevents = alertevents;
 	}
 
-	public Set<MeasureView> getMeasureviews() {
-		return measureviews;
+	public Set<AnalysisCard> getAnalysiscards() {
+		return analysiscards;
 	}
 
-	public void setMeasureviews(Set<MeasureView> measureviews) {
-		this.measureviews = measureviews;
+	public void setAnalysiscards(Set<AnalysisCard> analysiscards) {
+		this.analysiscards = analysiscards;
 	}
-    
-    
-
 }

@@ -1,4 +1,4 @@
-package org.measure.platform.framework.security;
+package org.measure.platform.utils.security;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.measure.platform.core.impl.repository.PersistentTokenRepository;
 import org.measure.platform.core.impl.repository.UserRepository;
-import org.measure.platform.framework.config.JHipsterProperties;
-import org.measure.platform.framework.domain.PersistentToken;
+import org.measure.platform.utils.config.JHipsterProperties;
+import org.measure.platform.utils.domain.PersistentToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;

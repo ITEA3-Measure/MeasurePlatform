@@ -3,7 +3,7 @@ package org.measure.platform.core.impl.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.measure.platform.framework.domain.PersistentAuditEvent;
+import org.measure.platform.utils.domain.PersistentAuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

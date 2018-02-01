@@ -85,7 +85,7 @@ public class MeasureView implements Serializable {
     private MeasureInstance measureinstance;
     
     @ManyToOne
-    private ProjectAnalysis projectanalysis;
+    private AnalysisCard analysiscard;
 
 
     public String getName() {
@@ -342,6 +342,19 @@ public class MeasureView implements Serializable {
     public void setPhaseoverview(Phase phaseOverview) {
         this.phaseoverview = phaseOverview;
     }
+    
+    
+    public AnalysisCard getAnalysiscard() {
+		return analysiscard;
+	}
+
+	public void setAnalysiscard(AnalysisCard analysiscard) {
+		this.analysiscard = analysiscard;
+	}
+
+	public Boolean getAuto() {
+		return auto;
+	}
 
     @Override
     public boolean equals(Object o) {
@@ -364,13 +377,6 @@ public class MeasureView implements Serializable {
     }
     
 
-    public ProjectAnalysis getProjectanalysis() {
-		return projectanalysis;
-	}
-
-	public void setProjectanalysis(ProjectAnalysis projectanalysis) {
-		this.projectanalysis = projectanalysis;
-	}
 
 	@Override
     public String toString() {

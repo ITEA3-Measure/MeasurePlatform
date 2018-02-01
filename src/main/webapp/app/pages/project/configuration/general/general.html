@@ -6,10 +6,10 @@
 
 		<div class="page-header" style="min-height: 80px;">
 			<div style="float: left; margin-right: 10px; margin-top: -10px;">
-				<img class="img-rounded" style="width: 80px; height: 80px;"
+				<img class="img-rounded" style="width: 100px; height: 100px;"
 					src="content/images/measureLogo.png"
 					ng-show="vm.project.projectImage == null" /> <img
-					class="img-rounded" style="width: 40px; height: 80px;"
+					class="img-rounded" style="width: 100px; height: 100px;"
 					src="{{vm.project.projectImage}}"
 					ng-show="vm.project.projectImage != null" />
 
@@ -40,7 +40,7 @@
 							class="list-group-item text-center ">
 							<h4 class="glyphicon glyphicon-scale"></h4> <br />Analysis Tool
 							1
-						</a>  <a ui-sref="notification({id:vm.project.id})"
+						</a> <a ui-sref="notification({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
@@ -69,16 +69,11 @@
 
 							<div style="float: right; margin-top: 0px; text-align: right;">
 
-								<h4 style="margin: 0px; margin-top: -15px;">
-									<a ui-sref="generalconf.editproject({id:vm.project.id})">
-										Edit Project <span class="glyphicon glyphicon-pencil"
-										aria-hiden="true">
-									</a>
-								</h4>
-
-								<h4 style="margin-top: 5px;">
-									<a ui-sref="generalconf.deleteproject({id:vm.project.id})"
-										style="color: red;"> Delete Project <span
+								<h4 style="margin-top: 0px;">
+									<a ui-sref="generalconf.editproject({id:vm.project.id})" style="margin: 10px;"> <span
+										class="glyphicon glyphicon-pencil" aria-hiden="true"></a> <a
+										ui-sref="generalconf.deleteproject({id:vm.project.id})"
+										style="color: red;" style="margin: 10px;"><span
 										class="glyphicon glyphicon-remove" aria-hiden="true"></a>
 								</h4>
 							</div>

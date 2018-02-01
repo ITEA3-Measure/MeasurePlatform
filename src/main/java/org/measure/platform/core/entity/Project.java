@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.measure.platform.framework.domain.User;
+import org.measure.platform.utils.domain.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

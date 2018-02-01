@@ -1,6 +1,6 @@
-package org.measure.platform.framework.security;
+package org.measure.platform.utils.security;
 
-import org.measure.platform.framework.config.Constants;
+import org.measure.platform.utils.config.Constants;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package org.measure.platform.restapi.app.services.dto;
+package org.measure.platform.restapi.measure.dto;
 
 public class KibanaVisualisation {
     private String name;

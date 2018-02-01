@@ -29,9 +29,9 @@
 			baseTableName="measure_view" constraintName="fk_measure_view_measureinstance_id"
 			referencedColumnNames="id" referencedTableName="measure_instance" />
 
-		<addForeignKeyConstraint baseColumnNames="project_analysis_id"
-			baseTableName="measure_view" constraintName="fk_measure_view_project_analysis_id"
-			referencedColumnNames="id" referencedTableName="project_analysis" />
+		<addForeignKeyConstraint baseColumnNames="analysiscard_id"
+			baseTableName="measure_view" constraintName="fk_measure_view_analysiscard_id"
+			referencedColumnNames="id" referencedTableName="analysiscard" />
 			
 	</changeSet>
 </databaseChangeLog>

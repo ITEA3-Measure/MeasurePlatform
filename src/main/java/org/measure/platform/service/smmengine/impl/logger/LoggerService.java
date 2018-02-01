@@ -1,9 +1,9 @@
-package org.measure.platform.smmengine.impl.logger;
+package org.measure.platform.service.smmengine.impl.logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.measure.platform.smmengine.api.ILoggerService;
+import org.measure.platform.service.smmengine.api.ILoggerService;
 import org.measure.smm.log.MeasureLog;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

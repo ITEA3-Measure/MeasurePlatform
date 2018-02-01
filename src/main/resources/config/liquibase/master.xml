@@ -4,28 +4,30 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <include file="classpath:config/liquibase/changelog/initial_schema.xml" relativeToChangelogFile="false"/>   
-    <include file="classpath:config/liquibase/changelog/entity_AlertEvent.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_AlertEventProperty.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_ProjectAnalysis.xml" relativeToChangelogFile="false"/>  
-    <include file="classpath:config/liquibase/changelog/entity_Project.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_Phase.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_Dashboard.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_MeasureInstance.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_MeasureProperty.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_MeasureView.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_MeasureReference.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_Notification.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_Project_constraints.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_Phase_constraints.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_Dashboard_constraints.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_MeasureInstance_constraints.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_MeasureProperty_constraints.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_MeasureView_constraints.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_MeasureReference_constraints.xml" relativeToChangelogFile="false"/>  
-    <include file="classpath:config/liquibase/changelog/entity_Notification_constraints.xml" relativeToChangelogFile="false"/> 
-    <include file="classpath:config/liquibase/changelog/entity_AlertEvent_constraints.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_AlertEventProperty_constraints.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/entity_ProjectAnalysis_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/initial_schema.xml" relativeToChangelogFile="false"/>   
+    <include file="classpath:config/liquibase/schema/entity_AlertEvent.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_AlertEventProperty.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_AnalysisCard.xml" relativeToChangelogFile="false"/> 
+    <include file="classpath:config/liquibase/schema/entity_ProjectAnalysis.xml" relativeToChangelogFile="false"/>  
+    <include file="classpath:config/liquibase/schema/entity_Project.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_Phase.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_Dashboard.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_MeasureInstance.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_MeasureProperty.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_MeasureView.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_MeasureReference.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_Notification.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_Project_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_Phase_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_Dashboard_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_MeasureInstance_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_MeasureProperty_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_MeasureView_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_MeasureReference_constraints.xml" relativeToChangelogFile="false"/>  
+    <include file="classpath:config/liquibase/schema/entity_Notification_constraints.xml" relativeToChangelogFile="false"/> 
+    <include file="classpath:config/liquibase/schema/entity_AlertEvent_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_AlertEventProperty_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_ProjectAnalysis_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/schema/entity_AnalysisCard_constraints.xml" relativeToChangelogFile="false"/>
      
 </databaseChangeLog>

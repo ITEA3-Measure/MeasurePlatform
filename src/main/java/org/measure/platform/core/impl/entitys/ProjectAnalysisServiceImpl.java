@@ -5,10 +5,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.AlertEventService;
-import org.measure.platform.core.api.entitys.MeasureViewService;
+import org.measure.platform.core.api.entitys.AnalysisCardService;
 import org.measure.platform.core.api.entitys.ProjectAnalysisService;
 import org.measure.platform.core.entity.AlertEvent;
-import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.entity.AnalysisCard;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.entity.ProjectAnalysis;
 import org.measure.platform.core.impl.repository.ProjectAnalysisRepository;
@@ -32,7 +32,7 @@ public class ProjectAnalysisServiceImpl implements  ProjectAnalysisService {
     private AlertEventService alertEventService;
     
     @Inject
-    private MeasureViewService measureViewService;
+    private AnalysisCardService analysisCardService;
     
     /**
      * Save a ProjectAnalysis.
@@ -75,16 +75,15 @@ public class ProjectAnalysisServiceImpl implements  ProjectAnalysisService {
      */
     public void delete(Long id) {
     	ProjectAnalysis projectAnalysis = projectAnalysisRepository.findOne(id);
- 
-        for(MeasureView view : measureViewService.findByProjectAnalysis(id)){
-        	measureViewService.delete(view.getId());
+ 	
+        for(AnalysisCard card : analysisCardService.findAllByProjectAnalysis(projectAnalysis)){
+        	analysisCardService.delete(card.getId());
         }
         
         for(AlertEvent event : alertEventService.findAllByProjectAnalysis(projectAnalysis)){
         	alertEventService.delete(event.getId());
         }
         
- 
         projectAnalysisRepository.delete(id);
     }
 

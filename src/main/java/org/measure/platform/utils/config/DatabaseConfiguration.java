@@ -1,9 +1,9 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
-import org.measure.platform.framework.config.liquibase.AsyncSpringLiquibase;
+import org.measure.platform.utils.config.liquibase.AsyncSpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;

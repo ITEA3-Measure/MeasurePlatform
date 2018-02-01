@@ -1,4 +1,4 @@
-package org.measure.platform.framework.service;
+package org.measure.platform.utils.service;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -12,12 +12,12 @@ import javax.inject.Inject;
 import org.measure.platform.core.impl.repository.AuthorityRepository;
 import org.measure.platform.core.impl.repository.PersistentTokenRepository;
 import org.measure.platform.core.impl.repository.UserRepository;
-import org.measure.platform.framework.domain.Authority;
-import org.measure.platform.framework.domain.User;
-import org.measure.platform.framework.security.AuthoritiesConstants;
-import org.measure.platform.framework.security.SecurityUtils;
-import org.measure.platform.framework.service.util.RandomUtil;
 import org.measure.platform.restapi.framework.rest.vm.ManagedUserVM;
+import org.measure.platform.utils.domain.Authority;
+import org.measure.platform.utils.domain.User;
+import org.measure.platform.utils.security.AuthoritiesConstants;
+import org.measure.platform.utils.security.SecurityUtils;
+import org.measure.platform.utils.service.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

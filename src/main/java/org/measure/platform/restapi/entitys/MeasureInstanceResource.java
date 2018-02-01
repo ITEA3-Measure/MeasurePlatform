@@ -1,4 +1,4 @@
-package org.measure.platform.restapi.app.entitys;
+package org.measure.platform.restapi.entitys;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,16 +12,16 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.agent.api.IRemoteCatalogueService;
 import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.NotificationService;
 import org.measure.platform.core.api.entitys.enumeration.NotificationType;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.Notification;
-import org.measure.platform.measurementstorage.api.IMeasurementStorage;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
-import org.measure.platform.smmengine.api.IShedulingService;
+import org.measure.platform.service.agent.api.IRemoteCatalogueService;
+import org.measure.platform.service.measurement.api.IMeasurementStorage;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +50,7 @@ public class MeasureInstanceResource {
     private MeasureInstanceService measureInstanceService;
 
     @Inject
-    private IShedulingService shedulingService;
+    private ISchedulingService shedulingService;
 
     @Inject
     private NotificationService notificationService;

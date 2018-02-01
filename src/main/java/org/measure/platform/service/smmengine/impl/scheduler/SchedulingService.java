@@ -1,4 +1,4 @@
-package org.measure.platform.smmengine.impl.sheduler;
+package org.measure.platform.service.smmengine.impl.scheduler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,15 +9,15 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.measure.platform.agent.api.IAgentManager;
 import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasurePropertyService;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureProperty;
-import org.measure.platform.smmengine.api.ILoggerService;
-import org.measure.platform.smmengine.api.IShedulingService;
-import org.measure.platform.smmengine.impl.measureexecution.MeasureExecutionService;
+import org.measure.platform.service.agent.api.IAgentManager;
+import org.measure.platform.service.smmengine.api.ILoggerService;
+import org.measure.platform.service.smmengine.api.IMeasureExecutionService;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.log.MeasureLog;
 import org.measure.smm.measure.api.IMeasure;
 import org.measure.smm.remote.RemoteMeasureInstance;
@@ -28,12 +28,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("singleton")
-public class SchedulingService implements IShedulingService {
+public class SchedulingService implements ISchedulingService {
     @Autowired
     private TaskScheduler taskScheduler;
 
     @Inject
-    private MeasureExecutionService measureExecutionService;
+    private IMeasureExecutionService measureExecutionService;
 
     @Inject
     private IMeasureCatalogueService measureCatalogue;
@@ -45,7 +45,7 @@ public class SchedulingService implements IShedulingService {
     private MeasurePropertyService measurePropertyService;
 
     @Inject
-     IAgentManager agentService;
+    IAgentManager agentService;
 
     @Inject
     private ILoggerService logger;
@@ -61,7 +61,7 @@ public class SchedulingService implements IShedulingService {
     }
 
     @Override
-    public synchronized Boolean scheduleMeasure(MeasureInstance measure) {
+    public  Boolean scheduleMeasure(MeasureInstance measure) {
         if (measure.isIsShedule() != null && measure.isIsShedule() && measure.getShedulingExpression() != null
                 && measure.getShedulingExpression().matches("\\d+")) {
             if (measure.isIsRemote()) {        
@@ -78,7 +78,7 @@ public class SchedulingService implements IShedulingService {
     }
 
     @Override
-    public synchronized List<RemoteMeasureInstance> getSheduledRemoteMeasure(String agentId) {
+    public List<RemoteMeasureInstance> getSheduledRemoteMeasure(String agentId) {
         List<RemoteMeasureInstance> result = new ArrayList<>();
         
         List<Long> instances =  this.remotsJobs.get(agentId);
@@ -103,7 +103,7 @@ public class SchedulingService implements IShedulingService {
         return result;
     }
 
-    private synchronized void scheduleRemoteMeasure(MeasureInstance measure) {
+    private void scheduleRemoteMeasure(MeasureInstance measure) {
         List<Long> measures = this.remotsJobs.get(measure.getRemoteLabel());
         if (measures == null) {
             measures = new ArrayList<>();
@@ -134,7 +134,7 @@ public class SchedulingService implements IShedulingService {
     }
 
     @Override
-    public synchronized Boolean removeMeasure(Long measureInstanceId) {
+    public Boolean removeMeasure(Long measureInstanceId) {
         // Stop Measures executed Localy
         ScheduledFuture job = jobs.get(measureInstanceId);
         if (job != null) {
@@ -154,7 +154,7 @@ public class SchedulingService implements IShedulingService {
     }
 
     @Override
-    public synchronized Boolean isShedule(Long measureInstanceId) {
+    public Boolean isShedule(Long measureInstanceId) {
         if (jobs.containsKey(measureInstanceId)) {
             return true;
         }

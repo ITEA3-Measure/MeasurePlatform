@@ -3,7 +3,7 @@ package org.measure.platform;
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.measurementstorage.api.IElasticsearchIndexManager;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

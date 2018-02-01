@@ -1,9 +1,9 @@
-package org.measure.platform.agent.api;
+package org.measure.platform.service.agent.api;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.measure.platform.agent.impl.data.RemoteAgent;
+import org.measure.platform.service.agent.data.RemoteAgent;
 import org.measure.smm.measure.model.SMMMeasure;
 
 public interface IRemoteCatalogueService {

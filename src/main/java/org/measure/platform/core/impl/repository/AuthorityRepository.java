@@ -1,6 +1,6 @@
 package org.measure.platform.core.impl.repository;
 
-import org.measure.platform.framework.domain.Authority;
+import org.measure.platform.utils.domain.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

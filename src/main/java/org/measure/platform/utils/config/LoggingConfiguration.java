@@ -1,4 +1,4 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;

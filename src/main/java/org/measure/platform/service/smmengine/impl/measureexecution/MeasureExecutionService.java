@@ -1,4 +1,4 @@
-package org.measure.platform.smmengine.impl.measureexecution;
+package org.measure.platform.service.smmengine.impl.measureexecution;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,8 +17,8 @@ import org.measure.platform.core.api.entitys.MeasureReferenceService;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureProperty;
 import org.measure.platform.core.entity.MeasureReference;
-import org.measure.platform.measurementstorage.api.IMeasurementStorage;
-import org.measure.platform.smmengine.api.IMeasureExecutionService;
+import org.measure.platform.service.measurement.api.IMeasurementStorage;
+import org.measure.platform.service.smmengine.api.IMeasureExecutionService;
 import org.measure.smm.log.MeasureLog;
 import org.measure.smm.measure.api.IDerivedMeasure;
 import org.measure.smm.measure.api.IDirectMeasure;

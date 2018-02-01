@@ -1,4 +1,4 @@
 /**
  * Spring Security configuration.
  */
-package org.measure.platform.framework.security;
+package org.measure.platform.utils.security;

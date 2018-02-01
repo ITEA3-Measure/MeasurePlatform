@@ -1,15 +1,15 @@
-package org.measure.platform.restapi.app.services;
+package org.measure.platform.restapi.measure;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.agent.api.IAgentManager;
-import org.measure.platform.agent.api.IRemoteCatalogueService;
-import org.measure.platform.restapi.app.services.dto.MeasureAgent;
-import org.measure.platform.smmengine.api.IRemoteMeasureExecutionService;
-import org.measure.platform.smmengine.api.IShedulingService;
+import org.measure.platform.restapi.measure.dto.MeasureAgent;
+import org.measure.platform.service.agent.api.IAgentManager;
+import org.measure.platform.service.agent.api.IRemoteCatalogueService;
+import org.measure.platform.service.smmengine.api.IRemoteMeasureExecutionService;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.log.MeasureLog;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.measure.smm.remote.RemoteMeasureInstanceList;
@@ -26,18 +26,18 @@ import com.codahale.metrics.annotation.Timed;
 
 @RestController
 @RequestMapping(value = "api/remote-measure")
-public class RemoteMeasureResource {
+public class AgentResource {
     @Inject
-     IRemoteCatalogueService remoteCatalogue;
+    IRemoteCatalogueService remoteCatalogue;
 
     @Inject
-     IShedulingService schedulingService;
+    ISchedulingService schedulingService;
 
     @Inject
-     IRemoteMeasureExecutionService remoteExecutionService;
+    IRemoteMeasureExecutionService remoteExecutionService;
 
     @Inject
-     IAgentManager agentService;
+    IAgentManager agentService;
 
     @PutMapping("/registration")
     @Timed

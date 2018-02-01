@@ -1,8 +1,8 @@
-package org.measure.platform.measurementstorage.api;
+package org.measure.platform.service.measurement.api;
 
 import java.util.List;
 
-import org.measure.platform.restapi.app.services.dto.KibanaVisualisation;
+import org.measure.platform.restapi.measure.dto.KibanaVisualisation;
 import org.measure.smm.measure.api.IMeasurement;
 
 public interface IMeasurementStorage {

@@ -1,4 +1,4 @@
 /**
  * Data Transfer Objects.
  */
-package org.measure.platform.framework.service.dto;
+package org.measure.platform.utils.service.dto;

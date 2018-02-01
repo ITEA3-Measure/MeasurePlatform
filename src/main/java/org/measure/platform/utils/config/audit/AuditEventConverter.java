@@ -1,4 +1,4 @@
-package org.measure.platform.framework.config.audit;
+package org.measure.platform.utils.config.audit;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.measure.platform.framework.domain.PersistentAuditEvent;
+import org.measure.platform.utils.domain.PersistentAuditEvent;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;

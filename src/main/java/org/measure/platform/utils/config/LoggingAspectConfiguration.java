@@ -1,6 +1,6 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
-import org.measure.platform.framework.aop.logging.LoggingAspect;
+import org.measure.platform.utils.aop.logging.LoggingAspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

@@ -11,7 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import org.measure.platform.framework.config.JHipsterProperties;
+import org.measure.platform.utils.config.JHipsterProperties;
 
 /**
  * This filter is used in production, to put HTTP cache headers with a long (1 month) expiration time.

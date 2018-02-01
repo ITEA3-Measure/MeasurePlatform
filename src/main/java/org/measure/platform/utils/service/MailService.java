@@ -1,4 +1,4 @@
-package org.measure.platform.framework.service;
+package org.measure.platform.utils.service;
 
 import java.util.Locale;
 
@@ -6,8 +6,8 @@ import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.CharEncoding;
-import org.measure.platform.framework.config.JHipsterProperties;
-import org.measure.platform.framework.domain.User;
+import org.measure.platform.utils.config.JHipsterProperties;
+import org.measure.platform.utils.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;

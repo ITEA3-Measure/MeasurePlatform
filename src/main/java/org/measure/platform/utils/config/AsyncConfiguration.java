@@ -1,10 +1,10 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
-import org.measure.platform.framework.async.ExceptionHandlingAsyncTaskExecutor;
+import org.measure.platform.utils.async.ExceptionHandlingAsyncTaskExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;

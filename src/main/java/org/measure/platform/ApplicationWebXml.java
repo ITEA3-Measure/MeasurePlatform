@@ -1,6 +1,6 @@
 package org.measure.platform;
 
-import org.measure.platform.framework.config.DefaultProfileUtil;
+import org.measure.platform.utils.config.DefaultProfileUtil;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 

@@ -1,4 +1,4 @@
-package org.measure.platform.framework.service.util;
+package org.measure.platform.utils.service.util;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

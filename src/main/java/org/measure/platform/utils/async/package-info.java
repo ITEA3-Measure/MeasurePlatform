@@ -1,4 +1,4 @@
 /**
  * Async helpers.
  */
-package org.measure.platform.framework.async;
+package org.measure.platform.utils.async;

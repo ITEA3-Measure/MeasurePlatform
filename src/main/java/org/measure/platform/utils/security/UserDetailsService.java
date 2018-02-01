@@ -1,4 +1,4 @@
-package org.measure.platform.framework.security;
+package org.measure.platform.utils.security;
 
 import java.util.List;
 import java.util.Locale;
@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.measure.platform.core.impl.repository.UserRepository;
-import org.measure.platform.framework.domain.User;
+import org.measure.platform.utils.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;

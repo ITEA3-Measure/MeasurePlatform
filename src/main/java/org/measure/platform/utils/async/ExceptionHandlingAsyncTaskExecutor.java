@@ -1,4 +1,4 @@
-package org.measure.platform.framework.async;
+package org.measure.platform.utils.async;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;

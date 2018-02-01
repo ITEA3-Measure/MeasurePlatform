@@ -1,4 +1,4 @@
 /**
  * MapStruct mappers for mapping domain objects and Data Transfer Objects.
  */
-package org.measure.platform.framework.service.mapper;
+package org.measure.platform.utils.service.mapper;

@@ -1,4 +1,4 @@
-package org.measure.platform.framework.config.apidoc;
+package org.measure.platform.utils.config.apidoc;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static springfox.documentation.schema.ResolvedTypes.modelRefFactory;
@@ -6,7 +6,7 @@ import static springfox.documentation.spi.schema.contexts.ModelContext.inputPara
 
 import java.util.List;
 
-import org.measure.platform.framework.config.Constants;
+import org.measure.platform.utils.config.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.MethodParameter;

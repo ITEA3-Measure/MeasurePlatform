@@ -1,4 +1,4 @@
-package org.measure.platform.framework.config.locale;
+package org.measure.platform.utils.config.locale;
 
 import java.util.Locale;
 import java.util.TimeZone;

@@ -1,4 +1,4 @@
-package org.measure.platform.framework.domain;
+package org.measure.platform.utils.domain;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

@@ -8,9 +8,9 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.measure.platform.framework.config.Constants;
-import org.measure.platform.framework.config.DefaultProfileUtil;
-import org.measure.platform.framework.config.JHipsterProperties;
+import org.measure.platform.utils.config.Constants;
+import org.measure.platform.utils.config.DefaultProfileUtil;
+import org.measure.platform.utils.config.JHipsterProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

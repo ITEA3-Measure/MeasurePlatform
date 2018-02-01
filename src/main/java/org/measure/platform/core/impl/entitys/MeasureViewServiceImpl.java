@@ -5,18 +5,18 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import org.measure.platform.core.api.entitys.AnalysisCardService;
 import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.api.entitys.PhaseService;
-import org.measure.platform.core.api.entitys.ProjectAnalysisService;
 import org.measure.platform.core.api.entitys.ProjectService;
+import org.measure.platform.core.entity.AnalysisCard;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
-import org.measure.platform.core.entity.ProjectAnalysis;
 import org.measure.platform.core.impl.repository.MeasureViewRepository;
-import org.measure.platform.measurementstorage.api.IElasticsearchIndexManager;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class MeasureViewServiceImpl implements MeasureViewService {
     private ProjectService projectService;
     
     @Inject
-    private ProjectAnalysisService projectAnalysisService;
+    private AnalysisCardService analysisCardService;
 
     @Inject
     private PhaseService phaseService;
@@ -243,9 +243,9 @@ public class MeasureViewServiceImpl implements MeasureViewService {
     }
     
 	@Override
-	public List<MeasureView> findByProjectAnalysis(Long id) {
-		ProjectAnalysis projectAnalysis = projectAnalysisService.findOne(id);
-		return measureViewRepository.findByProjectAnalysis(projectAnalysis);
+	public List<MeasureView> findByAnalysisCard(Long id) {
+		AnalysisCard analysisCard = analysisCardService.findOne(id);
+		return measureViewRepository.findByAnalysisCard(analysisCard);
 	}
 
 

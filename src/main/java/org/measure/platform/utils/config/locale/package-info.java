@@ -1,4 +1,4 @@
 /**
  * Locale specific code.
  */
-package org.measure.platform.framework.config.locale;
+package org.measure.platform.utils.config.locale;

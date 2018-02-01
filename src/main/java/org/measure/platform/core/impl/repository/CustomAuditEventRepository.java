@@ -8,8 +8,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.framework.config.audit.AuditEventConverter;
-import org.measure.platform.framework.domain.PersistentAuditEvent;
+import org.measure.platform.utils.config.audit.AuditEventConverter;
+import org.measure.platform.utils.domain.PersistentAuditEvent;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.AuditEventRepository;
 import org.springframework.stereotype.Repository;

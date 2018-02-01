@@ -1,4 +1,4 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
 import java.io.File;
 import java.nio.file.Paths;

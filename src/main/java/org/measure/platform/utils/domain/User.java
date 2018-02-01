@@ -1,4 +1,4 @@
-package org.measure.platform.framework.domain;
+package org.measure.platform.utils.domain;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
-import org.measure.platform.framework.config.Constants;
+import org.measure.platform.utils.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

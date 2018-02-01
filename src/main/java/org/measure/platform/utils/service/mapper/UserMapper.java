@@ -1,4 +1,4 @@
-package org.measure.platform.framework.service.mapper;
+package org.measure.platform.utils.service.mapper;
 
 import java.util.List;
 import java.util.Set;
@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.measure.platform.framework.domain.Authority;
-import org.measure.platform.framework.domain.User;
-import org.measure.platform.framework.service.dto.UserDTO;
+import org.measure.platform.utils.domain.Authority;
+import org.measure.platform.utils.domain.User;
+import org.measure.platform.utils.service.dto.UserDTO;
 
 /**
  * Mapper for the entity User and its DTO UserDTO.

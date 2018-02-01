@@ -1,4 +1,4 @@
-package org.measure.platform.restapi.app.services.dto;
+package org.measure.platform.restapi.measure.dto;
 
 import java.util.ArrayList;
 import java.util.List;

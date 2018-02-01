@@ -1,4 +1,4 @@
-package org.measure.platform.agent.impl;
+package org.measure.platform.service.agent.impl;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -7,13 +7,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.agent.api.IAgentManager;
-import org.measure.platform.agent.api.IRemoteCatalogueService;
-import org.measure.platform.agent.impl.data.RemoteAgent;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.restapi.app.services.dto.MeasureAgent;
-import org.measure.platform.smmengine.api.IShedulingService;
+import org.measure.platform.restapi.measure.dto.MeasureAgent;
+import org.measure.platform.service.agent.api.IAgentManager;
+import org.measure.platform.service.agent.api.IRemoteCatalogueService;
+import org.measure.platform.service.agent.data.RemoteAgent;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -31,7 +31,7 @@ public class AgentManager implements IAgentManager {
      MeasureInstanceService measureInstanceService;
 
     @Inject
-     IShedulingService shedulingService;
+     ISchedulingService shedulingService;
 
     @Scheduled(fixedRate = 20000)
     public void reportCurrentTime() {

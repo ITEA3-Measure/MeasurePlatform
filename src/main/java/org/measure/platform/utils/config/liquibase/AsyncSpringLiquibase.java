@@ -1,8 +1,8 @@
-package org.measure.platform.framework.config.liquibase;
+package org.measure.platform.utils.config.liquibase;
 
 import javax.inject.Inject;
 
-import org.measure.platform.framework.config.Constants;
+import org.measure.platform.utils.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

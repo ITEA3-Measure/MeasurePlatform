@@ -98,11 +98,9 @@
 				<constraints nullable="true" />
 			</column>
 			
-			<column name="project_analysis_id" type="bigint">
+			<column name="analysiscard_id" type="bigint">
 				<constraints nullable="true" />
 			</column>
-
-
 
 			<!-- jhipster-needle-liquibase-add-column - Jhipster will add columns 
 				here, do not remove -->

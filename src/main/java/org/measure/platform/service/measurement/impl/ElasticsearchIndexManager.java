@@ -1,4 +1,4 @@
-package org.measure.platform.measurementstorage.impl;
+package org.measure.platform.service.measurement.impl;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -15,7 +15,7 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.measure.platform.measurementstorage.api.IElasticsearchIndexManager;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.measure.smm.measure.model.MeasureUnitField;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.springframework.beans.factory.annotation.Value;

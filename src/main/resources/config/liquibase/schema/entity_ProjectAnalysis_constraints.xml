@@ -12,8 +12,6 @@
                                  baseTableName="project_analysis"
                                  constraintName="fk_project_analysis_project_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="project"/>
-                                 
-
+                                 referencedTableName="project"/>                              
     </changeSet>
 </databaseChangeLog>

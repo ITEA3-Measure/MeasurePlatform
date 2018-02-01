@@ -1,10 +1,10 @@
-package org.measure.platform.restapi.app.services;
+package org.measure.platform.restapi.measure;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.smmengine.api.ILoggerService;
+import org.measure.platform.service.smmengine.api.ILoggerService;
 import org.measure.smm.log.MeasureLog;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

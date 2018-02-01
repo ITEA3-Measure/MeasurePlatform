@@ -1,8 +1,8 @@
-package org.measure.platform.agent.api;
+package org.measure.platform.service.agent.api;
 
 import java.util.List;
 
-import org.measure.platform.restapi.app.services.dto.MeasureAgent;
+import org.measure.platform.restapi.measure.dto.MeasureAgent;
 
 public interface IAgentManager {
     List<MeasureAgent> getAgents();

@@ -1,4 +1,4 @@
-package org.measure.platform.framework.security;
+package org.measure.platform.utils.security;
 
 import org.springframework.security.core.AuthenticationException;
 

@@ -1,4 +1,4 @@
-package org.measure.platform.framework.service;
+package org.measure.platform.utils.service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.measure.platform.core.impl.repository.PersistenceAuditEventRepository;
-import org.measure.platform.framework.config.audit.AuditEventConverter;
+import org.measure.platform.utils.config.audit.AuditEventConverter;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

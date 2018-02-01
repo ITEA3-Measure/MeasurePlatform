@@ -1,4 +1,4 @@
-package org.measure.platform.framework.domain.util;
+package org.measure.platform.utils.domain.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,10 +8,10 @@ import java.util.Date;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.measure.platform.framework.domain.util.JSR310DateConverters.DateToLocalDateTimeConverter;
-import org.measure.platform.framework.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
-import org.measure.platform.framework.domain.util.JSR310DateConverters.LocalDateTimeToDateConverter;
-import org.measure.platform.framework.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
+import org.measure.platform.utils.domain.util.JSR310DateConverters.DateToLocalDateTimeConverter;
+import org.measure.platform.utils.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
+import org.measure.platform.utils.domain.util.JSR310DateConverters.LocalDateTimeToDateConverter;
+import org.measure.platform.utils.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
 
 public final class JSR310PersistenceConverters {
     private JSR310PersistenceConverters() {

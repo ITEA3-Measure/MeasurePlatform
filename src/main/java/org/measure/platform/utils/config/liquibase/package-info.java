@@ -1,4 +1,4 @@
 /**
  * Liquibase specific code.
  */
-package org.measure.platform.framework.config.liquibase;
+package org.measure.platform.utils.config.liquibase;

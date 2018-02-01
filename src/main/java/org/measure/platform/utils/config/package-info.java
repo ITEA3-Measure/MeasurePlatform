@@ -1,4 +1,4 @@
 /**
  * Spring Framework configuration files.
  */
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;

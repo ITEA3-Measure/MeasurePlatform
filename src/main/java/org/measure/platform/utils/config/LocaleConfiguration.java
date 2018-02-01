@@ -1,6 +1,6 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
-import org.measure.platform.framework.config.locale.AngularCookieLocaleResolver;
+import org.measure.platform.utils.config.locale.AngularCookieLocaleResolver;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package org.measure.platform.measurementstorage.api;
+package org.measure.platform.service.measurement.api;
 
 import java.util.List;
 

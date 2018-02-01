@@ -1,4 +1,4 @@
-package org.measure.platform.smmengine.api;
+package org.measure.platform.service.smmengine.api;
 
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.smm.log.MeasureLog;

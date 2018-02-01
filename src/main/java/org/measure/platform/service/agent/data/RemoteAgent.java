@@ -1,4 +1,4 @@
-package org.measure.platform.agent.impl.data;
+package org.measure.platform.service.agent.data;
 
 import java.util.Date;
 import java.util.HashMap;

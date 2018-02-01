@@ -1,4 +1,4 @@
-package org.measure.platform.measurementstorage.impl;
+package org.measure.platform.service.measurement.impl;
 
 import java.net.InetAddress;
 

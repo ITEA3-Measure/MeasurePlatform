@@ -3,7 +3,6 @@ package org.measure.platform.core.api.entitys;
 import java.util.List;
 
 import org.measure.platform.core.entity.MeasureView;
-import org.measure.platform.core.entity.ProjectAnalysis;
 
 /**
  * Service Interface for managing MeasureView.
@@ -45,6 +44,6 @@ public interface MeasureViewService {
 
     List<MeasureView> findByDashboard(Long id);
 
-	List<MeasureView> findByProjectAnalysis(Long id);
+    List<MeasureView> findByAnalysisCard(Long id);
 
 }

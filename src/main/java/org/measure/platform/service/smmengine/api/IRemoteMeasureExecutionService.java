@@ -1,4 +1,4 @@
-package org.measure.platform.smmengine.api;
+package org.measure.platform.service.smmengine.api;
 
 import java.util.List;
 

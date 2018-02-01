@@ -1,4 +1,4 @@
-package org.measure.platform.framework.domain;
+package org.measure.platform.utils.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Persistent tokens are used by Spring Security to automatically log in users.
  * 
- * @see org.measure.platform.framework.security.CustomPersistentRememberMeServices
+ * @see org.measure.platform.utils.security.CustomPersistentRememberMeServices
  */
 @Entity
 @Table(name = "jhi_persistent_token")

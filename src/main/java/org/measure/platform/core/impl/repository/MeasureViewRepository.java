@@ -2,6 +2,7 @@ package org.measure.platform.core.impl.repository;
 
 import java.util.List;
 
+import org.measure.platform.core.entity.AnalysisCard;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
@@ -35,7 +36,7 @@ public interface MeasureViewRepository extends JpaRepository<MeasureView,Long> {
     @Query(value = "select i from MeasureView i where i.measureinstance = :minstance")
     List<MeasureView> findByMeasure(@Param("minstance") MeasureInstance minstance);
 
-    @Query(value = "select i from MeasureView i where i.projectanalysis = :projectAnalysis")
-	List<MeasureView> findByProjectAnalysis(@Param("projectAnalysis") ProjectAnalysis projectAnalysis);
+    @Query(value = "select i from MeasureView i where i.analysiscard = :analysisCard")
+	List<MeasureView> findByAnalysisCard(@Param("analysisCard") AnalysisCard analysisCard);
 
 }

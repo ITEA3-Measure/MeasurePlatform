@@ -1,4 +1,4 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
 import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;

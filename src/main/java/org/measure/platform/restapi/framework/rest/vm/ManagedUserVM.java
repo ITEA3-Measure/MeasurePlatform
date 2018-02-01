@@ -5,8 +5,8 @@ import java.util.Set;
 
 import javax.validation.constraints.Size;
 
-import org.measure.platform.framework.domain.User;
-import org.measure.platform.framework.service.dto.UserDTO;
+import org.measure.platform.utils.domain.User;
+import org.measure.platform.utils.service.dto.UserDTO;
 
 /**
  * View Model extending the UserDTO, which is meant to be used in the user management UI.

@@ -1,11 +1,11 @@
-package org.measure.platform.framework.config.apidoc;
+package org.measure.platform.utils.config.apidoc;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
 import java.util.Date;
 
-import org.measure.platform.framework.config.Constants;
-import org.measure.platform.framework.config.JHipsterProperties;
+import org.measure.platform.utils.config.Constants;
+import org.measure.platform.utils.config.JHipsterProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;

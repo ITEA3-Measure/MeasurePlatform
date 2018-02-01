@@ -1,4 +1,4 @@
-package org.measure.platform.agent.impl;
+package org.measure.platform.service.agent.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.measure.platform.agent.api.IRemoteCatalogueService;
-import org.measure.platform.agent.impl.data.RemoteAgent;
+import org.measure.platform.service.agent.api.IRemoteCatalogueService;
+import org.measure.platform.service.agent.data.RemoteAgent;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

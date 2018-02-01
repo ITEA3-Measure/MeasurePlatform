@@ -1,12 +1,12 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
 import javax.inject.Inject;
 
-import org.measure.platform.framework.security.AjaxAuthenticationFailureHandler;
-import org.measure.platform.framework.security.AjaxAuthenticationSuccessHandler;
-import org.measure.platform.framework.security.AjaxLogoutSuccessHandler;
-import org.measure.platform.framework.security.AuthoritiesConstants;
-import org.measure.platform.framework.security.Http401UnauthorizedEntryPoint;
+import org.measure.platform.utils.security.AjaxAuthenticationFailureHandler;
+import org.measure.platform.utils.security.AjaxAuthenticationSuccessHandler;
+import org.measure.platform.utils.security.AjaxLogoutSuccessHandler;
+import org.measure.platform.utils.security.AuthoritiesConstants;
+import org.measure.platform.utils.security.Http401UnauthorizedEntryPoint;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

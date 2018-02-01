@@ -3,8 +3,8 @@ package org.measure.platform.core.impl.repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.measure.platform.framework.domain.PersistentToken;
-import org.measure.platform.framework.domain.User;
+import org.measure.platform.utils.domain.PersistentToken;
+import org.measure.platform.utils.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

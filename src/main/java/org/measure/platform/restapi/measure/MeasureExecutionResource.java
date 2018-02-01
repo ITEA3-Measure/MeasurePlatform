@@ -1,4 +1,4 @@
-package org.measure.platform.restapi.app.services;
+package org.measure.platform.restapi.measure;
 
 import java.util.Optional;
 
@@ -6,9 +6,9 @@ import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.smmengine.api.ILoggerService;
-import org.measure.platform.smmengine.api.IMeasureExecutionService;
-import org.measure.platform.smmengine.api.IShedulingService;
+import org.measure.platform.service.smmengine.api.ILoggerService;
+import org.measure.platform.service.smmengine.api.IMeasureExecutionService;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.log.MeasureLog;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class MeasureExecutionResource {
     private IMeasureExecutionService measureExecutionService;
 
     @Inject
-    private IShedulingService shedulingService;
+    private ISchedulingService shedulingService;
 
     @Inject
     private MeasureInstanceService instanceService;

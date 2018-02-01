@@ -1,4 +1,4 @@
-package org.measure.platform.restapi.app.entitys;
+package org.measure.platform.restapi.entitys;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -9,9 +9,9 @@ import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.MeasureView;
-import org.measure.platform.measurementstorage.api.IMeasurementStorage;
-import org.measure.platform.restapi.app.services.dto.KibanaVisualisation;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
+import org.measure.platform.restapi.measure.dto.KibanaVisualisation;
+import org.measure.platform.service.measurement.api.IMeasurementStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

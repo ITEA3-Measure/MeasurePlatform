@@ -1,4 +1,4 @@
-package org.measure.platform.framework.domain.util;
+package org.measure.platform.utils.domain.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

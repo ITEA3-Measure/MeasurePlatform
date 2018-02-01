@@ -19,7 +19,7 @@ import javax.xml.bind.JAXBException;
 import org.apache.commons.io.FileUtils;
 import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.impl.utils.UnzipUtility;
-import org.measure.platform.measurementstorage.api.IElasticsearchIndexManager;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.measure.smm.measure.api.IMeasure;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.measure.smm.service.MeasurePackager;

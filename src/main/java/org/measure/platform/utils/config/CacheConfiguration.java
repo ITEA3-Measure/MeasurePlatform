@@ -1,4 +1,4 @@
-package org.measure.platform.framework.config;
+package org.measure.platform.utils.config;
 
 import java.util.SortedSet;
 import java.util.stream.Stream;

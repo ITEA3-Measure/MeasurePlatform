@@ -1,4 +1,4 @@
-package org.measure.platform.restapi.app.entitys;
+package org.measure.platform.restapi.entitys;
 
 import java.net.URI;
 import java.net.URISyntaxException;

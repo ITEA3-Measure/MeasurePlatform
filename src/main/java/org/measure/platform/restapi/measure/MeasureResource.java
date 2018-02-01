@@ -1,4 +1,4 @@
-package org.measure.platform.restapi.app.services;
+package org.measure.platform.restapi.measure;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -11,10 +11,10 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
 
-import org.measure.platform.agent.api.IRemoteCatalogueService;
 import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.measurementstorage.impl.ElasticMeasurementStorage;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
+import org.measure.platform.service.agent.api.IRemoteCatalogueService;
+import org.measure.platform.service.measurement.impl.ElasticMeasurementStorage;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

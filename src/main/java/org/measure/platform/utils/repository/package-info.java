@@ -1,4 +1,4 @@
 /**
  * Spring Data JPA repositories.
  */
-package org.measure.platform.framework.repository;
+package org.measure.platform.utils.repository;
