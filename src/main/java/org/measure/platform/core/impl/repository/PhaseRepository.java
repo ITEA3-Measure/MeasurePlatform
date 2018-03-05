@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 /**
  * Spring Data JPA repository for the Phase entity.
  */
-@SuppressWarnings("unused")
 public interface PhaseRepository extends JpaRepository<Phase,Long> {
     @Query(value = "select i from Phase i where i.project = :project")
     List<Phase> findByProject(@Param("project") Project project);

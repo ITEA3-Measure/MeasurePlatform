@@ -23,11 +23,11 @@
 			<column name="event_type" type="varchar(255)">
 				<constraints nullable="false" />
 			</column>
-
-			<column name="project_analysis_id" type="bigint">
-				<constraints nullable="true" />
+	
+			<column name="analysis_tool" type="varchar(255)">
+				<constraints nullable="false" />
 			</column>
-			
+	
 			<column name="project_id" type="bigint">
                 <constraints nullable="true" />
             </column>

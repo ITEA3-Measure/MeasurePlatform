@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
-import org.measure.platform.service.analysis.data.RegistredAnalysisService;
+import org.measure.platform.service.analysis.data.analysis.RegistredAnalysisService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

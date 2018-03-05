@@ -2,6 +2,7 @@ package org.measure.platform.restapi.analysis;
 
 import java.net.URISyntaxException;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.measure.platform.core.api.entitys.AnalysisCardService;
@@ -25,8 +26,10 @@ public class AnalysisConfigurationResource {
 
 	private final Logger log = LoggerFactory.getLogger(AnalysisConfigurationResource.class);
 
+	@Inject
 	private ProjectAnalysisService projectAnalysisService;
 	
+	@Inject
 	private AnalysisCardService analysisCardService;
 
 	/**

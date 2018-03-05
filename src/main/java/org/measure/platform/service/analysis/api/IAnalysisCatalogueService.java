@@ -2,8 +2,8 @@ package org.measure.platform.service.analysis.api;
 
 import java.util.List;
 
-import org.measure.platform.service.analysis.data.AnalysisService;
-import org.measure.platform.service.analysis.data.RegistredAnalysisService;
+import org.measure.platform.service.analysis.data.analysis.AnalysisService;
+import org.measure.platform.service.analysis.data.analysis.RegistredAnalysisService;
 
 public interface IAnalysisCatalogueService {
 	

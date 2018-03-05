@@ -8,7 +8,6 @@ import org.measure.platform.core.api.entitys.NotificationService;
 import org.measure.platform.core.entity.Notification;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.NotificationRepository;
-import org.measure.platform.core.impl.repository.PhaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,10 +23,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Inject
     private NotificationRepository notificationRepository;
-
-    @Inject
-    private PhaseRepository phaseRepository;
-
+    
     /**
      * Save a project.
      * @param project

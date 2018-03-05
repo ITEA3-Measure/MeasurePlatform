@@ -1,4 +1,4 @@
-package org.measure.platform.service.analysis.data;
+package org.measure.platform.service.analysis.data.analysis;
 
 import java.util.Date;
 

@@ -11,10 +11,12 @@ import org.springframework.data.repository.query.Param;
 /**
  * Spring Data JPA repository for the ProjectAnalysis entity.
  */
-@SuppressWarnings("unused")
 public interface ProjectAnalysisRepository extends JpaRepository<ProjectAnalysis,Long> {
 
 	@Query(value = "select i from ProjectAnalysis i where i.project = :project")
 	List<ProjectAnalysis> findAllByProject(@Param("project")Project project);
+
+	@Query(value = "select i from ProjectAnalysis i where i.project = :project and i.analysisToolId = :analysisTool")
+	List<ProjectAnalysis> findByProjectAndTool(@Param("project")Project project,@Param("analysisTool") String analysisTool);
 
 }

@@ -53,11 +53,6 @@ public class ProjectAnalysis implements Serializable {
  
     @ManyToOne
     private Project project;
-    
-    @OneToMany(mappedBy = "projectanalysis")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AlertEvent> alertevents = new HashSet<>();
        
     @OneToMany(mappedBy = "projectanalysis")
     @JsonIgnore
@@ -118,14 +113,6 @@ public class ProjectAnalysis implements Serializable {
 
 	public void setProject(Project project) {
 		this.project = project;
-	}
-
-	public Set<AlertEvent> getAlertevents() {
-		return alertevents;
-	}
-
-	public void setAlertevents(Set<AlertEvent> alertevents) {
-		this.alertevents = alertevents;
 	}
 
 	public Set<AnalysisCard> getAnalysiscards() {

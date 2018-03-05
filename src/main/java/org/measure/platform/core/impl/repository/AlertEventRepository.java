@@ -19,7 +19,16 @@ public interface AlertEventRepository extends JpaRepository<AlertEvent,Long> {
 	@Query(value = "select i from AlertEvent i where i.project = :project")
 	List<AlertEvent> findByProject(@Param("project") Project project);
 
-	@Query(value = "select i from AlertEvent i where i.projectanalysis = :projectAnalysis")
-	List<AlertEvent> findByProjectAnalysis(@Param("projectAnalysis") ProjectAnalysis projectAnalysis);
+	@Query(value = "select i from AlertEvent i where i.project = :project")
+	List<AlertEvent> findByProjectAnalysis(@Param("project") Project project);
+
+	@Query(value = "select i from AlertEvent i where i.analysisTool = :analysisTool and  i.project = :project and i.eventType = :eventType")
+	List<AlertEvent> findByProjectAndEventType(@Param("project") Project project,@Param("analysisTool") String analysisTool,@Param("eventType") String eventType);
+
+	
+	@Query(value = "select i from AlertEvent i join i.alerteventpropertys pr where i.analysisTool = :analysisTool and  i.project = :project and i.eventType = :eventType and pr.name = :propName and pr.value = :propValue")
+	List<AlertEvent> findByProjectEventTypeAndProp(@Param("project") Project project,@Param("analysisTool") String analysisTool,@Param("eventType") String eventType,@Param("propName")String propName,@Param("propValue") String propValue);
+	
+	
 
 }

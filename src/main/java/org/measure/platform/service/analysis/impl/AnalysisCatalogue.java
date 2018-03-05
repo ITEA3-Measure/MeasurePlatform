@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
-import org.measure.platform.service.analysis.data.AnalysisService;
-import org.measure.platform.service.analysis.data.RegistredAnalysisService;
+import org.measure.platform.service.analysis.data.analysis.AnalysisService;
+import org.measure.platform.service.analysis.data.analysis.RegistredAnalysisService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope(value = "singleton")
 public class AnalysisCatalogue implements IAnalysisCatalogueService {
-	
 	
 	private Map<String, RegistredAnalysisService> analysisToolMap = new HashMap<>();
 
@@ -27,8 +26,7 @@ public class AnalysisCatalogue implements IAnalysisCatalogueService {
 			this.analysisToolMap.put(service.getName(), rs);	
 		}else{
 			this.analysisToolMap.get(service.getName()).setLiveSign(new Date());
-		}
-			
+		}		
 	}
 
 	@Override

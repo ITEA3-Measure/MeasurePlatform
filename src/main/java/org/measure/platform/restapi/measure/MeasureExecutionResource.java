@@ -6,6 +6,10 @@ import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.entity.MeasureInstance;
+import org.measure.platform.service.analysis.api.IAlertEngineService;
+import org.measure.platform.service.analysis.data.alert.AlertData;
+import org.measure.platform.service.analysis.data.alert.AlertProperty;
+import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.measure.platform.service.smmengine.api.ILoggerService;
 import org.measure.platform.service.smmengine.api.IMeasureExecutionService;
 import org.measure.platform.service.smmengine.api.ISchedulingService;
@@ -31,6 +35,9 @@ public class MeasureExecutionResource {
     @Inject
     private MeasureInstanceService instanceService;
 
+	@Inject
+	private IAlertEngineService alertEngineService;
+	
     @Inject
     private ILoggerService logger;
 
@@ -40,6 +47,13 @@ public class MeasureExecutionResource {
             Long instanceId = Long.valueOf(id);
             if (!shedulingService.isShedule(instanceId)) {
                 MeasureInstance measure = instanceService.findOne(instanceId);
+
+        		AlertData alert = new AlertData();
+        		alert.setAlertType(AlertType.MEASURE_SCHEDULED.name());
+        		alert.setProjectId(measure.getProject().getId());		
+        		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_SCHEDULED.getProperties().get(0), measure.getInstanceName()));
+        		alertEngineService.alert(alert);
+        		
                 return shedulingService.scheduleMeasure(measure);
             }
         }
@@ -52,6 +66,14 @@ public class MeasureExecutionResource {
             Long instanceId = Long.valueOf(id);
             if (shedulingService.isShedule(instanceId)) {
                 shedulingService.removeMeasure(instanceId);
+                
+                MeasureInstance measure = instanceService.findOne(instanceId);
+                
+        		AlertData alert = new AlertData();
+        		alert.setAlertType(AlertType.MEASURE_UNSCHEDULED.name());
+        		alert.setProjectId(measure.getProject().getId());		
+        		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_UNSCHEDULED.getProperties().get(0), measure.getInstanceName()));
+        		alertEngineService.alert(alert);
             }
         }
         return false;

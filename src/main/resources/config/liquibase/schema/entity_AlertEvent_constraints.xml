@@ -8,11 +8,6 @@
     -->
     <changeSet id="20171219133433-4" author="softeam">
         
-       <addForeignKeyConstraint baseColumnNames="project_analysis_id"
-                                 baseTableName="alert_event"
-                                 constraintName="fk_alert_event_project_analysis_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="project_analysis"/>
                                  
        <addForeignKeyConstraint baseColumnNames="project_id"
                                  baseTableName="alert_event"

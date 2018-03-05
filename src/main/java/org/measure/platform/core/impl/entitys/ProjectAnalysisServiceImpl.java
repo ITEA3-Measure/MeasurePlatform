@@ -80,7 +80,9 @@ public class ProjectAnalysisServiceImpl implements  ProjectAnalysisService {
         	analysisCardService.delete(card.getId());
         }
         
-        for(AlertEvent event : alertEventService.findAllByProjectAnalysis(projectAnalysis)){
+        Project project = projectAnalysis.getProject();
+        
+        for(AlertEvent event : alertEventService.findAllByProject(project)){
         	alertEventService.delete(event.getId());
         }
         

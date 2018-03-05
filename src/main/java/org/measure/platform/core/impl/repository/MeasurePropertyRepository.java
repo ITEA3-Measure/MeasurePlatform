@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 /**
  * Spring Data JPA repository for the MeasureProperty entity.
  */
-@SuppressWarnings("unused")
 public interface MeasurePropertyRepository extends JpaRepository<MeasureProperty,Long> {
     @Query(value = "select p from MeasureProperty p where p.measureInstance = :minstance")
     List<MeasureProperty> findByMeasure(@Param("minstance") MeasureInstance minstance);

@@ -8,6 +8,7 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
 import org.measure.platform.utils.config.Constants;
 import org.measure.platform.utils.config.DefaultProfileUtil;
 import org.measure.platform.utils.config.JHipsterProperties;
@@ -32,6 +33,9 @@ public class MeasurePlatformApp {
 
     @Inject
     private Environment env;
+    
+    @Inject
+    private IAlertSubscriptionManager suscribtinManager;
 
     /**
      * Initializes MeasurePlatform.
@@ -53,6 +57,9 @@ public class MeasurePlatformApp {
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
             
         }
+        
+        // Reload alert subscription at application startup
+        this.suscribtinManager.init();
     }
 
     /**

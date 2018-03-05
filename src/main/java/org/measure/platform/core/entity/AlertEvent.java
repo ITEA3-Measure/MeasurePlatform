@@ -36,10 +36,11 @@ public class AlertEvent implements Serializable {
     @NotNull
     @Column(name = "event_type", nullable = false)
     private String eventType;
-
-    @ManyToOne
-    private ProjectAnalysis projectanalysis;
     
+    @NotNull
+    @Column(name = "analysis_tool", nullable = false)
+    private String analysisTool;
+ 
     @ManyToOne
     private Project project;
     
@@ -57,23 +58,23 @@ public class AlertEvent implements Serializable {
 	}
 
 	public String getEventType() {
-		return eventType;
+		return this.eventType;
 	}
 
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
 	}
-
-	public ProjectAnalysis getProjectanalysis() {
-		return projectanalysis;
+	
+	public String getAnalysisTool() {
+		return this.analysisTool;
 	}
 
-	public void setProjectanalysis(ProjectAnalysis projectanalysis) {
-		this.projectanalysis = projectanalysis;
+	public void setAnalysisTool(String analysisTool) {
+		this.analysisTool = analysisTool;
 	}
 
 	public Project getProject() {
-		return project;
+		return this.project;
 	}
 
 	public void setProject(Project project) {

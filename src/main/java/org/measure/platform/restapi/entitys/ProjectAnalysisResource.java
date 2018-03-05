@@ -12,6 +12,9 @@ import org.measure.platform.core.api.entitys.ProjectAnalysisService;
 import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.ProjectAnalysis;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
+import org.measure.platform.service.analysis.api.IAlertEngineService;
+import org.measure.platform.service.analysis.data.alert.AlertData;
+import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -40,7 +43,10 @@ public class ProjectAnalysisResource {
 	
 	@Inject
 	private ProjectService projecService;
-
+	
+	@Inject
+	private IAlertEngineService alertEngineService;
+	
 	/**
 	 * POST /projectAnalysis : Create a new projectAnalysis.
 	 * 
@@ -58,6 +64,12 @@ public class ProjectAnalysisResource {
 					"A new projectAnalysis cannot already have an ID")).body(null);
 		}
 		ProjectAnalysis result = projectAnalysisService.save(projectAnalysis);
+		
+		AlertData alert = new AlertData();
+		alert.setAlertType(AlertType.ANALYSIS_ENABLE.name());
+		alert.setProjectId(result.getProject().getId());
+		alertEngineService.alert(alert);
+		
 		return ResponseEntity.created(new URI("/api/projectAnalysiss/" + result.getId()))
 				.headers(HeaderUtil.createEntityCreationAlert("projectAnalysis", result.getId().toString()))
 				.body(result);
@@ -131,7 +143,17 @@ public class ProjectAnalysisResource {
 	@Timed
 	public ResponseEntity<Void> deleteProjectAnalysis(@PathVariable Long id) {
 		log.debug("REST request to delete ProjectAnalysis : {}", id);
+		
+		ProjectAnalysis analysis = projectAnalysisService.findOne(id);
+		AlertData alert = new AlertData();
+		alert.setAlertType(AlertType.ANALYSIS_DESABLE.name());
+		alert.setProjectId(analysis.getProject().getId());
+		alertEngineService.alert(alert);
+		
 		projectAnalysisService.delete(id);
+		
+
+		
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("projectAnalysis", id.toString()))
 				.build();
 	}

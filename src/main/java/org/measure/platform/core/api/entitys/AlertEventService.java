@@ -33,13 +33,6 @@ public interface AlertEventService {
 	List<AlertEvent> findAllByProject(Project project);
 	
 	/**
-	 * Get all the alert events of current project analysis.
-	 * 
-	 * @return the list of entities
-	 */
-	List<AlertEvent> findAllByProjectAnalysis(ProjectAnalysis projectAnalysis);
-
-	/**
 	 * Get the "id" alert event.
 	 * 
 	 * @param id the id of the entity
@@ -53,6 +46,10 @@ public interface AlertEventService {
 	 * @param id the id of the entity
 	 */
 	void delete(Long id);
+
+	List<AlertEvent> findByProjectAndEventType(Project project, String analysisTool, String name);
+
+	List<AlertEvent> findByProjectEventTypeAndProp(Project project, String analysisTool, String name, String property,String value);
 
 
 

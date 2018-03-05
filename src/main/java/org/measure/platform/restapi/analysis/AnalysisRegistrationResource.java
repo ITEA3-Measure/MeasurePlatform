@@ -8,8 +8,8 @@ import javax.validation.Valid;
 
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
-import org.measure.platform.service.analysis.data.AnalysisService;
-import org.measure.platform.service.analysis.data.RegistredAnalysisService;
+import org.measure.platform.service.analysis.data.analysis.AnalysisService;
+import org.measure.platform.service.analysis.data.analysis.RegistredAnalysisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 /**
  * Spring Data JPA repository for the MeasureInstance entity.
  */
-@SuppressWarnings("unused")
 public interface MeasureInstanceRepository extends JpaRepository<MeasureInstance,Long> {
     @Query(value = "select i from MeasureInstance i where i.project = :project")
     List<MeasureInstance> findByProject(@Param("project") Project project);

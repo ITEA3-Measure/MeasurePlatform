@@ -1,4 +1,4 @@
-package org.measure.platform.service.analysis.data;
+package org.measure.platform.service.analysis.data.analysis;
 
 /** 
  * External data analysis service which is integrated with Measure Platform.

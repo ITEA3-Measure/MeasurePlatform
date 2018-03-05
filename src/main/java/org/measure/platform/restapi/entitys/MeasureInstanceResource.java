@@ -12,17 +12,17 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.NotificationService;
 import org.measure.platform.core.api.entitys.enumeration.NotificationType;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.Notification;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
-import org.measure.platform.service.agent.api.IRemoteCatalogueService;
-import org.measure.platform.service.measurement.api.IMeasurementStorage;
+import org.measure.platform.service.analysis.api.IAlertEngineService;
+import org.measure.platform.service.analysis.data.alert.AlertData;
+import org.measure.platform.service.analysis.data.alert.AlertProperty;
+import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.measure.platform.service.smmengine.api.ISchedulingService;
-import org.measure.smm.measure.model.SMMMeasure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -46,6 +46,9 @@ import com.codahale.metrics.annotation.Timed;
 public class MeasureInstanceResource {
     private final Logger log = LoggerFactory.getLogger(MeasureInstanceResource.class);
 
+	@Inject
+	private IAlertEngineService alertEngineService;
+	
     @Inject
     private MeasureInstanceService measureInstanceService;
 
@@ -55,14 +58,12 @@ public class MeasureInstanceResource {
     @Inject
     private NotificationService notificationService;
 
-    @Inject
-    private IMeasurementStorage storageService;
 
-    @Inject
-    private IMeasureCatalogueService catalogueService;
-
-    @Inject
-    private IRemoteCatalogueService remoteCatalogueService;
+//    @Inject
+//    private IMeasureCatalogueService catalogueService;
+//
+//    @Inject
+//    private IRemoteCatalogueService remoteCatalogueService;
 
     /**
      * POST  /measure-instances : Create a new measureInstance.
@@ -83,13 +84,20 @@ public class MeasureInstanceResource {
                
         
         // Create Index mapping for measure Unite
-        SMMMeasure measureDefinition =  null;
+//        SMMMeasure measureDefinition =  null;     
+//        if(measureInstance.isIsRemote()){
+//            measureDefinition = remoteCatalogueService.getMeasureByName(measureInstance.getMeasureName(), measureInstance.getRemoteLabel());
+//        }else{
+//            measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
+//        }
         
-        if(measureInstance.isIsRemote()){
-            measureDefinition = remoteCatalogueService.getMeasureByName(measureInstance.getMeasureName(), measureInstance.getRemoteLabel());
-        }else{
-            measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
-        }
+        
+	
+		AlertData alert = new AlertData();
+		alert.setAlertType(AlertType.MEASURE_ADDED.name());
+		alert.setProjectId(measureInstance.getProject().getId());		
+		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_ADDED.getProperties().get(0), result.getInstanceName()));
+		alertEngineService.alert(alert);
         
         // Create Notification related to the creation of the  new Measure Instance
         Notification notif = new Notification();
@@ -192,12 +200,16 @@ public class MeasureInstanceResource {
     @DeleteMapping("/measure-instances/{id}")
     @Timed
     public ResponseEntity<Void> deleteMeasureInstance(@PathVariable Long id) {
-        log.debug("REST request to delete MeasureInstance : {}", id);
-        
-        
+        log.debug("REST request to delete MeasureInstance : {}", id);     
         
         MeasureInstance measureInstance = measureInstanceService.findOne(id);
-        
+             
+		AlertData alert = new AlertData();
+		alert.setAlertType(AlertType.MEASURE_ADDED.name());
+		alert.setProjectId(measureInstance.getProject().getId());		
+		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_REMOVED.getProperties().get(0), measureInstance.getInstanceName()));
+		alertEngineService.alert(alert);
+		
         try{
             Notification notif = new Notification();
             notif.setNotificationTitle("Measure Deletion");
