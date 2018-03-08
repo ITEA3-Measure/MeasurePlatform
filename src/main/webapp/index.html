@@ -99,6 +99,8 @@
 	<script src="app/entities/phase/phase.state.js"></script>
 	<script src="app/entities/phase/phase.service.js"></script>
 	<script src="app/entities/phase/phase.controller.js"></script>
+	
+
 	<script
 		src="app/entities/measure-view/measure-view-dialog.controller.js"></script>
 	<script
@@ -116,23 +118,20 @@
 		src="app/entities/measure-property/measure-property-delete-dialog.controller.js"></script>
 	<script src="app/entities/measure-property/measure-property.state.js"></script>
 	<script src="app/entities/measure-property/measure-property.service.js"></script>
-	<script
-		src="app/entities/measure-property/measure-property.controller.js"></script>
-	<script
-		src="app/entities/measure-instance/measure-instance-dialog.controller.js"></script>
-	<script
-		src="app/entities/measure-instance/measure-instance-detail.controller.js"></script>
-	<script
-		src="app/entities/measure-instance/measure-instance-delete-dialog.controller.js"></script>
+	<script src="app/entities/measure-property/measure-property.controller.js"></script>
+	<script src="app/entities/measure-instance/measure-instance-dialog.controller.js"></script>
+	<script src="app/entities/measure-instance/measure-instance-detail.controller.js"></script>
+	<script src="app/entities/measure-instance/measure-instance-delete-dialog.controller.js"></script>
 	<script src="app/entities/measure-instance/measure-instance.state.js"></script>
 	<script src="app/entities/measure-instance/measure-instance.service.js"></script>
-	<script
-		src="app/entities/measure-instance/measure-instance.controller.js"></script>
+	<script src="app/entities/measure-instance/measure-instance.controller.js"></script>
 	<script src="app/entities/entity.state.js"></script>
 	<script src="app/entities/dashboard/dashboard-dialog.controller.js"></script>
 	<script src="app/entities/dashboard/dashboard-detail.controller.js"></script>
-	<script
-		src="app/entities/dashboard/dashboard-delete-dialog.controller.js"></script>
+	<script src="app/entities/dashboard/dashboard-delete-dialog.controller.js"></script>
+	<script src="app/entities/project-analysis/project-analysis.service.js"></script>	
+	<script src="app/entities/analysis-card/analysis-card.service.js"></script>	
+			
 	<script src="app/entities/dashboard/dashboard.state.js"></script>
 	<script src="app/entities/dashboard/dashboard.service.js"></script>
 	<script src="app/entities/dashboard/dashboard.controller.js"></script>
@@ -211,9 +210,7 @@
 	<script src="app/account/activate/activate.state.js"></script>
 	<script src="app/account/activate/activate.controller.js"></script>
 	<script src="app/account/account.state.js"></script>
-	
 
-	
 	<!-- Measure Paltform -->
 	
 	<script src="app/entities/notification/notification.service.js"></script>
@@ -238,10 +235,12 @@
 	<script src="app/pages/project/edition/appproject.controller.js"></script>
 	<script src="app/pages/project/edition/appproject-dialog.controller.js"></script>
 	<script src="app/pages/project/edition/appproject-delete-dialog.controller.js"></script>
-	
 
 	<script src="app/pages/project/overview/overview.controller.js"></script>
 	<script src="app/pages/project/overview/overview.state.js"></script>
+	
+	<script src="app/pages/project/analysis/analysis.mainview.state.js"></script>
+	<script src="app/pages/project/analysis/analysis.mainview.controller.js"></script>
 	
 	<script src="app/pages/project/phasesoverview/phasesoverview.controller.js"></script>
 	<script src="app/pages/project/phasesoverview/phasesoverview.state.js"></script>
@@ -259,6 +258,11 @@
 
 	<script src="app/pages/project/configuration/general/general.controller.js"></script>
 	<script src="app/pages/project/configuration/general/general.state.js"></script>
+	<script src="app/pages/project/configuration/general/add-analysis-dialog.controller.js"></script>
+	<script src="app/pages/project/configuration/general/analysis-delete-dialog.controller.js"></script>
+		
+	<script src="app/pages/project/configuration/analysis/analysis.configurationview.controller.js"></script>
+	<script src="app/pages/project/configuration/analysis/analysis.configurationview.state.js"></script>
 	
 	<script src="app/pages/project/configuration/instances/instances.controller.js"></script>
 	<script src="app/pages/project/configuration/instances/instances.state.js"></script>
@@ -275,7 +279,13 @@
 	<script src="app/pages/agents/measure-agent.service.js"></script>
 	<script src="app/pages/agents/measure-agent.state.js"></script>
 	
+	<script src="app/pages/analysisservices/analysis-services.controller.js"></script>
+	<script src="app/pages/analysisservices/analysis-services.service.js"></script>
+	<script src="app/pages/analysisservices/analysis-services.state.js"></script>
+	<script src="app/pages/analysisservices/analysis-services-configuration-dialog.controller.js"></script>
+	
 	<script src="app/pages/graphics/graphic-dialog.controller.js"></script>
+	
 	<script src="app/configuration.service.js"></script>	
 	<script src="app/pages/graphics/goClick.directive.js"></script>
 

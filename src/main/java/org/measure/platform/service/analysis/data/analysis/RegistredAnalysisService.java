@@ -10,7 +10,10 @@ public class RegistredAnalysisService extends AnalysisService {
 
 	private Date liveSign;
 	public RegistredAnalysisService(AnalysisService service,Date liveSign) {
-		super(service.getName(), service.getDescription());
+		this.setName(service.getName());
+		this.setDescription(service.getDescription());
+		this.setConfigurationURL(service.getConfigurationURL());
+		this.setLiveSign(liveSign);
 	}
 	public Date getLiveSign() {
 		return liveSign;

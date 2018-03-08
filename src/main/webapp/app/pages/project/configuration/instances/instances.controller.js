@@ -6,11 +6,11 @@
 
 	AppProjectInstancesController.$inject = [ '$location', '$scope',
 			'Principal', 'LoginService', '$state', 'entity', 'Home',
-			'ProjectInstances', 'MeasureAgentService', 'Notification' ];
+			'ProjectInstances', 'MeasureAgentService', 'Notification' ,'ProjectAnalysis'];
 
 	function AppProjectInstancesController($location, $scope, Principal,
 			LoginService, $state, entity, Home, ProjectInstances,
-			MeasureAgentService, Notification) {
+			MeasureAgentService, Notification,ProjectAnalysis) {
 		var vm = this;
 
 		vm.project = entity;
@@ -37,6 +37,16 @@
 					}
 
 				}
+			});
+		}
+		
+		vm.analysis = [];
+		loadAnalysisByProject(vm.project.id);
+		function loadAnalysisByProject(id) {
+			ProjectAnalysis.byprojects({
+				id : id
+			}, function(result) {
+				vm.analysis = result;
 			});
 		}
 

@@ -72,13 +72,13 @@
 		vm.deletegraphic = deletegraphic;
 		function deletegraphic(id) {
 			 MeasureView.delete({id: id});
-			 $state.go('appproject', null, { reload: 'appproject' });
+			 $state.go('projectphases', null, { reload: 'projectphases' });
 		}
 		
 		vm.viewBlockStyle = viewBlockStyle;
 		
 		function viewBlockStyle(measureview){
-			if(measureview.mode == 'AUTO' ||measureview.mode == 'KVIS' ){
+			if(measureview.mode == 'AUTO' || measureview.mode == 'KVIS' || measureview.mode == 'CARD' ){
 				return "display: inline-block;";
 			}
 			return "";			

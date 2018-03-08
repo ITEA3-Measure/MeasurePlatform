@@ -1,0 +1,107 @@
+
+<div style="margin-left: 10px; margin-right: 10px;">
+
+	<div class="mm-body">
+		<div class="page-header" style="min-height: 40px;">
+			<div style="float: left;  ">
+				<img class="img-rounded" style="width: 30px; height: 30px; margin-right: 20px;"
+					src="content/images/measureLogo.png"
+					ng-show="vm.project.projectImage == null" /> <img
+					class="img-rounded" style="width: 30px; height: 30px;"
+					src="{{vm.project.projectImage}}"
+					ng-show="vm.project.projectImage != null" />
+
+			</div>
+			<h2>{{vm.project.projectName}}</h2>
+		</div>
+
+		<ol class="breadcrumb">
+			<li><a ui-sref="home">Home</a></li>
+			<li><a ui-sref="catalogue">Projects</a></li>
+			<li><a ui-sref="projectoverview({id:vm.project.id})">
+					{{vm.project.projectName}}</a></li>
+		</ol>
+
+		<div class="row" style="margin: 0px;">
+			<div class="col-lg-12 bhoechie-tab-container">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
+					<div class="list-group">
+						<a ui-sref="projectoverview({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-th-large"></h4> <br />Project
+							Overview
+						</a> <a ui-sref="phasesoverview({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
+						</a> <a ng-repeat="analyse in vm.analysis"
+							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
+							class="list-group-item text-center ">
+							<h4 class="glyphicon glyphicon-dashboard"></h4> <br />{{analyse.analysisToolId}}
+						</a> <a ui-sref="notification({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
+							({{vm.notifications.length}})
+						</a> <a ui-sref="generalconf({id:vm.project.id})"
+							class="list-group-item text-center active">
+							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
+						</a>
+					</div>
+				</div>
+
+				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
+					<!-- Project Overview section -->
+					<div class="bhoechie-tab-content">
+
+						<ul class="nav nav-tabs">
+							<li role="presentation"><a
+								ui-sref="generalconf({id:vm.project.id})">Project
+									Configuration</a></li>
+							<li role="presentation"><a
+								ui-sref="projectinstances({id:vm.project.id})">Measures
+									Instances</a></li>
+
+							<li ng-repeat="analyse in vm.analysis" role="presentation"
+								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"
+								class="{{analyse.id == vm.currentanalyse.id ?  'active' : '' }}"><a>{{analyse.analysisToolId}}</a></li>
+
+						</ul>
+						<div class="well-dashboard" style="min-height: 600px;">
+
+
+							<div ng-show="!vm.isserviceavailable"
+								style="margin-top: 100px; margin-left: 40%">
+								<h2>
+									<span class="label label-danger">ERROR : ANALYSIS
+										SERVICE STOPED</span>
+								</h2>
+							</div>
+							
+							<div
+								ng-show="vm.currentanalyse.configurationUrl == null && vm.isserviceavailable"
+								style="margin-top: 100px; margin-left: 40%">
+								<h2>
+									<span class="label label-warning">Configuration In
+										Progress</span>
+								</h2>
+							</div>
+
+							<div ng-show="vm.currentanalyse.configurationUrl != null && vm.isserviceavailable">
+								<div ng-bind-html="vm.frame() | to_trusted"></div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+

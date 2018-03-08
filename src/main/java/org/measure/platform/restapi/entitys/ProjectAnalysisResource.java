@@ -54,7 +54,7 @@ public class ProjectAnalysisResource {
 	 * @return the ResponseEntity with status 201 (Created) and with body the new projectAnalysis, or with status 400 (Bad Request) if the projectAnalysis has already an ID
 	 * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
 	 */
-	@PostMapping("/projectAnalysis")
+	@PostMapping("/projectanalysis")
 	@Timed
 	public ResponseEntity<ProjectAnalysis> createProjectAnalysis(@Valid @RequestBody ProjectAnalysis projectAnalysis)
 			throws URISyntaxException {
@@ -83,7 +83,7 @@ public class ProjectAnalysisResource {
 	 * or with status 500 (Internal Server Error) if the projectAnalysis couldnt be updated
 	 * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
 	 */
-	@PutMapping("/projectAnalysiss")
+	@PutMapping("/projectanalysis")
 	@Timed
 	public ResponseEntity<ProjectAnalysis> updateProjectAnalysis(@Valid @RequestBody ProjectAnalysis projectAnalysis)
 			throws URISyntaxException {
@@ -102,14 +102,14 @@ public class ProjectAnalysisResource {
 	 * 
 	 * @return the ResponseEntity with status 200 (OK) and the list of  projectAnalysiss in body
 	 */
-	@GetMapping("/projectAnalysiss")
+	@GetMapping("/projectanalysis")
 	@Timed
 	public List<ProjectAnalysis> getAllProjectAnalysiss() {
 		log.debug("REST request to get all ProjectAnalysiss");
 		return projectAnalysisService.findAll();
 	}
 
-    @GetMapping("/projectAnalysis/byproject/{id}")
+    @GetMapping("/projectanalysis/byproject/{id}")
     @Timed
     public List<ProjectAnalysis> getPhasesByProject(@PathVariable Long id) {
         return projectAnalysisService.findAllByProject(projecService.findOne(id));
@@ -123,7 +123,7 @@ public class ProjectAnalysisResource {
 	 * @return the ResponseEntity with status 200 (OK) and with body the
 	 *         projectAnalysis, or with status 404 (Not Found)
 	 */
-	@GetMapping("/projectAnalysiss/{id}")
+	@GetMapping("/projectanalysis/{id}")
 	@Timed
 	public ResponseEntity<ProjectAnalysis> getProjectAnalysis(@PathVariable Long id) {
 		log.debug("REST request to get ProjectAnalysis : {}", id);
@@ -139,7 +139,7 @@ public class ProjectAnalysisResource {
 	 *            the id of the projectAnalysis to delete
 	 * @return the ResponseEntity with status 200 (OK)
 	 */
-	@DeleteMapping("/projectAnalysiss/{id}")
+	@DeleteMapping("/projectanalysis/{id}")
 	@Timed
 	public ResponseEntity<Void> deleteProjectAnalysis(@PathVariable Long id) {
 		log.debug("REST request to delete ProjectAnalysis : {}", id);
@@ -151,8 +151,6 @@ public class ProjectAnalysisResource {
 		alertEngineService.alert(alert);
 		
 		projectAnalysisService.delete(id);
-		
-
 		
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("projectAnalysis", id.toString()))
 				.build();

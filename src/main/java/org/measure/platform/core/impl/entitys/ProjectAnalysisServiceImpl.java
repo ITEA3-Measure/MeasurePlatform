@@ -76,7 +76,7 @@ public class ProjectAnalysisServiceImpl implements  ProjectAnalysisService {
     public void delete(Long id) {
     	ProjectAnalysis projectAnalysis = projectAnalysisRepository.findOne(id);
  	
-        for(AnalysisCard card : analysisCardService.findAllByProjectAnalysis(projectAnalysis)){
+        for(AnalysisCard card : projectAnalysis.getAnalysiscards()){
         	analysisCardService.delete(card.getId());
         }
         

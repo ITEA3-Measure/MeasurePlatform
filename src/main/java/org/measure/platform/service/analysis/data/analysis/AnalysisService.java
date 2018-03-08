@@ -1,23 +1,28 @@
 package org.measure.platform.service.analysis.data.analysis;
 
-/** 
- * External data analysis service which is integrated with Measure Platform.
- * COuld provide the url of a general configuration page
- */
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+
+@XmlRootElement(name = "AnalysisService")
 public class AnalysisService {
-	
+		
 	private String name;
-	
+		
 	private String description;
-	
+		
 	private String configurationURL;
+	
+	public AnalysisService(){
+		
+	}
 	
 	public AnalysisService(String name,String description){
 		this.name = name;
 		this.description = description;
 	}
 	
-
+	@XmlAttribute
 	public String getName() {
 		return name;
 	}
@@ -26,6 +31,7 @@ public class AnalysisService {
 		this.name = name;
 	}
 
+	@XmlAttribute
 	public String getDescription() {
 		return description;
 	}
@@ -34,6 +40,7 @@ public class AnalysisService {
 		this.description = description;
 	}
 
+	@XmlAttribute
 	public String getConfigurationURL() {
 		return configurationURL;
 	}

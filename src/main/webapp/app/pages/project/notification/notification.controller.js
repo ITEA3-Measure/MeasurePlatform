@@ -5,10 +5,10 @@
 			NotificationController);
 
 	NotificationController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project', 'Phase','Notification', 'MeasureView' ];
+			'$state', 'entity', 'Project', 'Phase','Notification', 'MeasureView','ProjectAnalysis' ];
 
 	function NotificationController($scope,$cookies, Principal, LoginService, $state,
-			entity, Project, Phase,Notification, MeasureView) {
+			entity, Project, Phase,Notification, MeasureView,ProjectAnalysis) {
 		var vm = this;
 		vm.project = entity;
 			
@@ -22,6 +22,16 @@
 				vm.notifications = result;
 			});
 		}	
+		
+		vm.analysis = [];
+		loadAnalysisByProject(vm.project.id);
+		function loadAnalysisByProject(id) {
+			ProjectAnalysis.byprojects({
+				id : id
+			}, function(result) {
+				vm.analysis = result;
+			});
+		}
 		
 		vm.validateNotification = validateNotification;
 		function validateNotification(id){

@@ -72,13 +72,22 @@ public class MeasureViewServiceImpl implements MeasureViewService {
             updateViewDataFromKibanaVisualisation(measureView);
         } else if ("KDASH".equals(mode)) {
             updateViewDataFromKibanaDashboard(measureView);
+        } else if ("CARD".equals(mode)) {
+            updateViewDataFromAnalysisCard(measureView);
         }
         
         MeasureView result = measureViewRepository.save(measureView);
         return result;
     }
 
-    private void updateViewData(MeasureView measureView) {
+    private void updateViewDataFromAnalysisCard(MeasureView measureView) {
+       AnalysisCard card = measureView.getAnalysiscard();
+       String value = messageSource.getMessage("viewtype.view5", new Object[] {card.getCardUrl(),card.getPreferedHeight(), card.getPreferedWidth()}, Locale.ENGLISH);
+       measureView.setViewData(value);
+      
+	}
+
+	private void updateViewData(MeasureView measureView) {
         String type = "line";
         
         if (measureView.getType().equals("Last Value")) {

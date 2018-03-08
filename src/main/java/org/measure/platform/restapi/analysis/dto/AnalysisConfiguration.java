@@ -1,12 +1,18 @@
 package org.measure.platform.restapi.analysis.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnalysisConfiguration {
 	private Long projectAnalysisId;
 	private String viewUrl;
 	private String configurationUrl;
-	private List<CardConfiguration> cards;
+	
+
+	
+	private List<CardConfiguration> cards  = new ArrayList<>();
+	
+	
 	
 	public Long getProjectAnalysisId() {
 		return this.projectAnalysisId;
@@ -14,6 +20,9 @@ public class AnalysisConfiguration {
 	public void setProjectAnalysisId(Long projectAnalysisId) {
 		this.projectAnalysisId = projectAnalysisId;
 	}
+	
+
+
 	public String getViewUrl() {
 		return this.viewUrl;
 	}
@@ -32,7 +41,4 @@ public class AnalysisConfiguration {
 	public void setCards(List<CardConfiguration> cards) {
 		this.cards = cards;
 	}
-	
-	
-
 }

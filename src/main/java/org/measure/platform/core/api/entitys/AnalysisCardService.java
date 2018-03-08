@@ -3,6 +3,7 @@ package org.measure.platform.core.api.entitys;
 import java.util.List;
 
 import org.measure.platform.core.entity.AnalysisCard;
+import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.entity.ProjectAnalysis;
 
 /**
@@ -23,7 +24,7 @@ public interface AnalysisCardService {
     List<AnalysisCard> findAll();
 
     /**
-     * Get all the Project Analysis of current owner.
+     * Get all the AnalysisCard of current project analysis.
      * @return the list of entities
      */
     List<AnalysisCard> findAllByProjectAnalysis(ProjectAnalysis projectAnalysis);
@@ -40,6 +41,12 @@ public interface AnalysisCardService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Get all the AnalysisCard of current project.
+     * @return the list of entities
+     */
+	List<AnalysisCard> findAllByProject(Project project);
 
 
 }

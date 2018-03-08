@@ -484,6 +484,7 @@ div.bhoechie-tab-container {
 	background-clip: padding-box;
 	opacity: 0.97;
 	filter: alpha(opacity = 97);
+	min-height: 800px;
 }
 
 div.bhoechie-tab-menu {

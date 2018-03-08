@@ -36,6 +36,12 @@ public class AnalysisCard {
 	@Column(name = "card_url", nullable = false)
 	private String cardUrl;
 	
+	@Column(name = "prefered_width", nullable = false)
+	private Integer preferedWidth;
+	
+	@Column(name = "prefered_height", nullable = false)
+	private Integer preferedHeight;
+	
     @ManyToOne
     private ProjectAnalysis projectanalysis;
 
@@ -50,6 +56,22 @@ public class AnalysisCard {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Integer getPreferedWidth() {
+		return preferedWidth;
+	}
+
+	public void setPreferedWidth(Integer preferedWidth) {
+		this.preferedWidth = preferedWidth;
+	}
+
+	public Integer getPreferedHeight() {
+		return preferedHeight;
+	}
+
+	public void setPreferedHeight(Integer preferedHeight) {
+		this.preferedHeight = preferedHeight;
 	}
 
 	public String getCardLabel() {

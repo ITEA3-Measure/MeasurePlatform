@@ -36,19 +36,18 @@ public class ProjectAnalysis implements Serializable {
     @Column(name = "analysis_tool_id", nullable = false)
     private String analysisToolId;
     
-    @NotNull
-    @Column(name = "analysis_tool_description", nullable = false)
-    private String analysisToolDescription;
     
-    @NotNull
-    @Column(name = "dashboard_name", nullable = false)
+    @Column(name = "analysis_tool_description", nullable = true)
+    private String analysisToolDescription;
+       
+    @Column(name = "dashboard_name", nullable = true)
     private String dashboardName;
     
-    @Column(name = "configuration_url", nullable = false)
+    @Column(name = "configuration_url", nullable = true)
     private String configurationUrl;
     
-    @NotNull
-    @Column(name = "view_url", nullable = false)
+    
+    @Column(name = "view_url", nullable = true)
     private String viewUrl;
  
     @ManyToOne

@@ -157,7 +157,7 @@
             }]
         }).state('projectphases.addgraphic', {
             parent: 'projectphases',
-            url: '/phasedashboard/:dashboardid/graphic',
+            url: '/phasedashboard/:dashboardid/graphic/:mode',
             data: {
                 authorities: []
             },
@@ -179,7 +179,7 @@
 	                            type:"Line chart",
 	                            auto:false,
 	                            interval:"Last Hour",
-	                            mode:'AUTO',
+	                            mode:$stateParams.mode,
 	                            visualisedProperty:null,
 	                            dateIndex:null,
 	                            color:'Blue',
@@ -191,7 +191,9 @@
                                  isOverview: false
                              };
                          },
-                    	  project: null,
+                         project:['$stateParams', 'Project', function($stateParams, Project) {
+                             return Project.get({id : $stateParams.id}).$promise;
+                         }],
                           phase:null,
                           dashboard:['Dashboard', function(Dashboard) {
                               return Dashboard.get({id : $stateParams.dashboardid}).$promise;

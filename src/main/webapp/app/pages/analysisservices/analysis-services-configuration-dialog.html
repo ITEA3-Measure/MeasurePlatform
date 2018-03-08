@@ -1,0 +1,17 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myProjectLabel">{{vm.analysis.name}} Configuration</h4>
+    </div>
+    <div class="modal-body">    	
+    	<div ng-bind-html="vm.frame | to_trusted"></div>    	
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Close</span>
+        </button>
+    </div>
+</form>

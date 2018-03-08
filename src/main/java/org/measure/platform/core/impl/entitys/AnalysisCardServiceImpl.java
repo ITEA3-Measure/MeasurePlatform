@@ -8,6 +8,7 @@ import org.measure.platform.core.api.entitys.AnalysisCardService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.AnalysisCard;
 import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.entity.ProjectAnalysis;
 import org.measure.platform.core.impl.repository.AnalysisCardRepository;
 import org.slf4j.Logger;
@@ -66,6 +67,11 @@ public class AnalysisCardServiceImpl implements AnalysisCardService {
 		}
 
 		analysisRepository.delete(id);
+	}
+
+	@Override
+	public List<AnalysisCard> findAllByProject(Project project) {
+		return analysisRepository.findByProject(project);
 	}
 
 }

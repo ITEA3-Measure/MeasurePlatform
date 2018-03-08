@@ -58,7 +58,7 @@
             }]
         }).state('phasesoverview.addphasegraphic', {
             parent: 'phasesoverview',
-            url: '/graphic/phase/:phaseid',
+            url: '/graphic/phase/:phaseid/:mode',
             data: {
                 authorities: []
             },
@@ -81,7 +81,7 @@
 	                            auto:false,
 	                            timePeriode:"from:now-1y,mode:quick,to:now",
 	                            timeAgregation:"M",
-	                            mode:'AUTO',
+	                            mode:$stateParams.mode,
 	                            visualisedProperty:null,
 	                            dateIndex:null,
 	                            color:'Blue',
@@ -93,7 +93,9 @@
                                  isOverview: true
                              };
                          },
-                    	  project: null,
+                         project:['$stateParams', 'Project', function($stateParams, Project) {
+                             return Project.get({id : $stateParams.id}).$promise;
+                         }],
                           phase:['Phase', function(Phase) {
                               return Phase.get({id : $stateParams.phaseid}).$promise;
                           }],

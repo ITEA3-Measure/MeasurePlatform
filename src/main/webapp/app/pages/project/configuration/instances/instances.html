@@ -1,21 +1,19 @@
 
-<div style="margin-left: 50px; margin-right: 50px;">
+<div style="margin-left: 10px; margin-right: 10px;">
 
 	<div class="mm-body">
-
-
-		<div class="page-header" style="min-height: 80px;">
-			<div style="float: left; margin-right: 10px; margin-top: -10px;">
-				<img class="img-rounded" style="width: 80px; height: 80px;"
+		<div class="page-header" style="min-height: 40px;">
+			<div style="float: left;">
+				<img class="img-rounded"
+					style="width: 30px; height: 30px; margin-right: 20px;"
 					src="content/images/measureLogo.png"
 					ng-show="vm.project.projectImage == null" /> <img
-					class="img-rounded" style="width: 40px; height: 80px;"
+					class="img-rounded" style="width: 30px; height: 30px;"
 					src="{{vm.project.projectImage}}"
 					ng-show="vm.project.projectImage != null" />
 
 			</div>
 			<h2>{{vm.project.projectName}}</h2>
-			<h4>{{vm.project.projectDescription}}</h4>
 		</div>
 
 		<ol class="breadcrumb">
@@ -25,24 +23,22 @@
 					{{vm.project.projectName}}</a></li>
 		</ol>
 
-		<div class="row">
+		<div class="row" style="margin: 0px;">
 			<div class="col-lg-12 bhoechie-tab-container">
 				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
 					<div class="list-group">
 						<a ui-sref="projectoverview({id:vm.project.id})"
-							class="list-group-item text-center ">
-							<h4 class="glyphicon glyphicon-scale"></h4> <br />Project
-							Overview <a ui-sref="phasesoverview({id:vm.project.id})"
 							class="list-group-item text-center">
-								<h4 class="glyphicon glyphicon-th-list"></h4> <br />Phases
-						</a>
-
-
-						</a> <a ui-sref="projectoverview({id:vm.project.id})"
+							<h4 class="glyphicon glyphicon-th-large"></h4> <br />Project
+							Overview
+						</a> <a ui-sref="phasesoverview({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
+						</a> <a ng-repeat="analyse in vm.analysis"
+							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
 							class="list-group-item text-center ">
-							<h4 class="glyphicon glyphicon-scale"></h4> <br />Analysis Tool
-							1
-						</a>  <a ui-sref="notification({id:vm.project.id})"
+							<h4 class="glyphicon glyphicon-dashboard"></h4> <br />{{analyse.analysisToolId}}
+						</a> <a ui-sref="notification({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
@@ -66,7 +62,10 @@
 								ui-sref="projectinstances({id:vm.project.id})">Measures
 									Instances</a></li>
 
-							<li role="presentation"><a>Analysis Tool 1</a></li>
+							<li ng-repeat="analyse in vm.analysis" role="presentation"
+								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>
+
+
 						</ul>
 						<div class="well-dashboard" style="min-height: 300px;">
 							<div style="float: right; margin-top: 0px">

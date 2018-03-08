@@ -19,6 +19,14 @@
 			<column name="id" type="bigint" autoIncrement="${autoIncrement}">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			
+			<column name="prefered_width" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			
+			<column name="prefered_height" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
 
 			<column name="card_label" type="varchar(255)">
 				<constraints nullable="false" />
@@ -29,7 +37,7 @@
 				<constraints nullable="false" />
 			</column>
 
-			<column name="project_analysis_id" type="bigint">
+			<column name="projectanalysis_id" type="bigint">
 				<constraints nullable="true" />
 			</column>
 

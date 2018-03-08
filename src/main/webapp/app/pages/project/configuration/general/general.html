@@ -1,21 +1,18 @@
 
-<div style="margin-left: 50px; margin-right: 50px;">
+<div style="margin-left: 10px; margin-right: 10px;">
 
 	<div class="mm-body">
-
-
-		<div class="page-header" style="min-height: 80px;">
-			<div style="float: left; margin-right: 10px; margin-top: -10px;">
-				<img class="img-rounded" style="width: 100px; height: 100px;"
+		<div class="page-header" style="min-height: 40px;">
+			<div style="float: left;  ">
+				<img class="img-rounded" style="width: 30px; height: 30px; margin-right: 20px;"
 					src="content/images/measureLogo.png"
 					ng-show="vm.project.projectImage == null" /> <img
-					class="img-rounded" style="width: 100px; height: 100px;"
+					class="img-rounded" style="width: 30px; height: 30px;"
 					src="{{vm.project.projectImage}}"
 					ng-show="vm.project.projectImage != null" />
 
 			</div>
 			<h2>{{vm.project.projectName}}</h2>
-			<h4>{{vm.project.projectDescription}}</h4>
 		</div>
 
 		<ol class="breadcrumb">
@@ -25,26 +22,26 @@
 					{{vm.project.projectName}}</a></li>
 		</ol>
 
-		<div class="row">
+		<div class="row" style="margin: 0px;">
 			<div class="col-lg-12 bhoechie-tab-container">
 				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
 					<div class="list-group">
 						<a ui-sref="projectoverview({id:vm.project.id})"
-							class="list-group-item text-center ">
-							<h4 class="glyphicon glyphicon-scale"></h4> <br />Project
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-th-large"></h4> <br />Project
 							Overview
 						</a> <a ui-sref="phasesoverview({id:vm.project.id})"
 							class="list-group-item text-center">
-							<h4 class="glyphicon glyphicon-th-list"></h4> <br />Phases
-						</a> <a ui-sref="projectoverview({id:vm.project.id})"
+							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
+						</a> <a ng-repeat="analyse in vm.analysis"
+							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
 							class="list-group-item text-center ">
-							<h4 class="glyphicon glyphicon-scale"></h4> <br />Analysis Tool
-							1
+							<h4 class="glyphicon glyphicon-dashboard"></h4> <br />{{analyse.analysisToolId}}
 						</a> <a ui-sref="notification({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a> <a ui-sref="projectinstances({id:vm.project.id})"
+						</a> <a ui-sref="generalconf({id:vm.project.id})"
 							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a>
@@ -63,14 +60,17 @@
 								ui-sref="projectinstances({id:vm.project.id})">Measures
 									Instances</a></li>
 
-							<li role="presentation"><a>Analysis Tool 1</a></li>
+							<li ng-repeat="analyse in vm.analysis" role="presentation"
+								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>
+
 						</ul>
 						<div class="well-dashboard" style="min-height: 300px;">
 
 							<div style="float: right; margin-top: 0px; text-align: right;">
 
 								<h4 style="margin-top: 0px;">
-									<a ui-sref="generalconf.editproject({id:vm.project.id})" style="margin: 10px;"> <span
+									<a ui-sref="generalconf.editproject({id:vm.project.id})"
+										style="margin: 10px;"> <span
 										class="glyphicon glyphicon-pencil" aria-hiden="true"></a> <a
 										ui-sref="generalconf.deleteproject({id:vm.project.id})"
 										style="color: red;" style="margin: 10px;"><span
@@ -78,9 +78,7 @@
 								</h4>
 							</div>
 							<div class="page-header">
-								<h4>
-									General Informations
-									</h41>
+								<h4>General Informations</h4>
 							</div>
 
 
@@ -130,7 +128,10 @@
 							</div>
 
 
-
+							<button class="btn btn-primary"
+								style="float: right;  min-width: 150px; min-height: 20px"
+								ui-sref="generalconf.addanalysis({id:vm.project.id})">Add
+								Analysis Tool</button>
 							<div class="page-header">
 								<h4>Analysis Tools</h4>
 							</div>
@@ -139,95 +140,34 @@
 								style="width: 98%; margin: 20px;">
 
 								<tbody>
-
-									<tr>
+									<tr ng-repeat="analyse in vm.analysis">
 										<td style="vertical-align: top;"><a href="#"><img
 												class="img-rounded" style="width: 48px;"
 												src="content/images/multimedia.png" /> </a></td>
 
 										<td style="vertical-align: top;"><h3
 												style="margin-top: 5px; margin-bottom: 5px;">
-												Analysis Tool 1 <small></small>
-											</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-											suscipit arcu nulla, sed scelerisque tellus accumsan vitae.
-											Sed ultricies lobortis nunc. Sed commodo, sem ac egestas
-											egestas, erat nisl faucibus metus, sit amet egestas ligula
-											mauris eu nisi. Curabitur vulputate vulputate nisl, quis
-											tristique tellus mollis nec. Suspendisse quis posuere libero.
-											Morbi porttitor congue lectus vel mattis. Proin pretium non
-											sapien et hendrerit.</td>
-
-
+												{{analyse.analysisToolId}}</h3>{{analyse.analysisToolDescription}}</td>
 										<td style="vertical-align: middle;">
-											<button
-												class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
-												ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
-												<span class="glyphicon glyphicon glyphicon-off"></span> <span
+											<h3>
+												<span
+													ng-show="vm.isserviceavailable(analyse.analysisToolId)"
+													class="label label-success">Service Available</span> <span
+													ng-show="!vm.isserviceavailable(analyse.analysisToolId)"
+													class="label label-danger">Service Not Available</span>
+											</h3>
+										</td>
+										<td style="vertical-align: middle;">
+											<button class="btn btn-danger btn-sm"
+												style="margin-top: 12px;"
+												ui-sref="generalconf.deleteanalysis({anid:analyse.id})">
+												<span class="glyphicon glyphicon glyphicon-trash"></span> <span
 													class="hidden-xs hidden-sm"></span>
 											</button>
 										</td>
 									</tr>
-
-									<tr>
-										<td style="vertical-align: top;"><a href="#"><img
-												class="img-rounded" style="width: 48px;"
-												src="content/images/multimedia.png" /> </a></td>
-
-										<td style="vertical-align: top;"><h3
-												style="margin-top: 5px; margin-bottom: 5px;">Analysis
-												Tool 2</h3>Lorem ipsum dolor sit amet, consectetur adipiscing
-											elit. Ut suscipit arcu nulla, sed scelerisque tellus accumsan
-											vitae. Sed ultricies lobortis nunc. Sed commodo, sem ac
-											egestas egestas, erat nisl faucibus metus, sit amet egestas
-											ligula mauris eu nisi. Curabitur vulputate vulputate nisl,
-											quis tristique tellus mollis nec. Suspendisse quis posuere
-											libero. Morbi porttitor congue lectus vel mattis. Proin
-											pretium non sapien et hendrerit.</td>
-
-
-										<td style="vertical-align: middle;">
-											<button
-												class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
-												ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
-												<span class="glyphicon glyphicon glyphicon-off"></span> <span
-													class="hidden-xs hidden-sm"></span>
-											</button>
-										</td>
-									</tr>
-
-									<tr>
-										<td style="vertical-align: top;"><a href="#"><img
-												class="img-rounded" style="width: 48px;"
-												src="content/images/multimedia.png" /> </a></td>
-
-										<td style="vertical-align: top;"><h3
-												style="margin-top: 5px; margin-bottom: 5px;">
-												Analysis Tool 3 <small></small>
-											</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-											suscipit arcu nulla, sed scelerisque tellus accumsan vitae.
-											Sed ultricies lobortis nunc. Sed commodo, sem ac egestas
-											egestas, erat nisl faucibus metus, sit amet egestas ligula
-											mauris eu nisi. Curabitur vulputate vulputate nisl, quis
-											tristique tellus mollis nec. Suspendisse quis posuere libero.
-											Morbi porttitor congue lectus vel mattis. Proin pretium non
-											sapien et hendrerit.</td>
-
-
-										<td style="vertical-align: middle;">
-											<button
-												class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
-												ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
-												<span class="glyphicon glyphicon glyphicon-off"></span> <span
-													class="hidden-xs hidden-sm"></span>
-											</button>
-										</td>
-									</tr>
-
-
 								</tbody>
 							</table>
-
-
 						</div>
 					</div>
 				</div>

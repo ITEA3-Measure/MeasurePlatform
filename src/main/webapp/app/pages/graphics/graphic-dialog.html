@@ -2,18 +2,23 @@
 
 	<div class="modal-header">
 		<div data-toggle="buttons" style="float: right;">
+
 			<label
+				class="btn btn-default btn-circle btn-lg {{vm.active('CARD')}}">
+				<input type="radio" value="CARD" ng-model="vm.measureView.mode"><i
+				class="glyphicon glyphicon-dashboard"></i>
+			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('AUTO')}}">
-				<input type="radio" value="AUTO" ng-model="vm.measureView.mode"><i
-				class="glyphicon glyphicon-th"></i>
+				<input type="radio" value="AUTO" ng-model="vm.measureView.mode">
+				<i class="glyphicon glyphicon-th"></i>
 			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('KVIS')}}">
 				<input type="radio" value="KVIS" ng-model="vm.measureView.mode">
-				<b>V</b></i>
+				<i class="glyphicon glyphicon-modal-window"></i>
 			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('KDASH')}}">
 				<input type="radio" value="KDASH" ng-model="vm.measureView.mode">
-				<b>D</b></i>
+				<i class="glyphicon glyphicon-blackboard"></i>
 			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('MANUAL')}}">
 				<input type="radio" value="MANUAL" ng-model="vm.measureView.mode"><i
@@ -37,10 +42,23 @@
 			<div ng-show="vm.measureView.mode == 'MANUAL'">
 				<h2 class="modal-title">Integrate External View</h2>
 			</div>
+
+			<div ng-show="vm.measureView.mode == 'CARD'">
+				<h2 class="modal-title">Analysis Card</h2>
+			</div>
 		</div>
 	</div>
 
 	<div class="modal-body">
+		<div ng-show="vm.measureView.mode == 'CARD'" style="margin-top: 10px;">
+			<label for="field_measureInstance">Select an Analysis Card</label> <select
+				class="form-control" id="field_measureInstance"
+				name="measureInstance" ng-model="vm.measureView.analysiscard"
+				ng-options="card as card.cardLabel for card in vm.cards">
+				<option value=""></option>
+			</select>
+	
+		</div>
 		<div ng-show="vm.measureView.mode == 'AUTO'" style="margin-top: 10px;">
 			<div class="form-group">
 				<label for="field_measureInstance">Measure</label> <select
@@ -275,7 +293,6 @@
 			</div>
 		</div>
 
-
 		<div ng-show="vm.measureView.mode == 'MANUAL'"
 			style="margin-top: 80px;">
 			<div class="form-group">
@@ -285,11 +302,6 @@
 			</div>
 		</div>
 
-		<div class="form-group">
-			<label class="control-label" for=field_viewname>View Label</label> <input
-				type="text" class="form-control" name="viewName" id="field_viewname"
-				ng-model="vm.measureView.name" />
-		</div>
 		<div class="form-group">
 			<label class="control-label" for="field_viewdescription">
 				Description</label>

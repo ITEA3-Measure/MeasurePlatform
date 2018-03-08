@@ -5,10 +5,10 @@
 			AppProjectController);
 
 	AppProjectController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project', 'Phase','Notification', 'MeasureView' ];
+			'$state', 'entity', 'Project', 'Phase','Notification', 'MeasureView','ProjectAnalysis'];
 
 	function AppProjectController($scope,$cookies, Principal, LoginService, $state,
-			entity, Project, Phase,Notification, MeasureView) {
+			entity, Project, Phase,Notification, MeasureView,ProjectAnalysis) {
 		var vm = this;
 		vm.project = entity;
 		
@@ -22,7 +22,17 @@
 				vm.project.measureview = result;
 			}
 		});
-
+		
+	
+		vm.analysis = [];
+		loadAnalysisByProject(vm.project.id);
+		function loadAnalysisByProject(id) {
+			ProjectAnalysis.byprojects({
+				id : id
+			}, function(result) {
+				vm.analysis = result;
+			});
+		}
 		vm.edit = false;
 
 		vm.edition = edition;

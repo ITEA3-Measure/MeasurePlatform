@@ -5,9 +5,9 @@
         .module('measurePlatformApp')
         .controller('GraphicDialogController', GraphicDialogController);
 
-    GraphicDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance','entity','project', 'phase', 'dashboard','data', 'MeasureView','ProjectInstances','Measure','ConfigurationService'];
+    GraphicDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance','entity','project', 'phase', 'dashboard','data', 'MeasureView','ProjectInstances','Measure','ConfigurationService','AnalysisCard'];
 
-    function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project, phase,dashboard,data,MeasureView,ProjectInstances,Measure,ConfigurationService) {
+    function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project, phase,dashboard,data,MeasureView,ProjectInstances,Measure,ConfigurationService,AnalysisCard) {
         var vm = this;
         vm.measureView = entity;
         vm.project = project;
@@ -42,6 +42,20 @@
         	loadAll(vm.dashboard.phase.project.id);
         }
         
+        vm.cards = [];
+        loadAnalysisCard(vm.project.id);
+        function loadAnalysisCard(id) {
+       	 AnalysisCard.byprojects({
+    			id : id
+    		}, function(result) {
+    			vm.cards = result;
+    			for(var i = 0;i<vm.cards.length;i++){
+    				if(vm.cards[i].id == vm.measureView.analysiscard.id){
+    					vm.measureView.analysiscard = vm.cards[i];
+					}
+    			}
+    		});
+        }
         
         if(vm.measureView.mode == null){    
         	vm.measureView.mode = "AUTO";
@@ -85,29 +99,31 @@
         $scope
 		.$watch(
 				"vm.measureView.measureinstance",
-				function(newValue, oldValue) {			
-					Measure.get({
-						id : vm.measureView.measureinstance.measureName
-					}, function(result) {
-						vm.selectedMeasureDefinition = result;
-						 vm.numericProperties = [];
-					     vm.dateIndexs = [];
-					     
-					     for(var i = 0; i < result.unit.fields.length;i++){
-					    	 if(result.unit.fields[i].fieldType == 'u_double' ||
-					    		result.unit.fields[i].fieldType == 'u_integer' ||
-					    		result.unit.fields[i].fieldType == 'u_short' ||
-					    		result.unit.fields[i].fieldType == 'u_float' ||
-					    		result.unit.fields[i].fieldType == 'u_long' ||
-					    		result.unit.fields[i].fieldType == 'u_half_float' ||
-					    		result.unit.fields[i].fieldType == 'u_scaled_float'){
-					    		 vm.numericProperties.push(result.unit.fields[i].fieldName);
-					    	 }else if(result.unit.fields[i].fieldType == 'u_date'){
-					    		 vm.dateIndexs.push(result.unit.fields[i].fieldName);
-					    	 }
-					     }
-					        
-					});							
+				function(newValue, oldValue) {	
+					if(vm.measureView.measureinstance != null){
+						Measure.get({
+							id : vm.measureView.measureinstance.measureName
+						}, function(result) {
+							vm.selectedMeasureDefinition = result;
+							 vm.numericProperties = [];
+						     vm.dateIndexs = [];
+						     
+						     for(var i = 0; i < result.unit.fields.length;i++){
+						    	 if(result.unit.fields[i].fieldType == 'u_double' ||
+						    		result.unit.fields[i].fieldType == 'u_integer' ||
+						    		result.unit.fields[i].fieldType == 'u_short' ||
+						    		result.unit.fields[i].fieldType == 'u_float' ||
+						    		result.unit.fields[i].fieldType == 'u_long' ||
+						    		result.unit.fields[i].fieldType == 'u_half_float' ||
+						    		result.unit.fields[i].fieldType == 'u_scaled_float'){
+						    		 vm.numericProperties.push(result.unit.fields[i].fieldName);
+						    	 }else if(result.unit.fields[i].fieldType == 'u_date'){
+						    		 vm.dateIndexs.push(result.unit.fields[i].fieldName);
+						    	 }
+						     }
+						        
+						});	
+					}										
 				});
         
         
@@ -184,13 +200,13 @@
             if (vm.measureView.id !== null) {
                 MeasureView.update(vm.measureView, onSaveSuccess, onSaveError);
             } else {
-            	if(vm.project != null){
+            	if(vm.project != null && vm.phase == null && vm.dashboard == null){
             		if(vm.data.isOverview){
             			vm.measureView.projectoverview = vm.project;
             		}else{
             			vm.measureView.project= vm.project;
             		}
-            	}else if(vm.phase != null){
+            	}else if(vm.phase != null && vm.dashboard == null){
             		if(vm.data.isOverview){
             			vm.measureView.phaseoverview = vm.phase;
             		}else{

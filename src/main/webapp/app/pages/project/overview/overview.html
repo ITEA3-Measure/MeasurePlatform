@@ -1,18 +1,19 @@
 
-<div style="margin-left: 50px; margin-right: 50px;">
+<div style="margin-left: 10px; margin-right: 10px;">
+
 	<div class="mm-body">
-		<div class="page-header" style="min-height: 80px;">
-			<div style="float: left; margin-right: 10px; margin-top: -10px;">
-				<img class="img-rounded"  style="width: 100px; height: 100px;"
-					src="content/images/measureLogo.png" 
+		<div class="page-header" style="min-height: 40px;">
+			<div style="float: left;">
+				<img class="img-rounded"
+					style="width: 30px; height: 30px; margin-right: 20px;"
+					src="content/images/measureLogo.png"
 					ng-show="vm.project.projectImage == null" /> <img
-					class="img-rounded" style="width: 100px; height: 100px;"
+					class="img-rounded" style="width: 30px; height: 30px;"
 					src="{{vm.project.projectImage}}"
 					ng-show="vm.project.projectImage != null" />
 
 			</div>
 			<h2>{{vm.project.projectName}}</h2>
-			<h4>{{vm.project.projectDescription}}</h4>
 		</div>
 
 		<ol class="breadcrumb">
@@ -22,21 +23,21 @@
 					{{vm.project.projectName}}</a></li>
 		</ol>
 
-		<div class="row">
+		<div class="row" style="margin: 0px;">
 			<div class="col-lg-12 bhoechie-tab-container">
 				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
 					<div class="list-group">
 						<a ui-sref="projectoverview({id:vm.project.id})"
 							class="list-group-item text-center active">
-							<h4 class="glyphicon glyphicon-scale"></h4> <br />Project
+							<h4 class="glyphicon glyphicon-th-large"></h4> <br />Project
 							Overview
 						</a> <a ui-sref="phasesoverview({id:vm.project.id})"
 							class="list-group-item text-center">
-							<h4 class="glyphicon glyphicon-th-list"></h4> <br />Phases
-						</a> <a ui-sref="projectoverview({id:vm.project.id})"
+							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
+						</a> <a ng-repeat="analyse in vm.analysis"
+							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
 							class="list-group-item text-center ">
-							<h4 class="glyphicon glyphicon-scale"></h4> <br />Analysis Tool
-							1
+							<h4 class="glyphicon glyphicon-dashboard"></h4> <br />{{analyse.analysisToolId}}
 						</a> <a ui-sref="notification({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
@@ -51,10 +52,7 @@
 				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
 					<!-- Project Overview section -->
 
-
 					<div class="bhoechie-tab-content">
-
-
 						<button class="btn btn-link" style="float: right;"
 							ng-show="!vm.edit" ng-click="vm.edition()">
 							<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
@@ -92,12 +90,51 @@
 
 							</div>
 
-							<div class="btn btn-default"
-								style="width: 256px; height: 256px; margin: 30px; vertical-align: top;"
-								ng-show="vm.edit"
-								ui-sref="projectoverview.addgraphic({id:vm.project.id})">
-								<span class="glyphicon glyphicon-plus" aria-hiden="true"
-									style="margin-top: 45%"></span>
+							<div ng-show="vm.edit"
+								style="width: 256px; height: 256px; margin: 30px; vertical-align: top; display: inline-flex; flex-wrap: wrap;">
+
+								<div class="btn btn-default"
+									style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"	
+									ui-sref="projectoverview.addgraphic({mode:'CARD',id:vm.project.id})">
+									<span class="glyphicon glyphicon-dashboard" aria-hiden="true"
+										style="margin-top: 40%"></span>
+									<div>
+										<h5>Analysis Card</h5>
+									</div>
+								</div>
+								<div class="btn btn-default"
+									style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+									ui-sref="projectoverview.addgraphic({mode:'AUTO',id:vm.project.id})">
+									<span class="glyphicon glyphicon-th" aria-hiden="true"
+										style="margin-top: 40%"></span>
+									<div>
+										<h5>Measure</h5>
+									</div>
+								</div>
+
+								<div class="btn btn-default"
+									style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+									ui-sref="projectoverview.addgraphic({mode:'KVIS',id:vm.project.id})">
+									<span class="glyphicon glyphicon-modal-window"
+										aria-hiden="true" style="margin-top: 40%"></span>
+									<div>
+										<h5>
+											Kibana </br> Visualisation
+										</h5>
+									</div>
+								</div>
+
+								<div class="btn btn-default"
+									style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+									ui-sref="projectoverview.addgraphic({mode:'MANUAL',id:vm.project.id})">
+									<span class="glyphicon glyphicon-paperclip" aria-hiden="true"
+										style="margin-top: 40%"></span>
+									<div>
+										<h5>
+											Personalised </br> Content
+										</h5>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -105,5 +142,4 @@
 			</div>
 		</div>
 	</div>
-</div>
 </div>

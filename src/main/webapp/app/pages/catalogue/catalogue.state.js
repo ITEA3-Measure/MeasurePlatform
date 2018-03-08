@@ -51,7 +51,7 @@
             }]
         }).state('catalogue.addgraphic', {
             parent: 'catalogue',
-            url: '/graphic/:id',
+            url: '/graphic/:id/:mode',
             data: {
                 authorities: []
             },
@@ -73,7 +73,7 @@
 	                            type:"Line chart",
 	                            auto:false,
 	                            interval:"Last Hour",
-	                            mode:'AUTO',
+	                            mode:$stateParams.mode,
 	                            visualisedProperty:null,
 	                            dateIndex:null,
 	                            color:'Blue',

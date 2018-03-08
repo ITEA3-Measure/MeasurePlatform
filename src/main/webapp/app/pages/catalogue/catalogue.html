@@ -1,9 +1,12 @@
-<div style="margin: 50px;">
+<div style="margin-top: 50px;margin-left: 20px;margin-right: 20px;">
 	<div>
-		
-		<div style="float: right; margin-top: -40px">
-			<h4><a ui-sref="catalogue.newproject"><span class="glyphicon glyphicon-plus" aria-hiden="true"></a></h4>
-		</div>
+
+	
+
+		<button class="btn btn-primary"
+			style="float: right; margin-top: -40px; min-width: 150px; min-height: 20px"
+			ui-sref="catalogue.newproject">New
+			Project</button>
 
 		<div ng-repeat="project in vm.projects"
 			style="min-width: 300px; display: inline-block; margin: 10px;">
@@ -18,10 +21,10 @@
 							src="{{project.projectImage}}"
 							ng-show="project.projectImage != null">
 					</div>
-					<div class="col-md-8" style="margin-top :10px;float:left;">
+					<div class="col-md-8" style="margin-top: 10px; float: left;">
 						<h4>{{project.projectName}}</h4>
 					</div>
-					<div class="col-md-1" style="margin-top: -40px;float:right;">
+					<div class="col-md-1" style="margin-top: -40px; float: right;">
 						<button class="btn btn-link btn-lg"
 							style="float: right; margin-top: 50px; margin-right: 10px;"
 							ng-show="!vm.editprojects[project.id]"
@@ -44,11 +47,12 @@
 
 							<div class="row" style="text-align: center;">
 								<div class="thumbnail"
-									style="border: none; margin-right: 20px; margin-left: 20px;margin-bottom: 0px;margin-top: 0px; text-align: center;">
+									style="border: none; margin-right: 20px; margin-left: 20px; margin-bottom: 0px; margin-top: 0px; text-align: center;">
 									<div ng-bind-html="measureview.viewData | to_trusted"></div>
-									<div class="caption" style="text-align: center;padding:0px;">
+									<div class="caption" style="text-align: center; padding: 0px;">
 										<h3 style="margin: 0px;">{{measureview.name}}</h3>
-										<p style="margin: 0px;white-space:pre-wrap ; word-wrap:break-word;">{{measureview.description}}</p>
+										<p
+											style="margin: 0px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.description}}</p>
 									</div>
 								</div>
 							</div>
@@ -67,12 +71,51 @@
 							</div>
 
 						</div>
-						<div class="btn btn-default"
-							style="width: 256px; height: 256px; margin: 30px; vertical-align: top;"
-							ng-show="vm.editprojects[project.id]"
-							ui-sref="catalogue.addgraphic({id:project.id})">
-							<span class="glyphicon glyphicon-plus" aria-hiden="true"
-								style="margin-top: 45%"></span>
+						<div ng-show="vm.editprojects[project.id]"
+							style="width: 256px; height: 256px; margin: 30px; vertical-align: top; display: inline-flex; flex-wrap: wrap;">
+
+							<div class="btn btn-default"
+								style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+								ui-sref="catalogue.addgraphic({mode:'CARD',id:project.id})">
+								<span class="glyphicon glyphicon-dashboard" aria-hiden="true"
+									style="margin-top: 40%"></span>
+								<div>
+									<h5>Analysis Card</h5>
+								</div>
+							</div>
+							<div class="btn btn-default"
+								style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+								ui-sref="catalogue.addgraphic({mode:'AUTO',id:project.id})">
+								<span class="glyphicon glyphicon-th" aria-hiden="true"
+									style="margin-top: 40%"></span>
+								<div>
+									<h5>Measure</h5>
+								</div>
+							</div>
+
+							<div class="btn btn-default"
+								style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+								ui-sref="catalogue.addgraphic({mode:'KVIS',id:project.id})">
+								<span class="glyphicon glyphicon-modal-window" aria-hiden="true"
+									style="margin-top: 40%"></span>
+								<div>
+									<h5>
+										Kibana </br> Visualisation
+									</h5>
+								</div>
+							</div>
+
+							<div class="btn btn-default"
+								style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+								ui-sref="catalogue.addgraphic({mode:'MANUAL',id:project.id})">
+								<span class="glyphicon glyphicon-paperclip" aria-hiden="true"
+									style="margin-top: 40%"></span>
+								<div>
+									<h5>
+										Personalised </br> Content
+									</h5>
+								</div>
+							</div>
 						</div>
 
 					</div>

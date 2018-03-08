@@ -1,0 +1,50 @@
+<div style="margin-left: 50px; margin-right: 50px;">
+
+	<div class="mm-body">
+		<div class="page-header">
+			<h2>Analysis Services Configuration</h2>
+		</div>
+
+		<ol class="breadcrumb">
+			<li><a ui-sref="home">Home</a></li>
+			<li><a ui-sref="analysis-services">Analysis Services
+					Configuration</a></li>
+		</ol>
+
+		<div style="margin-top: 10px; margin-right: 10%">
+			<table class="jh-table table table-striped">
+
+				<tbody>
+					<tr ng-repeat="service in vm.services">
+						<td style="vertical-align: top;"><a href="#"><img
+								class="img-rounded" style="width: 48px;"
+								src="content/images/multimedia.png" /> </a></td>
+
+						<td style="vertical-align: top;"><h3
+								style="margin-top: 5px; margin-bottom: 5px;">
+								{{service.name}}<small></small>
+							</h3>{{service.description}}</td>
+
+						<td style="vertical-align: middle;" >
+							<button ng-show="service.configurationURL != null" class="btn btn-default" style="margin-top:20px;margin-left:150px;width:150px;height:40px" ui-sref="analysis-services.configure({id:service.name})">
+								Configuration</button>
+								
+						<button ng-show="service.configurationURL == null"  class="btn btn-default" style="margin-top:20px;margin-left:150px;width:150px;height:40px" disabled>
+								Configuration</button>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+

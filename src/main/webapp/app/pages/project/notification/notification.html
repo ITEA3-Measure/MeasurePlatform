@@ -1,18 +1,18 @@
 
-<div style="margin-left: 50px; margin-right: 50px;">
+<div style="margin-left: 10px; margin-right: 10px;">
+
 	<div class="mm-body">
-		<div class="page-header" style="min-height: 80px;">
-			<div style="float: left; margin-right: 10px; margin-top: -10px;">
-				<img class="img-rounded"  style="width: 100px; height: 100px;"
+		<div class="page-header" style="min-height: 40px;">
+			<div style="float: left;  ">
+				<img class="img-rounded" style="width: 30px; height: 30px; margin-right: 20px;"
 					src="content/images/measureLogo.png"
 					ng-show="vm.project.projectImage == null" /> <img
-					class="img-rounded"  style="width: 100px; height: 100px;"
+					class="img-rounded" style="width: 30px; height: 30px;"
 					src="{{vm.project.projectImage}}"
 					ng-show="vm.project.projectImage != null" />
 
 			</div>
 			<h2>{{vm.project.projectName}}</h2>
-			<h4>{{vm.project.projectDescription}}</h4>
 		</div>
 
 		<ol class="breadcrumb">
@@ -22,174 +22,189 @@
 					{{vm.project.projectName}}</a></li>
 		</ol>
 
-			<div class="row">
-				<div class="col-lg-12 bhoechie-tab-container">
-					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
-						<div class="list-group">
-							<a ui-sref="projectoverview({id:vm.project.id})"
-								class="list-group-item text-center ">
-								<h4 class="glyphicon glyphicon-scale"></h4> <br />Project
-								Overview
-							</a> <a ui-sref="phasesoverview({id:vm.project.id})"
-								class="list-group-item text-center">
-								<h4 class="glyphicon glyphicon-th-list"></h4> <br />Phases
-							</a> <a ui-sref="notification({id:vm.project.id})"
-								class="list-group-item text-center active">
-								<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
-								({{vm.notifications.length}})
-							</a><a ui-sref="generalconf({id:vm.project.id})"
-								class="list-group-item text-center">
-								<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
-							</a>
-						</div>
+		<div class="row" style="margin: 0px;">
+			<div class="col-lg-12 bhoechie-tab-container">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
+					<div class="list-group">
+						<a ui-sref="projectoverview({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-th-large"></h4> <br />Project
+							Overview
+						</a> <a ui-sref="phasesoverview({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
+						</a> <a ng-repeat="analyse in vm.analysis"
+							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
+							class="list-group-item text-center ">
+							<h4 class="glyphicon glyphicon-dashboard"></h4> <br />{{analyse.analysisToolId}}
+						</a> <a ui-sref="notification({id:vm.project.id})"
+							class="list-group-item text-center active">
+							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
+							({{vm.notifications.length}})
+						</a> <a ui-sref="generalconf({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
+						</a>
 					</div>
+				</div>
 
-					<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
-						<!-- Project Overview section -->
-						<div class="bhoechie-tab-content">
-
-
-							<div class="row">
+				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
+					<!-- Project Overview section -->
+					<div class="bhoechie-tab-content">
 
 
-								<div class="[ form-groupcheck ]"
-									style="float: right; margin: 5px;">
-									<input type="checkbox" name="fancy-checkbox-danger"
-										ng-model="vm.showErrorNotification" id="fancy-checkbox-danger"
-										autocomplete="off" ng-change="vm.filterNotification()" />
-									<div class="[ btn-group ]">
-										<label for="fancy-checkbox-danger" class="[ btn btn-danger ]">
-											<span class="[ glyphicon glyphicon-ok ]"></span> <span>
-										</span>
-										</label>
-									</div>
-								</div>
-								<div class="[ form-groupcheck ]"
-									style="float: right; margin: 5px;">
-									<input type="checkbox" name="fancy-checkbox-warning"
-										ng-model="vm.showWarningNotification"
-										id="fancy-checkbox-warning" autocomplete="off"
-										ng-change="vm.filterNotification()" />
-									<div class="[ btn-group ]">
-										<label for="fancy-checkbox-warning"
-											class="[ btn btn-warning ]"> <span
-											class="[ glyphicon glyphicon-ok ]"></span> <span> </span>
-										</label>
-									</div>
-								</div>
-								<div class="[ form-groupcheck ]"
-									style="float: right; margin: 5px;">
-									<input type="checkbox" name="fancy-checkbox-info"
-										ng-model="vm.showInfoNotification" id="fancy-checkbox-info"
-										autocomplete="off" ng-change="vm.filterNotification()" />
-									<div class="[ btn-group ]">
-										<label for="fancy-checkbox-info" class="[ btn btn-info ]">
-											<span class="[ glyphicon glyphicon-ok ]"></span> <span>
-										</span>
-										</label>
-									</div>
-								</div>
-								<div class="[ form-groupcheck ]"
-									style="float: right; margin: 5px;">
-									<input type="checkbox" name="fancy-checkbox-success"
-										ng-model="vm.showSuccessNotification"
-										id="fancy-checkbox-success" autocomplete="off"
-										ng-change="vm.filterNotification()" />
-									<div class="[ btn-group ]">
-										<label for="fancy-checkbox-success"
-											class="[ btn btn-success ]"> <span
-											class="[ glyphicon glyphicon-ok ]"></span> <span> </span>
-										</label>
-									</div>
+						<div class="row">
+
+
+							<div class="[ form-groupcheck ]"
+								style="float: right; margin: 5px;">
+								<input type="checkbox" name="fancy-checkbox-danger"
+									ng-model="vm.showErrorNotification" id="fancy-checkbox-danger"
+									autocomplete="off" ng-change="vm.filterNotification()" />
+								<div class="[ btn-group ]">
+									<label for="fancy-checkbox-danger" class="[ btn btn-danger ]">
+										<span class="[ glyphicon glyphicon-ok ]"></span> <span>
+									</span>
+									</label>
 								</div>
 							</div>
-							<div class="row" style="padding: 5px;">
-
-								<div ng-repeat="notification in vm.notifications">
-									<div class="notice notice-success" ng-show="{{notification.notificationType =='SUCCESS'}}">
-												<div class="row">
-											<div class="col-md-1 cta-button">
-												<h5 class="cta-title">{{notification.notificationDate |
-													date:'dd.MM.yyyy HH:mm:ss'}}</h5>
-											</div>
-											<div class="col-md-10 cta-contents">
-												<h4 class="cta-title"> <strong>{{notification.notificationTitle}} </strong></h4> 
-												<div class="cta-desc">
-													<p>{{notification.notificationContent}}</p>
-												</div>
-											</div>
-											<div class="col-md-1 cta-button"
-												style="vertical-align: bottom;">
-
-												<a ng-click="vm.validateNotification(notification.id)"
-													class="btn btn-lg btn-block btn-default">Ok</a>
-											</div>
-										</div>
-									</div>
-									<div class="notice notice-danger" ng-show="{{notification.notificationType =='ERROR'}}">
-												<div class="row">
-											<div class="col-md-1 cta-button">
-												<h5 class="cta-title">{{notification.notificationDate |
-													date:'dd.MM.yyyy HH:mm:ss'}}</h5>
-											</div>
-											<div class="col-md-10 cta-contents">
-												<h4 class="cta-title"> <strong>{{notification.notificationTitle}} </strong></h4> 
-												<div class="cta-desc">
-													<p>{{notification.notificationContent}}</p>
-												</div>
-											</div>
-											<div class="col-md-1 cta-button"
-												style="vertical-align: bottom;">
-
-												<a ng-click="vm.validateNotification(notification.id)"
-													class="btn btn-lg btn-block btn-default">Ok</a>
-											</div>
-										</div>
-									</div>
-									<div class="notice notice-info" ng-show="{{notification.notificationType =='INFO'}}">
-										<div class="row">
-											<div class="col-md-1 cta-button">
-												<h5 class="cta-title">{{notification.notificationDate |
-													date:'dd.MM.yyyy HH:mm:ss'}}</h5>
-											</div>
-											<div class="col-md-10 cta-contents">
-												<h4 class="cta-title"> <strong>{{notification.notificationTitle}} </strong></h4> 
-												<div class="cta-desc">
-													<p>{{notification.notificationContent}}</p>
-												</div>
-											</div>
-											<div class="col-md-1 cta-button"
-												style="vertical-align: bottom;">
-
-												<a ng-click="vm.validateNotification(notification.id)"
-													class="btn btn-lg btn-block btn-default">Ok</a>
-											</div>
-										</div>
-									</div>
-									<div class="notice notice-warning" ng-show="{{notification.notificationType =='WARNING'}}">
-												<div class="row">
-											<div class="col-md-1 cta-button">
-												<h5 class="cta-title">{{notification.notificationDate |
-													date:'dd.MM.yyyy HH:mm:ss'}}</h5>
-											</div>
-											<div class="col-md-10 cta-contents">
-												<h4 class="cta-title"> <strong>{{notification.notificationTitle}} </strong></h4> 
-												<div class="cta-desc">
-													<p>{{notification.notificationContent}}</p>
-												</div>
-											</div>
-											<div class="col-md-1 cta-button"
-												style="vertical-align: bottom;">
-
-												<a ng-click="vm.validateNotification(notification.id)"
-													class="btn btn-lg btn-block btn-default">Ok</a>
-											</div>
-										</div>
-									</div>
-							
-									
-									
+							<div class="[ form-groupcheck ]"
+								style="float: right; margin: 5px;">
+								<input type="checkbox" name="fancy-checkbox-warning"
+									ng-model="vm.showWarningNotification"
+									id="fancy-checkbox-warning" autocomplete="off"
+									ng-change="vm.filterNotification()" />
+								<div class="[ btn-group ]">
+									<label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
+										<span class="[ glyphicon glyphicon-ok ]"></span> <span>
+									</span>
+									</label>
 								</div>
+							</div>
+							<div class="[ form-groupcheck ]"
+								style="float: right; margin: 5px;">
+								<input type="checkbox" name="fancy-checkbox-info"
+									ng-model="vm.showInfoNotification" id="fancy-checkbox-info"
+									autocomplete="off" ng-change="vm.filterNotification()" />
+								<div class="[ btn-group ]">
+									<label for="fancy-checkbox-info" class="[ btn btn-info ]">
+										<span class="[ glyphicon glyphicon-ok ]"></span> <span>
+									</span>
+									</label>
+								</div>
+							</div>
+							<div class="[ form-groupcheck ]"
+								style="float: right; margin: 5px;">
+								<input type="checkbox" name="fancy-checkbox-success"
+									ng-model="vm.showSuccessNotification"
+									id="fancy-checkbox-success" autocomplete="off"
+									ng-change="vm.filterNotification()" />
+								<div class="[ btn-group ]">
+									<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+										<span class="[ glyphicon glyphicon-ok ]"></span> <span>
+									</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="row" style="padding: 5px;">
+
+							<div ng-repeat="notification in vm.notifications">
+								<div class="notice notice-success"
+									ng-show="{{notification.notificationType =='SUCCESS'}}">
+									<div class="row">
+										<div class="col-md-1 cta-button">
+											<h5 class="cta-title">{{notification.notificationDate |
+												date:'dd.MM.yyyy HH:mm:ss'}}</h5>
+										</div>
+										<div class="col-md-10 cta-contents">
+											<h4 class="cta-title">
+												<strong>{{notification.notificationTitle}} </strong>
+											</h4>
+											<div class="cta-desc">
+												<p>{{notification.notificationContent}}</p>
+											</div>
+										</div>
+										<div class="col-md-1 cta-button"
+											style="vertical-align: bottom;">
+
+											<a ng-click="vm.validateNotification(notification.id)"
+												class="btn btn-lg btn-block btn-default">Ok</a>
+										</div>
+									</div>
+								</div>
+								<div class="notice notice-danger"
+									ng-show="{{notification.notificationType =='ERROR'}}">
+									<div class="row">
+										<div class="col-md-1 cta-button">
+											<h5 class="cta-title">{{notification.notificationDate |
+												date:'dd.MM.yyyy HH:mm:ss'}}</h5>
+										</div>
+										<div class="col-md-10 cta-contents">
+											<h4 class="cta-title">
+												<strong>{{notification.notificationTitle}} </strong>
+											</h4>
+											<div class="cta-desc">
+												<p>{{notification.notificationContent}}</p>
+											</div>
+										</div>
+										<div class="col-md-1 cta-button"
+											style="vertical-align: bottom;">
+
+											<a ng-click="vm.validateNotification(notification.id)"
+												class="btn btn-lg btn-block btn-default">Ok</a>
+										</div>
+									</div>
+								</div>
+								<div class="notice notice-info"
+									ng-show="{{notification.notificationType =='INFO'}}">
+									<div class="row">
+										<div class="col-md-1 cta-button">
+											<h5 class="cta-title">{{notification.notificationDate |
+												date:'dd.MM.yyyy HH:mm:ss'}}</h5>
+										</div>
+										<div class="col-md-10 cta-contents">
+											<h4 class="cta-title">
+												<strong>{{notification.notificationTitle}} </strong>
+											</h4>
+											<div class="cta-desc">
+												<p>{{notification.notificationContent}}</p>
+											</div>
+										</div>
+										<div class="col-md-1 cta-button"
+											style="vertical-align: bottom;">
+
+											<a ng-click="vm.validateNotification(notification.id)"
+												class="btn btn-lg btn-block btn-default">Ok</a>
+										</div>
+									</div>
+								</div>
+								<div class="notice notice-warning"
+									ng-show="{{notification.notificationType =='WARNING'}}">
+									<div class="row">
+										<div class="col-md-1 cta-button">
+											<h5 class="cta-title">{{notification.notificationDate |
+												date:'dd.MM.yyyy HH:mm:ss'}}</h5>
+										</div>
+										<div class="col-md-10 cta-contents">
+											<h4 class="cta-title">
+												<strong>{{notification.notificationTitle}} </strong>
+											</h4>
+											<div class="cta-desc">
+												<p>{{notification.notificationContent}}</p>
+											</div>
+										</div>
+										<div class="col-md-1 cta-button"
+											style="vertical-align: bottom;">
+
+											<a ng-click="vm.validateNotification(notification.id)"
+												class="btn btn-lg btn-block btn-default">Ok</a>
+										</div>
+									</div>
+								</div>
+
+
+
 							</div>
 						</div>
 					</div>
@@ -197,3 +212,4 @@
 			</div>
 		</div>
 	</div>
+</div>

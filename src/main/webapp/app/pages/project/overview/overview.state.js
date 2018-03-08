@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider.state('projectoverview', {
             parent: 'app',
-            url: '/project/:id/overview/',
+            url: '/project/:id/overview',
             data: {
                 authorities: []
             },
@@ -27,7 +27,7 @@
             }
         }).state('projectoverview.addgraphic', {
             parent: 'projectoverview',
-            url: '/graphic',
+            url: '/graphic/:mode',
             data: {
                 authorities: []
             },
@@ -50,7 +50,7 @@
 	                            auto:false,
 	                            timePeriode:"from:now-1y,mode:quick,to:now",
 	                            timeAgregation:"1M",
-	                            mode:'AUTO',
+	                            mode:$stateParams.mode,
 	                            visualisedProperty:null,
 	                            dateIndex:null,
 	                            color:'Blue',
@@ -93,7 +93,7 @@
                           }],
                     	 data: function () {
                              return {
-                                 isOverview: true
+                                 isOverview: false
                              };
                          },
                       	  project: ['Project', function(Project) {

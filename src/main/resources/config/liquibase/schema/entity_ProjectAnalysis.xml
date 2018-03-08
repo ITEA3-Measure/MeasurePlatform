@@ -23,16 +23,16 @@
 				<constraints nullable="false" />
 			</column>	
 			<column name="analysis_tool_description" type="varchar(1024)">
-				<constraints nullable="false" />
+				<constraints nullable="true" />
 			</column>	
 			<column name="dashboard_name" type="varchar(255)">
-				<constraints nullable="false" />
+				<constraints nullable="true" />
 			</column>
 			<column name="configuration_url" type="varchar(512)">
 				<constraints nullable="true" />
 			</column>
 			<column name="view_url" type="varchar(512)">
-				<constraints nullable="false" />
+				<constraints nullable="true" />
 			</column>
 			
 			<column name="project_id" type="bigint">

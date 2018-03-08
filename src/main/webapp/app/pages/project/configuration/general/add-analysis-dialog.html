@@ -1,0 +1,42 @@
+
+<div style="margin: 20px;">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="vm.clear()">&times;</button>
+		<h4 class="modal-title" id="myProjectLabel">Select the Analysi
+			Tool to Activate</h4>
+	</div>
+
+
+	<table class="jh-table table table-striped">
+		<tbody>
+			<tr ng-repeat="service in vm.services">
+				<td style="vertical-align: top;"><a href="#"><img
+						class="img-rounded" style="width: 48px;"
+						src="content/images/multimedia.png" /> </a></td>
+
+				<td style="vertical-align: top;"><h3
+						style="margin-top: 5px; margin-bottom: 5px;">
+						{{service.name}}<small></small>
+					</h3>{{service.description}}
+
+					<h3 style="margin-right:80%;margin-top: 5px; margin-bottom: 5px;">
+						<button class="btn btn-default" ng-click="vm.addService(service)">
+							Add {{service.name}} Tool</button>
+					</h3></td>
+
+
+			</tr>
+		</tbody>
+	</table>
+
+
+	<div style="margin-left: 80%;">
+
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			ng-click="vm.clear()">
+			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+		</button>
+	</div>
+</div>
+
