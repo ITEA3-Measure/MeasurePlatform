@@ -1,21 +1,15 @@
 package org.measure.platform.restapi.analysis;
 
-import java.net.URISyntaxException;
-
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.service.analysis.api.IAlertEngineService;
 import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
+import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
 import org.measure.platform.service.analysis.data.alert.AlertReport;
 import org.measure.platform.service.analysis.data.alert.AlertSubscription;
-import org.measure.platform.service.analysis.data.analysis.AnalysisService;
-import org.measure.platform.service.analysis.impl.AlertSubscriptionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +31,9 @@ public class AlertResource {
 	
 	@Inject
 	private IAlertSubscriptionManager alertSubscriptionManager;
+	
+	@Inject
+	private IAnalysisCatalogueService catalogueService;
 	
 	/**
 	 * PUT /subscribe : Subscribe to Alerts Events
@@ -61,6 +58,7 @@ public class AlertResource {
     
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public AlertReport startMeasureSheduling(@RequestParam("id") String analysisTool) {   
+    	catalogueService.updateLiveSign(analysisTool);
         return alertEngineService.getAlerts(analysisTool);
     }
 

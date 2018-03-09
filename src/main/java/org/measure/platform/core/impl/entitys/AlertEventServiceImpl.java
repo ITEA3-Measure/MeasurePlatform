@@ -11,6 +11,11 @@ import org.measure.platform.core.entity.AlertEventProperty;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.entity.ProjectAnalysis;
 import org.measure.platform.core.impl.repository.AlertEventRepository;
+import org.measure.platform.service.analysis.api.IAlertEngineService;
+import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
+import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
+import org.measure.platform.service.analysis.data.alert.AlertSubscription;
+import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,6 +34,10 @@ public class AlertEventServiceImpl implements AlertEventService {
 
 	@Inject
 	private AlertEventPropertyService alertEventPropertyService;
+	
+    @Inject
+    private IAlertEngineService subscriptionManager;
+
 
 	/**
 	 * Save a Alert Event.
@@ -80,7 +89,7 @@ public class AlertEventServiceImpl implements AlertEventService {
 		for (AlertEventProperty instance : alertEventPropertyService.findAllByAlertEvent(alertEvent)) {
 			alertEventPropertyService.delete(instance.getId());
 		}
-
+				
 		alertEventRepository.delete(id);
 	}
 

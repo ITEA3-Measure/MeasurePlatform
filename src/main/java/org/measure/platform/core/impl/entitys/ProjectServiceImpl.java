@@ -4,17 +4,25 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.measure.platform.core.api.entitys.AlertEventService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.api.entitys.NotificationService;
 import org.measure.platform.core.api.entitys.PhaseService;
 import org.measure.platform.core.api.entitys.ProjectService;
+import org.measure.platform.core.entity.AlertEvent;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Notification;
 import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.ProjectRepository;
+import org.measure.platform.service.analysis.api.IAlertEngineService;
+import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
+import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
+import org.measure.platform.service.analysis.data.alert.AlertSubscription;
+import org.measure.platform.service.analysis.data.alert.AlertType;
+import org.measure.platform.service.analysis.data.analysis.RegistredAnalysisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -42,6 +50,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private NotificationService notifService;
+    
+    
+    @Inject
+    private AlertEventService alertEventService;
+    
+    @Inject
+    private IAlertSubscriptionManager subscriptionManager;
+    
+    @Inject
+    private IAnalysisCatalogueService analysisCatalogue;
+    
 
     /**
      * Save a project.
@@ -50,8 +69,31 @@ public class ProjectServiceImpl implements ProjectService {
      */
     public Project save(Project project) {
         log.debug("Request to save Project : {}", project);
-        Project result = projectRepository.save(project);
-        return result;
+        
+        if(project.getId() == null) {
+        	Project result = projectRepository.save(project);
+        	
+        	for(RegistredAnalysisService service :analysisCatalogue.getAllAnalysisService()){
+        		AlertSubscription suscribtion = new AlertSubscription();
+    			suscribtion.setAnalysisTool(service.getName());
+    			suscribtion.setProjectId(result.getId());
+    			suscribtion.setEventType(AlertType.ANALYSIS_ENABLE);
+    			subscriptionManager.subscribe(suscribtion);
+    			
+    			
+    			suscribtion = new AlertSubscription();
+    			suscribtion.setAnalysisTool(service.getName());
+    			suscribtion.setProjectId(result.getId());
+    			suscribtion.setEventType(AlertType.ANALYSIS_DESABLE);
+    			subscriptionManager.subscribe(suscribtion);
+        	}
+
+
+        	return result;
+        }else{
+        	return projectRepository.save(project);
+        }
+
     }
 
     /**
@@ -113,8 +155,10 @@ public class ProjectServiceImpl implements ProjectService {
             notifService.delete(notif.getId());
         }
         
-        
-        
+        for (AlertEvent event : alertEventService.findAllByProject(project)) {
+        	alertEventService.delete(event.getId());
+        }
+
         projectRepository.delete(id);
     }
 

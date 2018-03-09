@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +45,7 @@ public class AlertEvent implements Serializable {
     @ManyToOne
     private Project project;
     
-    @OneToMany(mappedBy = "alertevent")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "alertevent")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AlertEventProperty> alerteventpropertys = new HashSet<>();

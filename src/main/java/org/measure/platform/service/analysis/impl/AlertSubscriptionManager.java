@@ -57,9 +57,11 @@ public class AlertSubscriptionManager implements IAlertSubscriptionManager{
 	
 	@Override
 	public void unsubscribe(AlertSubscription suscribtion) {
-		alertEngineService.unsubscribe(suscribtion);	
+	    alertEngineService.unsubscribe(suscribtion);	
 		AlertEvent event = findAlertEvent(suscribtion);
-		alertEventService.delete(event.getId());
+		if(event != null){
+			alertEventService.delete(event.getId());
+		}
 	}
 	
 	@Override
@@ -82,7 +84,7 @@ public class AlertSubscriptionManager implements IAlertSubscriptionManager{
 	private AlertEvent findAlertEvent(AlertSubscription suscribtion){
 		List<AlertEvent> result = null;
 		Project project = projectRepository.getOne(suscribtion.getProjectId());
-		if(suscribtion.getEventType().getProperties().isEmpty()){
+		if(suscribtion.getEventType().getResponsProperties().isEmpty()){
 			result = alertEventService.findByProjectAndEventType(project,suscribtion.getAnalysisTool(),suscribtion.getEventType().name());
 		}else if(!suscribtion.getProperties().isEmpty())  {
 			result = alertEventService.findByProjectEventTypeAndProp(project, suscribtion.getAnalysisTool(),suscribtion.getEventType().name(), suscribtion.getProperties().get(0).getProperty(), suscribtion.getProperties().get(0).getValue());		

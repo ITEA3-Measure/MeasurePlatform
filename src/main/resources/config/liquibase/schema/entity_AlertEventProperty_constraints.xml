@@ -8,7 +8,7 @@
     -->
     <changeSet id="20171219133433-3" author="softeam">
         
-        <addForeignKeyConstraint baseColumnNames="alert_event_id"
+        <addForeignKeyConstraint baseColumnNames="alertevent_id"
                                  baseTableName="alert_event_property"
                                  constraintName="fk_alert_event_property_alert_event_id"
                                  referencedColumnNames="id"

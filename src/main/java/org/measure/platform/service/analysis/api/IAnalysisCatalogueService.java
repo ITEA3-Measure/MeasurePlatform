@@ -33,4 +33,11 @@ public interface IAnalysisCatalogueService {
 	 */
 	public List<RegistredAnalysisService> getAllAnalysisService();
 
+	
+	/**
+	 * 
+	 * @param analysisTool
+	 */
+	void updateLiveSign(String analysisTool);
+
 }

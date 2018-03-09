@@ -51,7 +51,7 @@ public class MeasureExecutionResource {
         		AlertData alert = new AlertData();
         		alert.setAlertType(AlertType.MEASURE_SCHEDULED.name());
         		alert.setProjectId(measure.getProject().getId());		
-        		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_SCHEDULED.getProperties().get(0), measure.getInstanceName()));
+        		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_SCHEDULED.getResponsProperties().get(0), measure.getInstanceName()));
         		alertEngineService.alert(alert);
         		
                 return shedulingService.scheduleMeasure(measure);
@@ -72,7 +72,7 @@ public class MeasureExecutionResource {
         		AlertData alert = new AlertData();
         		alert.setAlertType(AlertType.MEASURE_UNSCHEDULED.name());
         		alert.setProjectId(measure.getProject().getId());		
-        		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_UNSCHEDULED.getProperties().get(0), measure.getInstanceName()));
+        		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_UNSCHEDULED.getResponsProperties().get(0), measure.getInstanceName()));
         		alertEngineService.alert(alert);
             }
         }

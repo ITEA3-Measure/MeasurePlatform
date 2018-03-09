@@ -91,12 +91,10 @@ public class MeasureInstanceResource {
 //            measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
 //        }
         
-        
-	
 		AlertData alert = new AlertData();
 		alert.setAlertType(AlertType.MEASURE_ADDED.name());
 		alert.setProjectId(measureInstance.getProject().getId());		
-		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_ADDED.getProperties().get(0), result.getInstanceName()));
+		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_ADDED.getResponsProperties().get(0), result.getInstanceName()));
 		alertEngineService.alert(alert);
         
         // Create Notification related to the creation of the  new Measure Instance
@@ -207,7 +205,7 @@ public class MeasureInstanceResource {
 		AlertData alert = new AlertData();
 		alert.setAlertType(AlertType.MEASURE_ADDED.name());
 		alert.setProjectId(measureInstance.getProject().getId());		
-		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_REMOVED.getProperties().get(0), measureInstance.getInstanceName()));
+		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_REMOVED.getResponsProperties().get(0), measureInstance.getInstanceName()));
 		alertEngineService.alert(alert);
 		
         try{

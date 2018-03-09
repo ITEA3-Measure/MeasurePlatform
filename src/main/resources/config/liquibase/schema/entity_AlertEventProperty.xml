@@ -28,7 +28,7 @@
 				<constraints nullable="false" />
 			</column>
 
-			<column name="alert_event_id" type="bigint">
+			<column name="alertevent_id" type="bigint">
 				<constraints nullable="true" />
 			</column>
 

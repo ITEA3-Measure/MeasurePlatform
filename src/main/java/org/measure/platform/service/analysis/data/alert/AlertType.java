@@ -4,23 +4,32 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum AlertType {	
-	ANALYSIS_ENABLE(Arrays.asList()),
-	ANALYSIS_DESABLE(Arrays.asList()),
-	MEASURE_ADDED(Arrays.asList("MEASUREID")),
-	MEASURE_REMOVED(Arrays.asList("MEASUREID")),
-	MEASURE_SCHEDULED(Arrays.asList("MEASUREID")),
-	MEASURE_UNSCHEDULED(Arrays.asList("MEASUREID"));
+	ANALYSIS_ENABLE(Arrays.asList(),Arrays.asList("ANALYSISID")),
+	ANALYSIS_DESABLE(Arrays.asList(),Arrays.asList("ANALYSISID")),
+	MEASURE_ADDED(Arrays.asList(),Arrays.asList("MEASUREID")),
+	MEASURE_REMOVED(Arrays.asList(),Arrays.asList("MEASUREID")),
+	MEASURE_SCHEDULED(Arrays.asList(),Arrays.asList("MEASUREID")),
+	MEASURE_UNSCHEDULED(Arrays.asList(),Arrays.asList("MEASUREID"));
 	
-	private List<String> properties;
+	private List<String> requestProperties;
 	
-	private AlertType(List<String> properties){	
-		this.properties = properties;
+	private List<String> responsProperties;
+
+	
+	private AlertType(List<String> requestProperties,List<String> responsProperties){	
+		this.requestProperties = requestProperties;
+		this.responsProperties = responsProperties;
 	}
 	
-	public List<String> getProperties(){
-		return this.properties;
+	public List<String> getRequestProperties(){
+		return this.requestProperties;
 	}
 	
+
+	public List<String> getResponsProperties() {
+		return responsProperties;
+	}
+
 	public static AlertType fromString(String value){
 		if("ANALYSIS_ENABLE".equals(value)){
 			return ANALYSIS_ENABLE;			

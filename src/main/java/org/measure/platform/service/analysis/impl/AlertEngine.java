@@ -60,7 +60,7 @@ public class AlertEngine implements IAlertEngineService {
 	private String calculateAlertKey(AlertData alert) {
 		AlertType type = AlertType.fromString(alert.getAlertType());
 		String key =  type.name();
-		for(String idProperties :  type.getProperties()){
+		for(String idProperties :  type.getRequestProperties()){
 			key = key + "[" + idProperties+":" + alert.getPropertieValue(idProperties) + "]";
 		}
 		return key;
@@ -68,7 +68,7 @@ public class AlertEngine implements IAlertEngineService {
 
 	private String calculateAlertKey(AlertSubscription suscribtion) {
 		String key = suscribtion.getEventType().name();
-		for(String idProperties : suscribtion.getEventType().getProperties()){
+		for(String idProperties : suscribtion.getEventType().getRequestProperties()){
 			key = key + "[" + idProperties+":" + suscribtion.getPropertieValue(idProperties) + "]";
 		}
 		return key;
@@ -87,6 +87,8 @@ public class AlertEngine implements IAlertEngineService {
 	public void unsubscribe(AlertSubscription suscribtion) {
 		String alertKey = calculateAlertKey(suscribtion);
 		List<String> analysisToolList = alertSuscriptors.get(alertKey);
-		analysisToolList.remove(suscribtion.getAnalysisTool());
+		if(analysisToolList != null){
+			analysisToolList.remove(suscribtion.getAnalysisTool());
+		}	
 	}	
 }

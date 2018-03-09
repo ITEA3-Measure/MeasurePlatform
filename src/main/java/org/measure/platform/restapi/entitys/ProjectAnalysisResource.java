@@ -14,6 +14,7 @@ import org.measure.platform.core.entity.ProjectAnalysis;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.service.analysis.api.IAlertEngineService;
 import org.measure.platform.service.analysis.data.alert.AlertData;
+import org.measure.platform.service.analysis.data.alert.AlertProperty;
 import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +69,7 @@ public class ProjectAnalysisResource {
 		AlertData alert = new AlertData();
 		alert.setAlertType(AlertType.ANALYSIS_ENABLE.name());
 		alert.setProjectId(result.getProject().getId());
+		alert.getProperties().add(new AlertProperty(AlertType.ANALYSIS_ENABLE.getResponsProperties().get(0), result.getId().toString()));
 		alertEngineService.alert(alert);
 		
 		return ResponseEntity.created(new URI("/api/projectAnalysiss/" + result.getId()))
@@ -148,6 +150,7 @@ public class ProjectAnalysisResource {
 		AlertData alert = new AlertData();
 		alert.setAlertType(AlertType.ANALYSIS_DESABLE.name());
 		alert.setProjectId(analysis.getProject().getId());
+		alert.getProperties().add(new AlertProperty(AlertType.ANALYSIS_ENABLE.getResponsProperties().get(0),id.toString()));
 		alertEngineService.alert(alert);
 		
 		projectAnalysisService.delete(id);
