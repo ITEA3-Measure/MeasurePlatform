@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 
 @RestController
-@RequestMapping(value = "api/analysis/alert")
+@RequestMapping(value = "api//analysis/alert")
 public class AlertResource {
 
 	private final Logger log = LoggerFactory.getLogger(AlertResource.class);

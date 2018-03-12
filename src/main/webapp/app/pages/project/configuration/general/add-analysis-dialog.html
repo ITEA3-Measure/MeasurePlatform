@@ -15,23 +15,24 @@
 						class="img-rounded" style="width: 48px;"
 						src="content/images/multimedia.png" /> </a></td>
 
-				<td style="vertical-align: top;"><h3
+				<td style="vertical-align: top;width: 100%"><h3
 						style="margin-top: 5px; margin-bottom: 5px;">
 						{{service.name}}<small></small>
-					</h3>{{service.description}}
+					</h3>{{service.description}}</td>
 
-					<h3 style="margin-right:80%;margin-top: 5px; margin-bottom: 5px;">
+				<td style="float: right;">
+					<h3 style="margin-top: 5px; margin-bottom: 5px;vertical-align:bottom;">
 						<button class="btn btn-default" ng-click="vm.addService(service)">
 							Add {{service.name}} Tool</button>
-					</h3></td>
-
+					</h3>
+				</td>
 
 			</tr>
 		</tbody>
 	</table>
 
 
-	<div style="margin-left: 80%;">
+	<div style="margin-left: 90%;">
 
 		<button type="button" class="btn btn-default" data-dismiss="modal"
 			ng-click="vm.clear()">

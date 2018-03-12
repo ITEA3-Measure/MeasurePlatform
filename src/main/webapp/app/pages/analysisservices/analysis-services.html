@@ -16,7 +16,7 @@
 
 				<tbody>
 					<tr ng-repeat="service in vm.services">
-						<td style="vertical-align: top;"><a href="#"><img
+						<td style="vertical-align: top;width: 60px;"><a href="#"><img
 								class="img-rounded" style="width: 48px;"
 								src="content/images/multimedia.png" /> </a></td>
 
@@ -26,10 +26,9 @@
 							</h3>{{service.description}}</td>
 
 						<td style="vertical-align: middle;" >
-							<button ng-show="service.configurationURL != null" class="btn btn-default" style="margin-top:20px;margin-left:150px;width:150px;height:40px" ui-sref="analysis-services.configure({id:service.name})">
+							<button ng-show="service.configurationURL != null" class="btn btn-default" style="margin-top:20px;margin-left:150px;width:150px;height:40px;float:right;" ui-sref="analysis-services.configure({id:service.name})">
 								Configuration</button>
-								
-						<button ng-show="service.configurationURL == null"  class="btn btn-default" style="margin-top:20px;margin-left:150px;width:150px;height:40px" disabled>
+						<button ng-show="service.configurationURL == null"  class="btn btn-default" style="margin-top:20px;margin-left:150px;width:150px;height:40px;float:right; " disabled>
 								Configuration</button>
 						</td>
 					</tr>
