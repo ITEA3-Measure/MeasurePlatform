@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @Transactional
 public class MeasureCatalogueService implements IMeasureCatalogueService {
@@ -104,18 +105,19 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
                 URL measureJar = getJars(measureImpl).get(0);
                 jars = getJars(measureImpl.resolve("lib"));
                 jars.add(measureJar);
+                
+               
         
-                try (URLClassLoader loader = new URLClassLoader(jars.toArray(new URL[jars.size()]),
-                        IMeasure.class.getClassLoader())) {
+                try (URLClassLoader loader = new URLClassLoader(jars.toArray(new URL[jars.size()]),IMeasure.class.getClassLoader())) {
                     IMeasure result = null;
                     for (URL jar : jars) {
                         JarInputStream jarStream = new JarInputStream(new FileInputStream(new File(jar.getFile())));
-                        for (JarEntry jarEntry = jarStream.getNextJarEntry(); jarEntry != null; jarEntry = jarStream
-                                .getNextJarEntry()) {
+                        for (JarEntry jarEntry = jarStream.getNextJarEntry(); jarEntry != null; jarEntry = jarStream.getNextJarEntry()) {
                             if (jarEntry.getName().endsWith(".class")) { //$NON-NLS-1$
-                                String metaclassNamespace = getNamespace(jarEntry.getName());
+								String metaclassNamespace = getNamespace(jarEntry.getName());
                                 Class<?> metaclass = null;
                         
+                     
                                 try {
                                     metaclass = loader.loadClass(metaclassNamespace);
                                 } catch (Throwable e) {

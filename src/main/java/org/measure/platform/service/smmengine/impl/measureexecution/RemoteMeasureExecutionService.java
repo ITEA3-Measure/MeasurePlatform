@@ -57,38 +57,6 @@ public class RemoteMeasureExecutionService implements IRemoteMeasureExecutionSer
         logger.addMeasureExecutionLog(executionLog);
     }
 
-    @Override
-    public List<IMeasurement> executeRemoteMeasure(MeasureInstance measure, MeasureLog log, boolean storeProp) {
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-        
-            String url = "http://" + measure.getRemoteAdress() + "/api/measure-agent/measure-execution";
-        
-            RemoteMeasureInstance data = new RemoteMeasureInstance();
-            data.setInstanceName(measure.getInstanceName());
-            data.setMeasureName(measure.getMeasureName());
-        
-            Map<String, String> properties = initialiseProperties(measure, null);
-            data.setProperties(properties);
-        
-            MeasureLog result = restTemplate.postForObject(url, data, MeasureLog.class);
-        
-            if (result != null) {
-                if (storeProp)
-                    storeUpdatedProperties(measure, result.getUpdatedParameters());
-                log.setLog(result);
-                return result.getMesurement();
-            } else {
-                log.setSuccess(false);
-                log.setExceptionMessage("No Result");
-            }
-        } catch (Exception e) {
-            log.setSuccess(false);
-            log.setExceptionMessage(e.getMessage());
-        }
-        return new ArrayList<>();
-    }
-
     private HashMap<String, String> initialiseProperties(MeasureInstance measureData, MeasureLog log) {
         HashMap<String, String> properties = new HashMap<>();
         for (MeasureProperty property : measurePropertyService.findByInstance(measureData)) {

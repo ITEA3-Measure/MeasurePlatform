@@ -141,15 +141,15 @@
 
 								<tbody>
 									<tr ng-repeat="analyse in vm.analysis">
-										<td style="vertical-align: top;"><a href="#"><img
+										<td style="vertical-align: top;width: 60px"><a href="#"><img
 												class="img-rounded" style="width: 48px;"
 												src="content/images/multimedia.png" /> </a></td>
 
-										<td style="vertical-align: top;"><h3
+										<td style="vertical-align: top;width: 100%"><h3
 												style="margin-top: 5px; margin-bottom: 5px;">
 												{{analyse.analysisToolId}}</h3>{{analyse.analysisToolDescription}}</td>
-										<td style="vertical-align: middle;">
-											<h3>
+										<td style="vertical-align: top;width: 200px">
+											<h3 style="margin-top: 1px;">
 												<span
 													ng-show="vm.isserviceavailable(analyse.analysisToolId)"
 													class="label label-success">Service Available</span> <span
@@ -157,9 +157,9 @@
 													class="label label-danger">Service Not Available</span>
 											</h3>
 										</td>
-										<td style="vertical-align: middle;float: right;">
+										<td style="float: right;width: 40px">
 											<button class="btn btn-danger btn-sm"
-												style="margin-top: 12px;"
+												
 												ui-sref="generalconf.deleteanalysis({anid:analyse.id})">
 												<span class="glyphicon glyphicon glyphicon-trash"></span> <span
 													class="hidden-xs hidden-sm"></span>

@@ -11,7 +11,7 @@
 
     <groupId>org.measure.platform</groupId>
     <artifactId>measure-platform</artifactId>
-    <version>0.7.0</version>
+    <version>0.6.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Measure Platform</name>
 
@@ -69,12 +69,6 @@
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>biz.futureware.mantis</groupId>
-            <artifactId>mantis-axis-soap-client</artifactId>
-            <version>1.2.15</version>
-        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate4</artifactId>
@@ -323,7 +317,7 @@
         <dependency>
             <groupId>org.measure.smmmeasure.api</groupId>
             <artifactId>SMMMeasureApi</artifactId>
-            <version>0.6.01</version>
+            <version>0.6.00</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -404,6 +398,14 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        
+        
+		<dependency>
+			<groupId>biz.futureware.mantis</groupId>
+			<artifactId>mantis-axis-soap-client</artifactId>
+			<version>1.2.15</version>
+		</dependency>
 
     </dependencies>
 
