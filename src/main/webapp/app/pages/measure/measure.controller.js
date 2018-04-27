@@ -49,6 +49,7 @@
 							vm.category.push(vm.measures[j].category);
 						}
 					}else{
+						var find = false;
 						for (var i = 0; i < vm.category.length; i++) {
 							if(vm.category[i] == 'General'){
 								find = true;
