@@ -89,7 +89,15 @@ public class MeasurePropertyResource {
     @Timed
     public List<MeasureProperty> getAllMeasureProperties() {
         log.debug("REST request to get all MeasureProperties");
-        return measurePropertyService.findAll();
+        List<MeasureProperty> properties = measurePropertyService.findAll();
+        
+        for(MeasureProperty prop : properties){
+        	if(prop.getPropertyType().equals("PASSWORD")){
+        		prop.setPropertyValue("**********");
+        	}
+        }
+        
+        return properties;
     }
 
     /**
@@ -102,6 +110,10 @@ public class MeasurePropertyResource {
     public ResponseEntity<MeasureProperty> getMeasureProperty(@PathVariable Long id) {
         log.debug("REST request to get MeasureProperty : {}", id);
         MeasureProperty measureProperty = measurePropertyService.findOne(id);
+        if(measureProperty.getPropertyType().equals("PASSWORD")){
+        	measureProperty.setPropertyValue("**********");
+    	}
+        
         return Optional.ofNullable(measureProperty)
                     .map(result -> new ResponseEntity<>(
                         result,
@@ -129,7 +141,16 @@ public class MeasurePropertyResource {
     @GetMapping("/measure-properties/byinstance/{id}")
     @Timed
     public List<MeasureProperty> getMeasurePropertiesByInstanceId(@PathVariable Long id) {
-        return measurePropertyService.findByInstance(measureInstanceService.findOne(id));
+    	
+    	  List<MeasureProperty> properties =  measurePropertyService.findByInstance(measureInstanceService.findOne(id));measurePropertyService.findAll();
+          
+          for(MeasureProperty prop : properties){
+          	if(prop.getPropertyType().equals("PASSWORD")){
+          		prop.setPropertyValue("**********");
+          	}
+          }
+          
+        return properties;
     }
 
 }

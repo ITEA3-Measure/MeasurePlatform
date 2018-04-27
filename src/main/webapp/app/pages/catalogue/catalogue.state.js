@@ -99,7 +99,7 @@
             }]
         }).state('catalogue.editgraphic', {
             parent: 'catalogue',
-            url: '/graphic/:id/edit/',
+            url: '/graphic/:projectid/edit/:graphicid',
             data: {
                 authorities: []
             },
@@ -112,14 +112,16 @@
                     size: 'lg',
                     resolve: {   
                     	  entity: ['MeasureView', function(MeasureView) {
-                              return MeasureView.get({id : $stateParams.id}).$promise;
+                              return MeasureView.get({id : $stateParams.graphicid}).$promise;
                           }],
                     	 data: function () {
                              return {
                                  isOverview: true
                              };
                          },
-                         project: null,
+                         project: ['Project', function(Project) {
+                             return Project.get({id : $stateParams.projectid}).$promise;
+                         }],
                          phase:null,
                          dashboard:null 
                     }

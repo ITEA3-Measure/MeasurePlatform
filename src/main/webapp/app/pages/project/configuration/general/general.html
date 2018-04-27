@@ -3,8 +3,9 @@
 
 	<div class="mm-body">
 		<div class="page-header" style="min-height: 40px;">
-			<div style="float: left;  ">
-				<img class="img-rounded" style="width: 30px; height: 30px; margin-right: 20px;"
+			<div style="float: left;">
+				<img class="img-rounded"
+					style="width: 30px; height: 30px; margin-right: 20px;"
 					src="content/images/measureLogo.png"
 					ng-show="vm.project.projectImage == null" /> <img
 					class="img-rounded" style="width: 30px; height: 30px;"
@@ -54,11 +55,12 @@
 
 						<ul class="nav nav-tabs">
 							<li role="presentation" class="active"><a
-								ui-sref="generalconf({id:vm.project.id})">Project
-									Configuration</a></li>
+								ui-sref="generalconf({id:vm.project.id})">Project Overview</a></li>
 							<li role="presentation"><a
-								ui-sref="projectinstances({id:vm.project.id})">Measures
-									Instances</a></li>
+								ui-sref="projectinstances({id:vm.project.id})">Measures Configuration</a></li>
+
+							<li role="presentation"><a
+								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis Configuration</a></li>
 
 							<li ng-repeat="analyse in vm.analysis" role="presentation"
 								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>
@@ -126,48 +128,6 @@
 									</div>
 								</div>
 							</div>
-
-
-							<button class="btn btn-primary"
-								style="float: right;  min-width: 150px; min-height: 20px"
-								ui-sref="generalconf.addanalysis({id:vm.project.id})">Add
-								Analysis Tool</button>
-							<div class="page-header">
-								<h4>Analysis Tools</h4>
-							</div>
-
-							<table class="table  table-responsive"
-								style="width: 98%; margin: 20px;">
-
-								<tbody>
-									<tr ng-repeat="analyse in vm.analysis">
-										<td style="vertical-align: top;width: 60px"><a href="#"><img
-												class="img-rounded" style="width: 48px;"
-												src="content/images/multimedia.png" /> </a></td>
-
-										<td style="vertical-align: top;width: 100%"><h3
-												style="margin-top: 5px; margin-bottom: 5px;">
-												{{analyse.analysisToolId}}</h3>{{analyse.analysisToolDescription}}</td>
-										<td style="vertical-align: top;width: 200px">
-											<h3 style="margin-top: 1px;">
-												<span
-													ng-show="vm.isserviceavailable(analyse.analysisToolId)"
-													class="label label-success">Service Available</span> <span
-													ng-show="!vm.isserviceavailable(analyse.analysisToolId)"
-													class="label label-danger">Service Not Available</span>
-											</h3>
-										</td>
-										<td style="float: right;width: 40px">
-											<button class="btn btn-danger btn-sm"
-												
-												ui-sref="generalconf.deleteanalysis({anid:analyse.id})">
-												<span class="glyphicon glyphicon glyphicon-trash"></span> <span
-													class="hidden-xs hidden-sm"></span>
-											</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
 						</div>
 					</div>
 				</div>

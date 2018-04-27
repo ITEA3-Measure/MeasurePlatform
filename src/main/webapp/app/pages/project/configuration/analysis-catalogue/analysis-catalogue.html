@@ -54,46 +54,60 @@
 					<div class="bhoechie-tab-content">
 
 						<ul class="nav nav-tabs">
-							<li role="presentation"><a
+							<li role="presentation" ><a
 								ui-sref="generalconf({id:vm.project.id})">Project Overview</a></li>
 							<li role="presentation"><a
 								ui-sref="projectinstances({id:vm.project.id})">Measures
 									Configuration</a></li>
 
-							<li role="presentation"><a
+							<li role="presentation" class="active"><a
 								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis
 									Configuration</a></li>
 
 							<li ng-repeat="analyse in vm.analysis" role="presentation"
-								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"
-								class="{{analyse.id == vm.currentanalyse.id ?  'active' : '' }}"><a>{{analyse.analysisToolId}}</a></li>
+								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>
 
 						</ul>
-						<div class="well-dashboard" style="min-height: 600px;">
-
-
-							<div ng-show="!vm.isserviceavailable"
-								style="margin-top: 100px; margin-left: 40%">
-								<h2>
-									<span class="label label-danger">ERROR : ANALYSIS
-										SERVICE STOPED</span>
-								</h2>
+						<div class="well-dashboard" style="min-height: 300px;">
+							<button class="btn btn-primary"
+								style="float: right; min-width: 150px; min-height: 20px"
+								ui-sref="projectanalysis-catalogue.addanalysis({id:vm.project.id})">Register
+								Analysis Tool</button>
+							<div class="page-header">
+								<h4>Registred Analysis Tools</h4>
 							</div>
 
-							<div
-								ng-show="vm.currentanalyse.configurationUrl == null && vm.isserviceavailable"
-								style="margin-top: 100px; margin-left: 40%">
-								<h2>
-									<span class="label label-warning">Configuration In
-										Progress</span>
-								</h2>
-							</div>
+							<table class="table  table-responsive"
+								style="width: 98%; margin: 20px;">
 
-							<div
-								ng-show="vm.currentanalyse.configurationUrl != null && vm.isserviceavailable">
-								<div ng-bind-html="vm.frame() | to_trusted"></div>
-							</div>
+								<tbody>
+									<tr ng-repeat="analyse in vm.analysis">
+										<td style="vertical-align: top; width: 60px"><a href="#"><img
+												class="img-rounded" style="width: 48px;"
+												src="content/images/multimedia.png" /> </a></td>
 
+										<td style="vertical-align: top; width: 100%"><h3
+												style="margin-top: 5px; margin-bottom: 5px;">
+												{{analyse.analysisToolId}}</h3>{{analyse.analysisToolDescription}}</td>
+										<td style="vertical-align: top; width: 200px">
+											<h3 style="margin-top: 15px;">
+												<span
+													ng-show="vm.isserviceavailable(analyse.analysisToolId)"
+													class="label label-success">Service Available</span> <span
+													ng-show="!vm.isserviceavailable(analyse.analysisToolId)"
+													class="label label-danger">Service Not Available</span>
+											</h3>
+										</td>
+										<td style="float: right; width: 40px;margin-top: -1px;">
+											<button class="btn btn-danger btn-sm" style="margin-top: 15px;"
+												ui-sref="projectanalysis-catalogue.deleteanalysis({anid:analyse.id})">
+												<span class="glyphicon glyphicon glyphicon-trash"></span> <span
+													class="hidden-xs hidden-sm"></span>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

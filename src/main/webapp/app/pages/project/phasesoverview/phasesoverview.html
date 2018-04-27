@@ -89,7 +89,7 @@
 									style="display: inline-block;">
 									<div class="row">
 										<div class="thumbnail"
-											style="border: none; margin-left: 20px; text-align: center;">
+											style="border: none;  margin-left: 15px;margin-right: 15px; text-align: center;">
 											<div ng-bind-html="measureview.viewData | to_trusted"></div>
 											<div class="caption"
 												style="text-align: center; padding: 0px;">
@@ -101,7 +101,7 @@
 									</div>
 									<div class="row" style="float: right;">
 										<button class="btn btn-link" ng-show="vm.editphases[phase.id]"
-											ui-sref="appproject.editgraphic({viewid:measureview.id})">
+											ui-sref="phasesoverview.editgraphic({projectid:vm.project.id,phaseid:phase.id,graphicid:measureview.id})">
 											<span class="glyphicon glyphicon-pencil" aria-hiden="true"></span>
 										</button>
 										<button class="btn btn-link" ng-show="vm.editphases[phase.id]"

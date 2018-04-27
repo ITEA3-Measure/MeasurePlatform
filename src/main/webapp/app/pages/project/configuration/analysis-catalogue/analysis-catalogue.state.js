@@ -8,15 +8,15 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-    	   $stateProvider.state('generalconf', {
+    	   $stateProvider.state('projectanalysis-catalogue', {
             parent: 'app',
-            url: '/project/:id/configuration/general',
+            url: '/project/:id/configuration/projectanalysis-catalogue',
             data: {
                 authorities: []
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/pages/project/configuration/general/general.html',
+                    templateUrl: 'app/pages/project/configuration/analysis-catalogue/analysis-catalogue.html',
                     controller: 'ProjectGeneralConfigurationController',
                     controllerAs: 'vm'
                 }
@@ -25,16 +25,17 @@
                     return Project.get({id : $stateParams.id}).$promise;
                 }]
             }
-        }).state('generalconf.editproject', {
-            parent: 'generalconf',
-            url: 'editproject/',
+        })
+        .state('projectanalysis-catalogue.addanalysis', {
+            parent: 'projectanalysis-catalogue',
+            url: 'addanalysistool/',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/edition/project-dialog.html',
-                    controller: 'AppProjectDialogController',
+                    templateUrl: 'app/pages/project/configuration/analysis-catalogue/add-analysis-dialog.html',
+                    controller: 'AddAnalysisToolDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
@@ -44,31 +45,30 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('generalconf', null, { reload: 'generalconf' });
+                    $state.go('projectanalysis-catalogue', null, { reload: 'projectanalysis-catalogue' });
                 }, function() {
-                    $state.go('generalconf');
+                    $state.go('projectanalysis-catalogue');
                 });
             }]
-        })
-        .state('generalconf.deleteproject', {
-            parent: 'generalconf',
-            url: 'deleteproject/',
+        }).state('projectanalysis-catalogue.deleteanalysis', {
+            parent: 'projectanalysis-catalogue',
+            url: '/deleteanalysis/:anid',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/edition/project-delete-dialog.html',
-                    controller: 'AppProjectDeleteController',
+                    templateUrl: 'app/pages/project/configuration/analysis-catalogue/analysis-delete-dialog.html',
+                    controller: 'AnalysisDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['Project', function(Project) {
-                            return Project.get({id : $stateParams.id}).$promise;
+                        entity: ['ProjectAnalysis', function(ProjectAnalysis) {
+                            return ProjectAnalysis.get({id : $stateParams.anid}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('catalogue', null, { reload: 'catalogue' });
+                    $state.go('projectanalysis-catalogue', null, { reload: 'projectanalysis-catalogue' });
                 }, function() {
                     $state.go('^');
                 });

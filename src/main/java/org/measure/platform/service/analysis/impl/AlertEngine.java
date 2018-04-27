@@ -40,7 +40,9 @@ public class AlertEngine implements IAlertEngineService {
 			 alertSuscriptors.put(alertKey,analysisToolList);
 			 
 		 }
-		 analysisToolList.add(analysisTool);	
+		 if(!analysisToolList.contains(analysisTool)){
+			 analysisToolList.add(analysisTool);	 
+		 }
 	}
 	
 	

@@ -96,10 +96,46 @@
                          project:['$stateParams', 'Project', function($stateParams, Project) {
                              return Project.get({id : $stateParams.id}).$promise;
                          }],
-                          phase:['Phase', function(Phase) {
+                         phase:['Phase', function(Phase) {
                               return Phase.get({id : $stateParams.phaseid}).$promise;
+                         }],
+                         dashboard:null 
+                    }
+                }).result.then(function() {
+                    $state.go('phasesoverview', null, { reload: 'phasesoverview' });
+                }, function() {
+                    $state.go('phasesoverview');
+                });
+            }]
+        }).state('phasesoverview.editgraphic', {
+            parent: 'phasesoverview',
+            url: '/graphic/:projectid/phase/:phaseid/edit/:graphicid',
+            data: {
+                authorities: []
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/graphics/graphic-dialog.html',
+                    controller: 'GraphicDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {   
+                    	  entity: ['MeasureView', function(MeasureView) {
+                              return MeasureView.get({id : $stateParams.graphicid}).$promise;
                           }],
-                          dashboard:null 
+                    	 data: function () {
+                             return {
+                                 isOverview: true
+                             };
+                         },
+                         project: ['Project', function(Project) {
+                             return Project.get({id : $stateParams.projectid}).$promise;
+                         }],
+                         phase:['Phase', function(Phase) {
+                             return Phase.get({id : $stateParams.phaseid}).$promise;
+                         }],
+                         dashboard:null 
                     }
                 }).result.then(function() {
                     $state.go('phasesoverview', null, { reload: 'phasesoverview' });

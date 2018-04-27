@@ -56,11 +56,14 @@
 
 						<ul class="nav nav-tabs">
 							<li role="presentation"><a
-								ui-sref="generalconf({id:vm.project.id})">Project
-									Configuration</a></li>
+								ui-sref="generalconf({id:vm.project.id})">Project Overview</a></li>
 							<li role="presentation" class="active"><a
 								ui-sref="projectinstances({id:vm.project.id})">Measures
-									Instances</a></li>
+									Configuration</a></li>
+
+							<li role="presentation"><a
+								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis
+									Configuration</a></li>
 
 							<li ng-repeat="analyse in vm.analysis" role="presentation"
 								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>
@@ -68,14 +71,14 @@
 
 						</ul>
 						<div class="well-dashboard" style="min-height: 300px;">
-							<div style="float: right; margin-top: 0px">
-								<h4 style="margin-top: -5px;">
-									<a ui-sref="projectinstances.new"><span
-										class="glyphicon glyphicon-plus" aria-hiden="true"></a>
-								</h4>
+							<button class="btn btn-primary"
+								style="float: right; min-width: 150px; min-height: 20px; margin-top: 0px"
+								ui-sref="projectinstances.new">Register Measure</button>
+							<div class="page-header">
+								<h4>Registred Measures</h4>
 							</div>
 
-							<table class="jh-table table table-condensed table-responsive">
+							<table class="jh-table table table-condensed table-responsive" style="margin-bottom: 20px;">
 								<thead>
 									<tr>
 										<th><span>Type</span></th>
@@ -90,11 +93,11 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="instance in vm.measureInstances">
-										<td style="vertical-align: top;"><a href="#"> <img
+										<td style="vertical-align: top;"> <img
 												class="media-object"
 												ng-src="content/images/{{instance.measureType}}_big.png"
 												title="Direct Measure" style="width: 20px;">
-										</a></td>
+										</td>
 
 										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{instance.instanceName}}</h4></td>
 										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{instance.measureName}}</h4></td>
@@ -179,26 +182,27 @@
 										<td style="vertical-align: top;" class="text-right">
 
 											<div class="btn-group flex-btn-group-container">
-												<button type="submit" ng-show="!instance.isRemote"
+												<button type="submit" ng-show="!instance.isRemote" title="Test the Measure : Execute the measure, collected results are not stored in Platform"
 													ui-sref="projectinstances.test({instanceId:instance.id})"
 													class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-flash"></span> <span
 														class="hidden-xs hidden-sm"></span>
 												</button>
-												<button type="submit" ng-show="!instance.isRemote"
+												<button type="submit" ng-show="!instance.isRemote" title="Execute the Measure : Execute the measure and store results in Platform"
 													ui-sref="projectinstances.execute({instanceId:instance.id})"
 													class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-play"></span> <span
 														class="hidden-xs hidden-sm"></span>
 												</button>
-												<button type="submit"
+												<div style="margin: 5px;"/>
+												<button type="submit" title="Edit Measure Configuration"
 													ui-sref="projectinstances.edit({instanceId:instance.id})"
 													class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-pencil"></span> <span
 														class="hidden-xs hidden-sm"></span>
 												</button>
 
-												<button type="submit"
+												<button type="submit" title="Delete Measure"
 													ui-sref="projectinstances.delete({instanceId:instance.id})"
 													class="btn btn-danger btn-sm">
 													<span class="glyphicon glyphicon-remove-circle"></span> <span

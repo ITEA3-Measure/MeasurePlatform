@@ -14,6 +14,7 @@
 		vm.close = close;
 		
 		vm.measureInstance = entity;
+		vm.test = isTest;
 
 		if(isTest){
 			testMeasure(vm.measureInstance.id);

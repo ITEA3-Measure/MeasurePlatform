@@ -201,7 +201,12 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 		for (MeasureProperty property : measurePropertyService.findByInstance(measureData)) {
 			properties.put(property.getPropertyName(), property.getPropertyValue());
 			if (log != null) {
-				log.getParameters().add(log.new MeasureLogParameters(property.getPropertyName(), property.getPropertyValue()));
+				if(property.getPropertyType().equals("PASSWORD")){
+					log.getParameters().add(log.new MeasureLogParameters(property.getPropertyName(), "**********"));
+				}else{
+					log.getParameters().add(log.new MeasureLogParameters(property.getPropertyName(), property.getPropertyValue()));
+
+				}
 			}
 		}
 		return properties;

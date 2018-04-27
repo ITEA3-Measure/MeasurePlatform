@@ -126,7 +126,7 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
         List<KibanaVisualisation> results = new ArrayList<>();
         TransportClient client = connection.getClient();
         SearchResponse visResponse = client.prepareSearch(".kibana").setTypes("visualization")
-                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH).get();
+                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setSize(100).get();
         
         for (SearchHit visHit : visResponse.getHits().getHits()) {            
             KibanaVisualisation visualisation = new KibanaVisualisation();
