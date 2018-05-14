@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum AlertType {	
-	ANALYSIS_ENABLE(Arrays.asList(),Arrays.asList("ANALYSISID")),
-	ANALYSIS_DESABLE(Arrays.asList(),Arrays.asList("ANALYSISID")),
+	ANALYSIS_ENABLE(Arrays.asList("ANALYSISTOOL"),Arrays.asList("ANALYSISID")),
+	ANALYSIS_DESABLE(Arrays.asList("ANALYSISTOOL"),Arrays.asList("ANALYSISID")),
 	MEASURE_ADDED(Arrays.asList(),Arrays.asList("MEASUREID")),
 	MEASURE_REMOVED(Arrays.asList(),Arrays.asList("MEASUREID")),
 	MEASURE_SCHEDULED(Arrays.asList(),Arrays.asList("MEASUREID")),

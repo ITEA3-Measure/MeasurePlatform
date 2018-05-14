@@ -69,6 +69,7 @@ public class ProjectAnalysisResource {
 		AlertData alert = new AlertData();
 		alert.setAlertType(AlertType.ANALYSIS_ENABLE.name());
 		alert.setProjectId(result.getProject().getId());
+		alert.setAlertTool(projectAnalysis.getAnalysisToolId());
 		alert.getProperties().add(new AlertProperty(AlertType.ANALYSIS_ENABLE.getResponsProperties().get(0), result.getId().toString()));
 		alertEngineService.alert(alert);
 		
@@ -150,6 +151,7 @@ public class ProjectAnalysisResource {
 		AlertData alert = new AlertData();
 		alert.setAlertType(AlertType.ANALYSIS_DESABLE.name());
 		alert.setProjectId(analysis.getProject().getId());
+		alert.setAlertTool(analysis.getAnalysisToolId());
 		alert.getProperties().add(new AlertProperty(AlertType.ANALYSIS_ENABLE.getResponsProperties().get(0),id.toString()));
 		alertEngineService.alert(alert);
 		

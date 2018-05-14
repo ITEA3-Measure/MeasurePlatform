@@ -9,6 +9,8 @@ public class AlertData {
 	
 	private Long projectId;
 	
+	private String alertTool;
+	
 	private List<AlertProperty> properties = new ArrayList<>();
 
 	public String getAlertType() {
@@ -21,6 +23,14 @@ public class AlertData {
 
 	public List<AlertProperty> getProperties() {
 		return properties;
+	}
+
+	public String getAlertTool() {
+		return alertTool;
+	}
+
+	public void setAlertTool(String alertTool) {
+		this.alertTool = alertTool;
 	}
 
 	public void setProperties(List<AlertProperty> properties) {

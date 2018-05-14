@@ -49,14 +49,22 @@ public class AlertEngine implements IAlertEngineService {
 	
 	@Override
 	public void alert(AlertData alert) {
-		String alertKey = calculateAlertKey(alert);
-		List<String> tools = alertSuscriptors.get(alertKey);
-		if(tools != null){
-			for (String analysisTool : 	tools) {
-				AlertReport toolReport = alertMap.get(analysisTool);
+		if(alert.getAlertTool() != null){
+			AlertReport toolReport = alertMap.get(alert.getAlertTool());
+			if(toolReport != null){
 				toolReport.getAlerts().add(alert);
 			}
+		}else{
+			String alertKey = calculateAlertKey(alert);
+			List<String> tools = alertSuscriptors.get(alertKey);
+			if(tools != null){
+				for (String analysisTool : 	tools) {
+					AlertReport toolReport = alertMap.get(analysisTool);
+					toolReport.getAlerts().add(alert);
+				}
+			}
 		}
+		
 	}
 
 	private String calculateAlertKey(AlertData alert) {
@@ -78,7 +86,7 @@ public class AlertEngine implements IAlertEngineService {
 
 	@Override
 	public AlertReport getAlerts(String analysisTool) {
-		AlertReport currentReport =  alertMap.get(analysisTool);	
+		AlertReport currentReport =  alertMap.get(analysisTool);
 		AlertReport newReport = new AlertReport();
 		newReport.setFrom(new Date());
 		this.alertMap.put(analysisTool, newReport);
