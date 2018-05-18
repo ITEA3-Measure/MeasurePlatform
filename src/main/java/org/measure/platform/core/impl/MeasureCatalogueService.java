@@ -104,9 +104,7 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
             try {
                 URL measureJar = getJars(measureImpl).get(0);
                 jars = getJars(measureImpl.resolve("lib"));
-                jars.add(measureJar);
-                
-               
+                jars.add(measureJar);            
         
                 try (URLClassLoader loader = new URLClassLoader(jars.toArray(new URL[jars.size()]),IMeasure.class.getClassLoader())) {
                     IMeasure result = null;

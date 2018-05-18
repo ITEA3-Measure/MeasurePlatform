@@ -16,4 +16,6 @@ public interface IMeasurementStorage {
 
     List<KibanaVisualisation> findKibanaDashboard();
 
+	List<IMeasurement> getMeasurementPage(String measureInstance, Integer size, Integer page, String filter);
+
 }
