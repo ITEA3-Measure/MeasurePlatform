@@ -12,6 +12,7 @@
 			$uibModalInstance, entity, project, ProjectInstances, Measure,
 			MeasureProperty) {
 		var vm = this;
+		var measureupdate = false;
 
 		vm.measureInstance = entity;
 		vm.measureInstance.project = project;
@@ -85,8 +86,11 @@
 						function(newValue, oldValue) {
 							vm.references =[];
 							vm.properties = [];
-							if (newValue != null) {	
-								
+							
+							if (newValue != null && oldValue != null && oldValue != newValue) {	
+								measureupdate = true;
+							}
+							if (newValue != null) {			
 								for (var i = 0; i < newValue.scopeProperties.length; i++) {
 									var o = newProperty();
 									o.propertyName = newValue.scopeProperties[i].name;
@@ -107,6 +111,7 @@
 										for(var j = 0;j < vm.currentProperties.length; j++){
 											if(vm.currentProperties[j].propertyName == o.propertyName){
 												propval = vm.currentProperties[j].propertyValue;
+												o.id = vm.currentProperties[j].id;
 											}			
 										}
 										
@@ -236,14 +241,23 @@
 			$uibModalInstance.close(result);
 			vm.isSaving = false;
 			
-			for(var i = 0;i<vm.currentProperties.length; i++) {
-				MeasureProperty.delete(vm.currentProperties[i]);
-			}
+			
+			if(measureupdate){
+				for(var i = 0;i<vm.currentProperties.length; i++) {
+					MeasureProperty.delete(vm.currentProperties[i]);
+				}
 
-			for (var i = 0; i < vm.properties.length; i++) {
-				vm.properties[i].measureInstance = result;
-				MeasureProperty.save(vm.properties[i]);
+				for (var i = 0; i < vm.properties.length; i++) {
+					vm.properties[i].measureInstance = result;
+					MeasureProperty.save(vm.properties[i]);
+				}
+			}else{
+				for (var i = 0; i < vm.properties.length; i++) {
+					vm.properties[i].measureInstance = result;
+					MeasureProperty.update(vm.properties[i]);
+				}				
 			}
+			
 			
 			
 			for(var i = 0;i<vm.currentReferences.length; i++) {

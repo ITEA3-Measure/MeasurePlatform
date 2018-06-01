@@ -33,124 +33,140 @@ import com.codahale.metrics.annotation.Timed;
 @RestController
 @RequestMapping("/api")
 public class MeasurePropertyResource {
-    private final Logger log = LoggerFactory.getLogger(MeasurePropertyResource.class);
+	private final Logger log = LoggerFactory.getLogger(MeasurePropertyResource.class);
 
-    @Inject
-    private MeasurePropertyService measurePropertyService;
+	private static final String HIDE = "**********";
 
-    @Inject
-    private MeasureInstanceService measureInstanceService;
+	@Inject
+	private MeasurePropertyService measurePropertyService;
 
-    /**
-     * POST  /measure-properties : Create a new measureProperty.
-     * @param measureProperty the measureProperty to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new measureProperty, or with status 400 (Bad Request) if the measureProperty has already an ID
-     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PostMapping("/measure-properties")
-    @Timed
-    public ResponseEntity<MeasureProperty> createMeasureProperty(@Valid @RequestBody MeasureProperty measureProperty) throws URISyntaxException {
-        log.debug("REST request to save MeasureProperty : {}", measureProperty);
-        if (measureProperty.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("measureProperty", "idexists", "A new measureProperty cannot already have an ID")).body(null);
-        }
-        MeasureProperty result = measurePropertyService.save(measureProperty);
-        return ResponseEntity.created(new URI("/api/measure-properties/" + result.getId()))
-                    .headers(HeaderUtil.createEntityCreationAlert("measureProperty", result.getId().toString()))
-                    .body(result);
-    }
+	@Inject
+	private MeasureInstanceService measureInstanceService;
 
-    /**
-     * PUT  /measure-properties : Updates an existing measureProperty.
-     * @param measureProperty the measureProperty to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated measureProperty,
-     * or with status 400 (Bad Request) if the measureProperty is not valid,
-     * or with status 500 (Internal Server Error) if the measureProperty couldnt be updated
-     * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PutMapping("/measure-properties")
-    @Timed
-    public ResponseEntity<MeasureProperty> updateMeasureProperty(@Valid @RequestBody MeasureProperty measureProperty) throws URISyntaxException {
-        log.debug("REST request to update MeasureProperty : {}", measureProperty);
-        if (measureProperty.getId() == null) {
-            return createMeasureProperty(measureProperty);
-        }
-        MeasureProperty result = measurePropertyService.save(measureProperty);
-        return ResponseEntity.ok()
-                    .headers(HeaderUtil.createEntityUpdateAlert("measureProperty", measureProperty.getId().toString()))
-                    .body(result);
-    }
+	/**
+	 * POST /measure-properties : Create a new measureProperty.
+	 * 
+	 * @param measureProperty
+	 *            the measureProperty to create
+	 * @return the ResponseEntity with status 201 (Created) and with body the
+	 *         new measureProperty, or with status 400 (Bad Request) if the
+	 *         measureProperty has already an ID
+	 * @throws java.net.URISyntaxException
+	 *             if the Location URI syntax is incorrect
+	 */
+	@PostMapping("/measure-properties")
+	@Timed
+	public ResponseEntity<MeasureProperty> createMeasureProperty(@Valid @RequestBody MeasureProperty measureProperty) throws URISyntaxException {
+		log.debug("REST request to save MeasureProperty : {}", measureProperty);
+		if (measureProperty.getId() != null) {
+			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("measureProperty", "idexists", "A new measureProperty cannot already have an ID")).body(null);
+		}
+		MeasureProperty result = measurePropertyService.save(measureProperty);
+		return ResponseEntity.created(new URI("/api/measure-properties/" + result.getId())).headers(HeaderUtil.createEntityCreationAlert("measureProperty", result.getId().toString())).body(result);
+	}
 
-    /**
-     * GET  /measure-properties : get all the measureProperties.
-     * @return the ResponseEntity with status 200 (OK) and the list of measureProperties in body
-     */
-    @GetMapping("/measure-properties")
-    @Timed
-    public List<MeasureProperty> getAllMeasureProperties() {
-        log.debug("REST request to get all MeasureProperties");
-        List<MeasureProperty> properties = measurePropertyService.findAll();
-        
-        for(MeasureProperty prop : properties){
-        	if(prop.getPropertyType().equals("PASSWORD")){
-        		prop.setPropertyValue("**********");
-        	}
-        }
-        
-        return properties;
-    }
+	/**
+	 * PUT /measure-properties : Updates an existing measureProperty.
+	 * 
+	 * @param measureProperty
+	 *            the measureProperty to update
+	 * @return the ResponseEntity with status 200 (OK) and with body the updated
+	 *         measureProperty, or with status 400 (Bad Request) if the
+	 *         measureProperty is not valid, or with status 500 (Internal Server
+	 *         Error) if the measureProperty couldnt be updated
+	 * @throws java.net.URISyntaxException
+	 *             if the Location URI syntax is incorrect
+	 */
+	@PutMapping("/measure-properties")
+	@Timed
+	public ResponseEntity<MeasureProperty> updateMeasureProperty(@Valid @RequestBody MeasureProperty measureProperty) throws URISyntaxException {
+		log.debug("REST request to update MeasureProperty : {}", measureProperty);
+		if (measureProperty.getId() == null) {
+			return createMeasureProperty(measureProperty);
+		}
 
-    /**
-     * GET  /measure-properties/:id : get the "id" measureProperty.
-     * @param id the id of the measureProperty to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the measureProperty, or with status 404 (Not Found)
-     */
-    @GetMapping("/measure-properties/{id}")
-    @Timed
-    public ResponseEntity<MeasureProperty> getMeasureProperty(@PathVariable Long id) {
-        log.debug("REST request to get MeasureProperty : {}", id);
-        MeasureProperty measureProperty = measurePropertyService.findOne(id);
-        if(measureProperty.getPropertyType().equals("PASSWORD")){
-        	measureProperty.setPropertyValue("**********");
-    	}
-        
-        return Optional.ofNullable(measureProperty)
-                    .map(result -> new ResponseEntity<>(
-                        result,
-                        HttpStatus.OK))
-                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+		if (!measureProperty.getPropertyType().equals("PASSWORD") || !measureProperty.getPropertyValue().equals(HIDE)) {
+			measurePropertyService.save(measureProperty);
+		}
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("measureProperty", measureProperty.getId().toString())).body(measureProperty);
+	}
 
-    /**
-     * DELETE  /measure-properties/:id : delete the "id" measureProperty.
-     * @param id the id of the measureProperty to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
-    @DeleteMapping("/measure-properties/{id}")
-    @Timed
-    public ResponseEntity<Void> deleteMeasureProperty(@PathVariable Long id) {
-        log.debug("REST request to delete MeasureProperty : {}", id);
-        measurePropertyService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("measureProperty", id.toString())).build();
-    }
+	/**
+	 * GET /measure-properties : get all the measureProperties.
+	 * 
+	 * @return the ResponseEntity with status 200 (OK) and the list of
+	 *         measureProperties in body
+	 */
+	@GetMapping("/measure-properties")
+	@Timed
+	public List<MeasureProperty> getAllMeasureProperties() {
+		log.debug("REST request to get all MeasureProperties");
+		List<MeasureProperty> properties = measurePropertyService.findAll();
 
-    /**
-     * GET  /measure-properties : get all the measureProperties.
-     * @return the ResponseEntity with status 200 (OK) and the list of measureProperties in body
-     */
-    @GetMapping("/measure-properties/byinstance/{id}")
-    @Timed
-    public List<MeasureProperty> getMeasurePropertiesByInstanceId(@PathVariable Long id) {
-    	
-    	  List<MeasureProperty> properties =  measurePropertyService.findByInstance(measureInstanceService.findOne(id));measurePropertyService.findAll();
-          
-          for(MeasureProperty prop : properties){
-          	if(prop.getPropertyType().equals("PASSWORD")){
-          		prop.setPropertyValue("**********");
-          	}
-          }
-          
-        return properties;
-    }
+		for (MeasureProperty prop : properties) {
+			if (prop.getPropertyType().equals("PASSWORD")) {
+				prop.setPropertyValue(HIDE);
+			}
+		}
+
+		return properties;
+	}
+
+	/**
+	 * GET /measure-properties/:id : get the "id" measureProperty.
+	 * 
+	 * @param id
+	 *            the id of the measureProperty to retrieve
+	 * @return the ResponseEntity with status 200 (OK) and with body the
+	 *         measureProperty, or with status 404 (Not Found)
+	 */
+	@GetMapping("/measure-properties/{id}")
+	@Timed
+	public ResponseEntity<MeasureProperty> getMeasureProperty(@PathVariable Long id) {
+		log.debug("REST request to get MeasureProperty : {}", id);
+		MeasureProperty measureProperty = measurePropertyService.findOne(id);
+		if (measureProperty.getPropertyType().equals("PASSWORD")) {
+			measureProperty.setPropertyValue(HIDE);
+		}
+
+		return Optional.ofNullable(measureProperty).map(result -> new ResponseEntity<>(result, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+
+	/**
+	 * DELETE /measure-properties/:id : delete the "id" measureProperty.
+	 * 
+	 * @param id
+	 *            the id of the measureProperty to delete
+	 * @return the ResponseEntity with status 200 (OK)
+	 */
+	@DeleteMapping("/measure-properties/{id}")
+	@Timed
+	public ResponseEntity<Void> deleteMeasureProperty(@PathVariable Long id) {
+		log.debug("REST request to delete MeasureProperty : {}", id);
+		measurePropertyService.delete(id);
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("measureProperty", id.toString())).build();
+	}
+
+	/**
+	 * GET /measure-properties : get all the measureProperties.
+	 * 
+	 * @return the ResponseEntity with status 200 (OK) and the list of
+	 *         measureProperties in body
+	 */
+	@GetMapping("/measure-properties/byinstance/{id}")
+	@Timed
+	public List<MeasureProperty> getMeasurePropertiesByInstanceId(@PathVariable Long id) {
+
+		List<MeasureProperty> properties = measurePropertyService.findByInstance(measureInstanceService.findOne(id));
+		measurePropertyService.findAll();
+
+		for (MeasureProperty prop : properties) {
+			if (prop.getPropertyType().equals("PASSWORD")) {
+				prop.setPropertyValue(HIDE);
+			}
+		}
+
+		return properties;
+	}
 
 }

@@ -81,15 +81,6 @@ public class MeasureInstanceResource {
         
         // Save Measure Instance
         MeasureInstance result = measureInstanceService.save(measureInstance);
-               
-        
-        // Create Index mapping for measure Unite
-//        SMMMeasure measureDefinition =  null;     
-//        if(measureInstance.isIsRemote()){
-//            measureDefinition = remoteCatalogueService.getMeasureByName(measureInstance.getMeasureName(), measureInstance.getRemoteLabel());
-//        }else{
-//            measureDefinition = catalogueService.getMeasure(measureInstance.getMeasureName());
-//        }
         
 		AlertData alert = new AlertData();
 		alert.setAlertType(AlertType.MEASURE_ADDED.name());

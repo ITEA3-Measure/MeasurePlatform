@@ -8,7 +8,7 @@ public class MeasurementQuery implements Serializable {
 	private String measureInstance;
 	private int page;
 
-	private int pageSyze;
+	private int pageSize;
 
 	private String query;
 
@@ -28,12 +28,12 @@ public class MeasurementQuery implements Serializable {
 		this.page = page;
 	}
 
-	public int getPageSyze() {
-		return pageSyze;
+	public int getPageSize() {
+		return pageSize;
 	}
 
-	public void setPageSyze(int pageSyze) {
-		this.pageSyze = pageSyze;
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 
 	public String getQuery() {

@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.measure.platform.restapi.measure.dto.MeasurementQuery;
 import org.measure.platform.service.measurement.api.IMeasurementStorage;
 import org.measure.smm.measure.api.IMeasurement;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +31,6 @@ public class MeasurementResource {
 	@PostMapping("/find")
 	@Timed
 	public List<IMeasurement> getMeasurements(@RequestBody MeasurementQuery query) {
-		return	this.measurementStorage.getMeasurementPage(query.getMeasureInstance(), query.getPageSyze(), query.getPage(), query.getQuery());	
+		return	this.measurementStorage.getMeasurementPage(query.getMeasureInstance(), query.getPageSize(), query.getPage(), query.getQuery());	
 	}
 }
