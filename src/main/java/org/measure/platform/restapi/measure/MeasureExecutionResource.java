@@ -1,5 +1,8 @@
 package org.measure.platform.restapi.measure;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -106,6 +109,32 @@ public class MeasureExecutionResource {
         if (id.matches("\\d+")) {
             Long instanceId = Long.valueOf(id);
             MeasureLog measurement = measureExecutionService.executeMeasure(instanceId);
+            logger.addMeasureExecutionLog(measurement);
+            return Optional.ofNullable(measurement).map(result -> new ResponseEntity<>(result, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    
+    
+    @Timed
+    @RequestMapping(value = "/externalexecution", method = RequestMethod.GET)
+    public ResponseEntity<MeasureLog> executeMeasure(@RequestParam("id") String id,@RequestParam("date") String date) {
+        if (id.matches("\\d+")) {
+            Long instanceId = Long.valueOf(id);
+            
+            String format = "yyyy-MM-dd'T'HH:mm:ssz";
+            SimpleDateFormat parser=new SimpleDateFormat(format);
+            
+            Date logDate;
+			try {
+				logDate = parser.parse(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+            
+            MeasureLog measurement = measureExecutionService.executeMeasure(instanceId,logDate);
             logger.addMeasureExecutionLog(measurement);
             return Optional.ofNullable(measurement).map(result -> new ResponseEntity<>(result, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

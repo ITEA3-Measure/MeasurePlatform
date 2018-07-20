@@ -100,6 +100,39 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 		}
 		return log;
 	}
+	
+	@Override
+	public MeasureLog executeMeasure(Long measureInstanceId, Date logDate) {
+		MeasureInstance measureData = measureInstanceService.findOne(measureInstanceId);
+
+		MeasureLog log = new MeasureLog();
+		log.setExectionDate(logDate);
+		log.setMeasureInstanceName(measureData.getInstanceName());
+		log.setMeasureName(measureData.getMeasureName());
+
+		try {
+
+			List<IMeasurement> measurements = new ArrayList<>();
+
+			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(measureData.getMeasureName());
+			measurements.addAll(executeLocalMeasure(measureData, measureImpl, log, true));
+
+			for (IMeasurement measurement : measurements) {
+				measurement.getValues().put("postDate", logDate);
+				measurementStorage.putMeasurement(measureData.getMeasureName().toLowerCase(), measureData.getInstanceName(), measureData.isManageLastMeasurement(), measurement);
+			}
+
+		} catch (NoNodeAvailableException e) {
+			log.setExceptionMessage("The Elasticsearch database is not available");
+			log.setSuccess(false);
+			e.printStackTrace();
+		} catch (Throwable e) {
+			log.setExceptionMessage(e.getMessage());
+			log.setSuccess(false);
+			e.printStackTrace();
+		}
+		return log;
+	}
 
 	@Override
 	public MeasureLog testMeasure(Long measureInstanceId) {
@@ -220,5 +253,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			}
 		}
 	}
+
+
 
 }
