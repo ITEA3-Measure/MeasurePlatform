@@ -119,7 +119,7 @@ public class MeasureExecutionResource {
     
     @Timed
     @RequestMapping(value = "/externalexecution", method = RequestMethod.GET)
-    public ResponseEntity<MeasureLog> executeMeasure(@RequestParam("id") String id,@RequestParam("date") String date) {
+    public ResponseEntity<MeasureLog> executeMeasure(@RequestParam("id") String id,@RequestParam("date") String date,@RequestParam("dateField") String dateField) {
         if (id.matches("\\d+")) {
             Long instanceId = Long.valueOf(id);
             
@@ -134,12 +134,12 @@ public class MeasureExecutionResource {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
             
-            MeasureLog measurement = measureExecutionService.executeMeasure(instanceId,logDate);
+            MeasureLog measurement = measureExecutionService.executeMeasure(instanceId,logDate,dateField);
             logger.addMeasureExecutionLog(measurement);
             return Optional.ofNullable(measurement).map(result -> new ResponseEntity<>(result, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -102,7 +102,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 	}
 	
 	@Override
-	public MeasureLog executeMeasure(Long measureInstanceId, Date logDate) {
+	public MeasureLog executeMeasure(Long measureInstanceId, Date logDate,String dateField) {
 		MeasureInstance measureData = measureInstanceService.findOne(measureInstanceId);
 
 		MeasureLog log = new MeasureLog();
@@ -118,7 +118,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			measurements.addAll(executeLocalMeasure(measureData, measureImpl, log, true));
 
 			for (IMeasurement measurement : measurements) {
-				measurement.getValues().put("postDate", logDate);
+				measurement.getValues().put(dateField, logDate);
 				measurementStorage.putMeasurement(measureData.getMeasureName().toLowerCase(), measureData.getInstanceName(), measureData.isManageLastMeasurement(), measurement);
 			}
 

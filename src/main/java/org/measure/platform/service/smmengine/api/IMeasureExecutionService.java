@@ -13,6 +13,6 @@ public interface IMeasureExecutionService {
 
     MeasureLog executeMeasure(Long instanceId);
 
-	MeasureLog executeMeasure(Long instanceId, Date logDate);
+	MeasureLog executeMeasure(Long instanceId, Date logDate,String dateField);
 
 }
