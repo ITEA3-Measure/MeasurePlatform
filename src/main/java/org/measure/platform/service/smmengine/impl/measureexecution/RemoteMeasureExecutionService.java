@@ -57,16 +57,6 @@ public class RemoteMeasureExecutionService implements IRemoteMeasureExecutionSer
         logger.addMeasureExecutionLog(executionLog);
     }
 
-    private HashMap<String, String> initialiseProperties(MeasureInstance measureData, MeasureLog log) {
-        HashMap<String, String> properties = new HashMap<>();
-        for (MeasureProperty property : measurePropertyService.findByInstance(measureData)) {
-            properties.put(property.getPropertyName(), property.getPropertyValue());
-            if (log != null) {
-                log.getParameters().add(log.new MeasureLogParameters(property.getPropertyName(), property.getPropertyValue()));
-            }
-        }
-        return properties;
-    }
 
     private void storeUpdatedProperties(MeasureInstance measureData, Map<String, String> updatedProperties) {
         for (MeasureProperty property : new ArrayList<>(measurePropertyService.findByInstance(measureData))) {            

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.measure.platform.service.agent.api.IRemoteCatalogueService;
 import org.measure.platform.service.agent.data.RemoteAgent;
 import org.measure.smm.measure.model.SMMMeasure;
+import org.measure.smm.remote.RemoteMeasureExternal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -70,5 +71,6 @@ public class AgentCatalogueService implements IRemoteCatalogueService {
         }
         return null;
     }
+
 
 }
