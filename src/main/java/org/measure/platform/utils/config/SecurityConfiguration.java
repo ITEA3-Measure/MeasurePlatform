@@ -90,6 +90,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/remote-measure/registration")
             .antMatchers("/api/remote-measure/execution-list")
             .antMatchers("/api/remote-measure/measure-execution")
+            .antMatchers("/api/remote-measure/externalexecution")
             .antMatchers("/test/**");
     }
 
