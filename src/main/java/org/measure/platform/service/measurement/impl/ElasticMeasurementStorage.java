@@ -183,7 +183,7 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 
 		for (SearchHit visHit : visResponse.getHits().getHits()) {
 			KibanaVisualisation visualisation = new KibanaVisualisation();
-			visualisation.setName((String) visHit.getSource().get("title"));
+			//visualisation.setName((String) visHit.getSource().get("title"));
 			visualisation.setId((String) visHit.getId());
 			results.add(visualisation);
 		}
@@ -199,7 +199,7 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 
 		for (SearchHit visHit : dashResponse.getHits().getHits()) {
 			KibanaVisualisation visualisation = new KibanaVisualisation();
-			visualisation.setName((String) visHit.getSource().get("title"));
+			//visualisation.setName((String) visHit.getSource().get("title"));
 			visualisation.setId((String) visHit.getId());
 			results.add(visualisation);
 		}

@@ -9,23 +9,40 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.elasticsearch.action.admin.indices.alias.exists.AliasesExistResponse;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.measure.platform.core.api.IMeasureCatalogueService;
+import org.measure.platform.core.api.entitys.MeasureInstanceService;
+import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.measure.smm.measure.model.MeasureUnitField;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
-	private static final String BASE_INDEX = "all-measure";
 
+	private static final String GENERIC_INDEX = "measure.*";
+	private static final String BASE_INDEX = "measure.";
+	
+	@Value("${measure.kibana.adress}")
+    private String kibanaAddress;
+	
 	@Value("${measure.kibana.api}")
 	private String kibanaApi;
 
@@ -34,40 +51,49 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 
 	@Inject
 	private ElasticConnection connection;
-
-	@Override
-	public void createIndexWithMapping(SMMMeasure measureDefinition) {
-		final String indexName = measureDefinition.getName().toLowerCase();
+	
+    @Inject
+	private IMeasureCatalogueService measureCatalogue;
+    
+    @Inject
+    private MeasureInstanceService measureInstanceService;
+    
+    @Override
+	public void createIndexWithMapping(MeasureInstance measureInstance) {
 		TransportClient client = connection.getClient();
-
+		
+		final String indexName = BASE_INDEX + measureInstance.getInstanceName();
+		SMMMeasure measureDefinition = measureCatalogue.getMeasure(measureInstance.getMeasureName());
+		
 		// Create Measure Index
-		createIndex(measureDefinition, indexName, client);
-
+		createESIndex(measureDefinition, indexName, client);
+		
 		// Create Kibana Index
-		createAlias(indexName, client);
+		createKibanaIndexPattern(measureInstance);
 	}
-
-	private void createIndex(SMMMeasure measureDefinition, final String indexName, TransportClient client) {
+	
+	private void createESIndex(SMMMeasure measureDefinition, final String indexName, TransportClient client) {
 		final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
 		if (!res.isExists()) {
 			final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
-
+			CreateIndexRequest request = new CreateIndexRequest(indexName);
 			Map<String, Object> initData = new HashMap<>();
-
+			
 			// ADD MAPPING
 			for (MeasureUnitField field : measureDefinition.getUnit().getFields()) {
 				String fieldName = field.getFieldName();
 				String fieldType = field.getFieldType().name().replaceFirst("u_", "");
+				
 				initData.put(fieldName, field.getFieldType().getInstance());
 				XContentBuilder mapping;
 				try {
 					mapping = jsonBuilder().startObject().startObject("properties").startObject(fieldName).field("type", fieldType).field("index", "true").endObject().endObject().endObject();
-					createIndexRequestBuilder.addMapping(fieldName, mapping);
+					request.mapping(fieldName, mapping);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-
+			
 			// Create the index
 			createIndexRequestBuilder.execute().actionGet();
 			
@@ -75,71 +101,59 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 			client.prepareIndex(indexName, "initialisation").setSource(initData).get();
 		}
 	}
-
-	private void createAlias(final String indexName, TransportClient client) {
-		// create kibana alias 'BASE_INDEX' which mearge all index
-		client.admin().indices().prepareAliases().addAlias(indexName, BASE_INDEX).get();
-
-		// set base index as default kibana index;
-		RestTemplate addMergedIndexRest = new RestTemplate();
-		try {
-			Map<String, String> values = new HashMap<>();
-			values.put("title", BASE_INDEX);
-			values.put("timeFieldName", "postDate");
-
-			addMergedIndexRest.put("http://" + kibanaApi + "/.kibana/index-pattern/" + BASE_INDEX, values);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// // set this index as default index
-		RestTemplate defaultindexRest = new RestTemplate();
-		try {
-			Map<String, String> values = new HashMap<>();
-			values.put("defaultIndex", BASE_INDEX);
-			defaultindexRest.put("http://" + kibanaApi + "/.kibana/config/" + kibanaVersion, values);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// create specific kibana alias for this measure
-		client.admin().indices().prepareAliases().addAlias(indexName, indexName + "-alias").get();
-
-		// set base index as default kibana index;
+	
+	public void createKibanaIndexPattern(MeasureInstance measureInstance) {
+		String indexName = BASE_INDEX + measureInstance.getInstanceName();
+		
+		// Add kibana Index
 		RestTemplate addIndexRest = new RestTemplate();
-		try {
-			Map<String, String> values = new HashMap<>();
-			values.put("title", indexName + "-alias");
-			values.put("timeFieldName", "postDate");
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("kbn-xsrf", "reporting");
+		
+		MultiValueMap<String, Object> attributes = new LinkedMultiValueMap<String, Object>();
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("title", indexName);
+		attributes.add("attributes", values);
+		
+		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(attributes, headers);
 
-			addIndexRest.put("http://" + kibanaApi + "/.kibana/index-pattern/" + indexName + "-alias", values);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		addIndexRest.postForEntity( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, request , String.class );
 	}
+	
+	public String getKibanaIndexPattern(MeasureInstance measureInstance) {
+		String indexName = BASE_INDEX + measureInstance.getInstanceName();
+		
+		// Retrieve kibana Index
+		RestTemplate retieveIndexRest = new RestTemplate();
 
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("kbn-xsrf", "reporting");
+		
+		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(headers);
+
+		HttpEntity<String> response = retieveIndexRest.exchange( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, HttpMethod.GET, request, String.class );
+		return response.getBody();
+	}
+	
 	@Override
-	public void deleteIndex(SMMMeasure measureDefinition) {
+	public void deleteIndex(MeasureInstance measureInstance) {
 		TransportClient client = connection.getClient();
+		
+		// Delete kibana index
+		String indexName = measureInstance.getInstanceName();
+		final IndicesExistsResponse result = client.admin().indices().prepareExists(indexName).execute().actionGet();
+		if (result.isExists()) {
+			RestTemplate deleteIndexRest = new RestTemplate();
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("kbn-xsrf", "reporting");
+			
+			HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(headers);
 
-		// Create Index and set settings and mappings
-		final String indexName = measureDefinition.getName().toLowerCase();
-
-		// Remove specific kibana alias for this measure
-		final AliasesExistResponse alias = client.admin().indices().prepareAliasesExist(indexName + "-alias").execute().actionGet();
-		if (alias.isExists()) {
-			client.admin().indices().prepareAliases().removeAlias(indexName, indexName + "-alias").execute().actionGet();
-			client.admin().indices().prepareAliases().removeAlias(indexName, BASE_INDEX).execute().actionGet();
-
-			// Delete index pattern
-			RestTemplate addIndexRest = new RestTemplate();
-			try {
-				addIndexRest.delete("http://" + kibanaApi + "/.kibana/index-pattern/" + indexName + "-alias");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			deleteIndexRest.exchange( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, HttpMethod.DELETE, request, String.class );
 		}
-
+		
 		// Delete the index if exist
 		final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
 		if (res.isExists()) {
@@ -147,27 +161,78 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 			delIdx.execute().actionGet();
 		}
 	}
-
-	@Override
-	public String getBaseMeasureIndex() {
-		return BASE_INDEX;
-	}
-
+	
 	@Override
 	public void updateIndex(List<SMMMeasure> measures) {
+		// Update Base Kibana Indices if required
 		TransportClient client = connection.getClient();
 		for (SMMMeasure measureDefinition : measures) {
-			final String indexName = measureDefinition.getName().toLowerCase();
-			final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
-			if (!res.isExists()) {
-				createIndex(measureDefinition, indexName, client);
-			}
-			
-			final AliasesExistResponse alias = client.admin().indices().prepareAliasesExist(indexName + "-alias").execute().actionGet();
-			if (!alias.isExists()) {
-				createAlias(indexName, client);
+			List<MeasureInstance> measureInstances = measureInstanceService.findMeasureInstanceByReference(measureDefinition.getName());
+			for (MeasureInstance instance : measureInstances) {
+				
+				// Create Elasticsearch index if required
+				final String indexName = BASE_INDEX + instance.getInstanceName();
+				final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
+				if (!res.isExists()) {
+					createESIndex(measureDefinition, indexName, client);
+				}
+				
+				// Create kibana Index if required
+				if (getKibanaIndexPattern(instance).isEmpty()) {
+					createKibanaIndexPattern(instance);
+				}
 			}
 		}
+		
+		// Create Generic Kibana Index if required 
+		if (HttpStatus.NOT_FOUND.equals(getKibanaGenericIndex())) {
+			createKibanaGenericIndex();
+		}
+	}
+	
+	public void createKibanaGenericIndex() {
+		String indexName = GENERIC_INDEX;
+		
+		// Add kibana Generic Index
+		RestTemplate addIndexRest = new RestTemplate();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("kbn-xsrf", "reporting");
+		
+		MultiValueMap<String, Object> attributes = new LinkedMultiValueMap<String, Object>();
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("title", indexName);
+		attributes.add("attributes", values);
+		
+		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(attributes, headers);
+
+		addIndexRest.postForEntity( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, request , String.class );
+	}
+	
+	public HttpStatus getKibanaGenericIndex() {
+		String indexName = GENERIC_INDEX;
+		
+		// Retrieve kibana Index
+		RestTemplate retieveIndexRest = new RestTemplate();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("kbn-xsrf", "reporting");
+		
+		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(headers);
+
+		try {
+			return retieveIndexRest.exchange( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, HttpMethod.GET, request, String.class ).getStatusCode();
+		} catch (HttpClientErrorException | HttpServerErrorException httpClientOrServerExc) {
+		    if(HttpStatus.NOT_FOUND.equals(httpClientOrServerExc.getStatusCode())) {
+		    	return httpClientOrServerExc.getStatusCode();
+		    }
+		}
+		return null;
+	}
+	
+	@Override
+	public String getBaseMeasureIndex() {
+		return "all-measure";
 	}
 
 }

@@ -50,10 +50,6 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
             Files.createDirectories(target);
             unzip.unzip(measure.toString(), target.toString());
             
-            
-            SMMMeasure definition = MeasurePackager.getMeasureData(target.resolve(MeasurePackager.MEATADATAFILE));
-            indexManager.deleteIndex(definition);            
-            indexManager.createIndexWithMapping(definition);
         } catch (JAXBException | IOException e) {
             log.error(e.getLocalizedMessage());
         }
@@ -83,7 +79,7 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
             for (File file : repository.listFiles()) {
                 if (file.getName().equals(measureId)) {                           
                     SMMMeasure definition = MeasurePackager.getMeasureData(file.toPath().resolve(MeasurePackager.MEATADATAFILE));
-                    indexManager.deleteIndex(definition);      
+                    //indexManager.deleteIndex(definition);      
                     FileUtils.deleteDirectory(file);
                     break;
                 }
