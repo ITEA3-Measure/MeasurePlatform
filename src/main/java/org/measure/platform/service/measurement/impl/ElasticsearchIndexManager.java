@@ -26,7 +26,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -37,8 +36,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 
-	private static final String GENERIC_INDEX = "measure.*";
-	private static final String BASE_INDEX = "measure.";
+	private static final String BASE_INDEX = "measure.*";
+	private static final String PREFIX_INDEX = "measure.";
 	
 	@Value("${measure.kibana.adress}")
     private String kibanaAddress;
@@ -62,7 +61,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 	public void createIndexWithMapping(MeasureInstance measureInstance) {
 		TransportClient client = connection.getClient();
 		
-		final String indexName = BASE_INDEX + measureInstance.getInstanceName();
+		final String indexName = PREFIX_INDEX + measureInstance.getInstanceName();
 		SMMMeasure measureDefinition = measureCatalogue.getMeasure(measureInstance.getMeasureName());
 		
 		// Create Measure Index
@@ -103,7 +102,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 	}
 	
 	public void createKibanaIndexPattern(MeasureInstance measureInstance) {
-		String indexName = BASE_INDEX + measureInstance.getInstanceName();
+		String indexName = PREFIX_INDEX + measureInstance.getInstanceName();
 		
 		// Add kibana Index
 		RestTemplate addIndexRest = new RestTemplate();
@@ -122,7 +121,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 	}
 	
 	public String getKibanaIndexPattern(MeasureInstance measureInstance) {
-		String indexName = BASE_INDEX + measureInstance.getInstanceName();
+		String indexName = PREFIX_INDEX + measureInstance.getInstanceName();
 		
 		// Retrieve kibana Index
 		RestTemplate retieveIndexRest = new RestTemplate();
@@ -141,7 +140,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		TransportClient client = connection.getClient();
 		
 		// Delete kibana index
-		String indexName = measureInstance.getInstanceName();
+		String indexName = PREFIX_INDEX + measureInstance.getInstanceName();
 		final IndicesExistsResponse result = client.admin().indices().prepareExists(indexName).execute().actionGet();
 		if (result.isExists()) {
 			RestTemplate deleteIndexRest = new RestTemplate();
@@ -169,9 +168,8 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		for (SMMMeasure measureDefinition : measures) {
 			List<MeasureInstance> measureInstances = measureInstanceService.findMeasureInstanceByReference(measureDefinition.getName());
 			for (MeasureInstance instance : measureInstances) {
-				
 				// Create Elasticsearch index if required
-				final String indexName = BASE_INDEX + instance.getInstanceName();
+				final String indexName = PREFIX_INDEX + instance.getInstanceName();
 				final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
 				if (!res.isExists()) {
 					createESIndex(measureDefinition, indexName, client);
@@ -185,13 +183,13 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		}
 		
 		// Create Generic Kibana Index if required 
-		if (HttpStatus.NOT_FOUND.equals(getKibanaGenericIndex())) {
+		if (HttpStatus.NOT_FOUND.equals(getKibanaGenericIndexCodeStatus())) {
 			createKibanaGenericIndex();
 		}
 	}
 	
 	public void createKibanaGenericIndex() {
-		String indexName = GENERIC_INDEX;
+		String baseIndex = getBaseMeasureIndex();
 		
 		// Add kibana Generic Index
 		RestTemplate addIndexRest = new RestTemplate();
@@ -201,16 +199,16 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		
 		MultiValueMap<String, Object> attributes = new LinkedMultiValueMap<String, Object>();
 		Map<String, String> values = new HashMap<String, String>();
-		values.put("title", indexName);
+		values.put("title", baseIndex);
 		attributes.add("attributes", values);
 		
 		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(attributes, headers);
 
-		addIndexRest.postForEntity( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, request , String.class );
+		addIndexRest.postForEntity( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + baseIndex, request , String.class );
 	}
 	
-	public HttpStatus getKibanaGenericIndex() {
-		String indexName = GENERIC_INDEX;
+	public HttpStatus getKibanaGenericIndexCodeStatus() {
+		String baseIndex = getBaseMeasureIndex();
 		
 		// Retrieve kibana Index
 		RestTemplate retieveIndexRest = new RestTemplate();
@@ -221,7 +219,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(headers);
 
 		try {
-			return retieveIndexRest.exchange( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, HttpMethod.GET, request, String.class ).getStatusCode();
+			return retieveIndexRest.exchange( "http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + baseIndex, HttpMethod.GET, request, String.class ).getStatusCode();
 		} catch (HttpClientErrorException | HttpServerErrorException httpClientOrServerExc) {
 		    if(HttpStatus.NOT_FOUND.equals(httpClientOrServerExc.getStatusCode())) {
 		    	return httpClientOrServerExc.getStatusCode();
@@ -229,10 +227,24 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		}
 		return null;
 	}
-	
+
+	public void deleteKibanaGenericIndex() {
+		// Delete kibana Generic index
+		String baseIndex = getBaseMeasureIndex();
+		RestTemplate deleteIndexRest = new RestTemplate();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("kbn-xsrf", "reporting");
+
+		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(headers);
+
+		deleteIndexRest.exchange("http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + baseIndex,
+				HttpMethod.DELETE, request, String.class);
+	}
+
 	@Override
 	public String getBaseMeasureIndex() {
-		return "all-measure";
+		return BASE_INDEX;
 	}
 
 }
