@@ -1,1 +1,26 @@
-target/
+######################
+# Project Specific
+######################
+/target/www/**
+
+######################
+# Eclipse
+######################
+.project
+.classpath
+.factorypath
+.settings/
+
+######################
+# Maven
+######################
+/log/
+/target/
+
+######################
+# Package Files
+######################
+*.jar
+*.war
+*.ear
+*.db

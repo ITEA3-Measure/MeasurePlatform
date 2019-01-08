@@ -57,7 +57,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			measurements.addAll(executeLocalMeasure(measureData, measureImpl, log, true));
 
 			for (IMeasurement measurement : measurements) {
-				measurementStorage.putMeasurement(measureData.getMeasureName().toLowerCase(), measureData.getInstanceName(), true, measurement);
+				measurementStorage.putMeasurement(measureData.getInstanceName(), measurement);
 			}
 
 			log.setExectionDate(new Date());
@@ -86,7 +86,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			measurements.addAll(executeLocalMeasure(measureData, measureImpl, log, true));
 
 			for (IMeasurement measurement : measurements) {
-				measurementStorage.putMeasurement(measureData.getMeasureName().toLowerCase(), measureData.getInstanceName(), true, measurement);
+				measurementStorage.putMeasurement(measureData.getInstanceName(), measurement);
 			}
 
 		} catch (NoNodeAvailableException e) {
@@ -119,7 +119,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 
 			for (IMeasurement measurement : measurements) {
 				measurement.getValues().put(dateField, logDate);
-				measurementStorage.putMeasurement(measureData.getMeasureName().toLowerCase(), measureData.getInstanceName(), true, measurement);
+				measurementStorage.putMeasurement(measureData.getInstanceName(), measurement);
 			}
 
 		} catch (NoNodeAvailableException e) {

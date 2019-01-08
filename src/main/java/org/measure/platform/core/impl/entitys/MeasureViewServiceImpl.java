@@ -18,6 +18,7 @@ import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.MeasureViewRepository;
 import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
+import org.measure.platform.service.measurement.impl.IndexFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
