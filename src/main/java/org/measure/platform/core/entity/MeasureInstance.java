@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,9 +62,6 @@ public class MeasureInstance implements Serializable {
     @Column(name = "measure_type")
     private MeasureType measureType;
 
-    @Column(name = "manage_last_measurement")
-    private Boolean manageLastMeasurement;
-
     @Column(name = "remote_adress")
     private String remoteAdress;
 
@@ -90,6 +88,14 @@ public class MeasureInstance implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureReference> referenceInstances = new HashSet<>();
+    
+    
+    @OneToMany(mappedBy = "measureinstance")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<MeasureView> views = new HashSet<>();
+    
+    
 
     public Long getId() {
         return id;
@@ -229,19 +235,6 @@ public class MeasureInstance implements Serializable {
         this.measureType = measureType;
     }
 
-    public Boolean isManageLastMeasurement() {
-        return manageLastMeasurement;
-    }
-
-    public MeasureInstance manageLastMeasurement(Boolean manageLastMeasurement) {
-        this.manageLastMeasurement = manageLastMeasurement;
-        return this;
-    }
-
-    public void setManageLastMeasurement(Boolean manageLastMeasurement) {
-        this.manageLastMeasurement = manageLastMeasurement;
-    }
-
     public Project getProject() {
         return project;
     }
@@ -304,8 +297,36 @@ public class MeasureInstance implements Serializable {
     public Set<MeasureReference> getOwnedReferences() {
         return this.ownedReferences;
     }
+    
+    
+	
+    public MeasureInstance views(Set<MeasureView> views) {
+        this.views = views;
+        return this;
+    }
 
-    public MeasureInstance referenceInstances(Set<MeasureReference> referenceInstances) {
+    public MeasureInstance addViews(MeasureView view) {
+        views.add(view);
+        view.setMeasureinstance(this);
+        return this;
+    }
+
+    public MeasureInstance removeViews(MeasureView view) {
+    	views.remove(view);
+    	view.setMeasureinstance(null);
+        return this;
+    }
+    
+
+    public Set<MeasureView> getViews() {
+		return views;
+	}
+
+	public void setViews(Set<MeasureView> views) {
+		this.views = views;
+	}
+
+	public MeasureInstance referenceInstances(Set<MeasureReference> referenceInstances) {
         this.referenceInstances = referenceInstances;
         return this;
     }
@@ -329,8 +350,11 @@ public class MeasureInstance implements Serializable {
     public Set<MeasureReference> getReferenceInstances() {
         return this.referenceInstances;
     }
+    
 
-    @Override
+
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -356,7 +380,7 @@ public class MeasureInstance implements Serializable {
                         + instanceDescription + "'" + ", measureName='" + measureName + "'" + ", measureVersion='"
                         + measureVersion + "'" + ", isShedule='" + isShedule + "'" + ", shedulingExpression='"
                         + shedulingExpression + "'" + ", measureType='" + measureType + "'" + ", manageLastMeasurement='"
-                        + manageLastMeasurement + "'" + '}';
+                        + '}';
     }
 
 }

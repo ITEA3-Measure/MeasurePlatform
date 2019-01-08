@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import org.measure.platform.core.api.IMeasureVisaulisationManagement;
 import org.measure.platform.core.api.entitys.AnalysisCardService;
 import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
@@ -33,11 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MeasureViewServiceImpl implements MeasureViewService {
     private final Logger log = LoggerFactory.getLogger(MeasureViewServiceImpl.class);
 
-    @Autowired
-    private MessageSource messageSource;
 
-    @Value("${measure.kibana.adress}")
-    private String kibanaAdress;
 
     @Inject
     private MeasureViewRepository measureViewRepository;
@@ -53,9 +50,10 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 
     @Inject
     private DashboardService dashboardService;
-
+    
     @Inject
-    private IElasticsearchIndexManager indexManager;
+    private IMeasureVisaulisationManagement visualisationManager;
+
 
     /**
      * Save a measureView.
@@ -67,131 +65,17 @@ public class MeasureViewServiceImpl implements MeasureViewService {
         
         String mode = measureView.getMode();
         if ("AUTO".equals(mode)) {
-            updateViewData(measureView);
+            measureView.setViewData(visualisationManager.formatViewDataAsKibanaURL(measureView));
         } else if ("KVIS".equals(mode)) {
-            updateViewDataFromKibanaVisualisation(measureView);
+            measureView.setViewData(visualisationManager.formatViewDataAsKibanaViewReference(measureView));
         } else if ("KDASH".equals(mode)) {
-            updateViewDataFromKibanaDashboard(measureView);
+            measureView.setViewData(visualisationManager.formatViewDataAsKibanaDashboardReference(measureView));
         } else if ("CARD".equals(mode)) {
-            updateViewDataFromAnalysisCard(measureView);
+            measureView.setViewData(visualisationManager.formatViewDataAsAnalysisCard(measureView));
         }
         
         MeasureView result = measureViewRepository.save(measureView);
         return result;
-    }
-
-    private void updateViewDataFromAnalysisCard(MeasureView measureView) {
-       AnalysisCard card = measureView.getAnalysiscard();
-       String value = messageSource.getMessage("viewtype.view5", new Object[] {card.getCardUrl(),card.getPreferedHeight(), card.getPreferedWidth()}, Locale.ENGLISH);
-       measureView.setViewData(value);
-      
-	}
-
-	private void updateViewData(MeasureView measureView) {
-        String type = "line";
-        
-        if (measureView.getType().equals("Last Value")) {
-        
-            String refresh = measureView.isAuto() ? "f" : "t";
-            String periode = "from:now-1y,mode:quick,to:now";
-            String measure = measureView.getMeasureinstance().getInstanceName().replaceAll(" ", "+");
-        
-            String visualisedProperty = measureView.getVisualisedProperty();
-        
-            String color = measureView.getColor();
-        
-            String width = "300";
-            String height = "200";
-            String font = "50";
-        
-            if (measureView.getSize().equals("Small")) {
-                font = "20";
-            } else if (measureView.getSize().equals("Medium")) {
-                font = "50";
-            } else if (measureView.getSize().equals("Large")) {
-                font = "80";
-            } else if (measureView.getSize().equals("Very Large")) {
-                font = "120";
-            }
-        
-            String value = messageSource.getMessage("viewtype.view2", new Object[] { "metric", refresh, periode,
-                    measure, font, height, width, kibanaAdress, visualisedProperty, color,indexManager.getBaseMeasureIndex() }, Locale.ENGLISH);
-            measureView.setViewData(value);
-        } else {
-            if (measureView.getType().equals("Line chart")) {
-                type = "line";
-            } else if (measureView.getType().equals("Area chart")) {
-                type = "area";
-            } else if (measureView.getType().equals("Bar chart")) {
-                type = "histogram";
-            }
-        
-            String refresh = measureView.isAuto() ? "f" : "t";
-            
-            String periode = measureView.getTimePeriode();
-            String interval = measureView.getTimeAgregation();
-        
-            String measure = measureView.getMeasureinstance().getInstanceName().replaceAll(" ", "+");
-        
-            String color = measureView.getColor();
-        
-            String width = "800";
-            String height = "400";
-            if (measureView.getSize().equals("Small")) {
-                width = "300";
-                height = "200";
-            } else if (measureView.getSize().equals("Medium")) {
-                width = "400";
-                height = "300";
-            } else if (measureView.getSize().equals("Large")) {
-                width = "600";
-                height = "400";
-            } else if (measureView.getSize().equals("Very Large")) {
-                width = "800";
-                height = "600";
-            }
-        
-            String visualisedProperty = measureView.getVisualisedProperty();
-            String dateIndex = measureView.getDateIndex();
-        
-            String value = messageSource.getMessage("viewtype.view1", new Object[] { type, refresh, periode, measure,color, interval, height, width, kibanaAdress, visualisedProperty, dateIndex,indexManager.getBaseMeasureIndex() }, Locale.ENGLISH);
-            measureView.setViewData(value);
-        }
-    }
-
-    private void updateViewDataFromKibanaVisualisation(MeasureView measureView) {
-        String width = "800";
-        String height = "400";
-        if (measureView.getSize().equals("Small")) {
-            width = "300";
-            height = "200";
-        } else if (measureView.getSize().equals("Medium")) {
-            width = "400";
-            height = "300";
-        } else if (measureView.getSize().equals("Large")) {
-            width = "600";
-            height = "400";
-        } else if (measureView.getSize().equals("Very Large")) {
-            width = "800";
-            height = "600";
-        }
-            
-        String periode = measureView.getTimePeriode();
-        String refresh = measureView.isAuto() ? "f" : "t";
-            
-        String value = messageSource.getMessage("viewtype.view3",
-                new Object[] { height, width, kibanaAdress, measureView.getKibanaName(),refresh ,periode}, Locale.ENGLISH);
-        measureView.setViewData(value);
-    }
-
-    private void updateViewDataFromKibanaDashboard(MeasureView measureView) {
-        String height = measureView.getSize();
-                
-        String periode = measureView.getTimePeriode();
-        String refresh = measureView.isAuto() ? "f" : "t";
-        
-        String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, measureView.getKibanaName(),refresh,periode }, Locale.ENGLISH);
-        measureView.setViewData(value);
     }
 
     /**
