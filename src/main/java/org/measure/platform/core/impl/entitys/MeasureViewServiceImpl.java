@@ -17,6 +17,7 @@ import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.MeasureViewRepository;
 import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
+import org.measure.platform.service.measurement.impl.IndexFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +116,7 @@ public class MeasureViewServiceImpl implements MeasureViewService {
             }
         
             String value = messageSource.getMessage("viewtype.view2", new Object[] { "metric", refresh, periode,
-                    measure, font, height, width, kibanaAdress, visualisedProperty, color,indexManager.getBaseMeasureIndex() }, Locale.ENGLISH);
+                    measure, font, height, width, kibanaAdress, visualisedProperty, color, IndexFormat.getMeasureInstanceIndex(measureView.getMeasureinstance().getInstanceName()) }, Locale.ENGLISH);
             measureView.setViewData(value);
         } else {
             if (measureView.getType().equals("Line chart")) {
@@ -154,7 +155,7 @@ public class MeasureViewServiceImpl implements MeasureViewService {
             String visualisedProperty = measureView.getVisualisedProperty();
             String dateIndex = measureView.getDateIndex();
         
-            String value = messageSource.getMessage("viewtype.view1", new Object[] { type, refresh, periode, measure,color, interval, height, width, kibanaAdress, visualisedProperty, dateIndex,indexManager.getBaseMeasureIndex() }, Locale.ENGLISH);
+            String value = messageSource.getMessage("viewtype.view1", new Object[] { type, refresh, periode, measure,color, interval, height, width, kibanaAdress, visualisedProperty, dateIndex,IndexFormat.getMeasureInstanceIndex(measureView.getMeasureinstance().getInstanceName())}, Locale.ENGLISH);
             measureView.setViewData(value);
         }
     }
