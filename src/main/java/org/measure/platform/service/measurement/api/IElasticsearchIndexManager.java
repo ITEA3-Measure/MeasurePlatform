@@ -12,7 +12,5 @@ public interface IElasticsearchIndexManager {
     void deleteIndex(MeasureInstance measureInstance);
 
 	void updateIndex(List<SMMMeasure> measures);
-	
-	public String getBaseMeasureIndex();
     
 }
