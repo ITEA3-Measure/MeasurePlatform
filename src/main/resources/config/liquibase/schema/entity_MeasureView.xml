@@ -38,7 +38,15 @@
 				<constraints nullable="true" />
 			</column>
 
-			<column name="viewsize" type="varchar(1024)">
+			<column name="width" type="varchar(1024)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="height" type="varchar(1024)">
+				<constraints nullable="true" />
+			</column>
+			
+			<column name="font_size" type="varchar(1024)">
 				<constraints nullable="true" />
 			</column>
 

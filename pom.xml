@@ -276,13 +276,13 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>5.0.2</version>
+            <version>6.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>transport</artifactId>
-            <version>5.0.2</version>
+            <version>6.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -323,7 +323,7 @@
         <dependency>
             <groupId>org.measure.smmmeasure.api</groupId>
             <artifactId>SMMMeasureApi</artifactId>
-            <version>0.6.02</version>
+            <version>0.7.00</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

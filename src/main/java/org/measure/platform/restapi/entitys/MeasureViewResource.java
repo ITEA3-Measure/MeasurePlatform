@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.json.JSONException;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;

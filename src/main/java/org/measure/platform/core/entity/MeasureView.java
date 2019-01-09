@@ -36,8 +36,14 @@ public class MeasureView implements Serializable {
     @Column(name = "viewdescription")
     private String description;
 
-    @Column(name = "viewsize")
-    private String size;
+    @Column(name = "width")
+    private String width;
+    
+    @Column(name = "height")
+    private String height;
+    
+    @Column(name = "font_size")
+    private String fontSize;
 
     @Column(name = "viewtype")
     private String type;
@@ -127,20 +133,31 @@ public class MeasureView implements Serializable {
         this.description = description;
     }
 
-    public String getSize() {
-        return size;
-    }
+    public String getWidth() {
+		return width;
+	}
 
-    public MeasureView size(String size) {
-        this.size = size;
-        return this;
-    }
+	public void setWidth(String width) {
+		this.width = width;
+	}
 
-    public void setSize(String size) {
-        this.size = size;
-    }
+	public String getHeight() {
+		return height;
+	}
 
-    public String getType() {
+	public void setHeight(String height) {
+		this.height = height;
+	}
+	
+	public String getFontSize() {
+		return fontSize;
+	}
+
+	public void setFontSize(String fontSize) {
+		this.fontSize = fontSize;
+	}
+
+	public String getType() {
         return type;
     }
 

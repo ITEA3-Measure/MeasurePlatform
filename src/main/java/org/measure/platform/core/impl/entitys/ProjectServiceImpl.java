@@ -17,12 +17,12 @@ import org.measure.platform.core.entity.Notification;
 import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.ProjectRepository;
-import org.measure.platform.service.analysis.api.IAlertEngineService;
 import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
 import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
 import org.measure.platform.service.analysis.data.alert.AlertSubscription;
 import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.measure.platform.service.analysis.data.analysis.RegistredAnalysisService;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,6 +41,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private MeasureInstanceService measureInstanceService;
+    
+    @Inject
+    private IElasticsearchIndexManager indexManager;
 
     @Inject
     private PhaseService phaseService;
@@ -149,6 +152,7 @@ public class ProjectServiceImpl implements ProjectService {
                         
         for (MeasureInstance instance : measureInstanceService.findMeasureInstancesByProject(id)) {
             measureInstanceService.delete(instance.getId());
+            indexManager.deleteIndex(instance);
         }
         
         for (Notification notif : notifService.findAllByProject(project)) {

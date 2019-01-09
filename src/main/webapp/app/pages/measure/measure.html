@@ -79,7 +79,7 @@
 
 						<button class="btn btn-default btn-sm"
 							ng-click="vm.showProperties(measure.name,measure.showProperties==false)">
-							{{measure.scopeProperties.length}} properties <span
+							{{measure.scope.property.length}} properties <span
 								ng-if="measure.showProperties==false"
 								class="glyphicon glyphicon glyphicon-eye-open"></span> <span
 								class="hidden-xs hidden-sm"></span> <span
@@ -89,7 +89,7 @@
 						</button>
 						<div ng-if="measure.showProperties">
 							<dl class="dl-horizontal"
-								ng-repeat="scopePropertie in measure.scopeProperties"
+								ng-repeat="scopePropertie in measure.scope.property"
 								style="margin-bottom: 0px;">
 								<dt style="text-align: left; font-weight: normal;">{{scopePropertie.name}}</dt>
 								<dd style="color: #8787dd">{{scopePropertie.defaultValue}}</dd>
