@@ -23,49 +23,48 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class RemoteMeasureExecutionService implements IRemoteMeasureExecutionService {
-    @Inject
-    private MeasurePropertyService measurePropertyService;
+	@Inject
+	private MeasurePropertyService measurePropertyService;
 
-    @Inject
-    private ILoggerService logger;
+	@Inject
+	private ILoggerService logger;
 
-    @Inject
-    private IMeasurementStorage measurementStorage;
+	@Inject
+	private IMeasurementStorage measurementStorage;
 
-    @Inject
-    private ISchedulingService shedulingService;
+	@Inject
+	private ISchedulingService shedulingService;
 
-    @Inject
-    private MeasureInstanceService measureInstanceService;
+	@Inject
+	private MeasureInstanceService measureInstanceService;
 
-    @Override
-    public void registerRemoteExecution(MeasureLog executionLog) {
-        System.err.println("registerRemoteExecution " + executionLog.isSuccess());
-        if (executionLog.isSuccess()) {
-            
-            if(executionLog.getUpdatedParameters().size() > 0){
-                MeasureInstance measure = measureInstanceService.findOne(executionLog.getMeasureInstanceId());
-                storeUpdatedProperties(measure,executionLog.getUpdatedParameters());
-            }
-        
-            for (IMeasurement measurement : executionLog.getMesurement()) {
-                measurementStorage.putMeasurement(executionLog.getMeasureName().toLowerCase(),executionLog.getMeasureInstanceName(), true, measurement);
-            }
-        } else {    
-                shedulingService.removeMeasure(executionLog.getMeasureInstanceId());    
-        }
-        logger.addMeasureExecutionLog(executionLog);
-    }
+	@Override
+	public void registerRemoteExecution(MeasureLog executionLog) {
+		System.err.println("registerRemoteExecution " + executionLog.isSuccess());
+		if (executionLog.isSuccess()) {
 
+			if (executionLog.getUpdatedParameters().size() > 0) {
+				MeasureInstance measure = measureInstanceService.findOne(executionLog.getMeasureInstanceId());
+				storeUpdatedProperties(measure, executionLog.getUpdatedParameters());
+			}
 
-    private void storeUpdatedProperties(MeasureInstance measureData, Map<String, String> updatedProperties) {
-        for (MeasureProperty property : new ArrayList<>(measurePropertyService.findByInstance(measureData))) {            
-            if(updatedProperties.containsKey(property.getPropertyName())){
-                property.setPropertyValue(updatedProperties.get(property.getPropertyName()));                
-                measurePropertyService.save(property);
-            }
-            
-        }
-    }
+			for (IMeasurement measurement : executionLog.getMesurement()) {
+				measurementStorage.putMeasurement(executionLog.getMeasureInstanceName(), measurement);
+			}
+		} else {
+			shedulingService.removeMeasure(executionLog.getMeasureInstanceId());
+		}
+		logger.addMeasureExecutionLog(executionLog);
+	}
+
+	private void storeUpdatedProperties(MeasureInstance measureData, Map<String, String> updatedProperties) {
+		for (MeasureProperty property : new ArrayList<>(measurePropertyService.findByInstance(measureData))) {
+			if (updatedProperties.containsKey(property.getPropertyName())) {
+				property.setPropertyValue(updatedProperties.get(property.getPropertyName()));
+				measurePropertyService.save(property);
+			}
+
+		}
+	}
 
 }

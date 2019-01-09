@@ -6,9 +6,8 @@ import org.measure.platform.restapi.measure.dto.KibanaVisualisation;
 import org.measure.smm.measure.api.IMeasurement;
 
 public interface IMeasurementStorage {
-    void putMeasurement(String index, String measureId, Boolean manageLast, IMeasurement measurement);
-
-    IMeasurement getLastMeasurement(String measureId);
+    
+    void putMeasurement(String measureInstance, IMeasurement measurement);
 
     List<IMeasurement> getMeasurement(String measureId, Integer numberRef, String filter);
 

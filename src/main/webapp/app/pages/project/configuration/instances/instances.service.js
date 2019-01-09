@@ -51,6 +51,13 @@
 		            return {data:data};
 		        }
 			},
+			'createDefaultVisualisation' : {
+				url : 'api/measure-visualisation/create-default',
+				method : 'GET',
+		        transformResponse: function(data, headers) {
+		            return {data:data};
+		        }
+			},
 			'stopSheduling' : {
 				url : 'api/measure-instance/sheduling/stop',
 				method : 'GET',

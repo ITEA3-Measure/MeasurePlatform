@@ -57,7 +57,7 @@
 				ng-options="card as card.cardLabel for card in vm.cards">
 				<option value=""></option>
 			</select>
-	
+
 		</div>
 		<div ng-show="vm.measureView.mode == 'AUTO'" style="margin-top: 10px;">
 			<div class="form-group">
@@ -90,10 +90,10 @@
 				<label for="field_charttype">Chart Type</label> <select
 					class="form-control" id="field_charttype" name="measureInstance"
 					ng-model="vm.measureView.type">
-					<option value="Line chart">Line chart</option>
-					<option value="Area chart">Area chart</option>
-					<option value="Bar chart">Bar chart</option>
-					<option value="Last Value">Last Value</option>
+					<option value="LIGNE">Line Chart</option>
+					<option value="AREA">Area Chart</option>
+					<option value="BAR">Bar Chart</option>
+					<option value="DATA">Value</option>
 				</select>
 			</div>
 
@@ -132,17 +132,20 @@
 			</div>
 
 			<div class="form-group">
-				<label for="field_graphicSize">Graphic Size</label> <select
-					class="form-control" id="field_graphicSize" name="measureInstance"
-					ng-model="vm.measureView.size">
-					<option value="Small">Small</option>
-					<option value="Medium">Medium</option>
-					<option value="Large">Large</option>
-					<option value="Very Large">Very Large</option>
-				</select>
+				<label for="field_graphicSize">Width</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.width">
 			</div>
 
-
+			<div class="form-group">
+				<label for="field_graphicSize">Height</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.height">
+			</div>
+			
+			
+			<div class="form-group">
+				<label for="field_graphicSize">Font Size</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.fontSize">
+			</div>
 
 			<div class="form-group">
 				<label for="field_color">Color</label> <select class="form-control"
@@ -164,7 +167,18 @@
 					<option value="%23DEDAF7">Grey</option>
 				</select>
 			</div>
+			
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Name</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.name">
+			</div>
 
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Description</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.description">
+			</div>
 
 			<div class="form-group">
 				<label class="control-label" for="field_autorefresh">Auto
@@ -204,15 +218,15 @@
 
 
 			<div class="form-group">
-				<label for="field_graphicSizeV">Graphic Size</label> <select
-					class="form-control" id="field_graphicSizeV" name="measureInstance"
-					ng-model="vm.measureView.size">
-					<option value="Small">Small</option>
-					<option value="Medium">Medium</option>
-					<option value="Large">Large</option>
-					<option value="Very Large">Very Large</option>
-				</select>
+				<label for="field_graphicSize">Width</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.width">
 			</div>
+
+			<div class="form-group">
+				<label for="field_graphicSize">Height</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.height">
+			</div>
+			
 			<div class="form-group">
 				<label for="field_time">Display Data From :</label>
 				<div class="input-group" id="field_time">
@@ -230,6 +244,18 @@
 						</select>
 					</div>
 				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Name</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.name">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Description</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.description">
 			</div>
 		</div>
 
@@ -300,13 +326,6 @@
 				<textarea rows="5" class="form-control" name="viewData"
 					id="field_viewData" ng-model="vm.measureView.viewData" />
 			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="control-label" for="field_viewdescription">
-				Description</label>
-			<textarea class="form-control" rows="3" name="viewDescription"
-				id="field_viewdescription" ng-model="vm.measureView.description"></textarea>
 		</div>
 
 	</div>

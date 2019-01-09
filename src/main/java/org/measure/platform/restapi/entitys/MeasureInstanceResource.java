@@ -22,6 +22,7 @@ import org.measure.platform.service.analysis.api.IAlertEngineService;
 import org.measure.platform.service.analysis.data.alert.AlertData;
 import org.measure.platform.service.analysis.data.alert.AlertProperty;
 import org.measure.platform.service.analysis.data.alert.AlertType;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,9 @@ public class MeasureInstanceResource {
 
     @Inject
     private NotificationService notificationService;
-
+    
+    @Inject
+    private IElasticsearchIndexManager indexManager;
 
 //    @Inject
 //    private IMeasureCatalogueService catalogueService;
@@ -91,12 +94,19 @@ public class MeasureInstanceResource {
         // Create Notification related to the creation of the  new Measure Instance
         Notification notif = new Notification();
         notif.setNotificationTitle("Measure Registred");
-        notif.setNotificationContent("The "+measureInstance.getInstanceName()+ " has bed registre into the project");       
+        notif.setNotificationContent("The "+measureInstance.getInstanceName()+ " has been registred into the project");       
         LocalDateTime ldt = LocalDateTime.ofInstant( new Date().toInstant(), ZoneId.systemDefault());   
         notif.setNotificationDate(ZonedDateTime.of(ldt,ZoneId.systemDefault()));
         notif.setNotificationType(NotificationType.INFO);
         notif.setProject(result.getProject());
         notificationService.save(notif);
+        
+        // Delete Elasticsearch & Kibana existing indices
+        indexManager.deleteIndex(measureInstance);
+        
+        // Create Elasticsearch Index
+        indexManager.createIndexWithMapping(measureInstance);
+        
         return ResponseEntity.created(new URI("/api/measure-instances/" + result.getId()))
                     .headers(HeaderUtil.createEntityCreationAlert("measureInstance", result.getId().toString()))
                     .body(result);
@@ -212,6 +222,8 @@ public class MeasureInstanceResource {
             e.printStackTrace();
         }
         
+		//delete ESC & Kibana indices if exist
+		indexManager.deleteIndex(measureInstance);
         
         this.shedulingService.removeMeasure(id);
         this.measureInstanceService.delete(id);
