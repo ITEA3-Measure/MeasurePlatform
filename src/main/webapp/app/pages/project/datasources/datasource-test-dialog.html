@@ -1,0 +1,97 @@
+
+<div>
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="vm.close()">&times;</button>
+			
+			
+			
+		<h4 ng-show="vm.test" class="modal-title" id="myMeasureInstanceLabel">Measure
+			Testing Result</h4>
+			
+		<h4 ng-show="!vm.test" class="modal-title" id="myMeasureInstanceLabel">Measure
+			Execution Result</h4>
+	</div>
+
+	<div ng-show="vm.testResult == null"
+		style="height: 200px; padding: 50px;">
+
+		<img class="media-object" ng-src="content/images/ajax-loader.gif"
+			title="Loading" style="margin: auto; width: 10%;">
+	</div>
+
+	<div ng-show="vm.testResult != null">
+
+		<div style="margin: 10px;">
+			<h4>Executed Measure</h4>
+			<div class="row">
+				<div class="col-md-3">Instance Name</div>
+				<div class="col-md-8 alert alert-info"
+					style="padding: 5px; margin-bottom: 5px;">
+					{{vm.testResult.measureInstanceName}}</div>
+
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<h5>Based on Measure</h5>
+				</div>
+				<div class="col-md-8 alert alert-info"
+					style="padding: 5px; margin-bottom: 5px;">
+					{{vm.testResult.measureName}}</div>
+
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<h5>Scope</h5>
+				</div>
+				<div class="col-md-8 alert alert-info"
+					ng-show="vm.testResult.parameters.length > 0"
+					style="padding: 5px; margin-bottom: 5px;">
+					<div ng-repeat="param in vm.testResult.parameters">
+						{{param.name}} : {{param.value}}</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<h5>Inputs</h5>
+				</div>
+				<div class="col-md-8 alert alert-info"
+					ng-show="vm.testResult.inputs.length  > 0"
+					style="padding: 5px; margin-bottom: 5px;">
+					<div ng-repeat="input in vm.testResult.inputs">
+						{{input.role}} : {{input.value.label}}</div>
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="vm.testResult.success" class="alert alert-success"
+			role="alert">
+			<h4>Execution Success</h4>
+
+			<b>Results :
+
+				<ul class="list-group">
+					<li class="list-group-item list-group-item-success"
+						ng-repeat="input in vm.testResult.mesurement">{{input.label}}</li>
+				</ul> <b>Executed in : {{vm.testResult.executionTime}} ms </b>
+		</div>
+
+		<div ng-show="!vm.testResult.success" class="alert alert-danger"
+			role="alert">
+
+			<h4>Execution Failed</h4>
+
+			<b>Error : </b>{{vm.testResult.exceptionMessage}}
+
+		</div>
+	</div>
+
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			ng-click="vm.close()">
+			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Close</span>
+		</button>
+	</div>
+</div>
+

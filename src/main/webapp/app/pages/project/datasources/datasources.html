@@ -43,10 +43,10 @@
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
 						</a> <a ui-sref="generalconf({id:vm.project.id})"
-							class="list-group-item text-center active">
+							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a> <a ui-sref="projectdatasources({id:vm.project.id})"
-							class="list-group-item text-center">
+							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
 						</a>
 					</div>
@@ -57,26 +57,10 @@
 					<div class="bhoechie-tab-content">
 
 
-						<ul class="nav nav-tabs">
-							<li role="presentation"><a
-								ui-sref="generalconf({id:vm.project.id})">Project Overview</a></li>
-							<li role="presentation" class="active"><a
-								ui-sref="projectinstances({id:vm.project.id})">Measures
-									Configuration</a></li>
-
-							<li role="presentation"><a
-								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis
-									Configuration</a></li>
-
-							<li ng-repeat="analyse in vm.analysis" role="presentation"
-								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>
-
-
-						</ul>
 						<div class="well-dashboard" style="min-height: 300px;">
 							<button class="btn btn-primary"
 								style="float: right; min-width: 150px; min-height: 20px; margin-top: 0px"
-								ui-sref="projectinstances.new">Register Measure</button>
+								ui-sref="projectdatasources.new">Register Measure</button>
 							<div class="page-header">
 								<h4>Registred Measures</h4>
 							</div>
@@ -186,27 +170,27 @@
 
 											<div class="btn-group flex-btn-group-container">
 												<button type="submit" ng-show="!instance.isRemote" title="Test the Measure : Execute the measure, collected results are not stored in Platform"
-													ui-sref="projectinstances.test({instanceId:instance.id})"
+													ui-sref="projectdatasources.test({instanceId:instance.id})"
 													class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-flash"></span> <span
 														class="hidden-xs hidden-sm"></span>
 												</button>
 												<button type="submit" ng-show="!instance.isRemote" title="Execute the Measure : Execute the measure and store results in Platform"
-													ui-sref="projectinstances.execute({instanceId:instance.id})"
+													ui-sref="projectdatasources.execute({instanceId:instance.id})"
 													class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-play"></span> <span
 														class="hidden-xs hidden-sm"></span>
 												</button>
 												<div style="margin: 5px;"/>
 												<button type="submit" title="Edit Measure Configuration"
-													ui-sref="projectinstances.edit({instanceId:instance.id})"
+													ui-sref="projectdatasources.edit({instanceId:instance.id})"
 													class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-pencil"></span> <span
 														class="hidden-xs hidden-sm"></span>
 												</button>
 
 												<button type="submit" title="Delete Measure"
-													ui-sref="projectinstances.delete({instanceId:instance.id})"
+													ui-sref="projectdatasources.delete({instanceId:instance.id})"
 													class="btn btn-danger btn-sm">
 													<span class="glyphicon glyphicon-remove-circle"></span> <span
 														class="hidden-xs hidden-sm"></span>
