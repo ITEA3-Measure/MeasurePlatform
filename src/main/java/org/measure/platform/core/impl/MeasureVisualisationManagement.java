@@ -12,6 +12,7 @@ import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
+import org.measure.platform.service.measurement.impl.IndexFormat;
 import org.measure.smm.measure.model.DataSource;
 import org.measure.smm.measure.model.Layout;
 import org.measure.smm.measure.model.SMMMeasure;
@@ -31,10 +32,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
 
     @Value("${measure.kibana.adress}")
     private String kibanaAdress;
-    
-    @Inject
-    private IElasticsearchIndexManager indexManager;
-        
+            
     @Inject 
     private MeasureInstanceService measureInstanceService; 
     
@@ -43,18 +41,25 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
 	public String formatViewDataAsKibanaURL(MeasureView measureView) {
         String type = "line";
         
-        if (measureView.getType().equals(ViewTypeEnum.DATA)) {
+        
+        
+        if (measureView.getType().equals(ViewTypeEnum.DATA.toString())) {
         
             String refresh = measureView.isAuto() ? "f" : "t";
-            String periode = "from:now-1y,mode:quick,to:now";
+            String periode = measureView.getTimePeriode();
             String measure = measureView.getMeasureinstance().getInstanceName().replaceAll(" ", "+");  
             String visualisedProperty = measureView.getVisualisedProperty();
             String color = measureView.getColor();
             String font = measureView.getFontSize();    
             String width = measureView.getWidth();
             String height = measureView.getHeight();
+            
+            String label = measureView.getDescription();
+            if(label == null || "".equals(label)) {
+            	label = visualisedProperty;
+            }
    
-            return messageSource.getMessage("viewtype.view2", new Object[] { "metric", refresh, periode,measure, font, height, width, kibanaAdress, visualisedProperty, color,indexManager.getBaseMeasureIndex() }, Locale.ENGLISH);
+            return messageSource.getMessage("viewtype.view2", new Object[] { refresh, periode,measure, font, height, width, kibanaAdress, visualisedProperty, color, IndexFormat.getMeasureInstanceIndex(measureView.getMeasureinstance().getInstanceName()),label }, Locale.ENGLISH);
         } else {
             if (measureView.getType().equals(ViewTypeEnum.LIGNE.toString())) {
                 type = "line";
@@ -71,10 +76,19 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
             String color = measureView.getColor();
             String width = measureView.getWidth();
             String height = measureView.getHeight();
+            
+            if(Integer.valueOf(height) < 440) {
+            	height = "440";
+            }
+            
             String visualisedProperty = measureView.getVisualisedProperty();
             String dateIndex = measureView.getDateIndex();
+            String label = measureView.getDescription();
+            if(label == null || "".equals(label)) {
+            	label = visualisedProperty +" / " + interval;
+            }
         
-            return messageSource.getMessage("viewtype.view1", new Object[] { type, refresh, periode, measure,color, interval, height, width, kibanaAdress, visualisedProperty, dateIndex,indexManager.getBaseMeasureIndex() }, Locale.ENGLISH);
+            return messageSource.getMessage("viewtype.view1", new Object[] { type, refresh, periode, measure,color, interval, height, width, kibanaAdress, visualisedProperty, dateIndex,color, IndexFormat.getMeasureInstanceIndex(measureView.getMeasureinstance().getInstanceName()),label}, Locale.ENGLISH);
         }
     }
 
@@ -87,7 +101,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
             
         return messageSource.getMessage("viewtype.view3",new Object[] { height, width, kibanaAdress, measureView.getKibanaName(),refresh ,periode}, Locale.ENGLISH);
     }
-
+  
     @Override
     public String formatViewDataAsKibanaDashboardReference(MeasureView measureView) {
         String height = measureView.getHeight();               
@@ -136,15 +150,15 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
      	measureView.setMode("AUTO");
     	measureView.setAuto(mView.isAutoRefresh());
     	measureView.setType(mView.getType().toString());
-    	measureView.setName(mView.getName());
+    	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
     	measureView.setDescription(mView.getDescription());
     	
     	if(mView.getDatasource() != null) {
     		DataSource dsView = mView.getDatasource() ;
     		measureView.setViewData(dsView.getDataIndex());
     		measureView.setDateIndex(dsView.getDateIndex());
-    		measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:quick,to:now");
-    		measureView.setTimeAgregation(dsView.getTimeAggreation());
+    		measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:relative,to:now");
+    		measureView.setTimeAgregation(dsView.getTimeAggregation());
     	}
     	if(mView.getLayout() != null) {
     		Layout layout = mView.getLayout();

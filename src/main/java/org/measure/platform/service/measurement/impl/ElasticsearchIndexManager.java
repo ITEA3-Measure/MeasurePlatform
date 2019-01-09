@@ -52,7 +52,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 	public void createIndexWithMapping(MeasureInstance measureInstance) {
 		TransportClient client = connection.getClient();
 
-		final String indexName = IndexFormat.PREFIX_INDEX + measureInstance.getInstanceName();
+		final String indexName = IndexFormat.getMeasureInstanceIndex(measureInstance.getInstanceName());
 		SMMMeasure measureDefinition = measureCatalogue.getMeasure(measureInstance.getMeasureName());
 
 		// Create Measure Index
@@ -87,7 +87,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 	}
 
 	private void createKibanaIndexPattern(MeasureInstance measureInstance) {
-		String indexName = IndexFormat.PREFIX_INDEX + measureInstance.getInstanceName();
+		String indexName = IndexFormat.getMeasureInstanceIndex(measureInstance.getInstanceName());
 
 		// Add kibana Index
 		RestTemplate addIndexRest = new RestTemplate();
@@ -111,7 +111,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 	@Override
 	public void deleteIndex(MeasureInstance measureInstance) {
 		// Delete kibana index
-		String indexName = IndexFormat.PREFIX_INDEX + measureInstance.getInstanceName();
+		String indexName = IndexFormat.getMeasureInstanceIndex(measureInstance.getInstanceName());
 		if (isKibanaIndexExist(indexName)) {
 			RestTemplate deleteIndexRest = new RestTemplate();
 

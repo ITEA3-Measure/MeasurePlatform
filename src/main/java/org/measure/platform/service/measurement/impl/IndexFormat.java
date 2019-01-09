@@ -7,6 +7,6 @@ public class IndexFormat {
 	public static final String PREFIX_INDEX = "measure.";
 
 	public static String getMeasureInstanceIndex(String instanceName) {
-		return IndexFormat.PREFIX_INDEX + instanceName;
+		return IndexFormat.PREFIX_INDEX + instanceName.toLowerCase();
 	}
 }
