@@ -16,6 +16,7 @@
 
 		vm.measureInstance = entity;
 		vm.measureInstance.project = project;
+		vm.measureInstance.createDefaultView = true ;
 
 		vm.clear = clear;
 		vm.save = save;
@@ -91,16 +92,16 @@
 								measureupdate = true;
 							}
 							if (newValue != null) {			
-								for (var i = 0; i < newValue.scopeProperties.length; i++) {
+								for (var i = 0; i < newValue.scope.property.length; i++) {
 									var o = newProperty();
-									o.propertyName = newValue.scopeProperties[i].name;
-									o.propertyType = newValue.scopeProperties[i].type;
+									o.propertyName = newValue.scope.property[i].name;
+									o.propertyType = newValue.scope.property[i].type;
 									
-									if(newValue.scopeProperties[i].type == 'ENUM'){
-										for (var j = 0; j < newValue.scopeProperties[i].enumType.enumvalue.length; j++) {
+									if(newValue.scope.property[i].type == 'ENUM'){
+										for (var j = 0; j < newValue.scope.property[i].enumType.enumvalue.length; j++) {
 											var eva = newEnumValue();
-											eva.label = newValue.scopeProperties[i].enumType.enumvalue[j].label;
-											eva.value = newValue.scopeProperties[i].enumType.enumvalue[j].value;
+											eva.label = newValue.scope.property[i].enumType.enumvalue[j].label;
+											eva.value = newValue.scope.property[i].enumType.enumvalue[j].value;
 											
 											o.enumvalues[j] = eva;
 										}
@@ -116,15 +117,15 @@
 										}
 										
 									}else {
-										propval = newValue.scopeProperties[i].defaultValue;		
+										propval = newValue.scope.property[i].defaultValue;		
 									}
 									
 									
-									if(newValue.scopeProperties[i].type == 'INTEGER' || newValue.scopeProperties[i].type == 'FLOAT' ){
+									if(newValue.scope.property[i].type == 'INTEGER' || newValue.scope.property[i].type == 'FLOAT' ){
 										o.propertyValue = Number(propval);		
-									}else if(newValue.scopeProperties[i].type == 'ENUM'){
+									}else if(newValue.scope.property[i].type == 'ENUM'){
 										o.propertyValue = propval;	
-									}else if(newValue.scopeProperties[i].type == 'DATE'){
+									}else if(newValue.scope.property[i].type == 'DATE'){
 										o.propertyValue = new Date(propval);	
 									}else{
 										o.propertyValue = propval;
@@ -220,7 +221,7 @@
 		function save() {
 			vm.isSaving = true;
 			if(vm.measureInstance.id != null){
-				ProjectDataSources.update(vm.measureInstance,onSaveSuccess, onSaveError);
+				ProjectDataSources.update(vm.measureInstance,onSaveSuccess, onSaveError);					
 			}else{
 				ProjectDataSources.checkname(
 						{
@@ -268,6 +269,11 @@
 				vm.references[i].ownerInstance = result;
 				ProjectDataSources.savereference(vm.references[i]);
 			}
+			
+			ProjectDataSources.createDefaultVisualisation({id : result.id},
+					function(result) {
+						
+					});
 		}
 
 		function onSavePropertySuccess(result) {
