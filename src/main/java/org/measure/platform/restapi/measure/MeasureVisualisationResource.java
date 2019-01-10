@@ -54,6 +54,35 @@ public class MeasureVisualisationResource {
 		}
 		return null;
 	}
+	
+	@RequestMapping(value = "/get-default", method = RequestMethod.GET)
+	public MeasureView getDefaultVisualisation(@RequestParam("id") String id) {
+		if (id.matches("\\d+")) {
+			Long instanceId = Long.valueOf(id);
+			MeasureInstance mInstance = instanceService.findOne(instanceId);
+			
+			List<MeasureView> defaultViews =  measureViewService.findDefaulsByMeasureInstance(mInstance.getId());
+			
+			if (defaultViews.size() > 0) {
+				return defaultViews.get(0);
+			}
+		}
+		return null;
+	}
+	
+	
+	@RequestMapping(value = "/delete-default", method = RequestMethod.DELETE)
+	public void deleteDefaultVisualisation(@RequestParam("id") String id) {
+		if (id.matches("\\d+")) {
+			Long instanceId = Long.valueOf(id);
+			MeasureInstance mInstance = instanceService.findOne(instanceId);		
+			List<MeasureView> defaultViews =  measureViewService.findDefaulsByMeasureInstance(mInstance.getId());		
+			for(MeasureView defaults : defaultViews) {
+				measureViewService.delete(defaults.getId());
+			}	
+		}
+	}
+	
 
 	@RequestMapping(value = "/create-view", method = RequestMethod.GET)
 	public MeasureView createVisualisation(@RequestParam("id") String id, @RequestParam("view") String viewName) {
