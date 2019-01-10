@@ -13,6 +13,12 @@
                                  constraintName="fk_dashboard_phase_id"
                                  referencedColumnNames="id"
                                  referencedTableName="phase"/>
+                                 
+               <addForeignKeyConstraint baseColumnNames="application_id"
+                                 baseTableName="dashboard"
+                                 constraintName="fk_measure_instance_dashboardn_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="application"/>   
 
     </changeSet>
 </databaseChangeLog>

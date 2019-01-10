@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -83,6 +82,12 @@ public class Project implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AlertEvent> alertevents = new HashSet<>();
+    
+    
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Application> applications = new HashSet<>();
 
     @ManyToOne
     private User owner;
@@ -222,6 +227,31 @@ public class Project implements Serializable {
         this.instances = measureInstances;
     }
 
+    public Set<Application> getApplications() {
+        return applications;
+    }
+
+    public Project applications(Set<Application> applications) {
+        this.applications = applications;
+        return this;
+    }
+
+    public Project addApplications(Application application) {
+    	applications.add(application);
+        application.setProject(this);
+        return this;
+    }
+
+    public Project removeApplications(Application application) {
+    	applications.remove(application);
+    	application.setProject(null);
+        return this;
+    }
+
+    public void setApplications(Set<Application> applications) {
+        this.applications = applications;
+    }  
+    
     public User getOwner() {
         return owner;
     }

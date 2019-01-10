@@ -60,6 +60,9 @@ public class Dashboard implements Serializable {
 
     @ManyToOne
     private Phase phase;
+    
+    @ManyToOne
+    private Application application;
 
     @OneToMany(mappedBy = "dashboard")
     @JsonIgnore
@@ -214,6 +217,19 @@ public class Dashboard implements Serializable {
 
     public void setViews(Set<MeasureView> measureViews) {
         this.views = measureViews;
+    }
+    
+    public Application getApplication() {
+        return application;
+    }
+
+    public Dashboard project(Application application) {
+        this.application = application;
+        return this;
+    }
+
+    public void setApplication(Application application) {
+        this.application = application;
     }
 
     @Override
