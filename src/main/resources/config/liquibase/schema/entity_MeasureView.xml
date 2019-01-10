@@ -30,6 +30,10 @@
 				<constraints nullable="true" />
 			</column>
 			
+			<column name="default_view" type="bit">
+				<constraints nullable="true" />
+			</column>
+			
 			<column name="viewname" type="varchar(1024)">
 				<constraints nullable="true" />
 			</column>

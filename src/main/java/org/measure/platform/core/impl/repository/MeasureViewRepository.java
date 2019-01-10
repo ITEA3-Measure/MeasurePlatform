@@ -39,4 +39,6 @@ public interface MeasureViewRepository extends JpaRepository<MeasureView,Long> {
     @Query(value = "select i from MeasureView i where i.analysiscard = :analysisCard")
 	List<MeasureView> findByAnalysisCard(@Param("analysisCard") AnalysisCard analysisCard);
 
+    @Query(value = "select i from MeasureView i where i.measureinstance = :measureinstance AND i.defaultView = true")
+  	List<MeasureView> findDefaultViewByMeasureInstance(@Param("measureinstance") MeasureInstance measureinstance);
 }

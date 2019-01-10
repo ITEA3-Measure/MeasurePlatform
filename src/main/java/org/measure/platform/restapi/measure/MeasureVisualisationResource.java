@@ -10,20 +10,12 @@ import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
-import org.measure.platform.restapi.measure.dto.PlatformConfiguration;
-import org.measure.platform.service.analysis.data.alert.AlertData;
-import org.measure.platform.service.analysis.data.alert.AlertProperty;
-import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.codahale.metrics.annotation.Timed;
 
 @RestController
 @RequestMapping(value = "api/measure-visualisation")
@@ -49,7 +41,10 @@ public class MeasureVisualisationResource {
 		if (id.matches("\\d+")) {
 			Long instanceId = Long.valueOf(id);
 			MeasureInstance mInstance = instanceService.findOne(instanceId);
-			if (mInstance.getViews().size() == 0) {
+			
+			List<MeasureView> defaultViews =  measureViewService.findDefaulsByMeasureInstance(mInstance.getId());
+			
+			if (defaultViews.size() == 0) {
 				SMMMeasure measure = measureCatalogueService.getMeasure(mInstance.getMeasureName());
 				MeasureView view = visualisationManagement.createDefaultMeasureView(measure, instanceId);
 
@@ -65,8 +60,9 @@ public class MeasureVisualisationResource {
 		if (id.matches("\\d+")) {
 			Long instanceId = Long.valueOf(id);
 			MeasureInstance mInstance = instanceService.findOne(instanceId);
+			List<MeasureView> defaultViews =  measureViewService.findDefaulsByMeasureInstance(mInstance.getId());
 
-			if (mInstance.getViews().size() == 0) {
+			if (defaultViews.size() == 0) {
 				SMMMeasure measure = measureCatalogueService.getMeasure(mInstance.getMeasureName());
 				MeasureView view = visualisationManagement.createDefaultMeasureView(measure, instanceId, viewName);
 				measureViewService.save(view);

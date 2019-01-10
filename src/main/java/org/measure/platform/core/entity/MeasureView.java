@@ -49,7 +49,10 @@ public class MeasureView implements Serializable {
     private String type;
 
     @Column(name = "viewauto")
-    private Boolean auto;
+    private Boolean auto = false;
+    
+    @Column(name = "default_view")
+    private Boolean defaultView = false;
 
     @Column(name = "time_periode")
     private String timePeriode;
@@ -207,6 +210,19 @@ public class MeasureView implements Serializable {
 
     public void setAuto(Boolean auto) {
         this.auto = auto;
+    }
+
+    public Boolean isDefaultView() {
+        return defaultView;
+    }
+
+    public MeasureView defaultView(Boolean defaultView) {
+        this.defaultView = defaultView;
+        return this;
+    }
+
+    public void setDefaultView(Boolean defaultView) {
+        this.defaultView = defaultView;
     }
 
     public String getTimePeriode() {

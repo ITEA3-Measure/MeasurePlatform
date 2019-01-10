@@ -8,11 +8,13 @@ import javax.inject.Inject;
 import org.measure.platform.core.api.IMeasureVisaulisationManagement;
 import org.measure.platform.core.api.entitys.AnalysisCardService;
 import org.measure.platform.core.api.entitys.DashboardService;
+import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.api.entitys.PhaseService;
 import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.AnalysisCard;
 import org.measure.platform.core.entity.Dashboard;
+import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
@@ -42,6 +44,9 @@ public class MeasureViewServiceImpl implements MeasureViewService {
 
     @Inject
     private ProjectService projectService;
+    
+    @Inject
+    private MeasureInstanceService measureInstanceService;
     
     @Inject
     private AnalysisCardService analysisCardService;
@@ -114,6 +119,11 @@ public class MeasureViewServiceImpl implements MeasureViewService {
     public List<MeasureView> findByProject(Long id) {
         Project project = projectService.findOne(id);
         return measureViewRepository.findByProject(project);
+    }
+    
+    public List<MeasureView> findDefaulsByMeasureInstance(Long id) {
+        MeasureInstance instance = measureInstanceService.findOne(id);
+        return measureViewRepository.findDefaultViewByMeasureInstance(instance);
     }
 
     public List<MeasureView> findByProjectOverview(Long id) {

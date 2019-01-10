@@ -90,7 +90,7 @@ public class MeasureInstance implements Serializable {
     private Set<MeasureReference> referenceInstances = new HashSet<>();
     
     
-    @OneToMany(mappedBy = "measureinstance",fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "measureinstance")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureView> views = new HashSet<>();
