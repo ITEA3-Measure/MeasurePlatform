@@ -3,11 +3,11 @@
 
     angular
         .module('measurePlatformApp')
-        .controller('ProjectInstanceDeleteController',ProjectInstanceDeleteController);
+        .controller('ProjectDataSourceDeleteController',ProjectDataSourceDeleteController);
 
-    ProjectInstanceDeleteController.$inject = ['$uibModalInstance', 'entity', 'MeasureInstance', 'MeasureProperty',];
+    ProjectDataSourceDeleteController.$inject = ['$uibModalInstance', 'entity', 'MeasureInstance', 'MeasureProperty',];
 
-    function ProjectInstanceDeleteController($uibModalInstance, entity, MeasureInstance, MeasureProperty) {
+    function ProjectDataSourceDeleteController($uibModalInstance, entity, MeasureInstance, MeasureProperty) {
         var vm = this;
 
         vm.measureInstance = entity;

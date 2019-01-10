@@ -2,21 +2,20 @@
 	'use strict';
 
 	angular.module('measurePlatformApp').controller(
-			'ProjectInstanceDialogController', ProjectInstanceDialogController);
+			'ProjectDataSourceDialogController', ProjectDataSourceDialogController);
 
-	ProjectInstanceDialogController.$inject = [ '$timeout', '$scope',
+	ProjectDataSourceDialogController.$inject = [ '$timeout', '$scope',
 			'$stateParams', '$uibModalInstance', 'entity', 'project',
-			'ProjectInstances', 'Measure', 'MeasureProperty' ];
+			'ProjectDataSources', 'Measure', 'MeasureProperty' ];
 
-	function ProjectInstanceDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity, project, ProjectInstances, Measure,
+	function ProjectDataSourceDialogController($timeout, $scope, $stateParams,
+			$uibModalInstance, entity, project, ProjectDataSources, Measure,
 			MeasureProperty) {
 		var vm = this;
 		var measureupdate = false;
 
 		vm.measureInstance = entity;
 		vm.measureInstance.project = project;
-		vm.measureInstance.createDefaultView = true ;
 
 		vm.clear = clear;
 		vm.save = save;
@@ -53,7 +52,7 @@
 		}
 		
 		function loadReferences(id) {
-			ProjectInstances
+			ProjectDataSources
 					.references(
 							{
 								id : id
@@ -68,7 +67,7 @@
 		
 		
 		function loadProperties(id) {
-			ProjectInstances
+			ProjectDataSources
 					.properties(
 							{
 								id : id
@@ -189,7 +188,7 @@
 		
 		
 		function loadInstancesByRole(refindex,role,measureRef) {
-			ProjectInstances
+			ProjectDataSources
 					.instancesofmeasure(
 							{
 								measureRef : measureRef
@@ -221,15 +220,15 @@
 		function save() {
 			vm.isSaving = true;
 			if(vm.measureInstance.id != null){
-				ProjectInstances.update(vm.measureInstance,onSaveSuccess, onSaveError);					
+				ProjectDataSources.update(vm.measureInstance,onSaveSuccess, onSaveError);
 			}else{
-				ProjectInstances.checkname(
+				ProjectDataSources.checkname(
 						{
 							name : vm.measureInstance.instanceName
 						},
 						function(result) {
 							if(result.id == null){
-								ProjectInstances.save(vm.measureInstance,onSaveSuccess, onSaveError);			
+								ProjectDataSources.save(vm.measureInstance,onSaveSuccess, onSaveError);			
 							}else{
 								vm.isSaving = false;
 								vm.errorMessage = "An Instance with the same name already exist"
@@ -262,18 +261,13 @@
 			
 			
 			for(var i = 0;i<vm.currentReferences.length; i++) {
-				ProjectInstances.deletereference(vm.currentReferences[i]);
+				ProjectDataSources.deletereference(vm.currentReferences[i]);
 			}
 			
 			for (var i = 0; i < vm.references.length; i++) {
 				vm.references[i].ownerInstance = result;
-				ProjectInstances.savereference(vm.references[i]);
+				ProjectDataSources.savereference(vm.references[i]);
 			}
-			
-			ProjectInstances.createDefaultVisualisation({id : result.id},
-					function(result) {
-						
-					});
 		}
 
 		function onSavePropertySuccess(result) {

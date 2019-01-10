@@ -45,6 +45,9 @@
 						</a> <a ui-sref="generalconf({id:vm.project.id})"
 							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
+						</a> <a ui-sref="projectdatasources({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
 						</a>
 					</div>
 				</div>
@@ -56,9 +59,6 @@
 						<ul class="nav nav-tabs">
 							<li role="presentation" ><a
 								ui-sref="generalconf({id:vm.project.id})">Project Overview</a></li>
-							<li role="presentation"><a
-								ui-sref="projectinstances({id:vm.project.id})">Measures
-									Configuration</a></li>
 
 							<li role="presentation" class="active"><a
 								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis

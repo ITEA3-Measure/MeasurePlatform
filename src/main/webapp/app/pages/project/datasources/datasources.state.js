@@ -8,16 +8,16 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-    	   $stateProvider.state('projectinstances', {
+    	   $stateProvider.state('projectdatasources', {
             parent: 'app',
-            url: '/project/:id/configuration/instances',
+            url: '/project/:id/datasources',
             data: {
                 authorities: []
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/pages/project/configuration/instances/instances.html',
-                    controller: 'AppProjectInstancesController',
+                    templateUrl: 'app/pages/project/datasources/datasources.html',
+                    controller: 'AppProjectDataSourcesController',
                     controllerAs: 'vm'
                 }
             },resolve: {
@@ -26,16 +26,16 @@
                 }]
             }
         })
-        .state('projectinstances.new', {
-            parent: 'projectinstances',
+        .state('projectdatasources.new', {
+            parent: 'projectdatasources',
             url: '/new',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/configuration/instances/instance-dialog.html',
-                    controller: 'ProjectInstanceDialogController',
+                    templateUrl: 'app/pages/project/datasources/datasource-dialog.html',
+                    controller: 'ProjectDataSourceDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
@@ -61,21 +61,21 @@
                         }] 
                     }
                 }).result.then(function() {
-                    $state.go('projectinstances', null, { reload: 'projectinstances' });
+                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
                 }, function() {
-                    $state.go('projectinstances');
+                    $state.go('projectdatasources');
                 });
             }]
-        }).state('projectinstances.delete', {
-            parent: 'projectinstances',
+        }).state('projectdatasources.delete', {
+            parent: 'projectdatasources',
             url: '/{instanceId}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/configuration/instances/instance-delete-dialog.html',
-                    controller: 'ProjectInstanceDeleteController',
+                    templateUrl: 'app/pages/project/datasources/datasource-delete-dialog.html',
+                    controller: 'ProjectDataSourceDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
@@ -84,21 +84,21 @@
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('projectinstances', null, { reload: 'projectinstances' });
+                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
                 }, function() {
                     $state.go('^');
                 });
             }]
-        }) .state('projectinstances.edit', {
-            parent: 'projectinstances',
+        }) .state('projectdatasources.edit', {
+            parent: 'projectdatasources',
             url: '/{instanceId}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/configuration/instances/instance-dialog.html',
-                    controller: 'ProjectInstanceDialogController',
+                    templateUrl: 'app/pages/project/datasources/datasource-dialog.html',
+                    controller: 'ProjectDataSourceDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
@@ -110,21 +110,21 @@
                         }] 
                     }
                 }).result.then(function() {
-                    $state.go('projectinstances', null, { reload: 'projectinstances' });
+                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
                 }, function() {
                     $state.go('^');
                 });
             }]
-        }) .state('projectinstances.test', {
-            parent: 'projectinstances',
+        }) .state('projectdatasources.test', {
+            parent: 'projectdatasources',
             url: '/{instanceId}/test',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/configuration/instances/instance-test-dialog.html',
-                    controller: 'TestInstanceDialogController',
+                    templateUrl: 'app/pages/project/datasources/datasource-test-dialog.html',
+                    controller: 'TestDataSourceDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
@@ -135,21 +135,21 @@
                         isTest : true
                     }
                 }).result.then(function() {
-                    $state.go('projectinstances', null, { reload: 'projectinstances' });
+                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
                 }, function() {
                     $state.go('^');
                 });
             }]
-        }) .state('projectinstances.execute', {
-            parent: 'projectinstances',
+        }) .state('projectdatasources.execute', {
+            parent: 'projectdatasources',
             url: '/{instanceId}/execute',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/configuration/instances/instance-test-dialog.html',
-                    controller: 'TestInstanceDialogController',
+                    templateUrl: 'app/pages/project/datasources/datasource-test-dialog.html',
+                    controller: 'TestDataSourceDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
@@ -160,7 +160,7 @@
                         isTest : false
                     }
                 }).result.then(function() {
-                    $state.go('projectinstances', null, { reload: 'projectinstances' });
+                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
                 }, function() {
                     $state.go('^');
                 });

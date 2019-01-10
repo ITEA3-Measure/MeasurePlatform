@@ -2,14 +2,14 @@
 	'use strict';
 
 	angular.module('measurePlatformApp').controller(
-			'AppProjectInstancesController', AppProjectInstancesController);
+			'AppProjectDataSourcesController', AppProjectDataSourcesController);
 
-	AppProjectInstancesController.$inject = [ '$location', '$scope',
+	AppProjectDataSourcesController.$inject = [ '$location', '$scope',
 			'Principal', 'LoginService', '$state', 'entity', 'Home',
-			'ProjectInstances', 'MeasureAgentService', 'Notification' ,'ProjectAnalysis'];
+			'ProjectDataSources', 'MeasureAgentService', 'Notification' ,'ProjectAnalysis'];
 
-	function AppProjectInstancesController($location, $scope, Principal,
-			LoginService, $state, entity, Home, ProjectInstances,
+	function AppProjectDataSourcesController($location, $scope, Principal,
+			LoginService, $state, entity, Home, ProjectDataSources,
 			MeasureAgentService, Notification,ProjectAnalysis) {
 		var vm = this;
 
@@ -19,7 +19,7 @@
 		loadInstances(vm.project.id);
 
 		function loadInstances(id) {
-			ProjectInstances.instances({
+			ProjectDataSources.instances({
 				id : id
 			}, function(result) {
 				vm.measureInstances = result;
@@ -81,7 +81,7 @@
 		vm.stopSheduling = stopSheduling
 
 		function loadProperties(id) {
-			ProjectInstances
+			ProjectDataSources
 					.properties(
 							{
 								id : id
@@ -99,7 +99,7 @@
 		}
 
 		function loadReference(id) {
-			ProjectInstances.references({
+			ProjectDataSources.references({
 				id : id
 			}, function(result) {
 				for (var i = 0; i < result.length; i++) {
@@ -117,7 +117,7 @@
 		}
 
 		function isShedule(id) {
-			ProjectInstances.isShedule({
+			ProjectDataSources.isShedule({
 				id : id
 			}, function(result) {
 				for (var i = 0; i < vm.measureInstances.length; i++) {
@@ -138,7 +138,7 @@
 		}
 
 		function isReferenceShedule(id, reference) {
-			ProjectInstances.isShedule({
+			ProjectDataSources.isShedule({
 				id : id
 			}, function(result) {
 				reference.status = result.data;
@@ -146,7 +146,7 @@
 		}
 
 		function startSheduling(id) {
-			ProjectInstances
+			ProjectDataSources
 					.startSheduling(
 							{
 								id : id
@@ -168,7 +168,7 @@
 		}
 
 		function stopSheduling(id) {
-			ProjectInstances
+			ProjectDataSources
 					.stopSheduling(
 							{
 								id : id

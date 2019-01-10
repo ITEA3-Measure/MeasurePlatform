@@ -5,9 +5,9 @@
         .module('measurePlatformApp')
         .controller('GraphicDialogController', GraphicDialogController);
 
-    GraphicDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance','entity','project', 'phase', 'dashboard','data', 'MeasureView','ProjectInstances','Measure','ConfigurationService','AnalysisCard'];
+    GraphicDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance','entity','project', 'phase', 'dashboard','data', 'MeasureView','GraphicService','Measure','ConfigurationService','AnalysisCard'];
 
-    function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project, phase,dashboard,data,MeasureView,ProjectInstances,Measure,ConfigurationService,AnalysisCard) {
+    function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project, phase,dashboard,data,MeasureView,GraphicService,Measure,ConfigurationService,AnalysisCard) {
         var vm = this;
         vm.measureView = entity;
         vm.project = project;
@@ -62,7 +62,7 @@
         }
 
 		function loadAll(id) {
-			ProjectInstances.instances({
+			GraphicService.instances({
 				id : id
 			}, function(result) {
 				vm.measureInstances = result;

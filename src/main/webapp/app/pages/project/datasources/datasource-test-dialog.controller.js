@@ -2,13 +2,13 @@
 	'use strict';
 
 	angular.module('measurePlatformApp').controller(
-			'TestInstanceDialogController', TestInstanceDialogController);
+			'TestDataSourceDialogController', TestDataSourceDialogController);
 
-	TestInstanceDialogController.$inject = [ '$timeout', '$scope',
-			'$stateParams', '$uibModalInstance', 'entity','ProjectInstances','isTest'];
+	TestDataSourceDialogController.$inject = [ '$timeout', '$scope',
+			'$stateParams', '$uibModalInstance', 'entity','ProjectDataSources','isTest'];
 
-	function TestInstanceDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity,ProjectInstances,isTest) {
+	function TestDataSourceDialogController($timeout, $scope, $stateParams,
+			$uibModalInstance, entity,ProjectDataSources,isTest) {
 		var vm = this;
 
 		vm.close = close;
@@ -25,7 +25,7 @@
 		vm.testResult = null;
 
 		function testMeasure(id) {
-			ProjectInstances.testMeasure({
+			ProjectDataSources.testMeasure({
 				id : id
 			}, function(result) {
 				vm.testResult = result;
@@ -33,7 +33,7 @@
 		}
 		
 		function executeMeasure(id) {
-			ProjectInstances.executeMeasure({
+			ProjectDataSources.executeMeasure({
 				id : id
 			}, function(result) {
 				vm.testResult = result;

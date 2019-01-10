@@ -1,11 +1,11 @@
 (function() {
 	'use strict';
-	angular.module('measurePlatformApp').factory('ProjectInstances',
-			ProjectInstances);
+	angular.module('measurePlatformApp').factory('ProjectDataSources',
+			ProjectDataSources);
 
-	ProjectInstances.$inject = [ '$resource' ];
+	ProjectDataSources.$inject = [ '$resource' ];
 
-	function ProjectInstances($resource) {
+	function ProjectDataSources($resource) {
 		var resourceUrl = 'api/measure-instances/:id';
 
 		return $resource(resourceUrl, {}, {
@@ -46,13 +46,6 @@
 			},
 			'startSheduling' : {
 				url : 'api/measure-instance/sheduling/start',
-				method : 'GET',
-		        transformResponse: function(data, headers) {
-		            return {data:data};
-		        }
-			},
-			'createDefaultVisualisation' : {
-				url : 'api/measure-visualisation/create-default',
 				method : 'GET',
 		        transformResponse: function(data, headers) {
 		            return {data:data};
