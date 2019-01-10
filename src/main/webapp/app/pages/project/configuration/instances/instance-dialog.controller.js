@@ -92,16 +92,16 @@
 								measureupdate = true;
 							}
 							if (newValue != null) {			
-								for (var i = 0; i < newValue.scope.property.length; i++) {
+								for (var i = 0; i < newValue.scopeProperties.length; i++) {
 									var o = newProperty();
-									o.propertyName = newValue.scope.property[i].name;
-									o.propertyType = newValue.scope.property[i].type;
+									o.propertyName = newValue.scopeProperties[i].name;
+									o.propertyType = newValue.scopeProperties[i].type;
 									
-									if(newValue.scope.property[i].type == 'ENUM'){
-										for (var j = 0; j < newValue.scope.property[i].enumType.enumvalue.length; j++) {
+									if(newValue.scopeProperties[i].type == 'ENUM'){
+										for (var j = 0; j < newValue.scopeProperties[i].enumType.enumvalue.length; j++) {
 											var eva = newEnumValue();
-											eva.label = newValue.scope.property[i].enumType.enumvalue[j].label;
-											eva.value = newValue.scope.property[i].enumType.enumvalue[j].value;
+											eva.label = newValue.scopeProperties[i].enumType.enumvalue[j].label;
+											eva.value = newValue.scopeProperties[i].enumType.enumvalue[j].value;
 											
 											o.enumvalues[j] = eva;
 										}
@@ -117,15 +117,15 @@
 										}
 										
 									}else {
-										propval = newValue.scope.property[i].defaultValue;		
+										propval = newValue.scopeProperties[i].defaultValue;		
 									}
 									
 									
-									if(newValue.scope.property[i].type == 'INTEGER' || newValue.scope.property[i].type == 'FLOAT' ){
+									if(newValue.scopeProperties[i].type == 'INTEGER' || newValue.scopeProperties[i].type == 'FLOAT' ){
 										o.propertyValue = Number(propval);		
-									}else if(newValue.scope.property[i].type == 'ENUM'){
+									}else if(newValue.scopeProperties[i].type == 'ENUM'){
 										o.propertyValue = propval;	
-									}else if(newValue.scope.property[i].type == 'DATE'){
+									}else if(newValue.scopeProperties[i].type == 'DATE'){
 										o.propertyValue = new Date(propval);	
 									}else{
 										o.propertyValue = propval;

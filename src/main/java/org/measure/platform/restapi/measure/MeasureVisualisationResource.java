@@ -49,14 +49,14 @@ public class MeasureVisualisationResource {
 		if (id.matches("\\d+")) {
 			Long instanceId = Long.valueOf(id);
 			MeasureInstance mInstance = instanceService.findOne(instanceId);
-		//	if (mInstance.getViews().size() == 0) {
+			if (mInstance.getViews().size() == 0) {
 				SMMMeasure measure = measureCatalogueService.getMeasure(mInstance.getMeasureName());
 				MeasureView view = visualisationManagement.createDefaultMeasureView(measure, instanceId);
 
 				measureViewService.save(view);
 				return view;
 			}
-		//}
+		}
 		return null;
 	}
 
@@ -66,12 +66,12 @@ public class MeasureVisualisationResource {
 			Long instanceId = Long.valueOf(id);
 			MeasureInstance mInstance = instanceService.findOne(instanceId);
 
-			//if (mInstance.getViews().size() == 0) {
+			if (mInstance.getViews().size() == 0) {
 				SMMMeasure measure = measureCatalogueService.getMeasure(mInstance.getMeasureName());
 				MeasureView view = visualisationManagement.createDefaultMeasureView(measure, instanceId, viewName);
 				measureViewService.save(view);
 				return view;
-			//}
+			}
 		}
 		return null;
 	}
