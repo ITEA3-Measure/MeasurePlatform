@@ -152,6 +152,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     	measureView.setType(mView.getType().toString());
     	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
     	measureView.setDescription(mView.getDescription());
+    	measureView.setDefaultView(true);
     	
     	if(mView.getDatasource() != null) {
     		DataSource dsView = mView.getDatasource() ;

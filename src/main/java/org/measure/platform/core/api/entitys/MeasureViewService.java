@@ -45,5 +45,7 @@ public interface MeasureViewService {
     List<MeasureView> findByDashboard(Long id);
 
     List<MeasureView> findByAnalysisCard(Long id);
+    
+    List<MeasureView> findDefaulsByMeasureInstance(Long id);
 
 }
