@@ -5,16 +5,16 @@
 	Application.$inject = [ '$resource' ];
 
 	function Application($resource) {
-		var resourceUrl = 'api/application/:id';
+		var resourceUrl = 'api/applications/:id';
 
 		return $resource(resourceUrl, {}, {
 			'allapplications' : {
-				url : 'api/application/findall',
+				url : 'api/applications/findall',
 				method : 'GET',
 				isArray : true
 			},
 			'upload' : {
-				url : 'api/application/upload',
+				url : 'api/applications/upload',
 				method : 'PUT'
 			}
 		});
