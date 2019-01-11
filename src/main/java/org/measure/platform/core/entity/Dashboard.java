@@ -51,7 +51,10 @@ public class Dashboard implements Serializable {
 
     @Column(name = "auto")
     private Boolean auto;
-
+    
+    @Column(name = "editable")
+    private Boolean editable;
+  
     @Column(name = "size")
     private String size;
 
@@ -59,7 +62,7 @@ public class Dashboard implements Serializable {
     private String timePeriode;
 
     @ManyToOne
-    private Phase phase;
+    private Project project;
     
     @ManyToOne
     private Application application;
@@ -154,7 +157,20 @@ public class Dashboard implements Serializable {
     public void setAuto(Boolean auto) {
         this.auto = auto;
     }
+        
+    public Boolean isEditable() {
+        return editable;
+    }
 
+    public Dashboard editable(Boolean editable) {
+        this.editable = editable;
+        return this;
+    }
+
+    public void setEditable(Boolean editable) {
+        this.editable = editable;
+    }
+    
     public String getTimePeriode() {
         return timePeriode;
     }
@@ -181,17 +197,17 @@ public class Dashboard implements Serializable {
         this.size = size;
     }
 
-    public Phase getPhase() {
-        return phase;
+    public Project getProject() {
+        return project;
     }
 
-    public Dashboard phase(Phase phase) {
-        this.phase = phase;
+    public Dashboard project(Project project) {
+        this.project = project;
         return this;
     }
 
-    public void setPhase(Phase phase) {
-        this.phase = phase;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Set<MeasureView> getViews() {

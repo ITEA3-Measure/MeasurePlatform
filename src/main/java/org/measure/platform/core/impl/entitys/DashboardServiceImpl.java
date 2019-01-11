@@ -10,7 +10,7 @@ import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.impl.repository.DashboardRepository;
-import org.measure.platform.core.impl.repository.PhaseRepository;
+import org.measure.platform.core.impl.repository.ProjectRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class DashboardServiceImpl implements DashboardService {
     private DashboardRepository dashboardRepository;
 
     @Inject
-    private PhaseRepository phaseRepository;
+    private ProjectRepository projectRepository;
 
     @Inject
     private MeasureViewService viewService;
@@ -104,8 +104,8 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     @Override
-    public List<Dashboard> findByPhase(Long phaseId) {
-        return dashboardRepository.findByPhase(phaseRepository.getOne(phaseId));
+    public List<Dashboard> findByProject(Long projectId) {
+        return dashboardRepository.findByProject(projectRepository.getOne(projectId));
     }
 
 }

@@ -3,7 +3,6 @@ package org.measure.platform.core.impl.repository;
 import java.util.List;
 
 import org.measure.platform.core.entity.AlertEvent;
-import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.entity.ProjectAnalysis;
 import org.springframework.data.jpa.repository.JpaRepository;

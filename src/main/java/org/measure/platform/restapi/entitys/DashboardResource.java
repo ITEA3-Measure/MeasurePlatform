@@ -88,10 +88,10 @@ public class DashboardResource {
         return dashboardService.findAll();
     }
 
-    @GetMapping("/dashboards/byphase/{id}")
+    @GetMapping("/dashboards/byproject/{id}")
     @Timed
-    public List<Dashboard> getDashboardsByPhase(@PathVariable Long id) {
-        return dashboardService.findByPhase(id);
+    public List<Dashboard> getDashboardsByProject(@PathVariable Long id) {
+        return dashboardService.findByProject(id);
     }
 
     /**

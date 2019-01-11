@@ -38,10 +38,6 @@ public interface MeasureViewService {
 
     List<MeasureView> findByProjectOverview(Long id);
 
-    List<MeasureView> findByPhase(Long id);
-
-    List<MeasureView> findByPhaseOverview(Long id);
-
     List<MeasureView> findByDashboard(Long id);
 
     List<MeasureView> findByAnalysisCard(Long id);

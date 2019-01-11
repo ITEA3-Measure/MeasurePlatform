@@ -5173,9 +5173,9 @@ tbody.collapse.in {
 }
 
 .breadcrumb {
-	padding: 8px 15px;
+	padding: 4px 15px;
 	list-style: none;
-	background-color: #f5f5f5;
+	background-color: #bdb7b7;
 	margin: 0px;
 	margin-bottom : 5px;
 	border-radius: 4px;
@@ -5183,6 +5183,7 @@ tbody.collapse.in {
 
 .breadcrumb>li {
 	display: inline-block;
+	color : white;
 }
 
 .breadcrumb>li+li:before {
@@ -5194,6 +5195,7 @@ tbody.collapse.in {
 .breadcrumb>.active {
 	color: #777777;
 }
+
 
 .pagination {
 	display: inline-block;

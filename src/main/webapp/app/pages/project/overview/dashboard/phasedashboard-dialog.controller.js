@@ -5,13 +5,13 @@
 			'PhaseDashboardDialogController', PhaseDashboardDialogController);
 
 	PhaseDashboardDialogController.$inject = [ '$timeout', '$scope',
-			'$stateParams', '$uibModalInstance', 'entity', 'phase', 'Dashboard','MeasureView','ConfigurationService'];
+			'$stateParams', '$uibModalInstance', 'entity', 'project', 'Dashboard','MeasureView','ConfigurationService'];
 
 	function PhaseDashboardDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity, phase, Dashboard,MeasureView,ConfigurationService) {
+			$uibModalInstance, entity, project, Dashboard,MeasureView,ConfigurationService) {
 		var vm = this;
 		vm.dashboard = entity;
-		vm.phase = phase;
+		vm.project = project;
 		vm.isSaving = false;
 		vm.save=save;
 		
@@ -70,7 +70,8 @@
 			if (vm.dashboard.id != null) {
 				Dashboard.update(vm.dashboard, onSaveSuccess, onSaveError);
 			} else {
-				vm.dashboard.phase = vm.phase;
+				vm.dashboard.project = vm.project;
+				vm.dashboard.editable = true;
 				Dashboard.save(vm.dashboard, onSaveSuccess, onSaveError);
 			}
 		}

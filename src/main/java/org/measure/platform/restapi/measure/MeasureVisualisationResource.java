@@ -46,10 +46,12 @@ public class MeasureVisualisationResource {
 			
 			if (defaultViews.size() == 0) {
 				SMMMeasure measure = measureCatalogueService.getMeasure(mInstance.getMeasureName());
-				MeasureView view = visualisationManagement.createDefaultMeasureView(measure, instanceId);
-
-				measureViewService.save(view);
-				return view;
+				List<MeasureView> views = visualisationManagement.createDefaultMeasureView(measure, instanceId);
+				for(MeasureView view : views) {
+					measureViewService.save(view);
+				}
+		
+				return views.get(0);
 			}
 		}
 		return null;

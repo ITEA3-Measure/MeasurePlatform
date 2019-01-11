@@ -52,90 +52,142 @@
 					</div>
 				</div>
 
-				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
-					<!-- Project Overview section -->
+				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab"
+					style="margin-top: 10px;">
 
-					<div class="bhoechie-tab-content">
-						<button class="btn btn-link" style="float: right;"
-							ng-show="!vm.edit" ng-click="vm.edition()">
-							<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
-						</button>
-						<button class="btn btn-default active" style="float: right;"
-							ng-show="vm.edit" ng-click="vm.edition()">
-							<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
-						</button>
+					<ul class="nav nav-tabs">
+						<li role="presentation" ng-repeat="dashboard in vm.dashboards"
+							ng-class="vm.isActive($index)"><a
+							ng-click="vm.setActive($index)">{{dashboard.dashboardName}}</a></li>
+						<li role="presentation"><a
+							ui-sref="projectoverview.newdashboard({id:vm.project.id})"><span
+								class="glyphicon glyphicon-plus" aria-hiden="true"></span></a></li>
 
+					</ul>
+
+
+					<div ng-if="vm.dashboards[vm.selectedDashboard] != null"
+						class="well-dashboard" style="min-height: 300px;">
+						<div style="float: right; margin-top: -40px; margin-right: -15px;">
+
+							<div
+								ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL' || vm.dashboards[vm.selectedDashboard].mode == 'OVERVIEW'"
+								style="float: right;">
+								<button class="btn btn-link" ng-show="!vm.editdashboard"
+									ng-click="vm.edition()">
+									<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
+								</button>
+								<button class="btn btn-default active"
+									ng-show="vm.editdashboard" ng-click="vm.edition()">
+									<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
+								</button>
+							</div>
+
+							<button
+								ng-if="vm.dashboards[vm.selectedDashboard].editable == true"
+								class="btn btn-link"
+								ui-sref="projectoverview.editdashboard({dashboardid:vm.dashboards[vm.selectedDashboard].id})">
+								<span class="glyphicon glyphicon-pencil" aria-hiden="true"></span>
+							</button>
+							<button
+								ng-if="vm.dashboards[vm.selectedDashboard].editable == true"
+								class="btn btn-link"
+								ui-sref="projectoverview.deletedashboard({dashboardid:vm.dashboards[vm.selectedDashboard].id})">
+								<span class="glyphicon glyphicon-remove" aria-hiden="true"></span>
+							</button>
+
+
+						</div>
 						<div
-							style="display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
+							ng-if="vm.dashboards[vm.selectedDashboard].dashboardDescription != null"
+							class="alert alert-info" style="padding: 10px;">
+							{{vm.dashboards[vm.selectedDashboard].dashboardDescription}}</div>
+						<div>
 
-							<div ng-repeat="measureview in vm.project.measureview">
-								<div class="row">
-									<div class="thumbnail"
-										style="margin-left: 20px; margin-right: 20px; text-align: center;">
-										<div ng-bind-html="measureview.viewData | to_trusted"></div>
-										<div class="caption" style="text-align: center; padding: 0px;">
-											<p style="margin: 0px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.name}}</p>
+							<div
+								ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL' || vm.dashboards[vm.selectedDashboard].mode == 'OVERVIEW'">
+								<div
+									style="display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
+
+									<div
+										ng-repeat="measureview in vm.dashboards[vm.selectedDashboard].measureview"
+										style="margin-right: 30px;">
+										<div class="row">
+											<div class="thumbnail"
+												style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">
+												<div ng-bind-html="measureview.viewData | to_trusted"></div>
+												<div class="caption" style="text-align: center;">
+													<p
+														style="margin: 0px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.name}}</p>
+												</div>
+											</div>
+										</div>
+										<div class="row" style="float: right;">
+											<button class="btn btn-link" ng-show="vm.editdashboard"
+												ui-sref="projectoverview.editgraphic({viewid:measureview.id})">
+												<span class="glyphicon glyphicon-pencil" aria-hiden="true"></span>
+											</button>
+											<button class="btn btn-link" ng-show="vm.editdashboard"
+												ng-click="vm.deletegraphic(measureview.id)">
+												<span class="glyphicon glyphicon-remove" aria-hiden="true"></span>
+											</button>
+										</div>
+
+									</div>
+
+									<div ng-show="vm.editdashboard"
+										style="width: 256px; height: 256px; margin: 30px; vertical-align: top; display: inline-flex; flex-wrap: wrap;">
+
+										<div class="btn btn-default"
+											style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+											ui-sref="projectoverview.addgraphic({mode:'CARD',dashboardid:vm.dashboards[vm.selectedDashboard].id})">
+											<span class="glyphicon glyphicon-dashboard" aria-hiden="true"
+												style="margin-top: 40%"></span>
+											<div>
+												<h5>Analysis Card</h5>
+											</div>
+										</div>
+										<div class="btn btn-default"
+											style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+											ui-sref="projectoverview.addgraphic({mode:'AUTO',dashboardid:vm.dashboards[vm.selectedDashboard].id})">
+											<span class="glyphicon glyphicon-th" aria-hiden="true"
+												style="margin-top: 40%"></span>
+											<div>
+												<h5>Measure</h5>
+											</div>
+										</div>
+
+										<div class="btn btn-default"
+											style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+											ui-sref="projectoverview.addgraphic({mode:'KVIS',dashboardid:vm.dashboards[vm.selectedDashboard].id})">
+											<span class="glyphicon glyphicon-modal-window"
+												aria-hiden="true" style="margin-top: 40%"></span>
+											<div>
+												<h5>
+													Kibana </br> Visualisation
+												</h5>
+											</div>
+										</div>
+
+										<div class="btn btn-default"
+											style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
+											ui-sref="projectoverview.addgraphic({mode:'MANUAL',dashboardid:vm.dashboards[vm.selectedDashboard].id})">
+											<span class="glyphicon glyphicon-paperclip" aria-hiden="true"
+												style="margin-top: 40%"></span>
+											<div>
+												<h5>
+													Personalised </br> Content
+												</h5>
+											</div>
 										</div>
 									</div>
 								</div>
-								<div class="row" style="float: right;">
-									<button class="btn btn-link" ng-show="vm.edit"
-										ui-sref="projectoverview.editgraphic({viewid:measureview.id})">
-										<span class="glyphicon glyphicon-pencil" aria-hiden="true"></span>
-									</button>
-									<button class="btn btn-link" ng-show="vm.edit"
-										ng-click="vm.deleteview(measureview.id)">
-										<span class="glyphicon glyphicon-remove" aria-hiden="true"></span>
-									</button>
-								</div>
 
 							</div>
-
-							<div ng-show="vm.edit"
-								style="width: 256px; height: 256px; margin: 30px; vertical-align: top; display: inline-flex; flex-wrap: wrap;">
-
-								<div class="btn btn-default"
-									style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"	
-									ui-sref="projectoverview.addgraphic({mode:'CARD',id:vm.project.id})">
-									<span class="glyphicon glyphicon-dashboard" aria-hiden="true"
-										style="margin-top: 40%"></span>
-									<div>
-										<h5>Analysis Card</h5>
-									</div>
-								</div>
-								<div class="btn btn-default"
-									style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
-									ui-sref="projectoverview.addgraphic({mode:'AUTO',id:vm.project.id})">
-									<span class="glyphicon glyphicon-th" aria-hiden="true"
-										style="margin-top: 40%"></span>
-									<div>
-										<h5>Measure</h5>
-									</div>
-								</div>
-
-								<div class="btn btn-default"
-									style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
-									ui-sref="projectoverview.addgraphic({mode:'KVIS',id:vm.project.id})">
-									<span class="glyphicon glyphicon-modal-window"
-										aria-hiden="true" style="margin-top: 40%"></span>
-									<div>
-										<h5>
-											Kibana </br> Visualisation
-										</h5>
-									</div>
-								</div>
-
-								<div class="btn btn-default"
-									style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
-									ui-sref="projectoverview.addgraphic({mode:'MANUAL',id:vm.project.id})">
-									<span class="glyphicon glyphicon-paperclip" aria-hiden="true"
-										style="margin-top: 40%"></span>
-									<div>
-										<h5>
-											Personalised </br> Content
-										</h5>
-									</div>
-								</div>
+							<div
+								ng-if="vm.dashboards[vm.selectedDashboard].mode == 'KIBANA' || vm.dashboards[vm.selectedDashboard].mode == 'EXTERNAL'">
+								<div
+									ng-bind-html="vm.dashboards[vm.selectedDashboard].content| to_trusted"></div>
 							</div>
 						</div>
 					</div>
