@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.measure.platform.utils.domain.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -71,6 +72,12 @@ public class Dashboard implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureView> views = new HashSet<>();
+    
+    @ManyToOne
+    private User dashboardOwner;
+    
+    @ManyToOne
+    private Project associatedProject;
 
     public Long getId() {
         return id;
@@ -248,7 +255,23 @@ public class Dashboard implements Serializable {
         this.application = application;
     }
 
-    @Override
+	public User getDashboardOwner() {
+		return dashboardOwner;
+	}
+
+	public void setDashboardOwner(User dashboardOwner) {
+		this.dashboardOwner = dashboardOwner;
+	}
+
+	public Project getAssociatedProject() {
+		return associatedProject;
+	}
+
+	public void setAssociatedProject(Project associatedProject) {
+		this.associatedProject = associatedProject;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

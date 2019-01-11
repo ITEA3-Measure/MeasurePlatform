@@ -88,6 +88,11 @@ public class Project implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Application> applications = new HashSet<>();
+    
+    @OneToMany(mappedBy = "associatedProject")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Dashboard> dashboards = new HashSet<>();
 
     @ManyToOne
     private User owner;
@@ -330,6 +335,14 @@ public class Project implements Serializable {
 
 	public void setAlertevents(Set<AlertEvent> alertevents) {
 		this.alertevents = alertevents;
+	}
+	
+	public Set<Dashboard> getDashboards() {
+		return dashboards;
+	}
+
+	public void setDashboards(Set<Dashboard> dashboards) {
+		this.dashboards = dashboards;
 	}
 
 	@Override
