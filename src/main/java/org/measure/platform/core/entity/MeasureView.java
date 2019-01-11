@@ -81,11 +81,6 @@ public class MeasureView implements Serializable {
     @ManyToOne
     private Project project;
 
-    @ManyToOne
-    private Phase phaseoverview;
-
-    @ManyToOne
-    private Phase phase;
 
     @ManyToOne
     private Dashboard dashboard;
@@ -311,19 +306,6 @@ public class MeasureView implements Serializable {
         this.viewData = viewData;
     }
 
-    public MeasureView phase(Phase phase) {
-        this.phase = phase;
-        return this;
-    }
-
-    public Phase getPhase() {
-        return phase;
-    }
-
-    public void setPhase(Phase phase) {
-        this.phase = phase;
-    }
-
     public MeasureInstance getMeasureinstance() {
         return measureinstance;
     }
@@ -363,20 +345,6 @@ public class MeasureView implements Serializable {
         this.projectoverview = projectoverview;
     }
 
-    public MeasureView phaseoverview(Phase phase) {
-        this.phaseoverview = phase;
-        return this;
-    }
-
-    public Phase getPhaseoverview() {
-        return phaseoverview;
-    }
-
-    public void setPhaseoverview(Phase phaseOverview) {
-        this.phaseoverview = phaseOverview;
-    }
-    
-    
     public AnalysisCard getAnalysiscard() {
 		return analysiscard;
 	}

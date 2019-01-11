@@ -149,18 +149,6 @@ public class MeasureViewResource {
         return measureViewService.findByProjectOverview(id);
     }
 
-    @GetMapping("/measureview/byphase/{id}")
-    @Timed
-    public List<MeasureView> getMeasureViewByPhase(@PathVariable Long id) {
-        return measureViewService.findByPhase(id);
-    }
-
-    @GetMapping("/measureview/byphaseoverview/{id}")
-    @Timed
-    public List<MeasureView> getMeasureViewByPhaseOverview(@PathVariable Long id) {
-        return measureViewService.findByPhaseOverview(id);
-    }
-
     @GetMapping("/measureview/bydashboard/{id}")
     @Timed
     public List<MeasureView> getMeasureViewByDashboard(@PathVariable Long id) {

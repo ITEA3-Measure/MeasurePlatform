@@ -52,7 +52,10 @@ public class Dashboard implements Serializable {
 
     @Column(name = "auto")
     private Boolean auto;
-
+    
+    @Column(name = "editable")
+    private Boolean editable;
+  
     @Column(name = "size")
     private String size;
 
@@ -60,7 +63,7 @@ public class Dashboard implements Serializable {
     private String timePeriode;
 
     @ManyToOne
-    private Phase phase;
+    private Project project;
     
     @ManyToOne
     private Application application;
@@ -71,10 +74,8 @@ public class Dashboard implements Serializable {
     private Set<MeasureView> views = new HashSet<>();
     
     @ManyToOne
-    private User dashboardOwner;
+    private User user;
     
-    @ManyToOne
-    private Project associatedProject;
 
     public Long getId() {
         return id;
@@ -161,7 +162,20 @@ public class Dashboard implements Serializable {
     public void setAuto(Boolean auto) {
         this.auto = auto;
     }
+        
+    public Boolean isEditable() {
+        return editable;
+    }
 
+    public Dashboard editable(Boolean editable) {
+        this.editable = editable;
+        return this;
+    }
+
+    public void setEditable(Boolean editable) {
+        this.editable = editable;
+    }
+    
     public String getTimePeriode() {
         return timePeriode;
     }
@@ -188,19 +202,32 @@ public class Dashboard implements Serializable {
         this.size = size;
     }
 
-    public Phase getPhase() {
-        return phase;
+    public Project getProject() {
+        return project;
     }
 
-    public Dashboard phase(Phase phase) {
-        this.phase = phase;
+    public Dashboard project(Project project) {
+        this.project = project;
         return this;
     }
 
-    public void setPhase(Phase phase) {
-        this.phase = phase;
+    public void setProject(Project project) {
+        this.project = project;
+    }
+  
+    public User getUser() {
+        return user;
     }
 
+    public Dashboard project(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     public Set<MeasureView> getViews() {
         return views;
     }
@@ -230,7 +257,7 @@ public class Dashboard implements Serializable {
         return application;
     }
 
-    public Dashboard project(Application application) {
+    public Dashboard application(Application application) {
         this.application = application;
         return this;
     }
@@ -238,22 +265,6 @@ public class Dashboard implements Serializable {
     public void setApplication(Application application) {
         this.application = application;
     }
-
-	public User getDashboardOwner() {
-		return dashboardOwner;
-	}
-
-	public void setDashboardOwner(User dashboardOwner) {
-		this.dashboardOwner = dashboardOwner;
-	}
-
-	public Project getAssociatedProject() {
-		return associatedProject;
-	}
-
-	public void setAssociatedProject(Project associatedProject) {
-		this.associatedProject = associatedProject;
-	}
 
 	@Override
     public boolean equals(Object o) {

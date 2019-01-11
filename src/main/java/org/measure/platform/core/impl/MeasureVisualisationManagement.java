@@ -1,14 +1,18 @@
 package org.measure.platform.core.impl;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.IMeasureVisaulisationManagement;
+import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.AnalysisCard;
+import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Project;
@@ -36,6 +40,9 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
             
     @Inject 
     private MeasureInstanceService measureInstanceService; 
+    
+    @Inject 
+    private DashboardService dashboardService; 
     
  
     @Override
@@ -119,17 +126,24 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
 	}
  
     @Override
-    public MeasureView createDefaultMeasureView(SMMMeasure measure,Long measureInstanceId) {
+    public List<MeasureView> createDefaultMeasureView(SMMMeasure measure,Long measureInstanceId) {
+    	List<MeasureView> result = new ArrayList<>();
     	if(measure.getViews() != null) {
     		for(View mView : measure.getViews().getView())	{
     			if(mView.isDefault()) {
     		    	MeasureInstance instance = measureInstanceService.findOne(measureInstanceId);
     		    	Project project = instance.getProject();
-    				return createMeasureView(mView,project,instance);
+    		    
+    		    	
+    		     	for(Dashboard ds :  dashboardService.findByProject(project.getId())) {
+    		    		if(ds.getMode().equals("OVERVIEW")) {
+    		    			result.add(createMeasureView(mView,ds,instance));
+    		    		}
+    		    	}
     			}
     		}
     	}
-    	return null;
+    	return result;
     }
     
     @Override
@@ -139,14 +153,18 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     			if(mView.getName().equals(viewName)) {
     		    	MeasureInstance instance = measureInstanceService.findOne(measureInstanceId);
     		    	Project project = instance.getProject();
-    		    	return createMeasureView(mView,project,instance);
+    		    	for(Dashboard ds : dashboardService.findByProject(project.getId())) {
+    		    		if(ds.getMode().equals("OVERVIEW")) {
+    		   		    	return createMeasureView(mView,ds,instance);
+    		    		}
+    		    	}		    
     			}
     		}
     	}
     	return null;
     }
     
-    private MeasureView createMeasureView(View mView,Project project,MeasureInstance measure) {
+    private MeasureView createMeasureView(View mView,Dashboard dashboard,MeasureInstance measure) {
     	MeasureView measureView = new MeasureView();
     	
     	if(mView.getCustomData() != null && ! "".equals(mView.getCustomData())){
@@ -169,7 +187,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
         		measureView.setHeight(layout.getHeight());
         		measureView.setFontSize(layout.getFontSize());
         	} 
-           	measureView.setProject(project);
+           	measureView.setDashboard(dashboard);
         	measureView.setMeasureinstance(measure); 
     	}else {
         	measureView.setMode("AUTO");
@@ -178,8 +196,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
         	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
         	measureView.setDescription(mView.getDescription());
         	measureView.setDefaultView(true);
-        	
-        	
+        	        	
         	if(mView.getDatasource() != null) {
         		DataSource dsView = mView.getDatasource() ;
         		measureView.setViewData(dsView.getDataIndex());
@@ -193,7 +210,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
         		measureView.setHeight(layout.getHeight());
         		measureView.setFontSize(layout.getFontSize());
         	}  	
-        	measureView.setProject(project);
+        	measureView.setDashboard(dashboard);
         	measureView.setMeasureinstance(measure); 
     	}
     	

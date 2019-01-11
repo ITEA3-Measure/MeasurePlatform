@@ -5,10 +5,10 @@
 			NotificationController);
 
 	NotificationController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project', 'Phase','Notification', 'MeasureView','ProjectAnalysis' ];
+			'$state', 'entity', 'Project' ,'Notification', 'MeasureView','ProjectAnalysis' ];
 
 	function NotificationController($scope,$cookies, Principal, LoginService, $state,
-			entity, Project, Phase,Notification, MeasureView,ProjectAnalysis) {
+			entity, Project,Notification, MeasureView,ProjectAnalysis) {
 		var vm = this;
 		vm.project = entity;
 			

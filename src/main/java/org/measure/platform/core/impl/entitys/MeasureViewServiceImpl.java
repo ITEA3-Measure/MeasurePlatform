@@ -1,7 +1,6 @@
 package org.measure.platform.core.impl.entitys;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -10,22 +9,15 @@ import org.measure.platform.core.api.entitys.AnalysisCardService;
 import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
-import org.measure.platform.core.api.entitys.PhaseService;
 import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.AnalysisCard;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
-import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.MeasureViewRepository;
-import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
-import org.measure.platform.service.measurement.impl.IndexFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,8 +43,6 @@ public class MeasureViewServiceImpl implements MeasureViewService {
     @Inject
     private AnalysisCardService analysisCardService;
 
-    @Inject
-    private PhaseService phaseService;
 
     @Inject
     private DashboardService dashboardService;
@@ -129,16 +119,6 @@ public class MeasureViewServiceImpl implements MeasureViewService {
     public List<MeasureView> findByProjectOverview(Long id) {
         Project project = projectService.findOne(id);
         return measureViewRepository.findByProjectOverview(project);
-    }
-
-    public List<MeasureView> findByPhase(Long id) {
-        Phase phase = phaseService.findOne(id);
-        return measureViewRepository.findByPhase(phase);
-    }
-
-    public List<MeasureView> findByPhaseOverview(Long id) {
-        Phase phase = phaseService.findOne(id);
-        return measureViewRepository.findByPhaseOverview(phase);
     }
 
     public List<MeasureView> findByDashboard(Long id) {

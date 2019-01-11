@@ -34,6 +34,6 @@ public interface DashboardService {
      */
     void delete(Long id);
 
-    List<Dashboard> findByPhase(Long id);
+    List<Dashboard> findByProject(Long projectId);
 
 }
