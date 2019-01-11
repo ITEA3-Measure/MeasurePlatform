@@ -31,6 +31,7 @@
 
 					loadReference(vm.measureInstances[i].id);
 					loadProperties(vm.measureInstances[i].id);
+					loadDefaultViewStatus(vm.measureInstances[i].id);
 					isShedule(vm.measureInstances[i].id);
 					if (vm.measureInstances[i].isRemote == true) {
 						isAgentEnable(vm.measureInstances[i]);
@@ -115,6 +116,8 @@
 				}
 			});
 		}
+		
+
 
 		function isShedule(id) {
 			ProjectDataSources.isShedule({
@@ -199,5 +202,50 @@
 				vm.notifications = result;
 			});
 		}
+		
+		
+		function loadDefaultViewStatus(id){
+			ProjectDataSources.getDefaultVisualisation({
+				id : id
+			}, function(result) {
+				for (var j = 0; j < vm.measureInstances.length; j++) {
+					if (vm.measureInstances[j].id == id) {
+						vm.measureInstances[j].defaultview = (result.data  != '');
+					}
+				}
+			});
+		}
+
+		vm.createView = createView;
+		function createView(id) {
+			ProjectDataSources.createDefaultVisualisation(
+			{
+				id : id
+			},
+			function(result) {
+				for (var j = 0; j < vm.measureInstances.length; j++) {
+					if (vm.measureInstances[j].id == id) {
+						vm.measureInstances[j].defaultview = (result.data  != '');
+					}
+				}
+			});
+		}
+		
+		
+		vm.deleteView = deleteView; 
+		function deleteView(id) {
+			ProjectDataSources.deleteDefaultVisualisation(
+			{
+				id : id
+			},
+			function(result) {
+				for (var j = 0; j < vm.measureInstances.length; j++) {
+					if (vm.measureInstances[j].id == id) {
+						vm.measureInstances[j].defaultview = false;
+					}
+				}
+			});
+		}
+		
 	}
 })();

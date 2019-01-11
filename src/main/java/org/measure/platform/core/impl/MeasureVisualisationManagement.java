@@ -1,5 +1,6 @@
 package org.measure.platform.core.impl;
 
+import java.util.Base64;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -147,28 +148,56 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     
     private MeasureView createMeasureView(View mView,Project project,MeasureInstance measure) {
     	MeasureView measureView = new MeasureView();
-     	measureView.setMode("AUTO");
-    	measureView.setAuto(mView.isAutoRefresh());
-    	measureView.setType(mView.getType().toString());
-    	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
-    	measureView.setDescription(mView.getDescription());
-    	measureView.setDefaultView(true);
     	
-    	if(mView.getDatasource() != null) {
-    		DataSource dsView = mView.getDatasource() ;
-    		measureView.setViewData(dsView.getDataIndex());
-    		measureView.setDateIndex(dsView.getDateIndex());
-    		measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:relative,to:now");
-    		measureView.setTimeAgregation(dsView.getTimeAggregation());
+    	if(mView.getCustomData() != null && ! "".equals(mView.getCustomData())){
+    	   	measureView.setMode("MANUAL");
+         	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
+        	measureView.setDescription(mView.getDescription());
+        	
+        	byte[] decodedBytes = Base64.getDecoder().decode(mView.getCustomData());
+        	String decodedString = new String(decodedBytes);  
+        	decodedString = decodedString.replace("{ELASTICSEARCH_INDEX}",  IndexFormat.getMeasureInstanceIndex(measure.getInstanceName()));
+        	measureView.setViewData(decodedString);
+        	
+         	if(mView.getDatasource() != null) {
+         		DataSource dsView = mView.getDatasource() ;
+         		measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:relative,to:now");
+         	}
+        	if(mView.getLayout() != null) {
+        		Layout layout = mView.getLayout();
+        		measureView.setWidth(layout.getWidth());
+        		measureView.setHeight(layout.getHeight());
+        		measureView.setFontSize(layout.getFontSize());
+        	} 
+           	measureView.setProject(project);
+        	measureView.setMeasureinstance(measure); 
+    	}else {
+        	measureView.setMode("AUTO");
+        	measureView.setAuto(mView.isAutoRefresh());
+        	measureView.setType(mView.getType().toString());
+        	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
+        	measureView.setDescription(mView.getDescription());
+        	measureView.setDefaultView(true);
+        	
+        	
+        	if(mView.getDatasource() != null) {
+        		DataSource dsView = mView.getDatasource() ;
+        		measureView.setViewData(dsView.getDataIndex());
+        		measureView.setDateIndex(dsView.getDateIndex());
+        		measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:relative,to:now");
+        		measureView.setTimeAgregation(dsView.getTimeAggregation());
+        	}
+        	if(mView.getLayout() != null) {
+        		Layout layout = mView.getLayout();
+        		measureView.setWidth(layout.getWidth());
+        		measureView.setHeight(layout.getHeight());
+        		measureView.setFontSize(layout.getFontSize());
+        	}  	
+        	measureView.setProject(project);
+        	measureView.setMeasureinstance(measure); 
     	}
-    	if(mView.getLayout() != null) {
-    		Layout layout = mView.getLayout();
-    		measureView.setWidth(layout.getWidth());
-    		measureView.setHeight(layout.getHeight());
-    		measureView.setFontSize(layout.getFontSize());
-    	}  	
-    	measureView.setProject(project);
-    	measureView.setMeasureinstance(measure); 
+    	
+ 
     	
     	return measureView;
     }

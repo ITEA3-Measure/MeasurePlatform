@@ -6,21 +6,14 @@
     <!--
         Added the constraints for entity MeasureInstance.
     -->
-    <changeSet id="20161109133434-2" author="softeam">
+    <changeSet id="20190110165153" author="softeam">
         
         <addForeignKeyConstraint baseColumnNames="project_id"
-                                 baseTableName="measure_instance"
-                                 constraintName="fk_measure_instance_project_id"
+                                 baseTableName="application"
+                                 constraintName="fk_application_project_id"
                                  referencedColumnNames="id"
                                  referencedTableName="project"/>
                                  
-       <addForeignKeyConstraint baseColumnNames="application_id"
-                                 baseTableName="measure_instance"
-                                 constraintName="fk_measure_instance_application_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="application"/>                       
-                                 
-
 
     </changeSet>
 </databaseChangeLog>

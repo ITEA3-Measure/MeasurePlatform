@@ -72,6 +72,27 @@
 			'executeMeasure' : {
 				url : 'api/measure-instance/sheduling/execute',
 				method : 'GET'
+			},
+			'createDefaultVisualisation' : {
+				url : 'api/measure-visualisation/create-default',
+				method : 'GET',
+		        transformResponse: function(data, headers) {
+		            return {data:data};
+		        }
+			},
+			'deleteDefaultVisualisation' : {
+				url : 'api/measure-visualisation/delete-default',
+				method : 'DELETE',
+		        transformResponse: function(data, headers) {
+		            return {data:data};
+		        }
+			},
+			'getDefaultVisualisation' : {
+				url : 'api/measure-visualisation/get-default',
+				method : 'GET',
+		        transformResponse: function(data, headers) {
+		            return {data:data};
+		        }
 			}
 		});
 	}

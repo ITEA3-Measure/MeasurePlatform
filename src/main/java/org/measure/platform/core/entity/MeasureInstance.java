@@ -76,6 +76,9 @@ public class MeasureInstance implements Serializable {
 
     @ManyToOne
     private Project project;
+       
+    @ManyToOne
+    private Application application;
 
     @OneToMany(mappedBy = "measureInstance")
     @JsonIgnore
@@ -263,7 +266,21 @@ public class MeasureInstance implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
+    
+    
+    public Application getApplication() {
+        return application;
+    }
 
+    public MeasureInstance project(Application application) {
+        this.application = application;
+        return this;
+    }
+
+    public void setApplication(Application application) {
+        this.application = application;
+    }
+    
     public Set<MeasureProperty> getProperties() {
         return properties;
     }
