@@ -14,9 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="project"/>
                                  
-<<<<<<< HEAD
-        <addForeignKeyConstraint baseColumnNames="application_id"
-=======
         <addForeignKeyConstraint baseColumnNames="application_id" 
         						 baseTableName="dashboard"
 								 constraintName="fk_measure_instance_dashboardn_id"
@@ -24,7 +21,6 @@
 								 referencedTableName="application" />
 
 		<addForeignKeyConstraint baseColumnNames="user_id"
->>>>>>> refs/remotes/origin/master
                                  baseTableName="dashboard"
                                  constraintName="fk_dashboard_user_id"
                                  referencedColumnNames="id"
