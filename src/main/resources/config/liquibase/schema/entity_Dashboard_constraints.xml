@@ -26,11 +26,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 								 
-		<addForeignKeyConstraint baseColumnNames="project_id" 
-								 baseTableName="dashboard"
-								 constraintName="fk_dashboard_project_id"
-								 referencedColumnNames="id" 
-								 referencedTableName="project" />
-
     </changeSet>
 </databaseChangeLog>

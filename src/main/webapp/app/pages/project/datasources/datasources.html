@@ -29,10 +29,6 @@
 					<div class="list-group">
 						<a ui-sref="projectoverview({id:vm.project.id})"
 							class="list-group-item text-center">
-							<h4 class="glyphicon glyphicon-th-large"></h4> <br />Project
-							Overview
-						</a> <a ui-sref="phasesoverview({id:vm.project.id})"
-							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
 						</a> <a ng-repeat="analyse in vm.analysis"
 							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
@@ -42,12 +38,12 @@
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a> <a ui-sref="generalconf({id:vm.project.id})"
-							class="list-group-item text-center">
-							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
-						</a> <a ui-sref="projectdatasources({id:vm.project.id})"
+						</a>  <a ui-sref="projectdatasources({id:vm.project.id})"
 							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
+						</a><a ui-sref="generalconf({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a>
 					</div>
 				</div>

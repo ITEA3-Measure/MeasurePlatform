@@ -74,10 +74,8 @@ public class Dashboard implements Serializable {
     private Set<MeasureView> views = new HashSet<>();
     
     @ManyToOne
-    private User dashboardOwner;
+    private User user;
     
-    @ManyToOne
-    private Project associatedProject;
 
     public Long getId() {
         return id;
@@ -216,7 +214,20 @@ public class Dashboard implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
+  
+    public User getUser() {
+        return user;
+    }
 
+    public Dashboard project(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     public Set<MeasureView> getViews() {
         return views;
     }
@@ -246,7 +257,7 @@ public class Dashboard implements Serializable {
         return application;
     }
 
-    public Dashboard project(Application application) {
+    public Dashboard application(Application application) {
         this.application = application;
         return this;
     }
@@ -254,22 +265,6 @@ public class Dashboard implements Serializable {
     public void setApplication(Application application) {
         this.application = application;
     }
-
-	public User getDashboardOwner() {
-		return dashboardOwner;
-	}
-
-	public void setDashboardOwner(User dashboardOwner) {
-		this.dashboardOwner = dashboardOwner;
-	}
-
-	public Project getAssociatedProject() {
-		return associatedProject;
-	}
-
-	public void setAssociatedProject(Project associatedProject) {
-		this.associatedProject = associatedProject;
-	}
 
 	@Override
     public boolean equals(Object o) {
