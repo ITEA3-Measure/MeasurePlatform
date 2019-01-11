@@ -14,9 +14,41 @@
 		var vm = this;
 		var measureupdate = false;
 
+		
+
 		vm.measureInstance = entity;
 		vm.measureInstance.project = project;
 
+		// calculate vm.schedulingValue associated with the right time unit
+//		if(vm.measureInstance.schedulingUnit == null ){
+//			vm.measureInstance.schedulingUnit == h;
+//			vm.schedulingValue = 1;
+//		} else
+		
+		
+//		vm.schedulingValue = 1;
+//		vm.measureInstance.schedulingUnit = 'd';
+		
+		
+		if(vm.measureInstance.schedulingUnit == 's'){
+			vm.schedulingValue = vm.measureInstance.shedulingExpression / 1000;
+		} else if (vm.measureInstance.schedulingUnit == 'm'){
+			vm.schedulingValue = vm.measureInstance.shedulingExpression / 60000;
+		} else if  (vm.measureInstance.schedulingUnit == 'h'){
+			vm.schedulingValue = vm.measureInstance.shedulingExpression / 3600000;
+		} else if  (vm.measureInstance.schedulingUnit == 'd'){
+			vm.schedulingValue = vm.measureInstance.shedulingExpression / 86400000;
+		}  
+		
+		
+		
+//		else {
+//			// 1 hour by default in the creation dialog
+//			vm.schedulingValue = 1;
+//			vm.measureInstance.schedulingUnit = "h";
+//		}
+
+		
 		vm.clear = clear;
 		vm.save = save;
 
@@ -219,6 +251,19 @@
 		vm.errorMessage = "";
 		function save() {
 			vm.isSaving = true;
+			
+			// calculate shedulingExpression in milli-seconds
+			if(vm.measureInstance.schedulingUnit == 's'){
+				vm.measureInstance.shedulingExpression = vm.schedulingValue * 1000;
+			} else if (vm.measureInstance.schedulingUnit == 'm'){
+				vm.measureInstance.shedulingExpression = vm.schedulingValue * 60000;
+			} else  if (vm.measureInstance.schedulingUnit == 'h'){
+				vm.measureInstance.shedulingExpression = vm.schedulingValue * 3600000;
+			} else if (vm.measureInstance.schedulingUnit == 'd'){
+				vm.measureInstance.shedulingExpression = vm.schedulingValue * 86400000;
+			} 
+			
+
 			if(vm.measureInstance.id != null){
 				ProjectDataSources.update(vm.measureInstance,onSaveSuccess, onSaveError);
 			}else{

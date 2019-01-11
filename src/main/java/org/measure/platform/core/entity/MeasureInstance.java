@@ -58,6 +58,9 @@ public class MeasureInstance implements Serializable {
     @Column(name = "sheduling_expression")
     private String shedulingExpression;
 
+    @Column(name = "scheduling_unit")
+    private String schedulingUnit;
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "measure_type")
     private MeasureType measureType;
@@ -222,6 +225,19 @@ public class MeasureInstance implements Serializable {
         this.shedulingExpression = shedulingExpression;
     }
 
+    public String getSchedulingUnit() {
+        return schedulingUnit;
+    }
+
+    public MeasureInstance schedulingUnit(String schedulingUnit) {
+        this.schedulingUnit = schedulingUnit;
+        return this;
+    }
+
+    public void setSchedulingUnit(String schedulingUnit) {
+        this.schedulingUnit = schedulingUnit;
+    }
+    
     public MeasureType getMeasureType() {
         return measureType;
     }
