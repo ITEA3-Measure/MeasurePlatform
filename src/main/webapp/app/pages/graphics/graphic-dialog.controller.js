@@ -5,7 +5,10 @@
         .module('measurePlatformApp')
         .controller('GraphicDialogController', GraphicDialogController);
 
-    GraphicDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance','entity','project', 'phase', 'dashboard','data', 'MeasureView','GraphicService','Measure','ConfigurationService','AnalysisCard'];
+    GraphicDialogController.$inject = ['$timeout', '$scope', 
+    		'$stateParams', '$uibModalInstance','entity','project', 
+    		'phase', 'dashboard','data', 'MeasureView','GraphicService','Measure',
+    		'ConfigurationService','AnalysisCard'];
 
     function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project, phase,dashboard,data,MeasureView,GraphicService,Measure,ConfigurationService,AnalysisCard) {
         var vm = this;
