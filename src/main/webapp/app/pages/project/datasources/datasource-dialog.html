@@ -108,7 +108,7 @@
 		</div>
 
 		<div class="form-group">
-			<label class="control-label" for="field_shedulingExpression">Sheduling</label>
+			<label class="control-label" for="field_schedulingValue">Scheduling</label>
 			<div class="input-group">
 				<div class="input-group-addon">
 					<input type="checkbox" name="manageLastMeasurement"
@@ -116,10 +116,17 @@
 						ng-model="vm.measureInstance.isShedule" />
 
 				</div>
-				<input type="text" class="form-control" name="shedulingExpression"
-					id="field_shedulingExpression"
-					ng-model="vm.measureInstance.shedulingExpression" />
-				<div class="input-group-addon">ms</div>
+				<input type="text" class="form-control" name="schedulingValue"
+					id="field_schedulingValue"
+					ng-model="vm.schedulingValue" />
+				<div class="input-group-addon">				
+					<select ng-model="vm.measureInstance.schedulingUnit" name="schedulingUnit">
+						<option value="s">Seconds</option>
+						<option value="m">Minutes</option>
+						<option value="h">Hours</option>
+						<option value="d">Days</option>
+					</select>
+				</div>
 			</div>
 		</div>
 
