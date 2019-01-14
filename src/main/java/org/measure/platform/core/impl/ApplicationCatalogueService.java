@@ -21,7 +21,7 @@ public class ApplicationCatalogueService implements IApplicationCatalogueService
 
     private final Logger log = LoggerFactory.getLogger(MeasureCatalogueService.class);
 
-    @Value("${measure.repository.path}")
+    @Value("${measurementapplication.repository.path}")
     private String applicationsPath;
 
     

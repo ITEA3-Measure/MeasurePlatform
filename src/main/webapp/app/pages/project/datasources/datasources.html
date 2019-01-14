@@ -56,13 +56,21 @@
 					<!-- Project Overview section -->
 					<div class="bhoechie-tab-content">
 
+						<ul class="nav nav-tabs">
+							<li role="presentation" class="active"><a
+								ui-sref="projectdatasources({id:vm.project.id})">Measures Instances</a></li>
+
+							<li role="presentation"><a
+								ui-sref="applicationinstances({id:vm.project.id})">Applications Instances</a></li>
+
+						</ul>
 
 						<div class="well-dashboard" style="min-height: 300px;">
 							<button class="btn btn-primary"
 								style="float: right; min-width: 150px; min-height: 20px; margin-top: 0px"
 								ui-sref="projectdatasources.new">Register Measure</button>
 							<div class="page-header">
-								<h4>Registred Measures</h4>
+								<h4>Registered Measures</h4>
 							</div>
 
 							<table class="jh-table table table-condensed table-responsive"

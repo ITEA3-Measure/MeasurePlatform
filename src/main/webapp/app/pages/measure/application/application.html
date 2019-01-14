@@ -18,12 +18,6 @@
 	
 	</div>
 
-	<ul class="nav nav-tabs">
-		<li role="presentation" ng-repeat="category in vm.category"
-			ng-class="vm.isActive($index)"><a
-			ng-click="vm.setActive($index)">{{category}}</a></li>
-	</ul>
-
 	<div class="well-dashboard" style="min-height: 300px;">
 		<table class="jh-table table table-striped">
 			<thead>
@@ -35,7 +29,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="application in vm.applicationsInCategory track by application.name">
+				<tr ng-repeat="application in vm.applications track by application.name">
 
 					<td style="vertical-align: top;"><h4 style="margin: 0px;">{{application.name}}</h4></td>
 					<td style="vertical-align: top;">{{application.description}}</td>
