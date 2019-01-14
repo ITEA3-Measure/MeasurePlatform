@@ -8,17 +8,23 @@
     -->
     <changeSet id="20161109133433-2" author="softeam">
         
-        <addForeignKeyConstraint baseColumnNames="phase_id"
+        <addForeignKeyConstraint baseColumnNames="project_id"
                                  baseTableName="dashboard"
-                                 constraintName="fk_dashboard_phase_id"
+                                 constraintName="fk_dashboard_project_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="phase"/>
+                                 referencedTableName="project"/>
                                  
-               <addForeignKeyConstraint baseColumnNames="application_id"
-                                 baseTableName="dashboard"
-                                 constraintName="fk_measure_instance_dashboardn_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="application"/>   
+        <addForeignKeyConstraint baseColumnNames="application_id" 
+        						 baseTableName="dashboard"
+								 constraintName="fk_measure_instance_dashboardn_id"
+								 referencedColumnNames="id" 
+								 referencedTableName="application" />
 
+		<addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="dashboard"
+                                 constraintName="fk_dashboard_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+								 
     </changeSet>
 </databaseChangeLog>

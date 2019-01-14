@@ -5,16 +5,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.AlertEventService;
+import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.api.entitys.NotificationService;
-import org.measure.platform.core.api.entitys.PhaseService;
 import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.AlertEvent;
+import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Notification;
-import org.measure.platform.core.entity.Phase;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.ProjectRepository;
 import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
@@ -46,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
     private IElasticsearchIndexManager indexManager;
 
     @Inject
-    private PhaseService phaseService;
+    private DashboardService dashboardService;
 
     @Inject
     private MeasureViewService viewService;
@@ -57,6 +57,7 @@ public class ProjectServiceImpl implements ProjectService {
     
     @Inject
     private AlertEventService alertEventService;
+   
     
     @Inject
     private IAlertSubscriptionManager subscriptionManager;
@@ -90,7 +91,14 @@ public class ProjectServiceImpl implements ProjectService {
     			suscribtion.setEventType(AlertType.ANALYSIS_DESABLE);
     			subscriptionManager.subscribe(suscribtion);
         	}
-
+        	
+        	Dashboard dashboard = new Dashboard();
+        	dashboard.setProject(result);
+        	dashboard.setEditable(false);
+        	dashboard.setMode("OVERVIEW");
+        	dashboard.setDashboardName("Overview");
+        	dashboardService.save(dashboard);
+        	
 
         	return result;
         }else{
@@ -138,8 +146,8 @@ public class ProjectServiceImpl implements ProjectService {
      */
     public void delete(Long id) {
         Project project = projectRepository.findOne(id);
-        for(Phase phase : phaseService.findByProject(project)){
-            phaseService.delete(phase.getId());
+        for(Dashboard dashboard : dashboardService.findByProject(id)){
+        	dashboardService.delete(dashboard.getId());
         }
         
         for(MeasureView view : viewService.findByProjectOverview(id)){

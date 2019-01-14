@@ -25,9 +25,92 @@
                     return Project.get({id : $stateParams.id}).$promise;
                 }]
             }
+        }).state('projectoverview.newdashboard', {
+            parent: 'projectoverview',
+            url: '/dashboard/new',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/project/overview/dashboard/phasedashboard-dialog.html',
+                    controller: 'PhaseDashboardDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                    	 entity: function () {
+                             return {
+                                 dashboardName: null,
+                                 dashboardDescription: null,
+                                 content: null,
+                                 kibanaId:null,
+                                 auto:false,
+                                 mode:'MANUAL',
+                                 id: null
+                             }
+                    	 },
+                        project: ['Project', function(Project) {
+                            return Project.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('^', {}, { reload: true });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        }).state('projectoverview.editdashboard', {
+            parent: 'projectoverview',
+            url: '/dashboard/:dashboardid/edit',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/project/overview/dashboard/phasedashboard-dialog.html',
+                    controller: 'PhaseDashboardDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                    	 entity: ['Dashboard', function(Dashboard) {
+                             return Dashboard.get({id : $stateParams.dashboardid}).$promise;
+                         }],
+                         project:null
+                    }
+                }).result.then(function() {
+                    $state.go('projectoverview', null, { reload: 'projectoverview' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        }).state('projectoverview.deletedashboard', {
+            parent: 'projectoverview',
+            url: '/dashboard/:dashboardid/delete',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/project/overview/dashboard/phasedashboard-delete-dialog.html',
+                    controller: 'PhaseDashboardDeleteController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['Dashboard', function(Dashboard) {
+                            return Dashboard.get({id : $stateParams.dashboardid}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('projectoverview', null, { reload: 'projectoverview' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
         }).state('projectoverview.addgraphic', {
             parent: 'projectoverview',
-            url: '/graphic/:mode',
+            url: '/dashboard/:dashboardid/graphic/:mode',
             data: {
                 authorities: []
             },
@@ -48,8 +131,7 @@
 	                            size:"Medium",
 	                            type:"Line chart",
 	                            auto:false,
-	                            timePeriode:"from:now-1y,mode:quick,to:now",
-	                            timeAgregation:"1M",
+	                            interval:"Last Hour",
 	                            mode:$stateParams.mode,
 	                            visualisedProperty:null,
 	                            dateIndex:null,
@@ -62,11 +144,13 @@
                                  isOverview: false
                              };
                          },
-                    	  project: ['Project', function(Project) {
-                              return Project.get({id : $stateParams.id}).$promise;
-                          }],
+                         project:['$stateParams', 'Project', function($stateParams, Project) {
+                             return Project.get({id : $stateParams.id}).$promise;
+                         }],
                           phase:null,
-                          dashboard:null 
+                          dashboard:['Dashboard', function(Dashboard) {
+                              return Dashboard.get({id : $stateParams.dashboardid}).$promise;
+                          }] 
                     }
                 }).result.then(function() {
                     $state.go('projectoverview', null, { reload: 'projectoverview' });
@@ -96,9 +180,7 @@
                                  isOverview: false
                              };
                          },
-                      	  project: ['Project', function(Project) {
-                              return Project.get({id : $stateParams.id}).$promise;
-                          }],
+                         project:null,
                          phase:null,
                          dashboard:null 
                     }

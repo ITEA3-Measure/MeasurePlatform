@@ -13,14 +13,6 @@
 			baseTableName="measure_view" constraintName="fk_measure_view_project_id"
 			referencedColumnNames="id" referencedTableName="project" />
 
-		<addForeignKeyConstraint baseColumnNames="phaseoverview_id"
-			baseTableName="measure_view" constraintName="fk_measure_view_phaseoverview_id"
-			referencedColumnNames="id" referencedTableName="phase" />
-
-		<addForeignKeyConstraint baseColumnNames="phase_id"
-			baseTableName="measure_view" constraintName="fk_measure_view_phase_id"
-			referencedColumnNames="id" referencedTableName="phase" />
-
 		<addForeignKeyConstraint baseColumnNames="dashboard_id"
 			baseTableName="measure_view" constraintName="fk_measure_view_dashboard_id"
 			referencedColumnNames="id" referencedTableName="dashboard" />

@@ -51,7 +51,7 @@ public class Project implements Serializable {
     @OneToMany(mappedBy = "project")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Phase> phases = new HashSet<>();
+    private Set<Dashboard> dashboards = new HashSet<>();
 
     @OneToMany(mappedBy = "project")
     @JsonIgnore
@@ -88,7 +88,7 @@ public class Project implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Application> applications = new HashSet<>();
-
+    
     @ManyToOne
     private User owner;
 
@@ -152,29 +152,29 @@ public class Project implements Serializable {
         this.projectImage = projectImage;
     }
 
-    public Set<Phase> getPhases() {
-        return phases;
+    public Set<Dashboard> getDashboards() {
+        return dashboards;
     }
 
-    public Project phases(Set<Phase> phases) {
-        this.phases = phases;
+    public Project dashboards(Set<Dashboard> dashboards) {
+        this.dashboards = dashboards;
         return this;
     }
 
-    public Project addPhases(Phase phase) {
-        phases.add(phase);
-        phase.setProject(this);
+    public Project addDashboards(Dashboard dashboard) {
+        dashboards.add(dashboard);
+        dashboard.setProject(this);
         return this;
     }
 
-    public Project removePhases(Phase phase) {
-        phases.remove(phase);
-        phase.setProject(null);
+    public Project removeDashboards(Dashboard dashboard) {
+        dashboards.remove(dashboard);
+        dashboard.setProject(null);
         return this;
     }
 
-    public void setPhases(Set<Phase> phases) {
-        this.phases = phases;
+    public void setDashboard(Set<Dashboard> dashboards) {
+        this.dashboards = dashboards;
     }
 
     public Set<Notification> getNotifications() {
@@ -331,7 +331,7 @@ public class Project implements Serializable {
 	public void setAlertevents(Set<AlertEvent> alertevents) {
 		this.alertevents = alertevents;
 	}
-
+	
 	@Override
     public boolean equals(Object o) {
         if (this == o) {

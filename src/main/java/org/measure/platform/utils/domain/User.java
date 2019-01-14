@@ -24,6 +24,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
+import org.measure.platform.core.entity.Dashboard;
+import org.measure.platform.core.entity.Project;
 import org.measure.platform.utils.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -99,6 +101,29 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
+    
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(
+			name = "user_managed_project", 
+			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id") }, 
+			inverseJoinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id") })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Set<Project> managedProjects = new HashSet<>();
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(
+			name = "user_invited_project", 
+			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id") }, 
+			inverseJoinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id") })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Set<Project> invitedProjects = new HashSet<>();
+	
+	@OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Dashboard> personalDashboards = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -204,8 +229,32 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setPersistentTokens(Set<PersistentToken> persistentTokens) {
         this.persistentTokens = persistentTokens;
     }
+    
+    public Set<Project> getManagedProjects() {
+		return managedProjects;
+	}
+    
+	public void setManagedProjects(Set<Project> managedProjects) {
+		this.managedProjects = managedProjects;
+	}
+	
+    public Set<Project> getInvitedProjects() {
+		return invitedProjects;
+	}
+    
+	public void setInvitedProjects(Set<Project> invitedProjects) {
+		this.invitedProjects = invitedProjects;
+	}
 
-    @Override
+	public Set<Dashboard> getPersonalDashboards() {
+		return personalDashboards;
+	}
+
+	public void setPersonalDashboards(Set<Dashboard> personalDashboards) {
+		this.personalDashboards = personalDashboards;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

@@ -27,12 +27,8 @@
 				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
 					<div class="list-group">
 						<a ui-sref="projectoverview({id:vm.project.id})"
-							class="list-group-item text-center ">
-							<h4 class="glyphicon glyphicon-th-large"></h4> <br />Project
-							Overview
-						</a> <a ui-sref="phasesoverview({id:vm.project.id})"
-							class="list-group-item text-center">
-							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Phases
+							class="list-group-item text-center active">
+							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
 						</a> <a ng-repeat="analyse in vm.analysis"
 							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
 							class="list-group-item text-center {{analyse.id == vm.currentanalyse.id ?  'active' : '' }}">

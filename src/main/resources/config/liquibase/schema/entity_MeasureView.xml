@@ -90,15 +90,7 @@
 				<constraints nullable="true" />
 			</column>
 
-			<column name="phaseoverview_id" type="bigint">
-				<constraints nullable="true" />
-			</column>
-
 			<column name="project_id" type="bigint">
-				<constraints nullable="true" />
-			</column>
-
-			<column name="phase_id" type="bigint">
 				<constraints nullable="true" />
 			</column>
 
