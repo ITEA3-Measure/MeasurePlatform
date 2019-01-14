@@ -106,8 +106,7 @@
 									style="display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
 
 									<div
-										ng-repeat="measureview in vm.dashboards[vm.selectedDashboard].measureview"
-										style="margin-right: 30px;">
+										ng-repeat="measureview in vm.dashboards[vm.selectedDashboard].measureview" style="margin-right: 30px;">
 										<div class="row">
 											<div class="thumbnail"
 												style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">
@@ -146,10 +145,10 @@
 										<div class="btn btn-default"
 											style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
 											ui-sref="projectoverview.addgraphic({mode:'AUTO',dashboardid:vm.dashboards[vm.selectedDashboard].id})">
-											<span class="glyphicon glyphicon-th" aria-hiden="true"
+											<span class="glyphicon glyphicon-stats" aria-hiden="true"
 												style="margin-top: 40%"></span>
 											<div>
-												<h5>Measure</h5>
+												<h5>Graphic</h5>
 											</div>
 										</div>
 
