@@ -30,9 +30,15 @@ public class Application implements Serializable {
     private Long id;
       
     @NotNull
+    @Column(name = "application_type", nullable = false)
+    private String applicationType;
+    
+    
+    @NotNull
     @Column(name = "application_name", nullable = false)
     private String name;
-    
+  
+  
     @NotNull
     @Column(name = "application_description", nullable = false)
     private String description;
@@ -61,7 +67,19 @@ public class Application implements Serializable {
         this.id = id;
     }
     
+    public String getApplicationType() {
+        return applicationType;
+    }
 
+    public Application applicationType(String applicationType) {
+        this.applicationType = applicationType;
+        return this;
+    }
+
+    public void setApplicationType(String applicationType) {
+        this.applicationType = applicationType;
+    }    
+    
     public String getName() {
         return name;
     }

@@ -26,48 +26,40 @@
                 }]
             }
         })
-//        .state('projectdatasources.new', {
-//            parent: 'projectdatasources',
-//            url: '/new',
-//            data: {
-//                authorities: ['ROLE_USER']
-//            },
-//            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-//                $uibModal.open({
-//                    templateUrl: 'app/pages/project/datasources/datasource-dialog.html',
-//                    controller: 'ProjectDataSourceDialogController',
-//                    controllerAs: 'vm',
-//                    backdrop: 'static',
-//                    size: 'lg',
-//                    resolve: {
-//                        entity: function () {
-//                            return {
-//                                instanceName: null,
-//                                instanceDescription: null,
-//                                measureName: null,
-//                                measureVersion: null,
-//                                isShedule: null,
-//                                shedulingExpression: '3600000',
-//                                schedulingUnit: 'h',
-//                                measureType: null,
-//                                manageLastMeasurement: null,
-//                                id: null,
-//                                isRemote : null,
-//                                remoteLabel : null,
-//                                remoteAdress : null
-//                            };
-//                        },
-//                        project:['$stateParams', 'Project', function($stateParams, Project) {
-//                            return Project.get({id : $stateParams.id}).$promise;
-//                        }] 
-//                    }
-//                }).result.then(function() {
-//                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
-//                }, function() {
-//                    $state.go('projectdatasources');
-//                });
-//            }]
-//        }).state('projectdatasources.delete', {
+        .state('applicationinstances.new', {
+            parent: 'applicationinstances',
+            url: '/new',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/project/datasources/applicationinstances/applicationinstances-dialog.html',
+                    controller: 'ProjectApplicationInstancesDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return {
+                                name: null,
+                                applicationType: null,
+                                id: null,
+                                enable : null
+                            };
+                        },
+                        project:['$stateParams', 'Project', function($stateParams, Project) {
+                            return Project.get({id : $stateParams.id}).$promise;
+                        }] 
+                    }
+                }).result.then(function() {
+                    $state.go('applicationinstances', null, { reload: 'applicationinstances' });
+                }, function() {
+                    $state.go('applicationinstances');
+                });
+            }]
+        })
+//        .state('projectdatasources.delete', {
 //            parent: 'projectdatasources',
 //            url: '/{instanceId}/delete',
 //            data: {

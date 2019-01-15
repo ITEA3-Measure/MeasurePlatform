@@ -1,0 +1,60 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"
+	show-validation>
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="vm.clear()">&times;</button>
+		<h4 class="modal-title" id="myApplicationInstanceLabel">Appluication
+			Instance</h4>
+	</div>
+	<div class="modal-body">
+	
+	
+		<div class="form-group">
+			<label class="control-label" for="field_applicationType">Application
+				Type</label> <input type="text" class="form-control" name="applicationType"
+				id="field_applicationType" ng-model="vm.applicationInstance.applicationType"
+				required />
+			<div ng-show="editForm.applicationType.$invalid">
+				<p class="help-block"
+					ng-show="editForm.applicationType.$error.required"></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="field_name">Instance
+				Name</label> <input type="text" class="form-control" name="name"
+				id="field_name" ng-model="vm.applicationInstance.name"
+				required />
+			<div ng-show="editForm.name.$invalid">
+				<p class="help-block"
+					ng-show="editForm.name.$error.required"></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="field_description">Instance
+				Description</label>
+			<textarea class="form-control" rows="3" name="description"
+				id="field_description"
+				ng-model="vm.applicationInstance.description"></textarea>
+
+		</div>
+
+
+
+
+
+
+	</div>
+	<div ng-show="vm.errorMessage != ''"  class="alert alert-danger" role="alert">{{vm.errorMessage}}</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			ng-click="vm.clear()">
+			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+		</button>
+		<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving"
+			class="btn btn-primary">
+			<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+		</button>
+	</div>
+</form>

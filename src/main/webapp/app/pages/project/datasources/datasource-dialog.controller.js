@@ -19,15 +19,6 @@
 		vm.measureInstance = entity;
 		vm.measureInstance.project = project;
 
-		// calculate vm.schedulingValue associated with the right time unit
-//		if(vm.measureInstance.schedulingUnit == null ){
-//			vm.measureInstance.schedulingUnit == h;
-//			vm.schedulingValue = 1;
-//		} else
-		
-		
-//		vm.schedulingValue = 1;
-//		vm.measureInstance.schedulingUnit = 'd';
 		
 		
 		if(vm.measureInstance.schedulingUnit == 's'){
@@ -41,12 +32,6 @@
 		}  
 		
 		
-		
-//		else {
-//			// 1 hour by default in the creation dialog
-//			vm.schedulingValue = 1;
-//			vm.measureInstance.schedulingUnit = "h";
-//		}
 
 		
 		vm.clear = clear;
