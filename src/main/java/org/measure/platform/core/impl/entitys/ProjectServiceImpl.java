@@ -17,12 +17,15 @@ import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Notification;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.ProjectRepository;
+import org.measure.platform.core.impl.repository.UserRepository;
 import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
 import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
 import org.measure.platform.service.analysis.data.alert.AlertSubscription;
 import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.measure.platform.service.analysis.data.analysis.RegistredAnalysisService;
 import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
+import org.measure.platform.utils.domain.User;
+import org.measure.platform.utils.security.ProjectsUsersRolesConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -65,6 +68,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Inject
     private IAnalysisCatalogueService analysisCatalogue;
     
+    @Inject
+    private UserRepository userRepository;
+    
 
     /**
      * Save a project.
@@ -73,11 +79,13 @@ public class ProjectServiceImpl implements ProjectService {
      */
     public Project save(Project project) {
         log.debug("Request to save Project : {}", project);
+        User user = userRepository.findOne(4L);
+    	project.addManagers(user);
         
         if(project.getId() == null) {
         	Project result = projectRepository.save(project);
         	
-        	for(RegistredAnalysisService service :analysisCatalogue.getAllAnalysisService()){
+        	for(RegistredAnalysisService service : analysisCatalogue.getAllAnalysisService()){
         		AlertSubscription suscribtion = new AlertSubscription();
     			suscribtion.setAnalysisTool(service.getName());
     			suscribtion.setProjectId(result.getId());
@@ -99,7 +107,6 @@ public class ProjectServiceImpl implements ProjectService {
         	dashboard.setDashboardName("Overview");
         	dashboardService.save(dashboard);
         	
-
         	return result;
         }else{
         	return projectRepository.save(project);
@@ -124,8 +131,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Transactional(readOnly = true)
     public List<Project> findAllByOwner() {
-        List<Project> result = projectRepository.findByOwnerIsCurrentUser();
-        return result;
+        return projectRepository.findByOwnerIsCurrentUser();
     }
 
     /**
@@ -172,6 +178,22 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         projectRepository.delete(id);
+    }
+    
+    public Project inviteIntoProject(Long projectId, String role) {
+    	log.debug("Request to invite user into Project : {}", projectId);
+    	User user = userRepository.findOne(5L);
+    	Project project = projectRepository.findOne(projectId);
+    	
+    	if (role.equals(ProjectsUsersRolesConstants.INVITER)) {
+        	project.addInviters(user);
+		}
+    	if (role.equals(ProjectsUsersRolesConstants.MANAGER)) {
+    		project.addManagers(user);
+    	}
+    	
+    	Project result = projectRepository.save(project);
+    	return result;
     }
 
 }
