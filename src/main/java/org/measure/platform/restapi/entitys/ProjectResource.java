@@ -54,7 +54,7 @@ public class ProjectResource {
                     HeaderUtil.createFailureAlert("project", "idexists", "A new project cannot already have an ID"))
                     .body(null);
         }
-        System.out.println(" Owner :" + project.getOwner());
+        //System.out.println(" Owner :" + project.getOwner());
         Project result = projectService.save(project);
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))
                         .headers(HeaderUtil.createEntityCreationAlert("project", result.getId().toString())).body(result);
@@ -126,6 +126,26 @@ public class ProjectResource {
         log.debug("REST request to delete Project : {}", id);
         projectService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("project", id.toString())).build();
+    }
+    
+    /**
+     * Invite user into a project
+     * @param project
+     * @return
+     * @throws URISyntaxException
+     */
+    @GetMapping("/projects/{id}/role/{role}")
+    @Timed
+    public ResponseEntity<Project> inviteToProject(@PathVariable Long id, @PathVariable String role) throws URISyntaxException {
+        log.debug("REST request to invite user to Project : {}", id);
+        if(projectService.findOne(id).getId() == null ) {
+        	return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("project", "idinexists", "The project didn't exist"))
+                    .body(null);
+        }
+        Project result = projectService.inviteIntoProject(id, role);
+        return ResponseEntity.created(new URI("/api/projects/invite" + result.getId()))
+                        .headers(HeaderUtil.createEntityCreationAlert("project", result.getId().toString())).body(result);
     }
 
 }

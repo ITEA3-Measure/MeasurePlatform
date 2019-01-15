@@ -39,5 +39,12 @@ public interface ProjectService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    /**
+     * Invite user into Project
+     * @param project
+     * @return
+     */
+    public Project inviteIntoProject(Long projectId, String role);
 
 }

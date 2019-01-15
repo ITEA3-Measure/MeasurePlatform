@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -89,8 +89,11 @@ public class Project implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Application> applications = new HashSet<>();
     
-    @ManyToOne
-    private User owner;
+    @ManyToMany(mappedBy="managedProjects")
+    private Set<User> managers  = new HashSet<>();
+    
+    @ManyToMany(mappedBy="invitedProjects")
+    private Set<User> inviters  = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -138,8 +141,12 @@ public class Project implements Serializable {
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
     }
+    
+    public void setDashboards(Set<Dashboard> dashboards) {
+		this.dashboards = dashboards;
+	}
 
-    public String getProjectImage() {
+	public String getProjectImage() {
         return projectImage;
     }
 
@@ -250,22 +257,59 @@ public class Project implements Serializable {
 
     public void setApplications(Set<Application> applications) {
         this.applications = applications;
-    }  
-    
-    public User getOwner() {
-        return owner;
     }
 
-    public Project owner(User user) {
-        this.owner = user;
+    public Set<User> getManagers() {
+        return managers;
+    }
+
+    public Project managers(Set<User> managers) {
+        this.managers = managers;
         return this;
     }
 
-    public void setOwner(User user) {
-        this.owner = user;
+    public Project addManagers(User manager) {
+    	managers.add(manager);
+        manager.getManagedProjects().add(this);
+        return this;
     }
 
-    public Set<MeasureView> getViews() {
+    public Project removeManagers(User manager) {
+    	this.managers.remove(manager);
+        manager.getManagedProjects().remove(this);
+        return this;
+    }
+
+    public void setManagers(Set<User> managers) {
+        this.managers = managers;
+    }
+    
+    public Set<User> getInviters() {
+        return inviters;
+    }
+
+    public Project inviters(Set<User> inviters) {
+        this.inviters = inviters;
+        return this;
+    }
+
+    public Project addInviters(User inviter) {
+    	inviters.add(inviter);
+    	inviter.getInvitedProjects().add(this);
+        return this;
+    }
+
+    public Project removeInviters(User inviter) {
+    	this.inviters.remove(inviter);
+    	inviter.getInvitedProjects().remove(this);
+        return this;
+    }
+
+    public void setInviters(Set<User> inviters) {
+        this.inviters = inviters;
+    }
+    
+	public Set<MeasureView> getViews() {
         return views;
     }
 
