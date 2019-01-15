@@ -45,6 +45,22 @@ public interface ProjectService {
      * @param project
      * @return
      */
-    public Project inviteIntoProject(Long projectId, String role);
+    Project inviteIntoProject(Long projectId, Long userId, String role);
+    
+    /**
+     * Transfer inviter to manager user
+     * @param projectId
+     * @param userId
+     * @return
+     */
+    boolean transformUserRole(Long projectId, Long userId);
+    
+    /**
+     * Transfer inviter to manager user
+     * @param projectId
+     * @param userId
+     * @return
+     */
+    void deleteUserFromProject(Long projectId, Long userId);
 
 }

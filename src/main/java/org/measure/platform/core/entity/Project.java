@@ -6,11 +6,14 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.measure.platform.utils.domain.User;
+import org.springframework.data.jpa.repository.Modifying;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -89,10 +93,21 @@ public class Project implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Application> applications = new HashSet<>();
     
-    @ManyToMany(mappedBy="managedProjects")
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(
+			name = "user_managed_project", 
+			joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id") }, 
+			inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id") })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<User> managers  = new HashSet<>();
     
-    @ManyToMany(mappedBy="invitedProjects")
+    @JsonIgnore
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(
+			name = "user_invited_project", 
+			joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id") }, 
+			inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id") })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<User> inviters  = new HashSet<>();
 
     public Long getId() {
@@ -299,6 +314,7 @@ public class Project implements Serializable {
         return this;
     }
 
+    @Modifying
     public Project removeInviters(User inviter) {
     	this.inviters.remove(inviter);
     	inviter.getInvitedProjects().remove(this);
