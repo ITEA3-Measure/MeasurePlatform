@@ -180,7 +180,9 @@
                                  isOverview: false
                              };
                          },
-                         project:null,
+                         project:['$stateParams', 'Project', function($stateParams, Project) {
+                             return Project.get({id : $stateParams.id}).$promise;
+                         }],
                          phase:null,
                          dashboard:null 
                     }
