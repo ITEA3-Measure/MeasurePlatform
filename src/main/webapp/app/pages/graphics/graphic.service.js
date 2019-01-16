@@ -6,6 +6,7 @@
 	GraphicService.$inject = [ '$resource' ];
 
 	function GraphicService($resource) {
+
 		var resourceUrl = 'api/measure-instances/:id';
 
 		return $resource(resourceUrl, {}, {

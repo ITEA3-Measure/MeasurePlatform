@@ -147,10 +147,9 @@
                          project:['$stateParams', 'Project', function($stateParams, Project) {
                              return Project.get({id : $stateParams.id}).$promise;
                          }],
-                          phase:null,
-                          dashboard:['Dashboard', function(Dashboard) {
-                              return Dashboard.get({id : $stateParams.dashboardid}).$promise;
-                          }] 
+                         dashboard:['Dashboard', function(Dashboard) {
+                             return Dashboard.get({id : $stateParams.dashboardid}).$promise;
+                         }] 
                     }
                 }).result.then(function() {
                     $state.go('projectoverview', null, { reload: 'projectoverview' });
@@ -183,7 +182,6 @@
                          project:['$stateParams', 'Project', function($stateParams, Project) {
                              return Project.get({id : $stateParams.id}).$promise;
                          }],
-                         phase:null,
                          dashboard:null 
                     }
                 }).result.then(function() {
