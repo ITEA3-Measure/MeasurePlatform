@@ -1,6 +1,7 @@
 package org.measure.platform.core.impl.entitys;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,9 @@ import org.measure.platform.service.analysis.data.alert.AlertSubscription;
 import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.measure.platform.service.analysis.data.analysis.RegistredAnalysisService;
 import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
+import org.measure.platform.utils.domain.User;
+import org.measure.platform.utils.security.ProjectsUsersRolesConstants;
+import org.measure.platform.utils.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -65,6 +69,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Inject
     private IAnalysisCatalogueService analysisCatalogue;
     
+    @Inject
+    private UserService userService;
+    
 
     /**
      * Save a project.
@@ -73,11 +80,13 @@ public class ProjectServiceImpl implements ProjectService {
      */
     public Project save(Project project) {
         log.debug("Request to save Project : {}", project);
+    	User user = userService.findByCurrentLoggedIn();
+        project.addManagers(user);
         
         if(project.getId() == null) {
         	Project result = projectRepository.save(project);
         	
-        	for(RegistredAnalysisService service :analysisCatalogue.getAllAnalysisService()){
+        	for(RegistredAnalysisService service : analysisCatalogue.getAllAnalysisService()){
         		AlertSubscription suscribtion = new AlertSubscription();
     			suscribtion.setAnalysisTool(service.getName());
     			suscribtion.setProjectId(result.getId());
@@ -99,7 +108,6 @@ public class ProjectServiceImpl implements ProjectService {
         	dashboard.setDashboardName("Overview");
         	dashboardService.save(dashboard);
         	
-
         	return result;
         }else{
         	return projectRepository.save(project);
@@ -124,8 +132,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Transactional(readOnly = true)
     public List<Project> findAllByOwner() {
-        List<Project> result = projectRepository.findByOwnerIsCurrentUser();
-        return result;
+        return projectRepository.findByOwnerIsCurrentUser();
     }
 
     /**
@@ -173,5 +180,55 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.delete(id);
     }
+    
+    @Override
+    public Project inviteIntoProject(Long projectId, Long userId, String role) {
+    	log.debug("Request to invite user into Project : {}", projectId);
+    	User user = userService.findOne(userId);
+    	Project project = projectRepository.findOne(projectId);
+    	if (role.equals(ProjectsUsersRolesConstants.INVITER)) {
+        	project.addInviters(user);
+		}
+    	if (role.equals(ProjectsUsersRolesConstants.MANAGER)) {
+    		project.addManagers(user);
+    	}
+    	Project result = projectRepository.save(project);
+    	return result;
+    }
+
+	@Override
+	public boolean transformUserRole(Long projectId, Long userId) {
+		Project project = projectRepository.getOne(projectId);
+		Set<User> inviters = project.getInviters();
+		for (User user : inviters) {
+			if(user.getId() == userId) {
+				project.removeInviters(user);
+				project.addManagers(user);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void deleteUserFromProject(Long projectId, Long userId) {
+		Project project = projectRepository.getOne(projectId);
+		User currentUser = userService.findByCurrentLoggedIn();
+		if(currentUser.getId() != userId) {
+			for (User user : project.getInviters()) {
+				if (user.getId() == userId) {
+					project.removeInviters(user);
+					return;
+				}
+			}
+			for (User manager : project.getManagers()) {
+				if (manager.getId() == userId) {
+					project.removeManagers(manager);
+					return;
+				}
+			}
+		}
+		return;		
+	}
 
 }

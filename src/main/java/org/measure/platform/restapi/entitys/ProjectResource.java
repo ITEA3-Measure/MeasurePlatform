@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
+import org.measure.platform.utils.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,9 @@ public class ProjectResource {
 
     @Inject
     private ProjectService projectService;
+    
+    @Inject
+    private UserService userService;
 
     /**
      * POST /projects : Create a new project.
@@ -54,7 +58,7 @@ public class ProjectResource {
                     HeaderUtil.createFailureAlert("project", "idexists", "A new project cannot already have an ID"))
                     .body(null);
         }
-        System.out.println(" Owner :" + project.getOwner());
+        //System.out.println(" Owner :" + project.getOwner());
         Project result = projectService.save(project);
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))
                         .headers(HeaderUtil.createEntityCreationAlert("project", result.getId().toString())).body(result);
@@ -126,6 +130,70 @@ public class ProjectResource {
         log.debug("REST request to delete Project : {}", id);
         projectService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("project", id.toString())).build();
+    }
+    
+    /**
+     * Invite user into a project
+     * @param project
+     * @return
+     * @throws URISyntaxException
+     */
+    @GetMapping("/projects/{projectId}/invite/{userId}/role/{role}")
+    @Timed
+    public ResponseEntity<Project> inviteToProject(@PathVariable Long projectId, @PathVariable Long userId, @PathVariable String role) throws URISyntaxException {
+        log.debug("REST request to invite user to Project : {}", projectId);
+        if(projectService.findOne(projectId).getId() == null ) {
+        	return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("project", "idinexists", "The project didn't exist"))
+                    .body(null);
+        }
+        Project result = projectService.inviteIntoProject(projectId, userId,  role);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert("project", result.getId().toString())).body(result);
+    }
+    
+    /**
+     * Transform user role
+     * @param projectId
+     * @param userId
+     * @return
+     * @throws URISyntaxException
+     */
+    @GetMapping("/projects/{projectId}/upgrade/{userId}")
+    @Timed
+    public ResponseEntity<Void> transformUserRole(@PathVariable Long projectId, @PathVariable Long userId) {
+        log.debug("REST request to transform user role : {}", projectId);
+        if(projectService.findOne(projectId).getId() == null && userService.getUserWithAuthorities(userId) == null) {
+        	return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("project or user", "projectId inexists", "userId inexists"))
+                    .body(null);
+        }
+        Boolean result = projectService.transformUserRole(projectId, userId);
+        if(result)
+        	return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", projectId.toString())).build();
+        else
+        	return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("project or user", "projectId inexists", "userId inexists"))
+                    .body(null);
+    }
+    
+    /**
+     * Delete user from a project
+     * @param projectId
+     * @param userId
+     * @return
+     * @throws URISyntaxException
+     */
+    @DeleteMapping("/projects/{projectId}/delete/{userId}")
+    @Timed
+    public ResponseEntity<Void> deleteUserFromProject(@PathVariable Long projectId, @PathVariable Long userId) {
+        log.debug("REST request to remove user from Project : {}", projectId);
+        if(projectService.findOne(projectId).getId() == null && userService.getUserWithAuthorities(userId) == null) {
+        	return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert("project or user", "projectId inexists", "userId inexists"))
+                    .body(null);
+        }
+        projectService.deleteUserFromProject(projectId, userId);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", projectId.toString())).build();
     }
 
 }

@@ -37,9 +37,9 @@
                 <constraints nullable="true" />
             </column>
             
-            <column name="owner_id" type="bigint">
+            <!-- <column name="owner_id" type="bigint">
                 <constraints nullable="true" />
-            </column>
+            </column> -->
 
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
