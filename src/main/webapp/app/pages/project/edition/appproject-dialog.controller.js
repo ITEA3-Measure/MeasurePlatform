@@ -5,9 +5,9 @@
         .module('measurePlatformApp')
         .controller('AppProjectDialogController', AppProjectDialogController);
 
-    AppProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Project', 'Phase', 'MeasureInstance', 'User'];
+    AppProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Project', 'MeasureInstance', 'User'];
 
-    function AppProjectDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Project, Phase, MeasureInstance, User) {
+    function AppProjectDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Project, MeasureInstance, User) {
         var vm = this;
 
         vm.project = entity;
@@ -15,7 +15,6 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.phases = Phase.query();
         vm.measureinstances = MeasureInstance.query();
         vm.users = User.query();
     

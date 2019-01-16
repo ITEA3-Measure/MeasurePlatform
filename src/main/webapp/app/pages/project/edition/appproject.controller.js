@@ -5,10 +5,10 @@
 			AppProjectController);
 
 	AppProjectController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project', 'Phase','Notification', 'MeasureView' ];
+			'$state', 'entity', 'Project','Notification', 'MeasureView' ];
 
 	function AppProjectController($scope,$cookies, Principal, LoginService, $state,
-			entity, Project, Phase,Notification, MeasureView) {
+			entity, Project,Notification, MeasureView) {
 		var vm = this;
 		vm.project = entity;
 		
@@ -49,34 +49,6 @@
 		vm.phases = [];
 		vm.editphases = [];
 
-		loadPhasesByProject(vm.project.id);
-		
-		function loadPhasesByProject(id) {
-			Phase.phases({
-				id : id
-			}, function(result) {
-				vm.phases = result;
-				for (var i = 0; i < vm.phases.length; i++) {
-					vm.editphases[vm.phases[i].id] = false;
-				}
-				
-				for (var i = 0; i < vm.phases.length; i++) {
-					MeasureView.byphaseoverview({
-						id : vm.phases[i].id
-					}, function(result) {
-						if(result.length > 0){
-							for (var i = 0; i < vm.phases.length; i++) {
-								if(vm.phases[i].id == result[0].phaseoverview.id){
-									vm.phases[i].measureview = result;
-								}
-							}
-						}
-					});
-				}
-			});
-		}
-		
-		
 		
 		// Notification
 		

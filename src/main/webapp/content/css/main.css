@@ -789,11 +789,8 @@ div.bhoechie-tab div.bhoechie-tab-content:not (.active ){
 
 .well-dashboard {
 	min-height: 20px;
-	padding-bottom: 20px;
-	padding-right: 10px;
-	padding-left: 10px;
+	padding: 19px;
 	margin-bottom: 20px;
-	margin-top : 0px;
 	background-color: #ffffff;
 	border-bottom: 1px solid #14171a4d;
 	border-right: 1px solid #14171a4d;
