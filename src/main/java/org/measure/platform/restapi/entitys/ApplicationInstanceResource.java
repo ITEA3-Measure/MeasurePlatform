@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.measure.platform.core.api.entitys.ApplicationInstanceService;
 import org.measure.platform.core.entity.Application;
+import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,6 +110,17 @@ public class ApplicationInstanceResource {
         log.debug("REST request to get all Application instances");      
         List<Application> result = applicationInstanceService.findApplicationInstancesByProject(id);
         return result;
+    }
+    
+    
+    @GetMapping("/existing-application/{name}")
+    @Timed
+    public Application isExistingMeasure(@PathVariable(name="name") String name) { 
+    	List<Application> result =  applicationInstanceService.findApplicationInstancesByName(name) ;
+        if(result!= null && !result.isEmpty()){
+        	return result.get(0);
+        }
+        return null;
     }
     
 

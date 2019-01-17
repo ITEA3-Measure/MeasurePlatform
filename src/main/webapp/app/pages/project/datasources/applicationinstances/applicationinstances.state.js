@@ -44,6 +44,7 @@
                             return {
                                 name: null,
                                 applicationType: null,
+                                description: null,
                                 id: null,
                                 enable : null
                             };
