@@ -97,68 +97,68 @@
 
 						
 						/*
-						 * Navigate Dashboards in application
+						 * Navigate Measures in application
 						 */
-						newValue.dashboards.dashboard.forEach((vDashboard, i) => {
+						newValue.measures.measure.forEach((vMeasure) => {
 							
-							/*
-							 * create new dashboard 
-							 */
-							//vm.applicationInstanceDashboards.push({dashboardName : vDashboard.label});
+
 
 							/*
-							 * Navigate measures in the current dashboard
+							 * GET Measure corresponding to the name"vMeasure.name" from the Catalogue
 							 */
-							vDashboard.measures.measure.forEach((vMeasure, j) => {
+							Measure.get({id: vMeasure.name}, function(result){
+
+								console.log(result);
 
 								/*
-								 * GET Measure corresponding to the name"vMeasure.name" from the Catalogue
+								 * Create new Measure instance
 								 */
-								Measure.get({id: vMeasure.name}, function(result){
+								var varMeasureInstance = newMeasureInstance();
+								varMeasureInstance.measureName = result.name;
+								varMeasureInstance.instanceName = '_Measure_' +  result.name + '_' + i + '_' + j;
+								varMeasureInstance.measureVersion = "1.0.0";
+								varMeasureInstance.measureType = result.type;
+								varMeasureInstance.schedulingUnit = 's';
+								varMeasureInstance.shedulingExpression = vMeasure.scheduling;
+								varMeasureInstance.project = project;
+								
+								var varApplicationMeasureInstance = {
+										measureInstance : varMeasureInstance,
+										propertiesNames : []
+										};
+								
+								
+								
+								/*
+								 * update properties in the view model
+								 */
+								for (var k = 0; k < result.scopeProperties.length; k++) {
+									
+									var vProperty = createPropertyFromScopeProperty(result.scopeProperties[k]);
 
+									var varPropertyName = result.scopeProperties[k].name;
+									vm.properties[varPropertyName] = vProperty;
+									varApplicationMeasureInstance.propertiesNames.push(varPropertyName);
+									
+								}
 
-									/*
-									 * Create new Measure instance
-									 */
-									var varMeasureInstance = newMeasureInstance();
-									varMeasureInstance.measureName = result.name;
-									varMeasureInstance.instanceName = '_Measure_' +  result.name + '_' + i + '_' + j;
-									varMeasureInstance.measureVersion = "1.0.0";
-									varMeasureInstance.measureType = result.type;
-									varMeasureInstance.schedulingUnit = 's';
-									varMeasureInstance.shedulingExpression = vMeasure.scheduling;
-									varMeasureInstance.project = project;
-									
-									var varApplicationMeasureInstance = {
-											measureInstance : varMeasureInstance,
-											propertiesNames : []
-											};
-									
-									
-									
-									/*
-									 * update properties in the view model
-									 */
-									for (var k = 0; k < result.scopeProperties.length; k++) {
-										
-										var vProperty = createPropertyFromScopeProperty(result.scopeProperties[k]);
+								
+								vm.applicationMeasuresInstances.push(varApplicationMeasureInstance);
 
-										var varPropertyName = result.scopeProperties[k].name;
-										vm.properties[varPropertyName] = vProperty;
-										varApplicationMeasureInstance.propertiesNames.push(varPropertyName);
-										
-									}
-
-									
-									vm.applicationMeasuresInstances.push(varApplicationMeasureInstance);
-
-									
-								});
+								
 							});
+							
 						
 
 							
 						});
+						
+						/*
+						 * create new dashboard 
+						 */
+						//vm.applicationInstanceDashboards.push({dashboardName : vDashboard.label});
+
+
 
 					}
 				});
