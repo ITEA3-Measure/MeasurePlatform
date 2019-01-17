@@ -45,22 +45,22 @@ public class MeasureResource {
 	@Inject
 	IRemoteCatalogueService remoteCatalogue;
 
-	@RequestMapping(value = "/upload", method = RequestMethod.PUT)
-	public void handleFileUpload(@RequestBody String data) {
-		try {
-			byte[] fileData = DatatypeConverter.parseBase64Binary(data.substring(data.indexOf(",") + 1));
-			File tempFile = File.createTempFile(data.substring(0, 20), "measure");
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
-			stream.write(fileData);
-			stream.close();
-			measureCatalogue.storeMeasure(tempFile.toPath());
-			tempFile.delete();
-		} catch (IOException e) {
-			log.error("File Upload Error", e);
-		}
-	}
+//	@RequestMapping(value = "/upload", method = RequestMethod.PUT)
+//	public void handleFileUpload(@RequestBody String data) {
+//		try {
+//			byte[] fileData = DatatypeConverter.parseBase64Binary(data.substring(data.indexOf(",") + 1));
+//			File tempFile = File.createTempFile(data.substring(0, 20), "measure");
+//			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+//			stream.write(fileData);
+//			stream.close();
+//			measureCatalogue.storeMeasure(tempFile.toPath());
+//			tempFile.delete();
+//		} catch (IOException e) {
+//			log.error("File Upload Error", e);
+//		}
+//	}
 
-	@PostMapping("/upload2")
+	@PostMapping("/upload")
 	public void handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 		try {
 			byte[] fileData = file.getBytes();
@@ -124,7 +124,7 @@ public class MeasureResource {
 	 */
 	@DeleteMapping("/{id}")
 	@Timed
-	public ResponseEntity<Void> deleteProject(@PathVariable String id) {
+	public ResponseEntity<Void> deleteMeasure(@PathVariable String id) {
 		measureCatalogue.deleteMeasure(id);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("measure", id)).build();
 	}

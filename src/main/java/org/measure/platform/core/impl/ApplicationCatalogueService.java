@@ -1,11 +1,19 @@
 package org.measure.platform.core.impl;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
+import org.apache.commons.io.FileUtils;
 import org.measure.platform.core.api.IApplicationCatalogueService;
-import org.measure.smm.measurementapplication.model.SMMApplication;
+import org.measure.platform.core.impl.utils.UnzipUtility;
+import org.measure.smm.application.model.SMMApplication;
+import org.measure.smm.measure.model.SMMMeasure;
 import org.measure.smm.service.ApplicationPackager;
 import org.measure.smm.service.MeasurePackager;
 import org.slf4j.Logger;
@@ -21,7 +29,7 @@ public class ApplicationCatalogueService implements IApplicationCatalogueService
 
     private final Logger log = LoggerFactory.getLogger(MeasureCatalogueService.class);
 
-    @Value("${measurementapplication.repository.path}")
+    @Value("${measureplatform.storage.application}")
     private String applicationsPath;
 
     
@@ -41,6 +49,53 @@ public class ApplicationCatalogueService implements IApplicationCatalogueService
         }
         return result;
 	}
+	
+	 
+    @Override
+    public void storeApplication(Path application) {
+        try {
+            SMMApplication measureInfos = ApplicationPackager.getApplicationDataFromZip(application);
+            UnzipUtility unzip = new UnzipUtility();
+            Path target = new File(applicationsPath).toPath().resolve(measureInfos.getName());
+            Files.createDirectories(target);
+            unzip.unzip(application.toString(), target.toString());
+            
+        } catch (JAXBException | IOException e) {
+            log.error(e.getLocalizedMessage());
+        }
+    }
+    
+    @Override
+    public void deleteApplication(String applicationName) {
+        try {
+            File repository = new File(applicationsPath);
+            for (File file : repository.listFiles()) {
+                if (file.getName().equals(applicationName)) {                           
+                    FileUtils.deleteDirectory(file);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+        }
+    }
+    
+    
+    @Override
+    public SMMApplication getApplication(String applicationName) {
+        Path repository = new File(applicationsPath).toPath();
+        Path measureData = repository.resolve(applicationName).resolve(ApplicationPackager.MEATADATAFILE);
+        if (measureData.toFile().exists()) {
+            try {
+            	return ApplicationPackager.getApplicationData(measureData);
+            } catch (JAXBException | IOException e) {
+                log.error(e.getLocalizedMessage());
+            }
+        }
+        return null;
+    }
+    
+    
 
 
 	

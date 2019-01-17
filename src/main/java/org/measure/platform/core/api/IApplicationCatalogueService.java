@@ -1,19 +1,22 @@
 package org.measure.platform.core.api;
 
+import java.nio.file.Path;
 import java.util.List;
 
-import org.measure.smm.measurementapplication.model.SMMApplication;
+import org.measure.smm.application.model.SMMApplication;
 
 /**
  * Service Interface for managing Measurement Application repository.
  */
 public interface IApplicationCatalogueService {
-    //void storeApplication(Path measure);
 
     List<SMMApplication> getAllApplications();
 
-    //SMMMeasure getMeasure(String measureId);
+	void deleteApplication(String applicationName);
 
-    //void deleteMeasure(String measureId);
+	void storeApplication(Path application);
+
+	SMMApplication getApplication(String applicationName);
+
 
 }
