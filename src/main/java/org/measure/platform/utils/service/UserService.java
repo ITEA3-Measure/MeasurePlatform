@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class UserService {
+public class UserService{
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Inject
@@ -240,6 +240,14 @@ public class UserService {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);
         }
+    }
+    
+    public User findOne(Long id) {
+    	return userRepository.findOne(id);
+    }
+    
+    public User findByCurrentLoggedIn() {
+    	return userRepository.findByCurrentLoggedIn();
     }
 
 }

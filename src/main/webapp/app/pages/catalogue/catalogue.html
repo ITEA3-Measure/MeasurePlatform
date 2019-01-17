@@ -40,12 +40,86 @@
 					</div>
 				</div>
 				<div class="panel-body" style="padding: 0px;">
-					<div
-						style="min-width: 300px; min-height: 50px; margin-bottom: 0px; text-align: center;">
-						<div ng-repeat="measureview in project.measureview"
-							style="display: inline-block; padding: 0px; text-align: center;">
+					<div style="min-width: 300px; min-height: 50px; margin-bottom: 0px; text-align: center;display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
+			
+							
+								<div
+										ng-repeat="measureview in project.measureview"
+										style="margin-right: 30px;">
 
-							<div class="row" style="text-align: center;">
+									
+							
+											<div ng-if="measureview.mode == 'CARD' || measureview.mode == 'AUTO' || measureview.mode == 'KVIS' || measureview.mode == 'KDASH' || measureview.mode == 'MANUAL'">
+												<div class="thumbnail" style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">
+													<div ng-bind-html="measureview.viewData | to_trusted"></div>
+													<div class="caption" style="text-align: center">
+														<p style="margin: 0px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.name}}</p>
+													</div>
+												</div>
+											</div>
+											<div ng-if="measureview.mode == 'VALUE' && measureview.displaymode == 'SINGLE'">
+												<div class="thumbnail" style=" margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">	
+													<div style="padding:10px;display: flex;justify-content: center;flex-direction: column;overflow: auto;background-color:{{measureview.color}}; width:{{measureview.width}}px;height:{{measureview.height}}px; border-radius:5px;ver">									
+														<div ng-if="measureview.value != null"  style="font-size:{{measureview.fontSize}}px;font-weight: bold;">{{measureview.value}}</div>	
+														<div ng-if="measureview.datevalue != null"  style="font-size:{{measureview.fontSize}}px;font-weight: bold;">{{ measureview.datevalue | date : "MM/dd/yyyy 'at' HH:mm:ss"}}</div>	
+													</div>	
+												
+													<div class="caption" style="text-align: center">
+														<p style="margin: 0px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.name}}</p>
+													</div>
+												</div>	
+											</div>
+											<div ng-if="measureview.mode == 'VALUE' && measureview.displaymode == 'MULTI'">
+												<div class="thumbnail" style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">	
+													<div style="padding:10px;display: flex;justify-content: center;flex-direction: column;overflow: auto;background-color:{{measureview.color}}; width:{{measureview.width}}px;height:{{measureview.height}}px; border-radius:5px;">									
+														<table class="table" >
+														 	<tr ng-repeat="col in measureview.value">
+														 		<td style="text-align:left;border:none;font-weight: bold;font-size:{{measureview.fontSize}}px;">{{col.label}}</td>
+														 		<td ng-if="col.value != null" style="text-align:left;border:none;font-size:{{measureview.fontSize}}px;">{{col.value}}</td>
+																<td ng-if="col.datevalue != null" style="text-align:left;border:none;font-size:{{measureview.fontSize}}px;">{{ col.datevalue | date : "MM/dd/yyyy 'at' HH:mm:ss"}}</td>
+															</tr>
+														</table>
+													</div>				
+													<div class="caption" style="text-align: center">
+														<p style="margin : 0px;margin-top: 5px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.name}}</p>
+													</div>
+												</div>	
+											</div>
+											<div ng-if="measureview.mode == 'TABLE'">
+												<div class="thumbnail" style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">	
+													<div style="overflow: auto;background-color:{{measureview.color}}; width:{{measureview.width}}px;height:{{measureview.height}}px; border-radius:5px;">									
+														<table class="table" style="margin:0px">
+															<thead>
+															    <tr>
+															      <th  ng-repeat="headcol in measureview.columns" >{{headcol}}</th>
+															    </tr>
+															 </thead>
+															<tr ng-repeat="measurement in measureview.measurements">
+																<td ng-repeat="field in measurement.fields">
+																	<div ng-if="field.value != null" style="text-align:left;">{{field.value}}</div>
+																	<div ng-if="field.datevalue != null" style="text-align:left;">{{field.datevalue | date : "MM/dd/yyyy 'at' HH:mm:ss" }}</div>
+																</td>
+															</tr>
+														</table>
+														
+														<div role="toolbar"  style="text-align: center;">
+															<div class="btn-group" role="group">
+																<button type="button" class="btn btn-default"  ng-click="vm.firstData(measureview)"><span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span></button>
+															</div>
+															<div class="btn-group" role="group">
+																<button type="button" class="btn btn-default" ng-click="vm.previousData(measureview)"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></button>
+																<button type="button" class="btn btn-default"  disabled>{{measureview.currentpage}}</button>
+																<button type="button" class="btn btn-default" ng-click="vm.nextData(measureview)"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+															</div>
+														</div>
+													</div>				
+													<div class="caption" style="text-align: center">
+														<p style="margin : 0px;margin-top: 5px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.name}}</p>
+													</div>
+												</div>	
+											</div>
+
+					<!-- 		<div class="row" style="text-align: center;">
 								<div class="thumbnail"
 									style="border: none; margin-right: 20px; margin-left: 20px; margin-bottom: 0px; margin-top: 0px; text-align: center;">
 									<div ng-bind-html="measureview.viewData | to_trusted"></div>
@@ -55,7 +129,7 @@
 											style="margin: 0px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.description}}</p>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<div class="row" style="float: right;">
 								<button class="btn btn-link btn-lg"
@@ -73,49 +147,69 @@
 						</div>
 						<div ng-show="vm.editprojects[project.id]"
 							style="width: 256px; height: 256px; margin: 30px; vertical-align: top; display: inline-flex; flex-wrap: wrap;">
+							
+							<div class="btn btn-default"
+									style="width: 118px; height: 70px; margin:5px; vertical-align: top;"
+									ui-sref="catalogue.addgraphic({mode:'CARD',id:project.id})">
+									<span class="glyphicon glyphicon-dashboard" aria-hiden="true"
+										style="margin-top: 7%"> </span>
+									<div>
+										<h5>Analysis Card</h5>
+									</div>
+								</div>
+								<div class="btn btn-default"
+									style="width: 118px; height: 70px; margin: 5px; vertical-align: top;"
+									ui-sref="catalogue.addgraphic({mode:'AUTO',id:project.id})">
+									<span class="glyphicon glyphicon-stats" aria-hiden="true"
+										style="margin-top: 7%"></span>
+									<div>
+										<h5>Graphic</h5>
+									</div>
+								</div>
 
-							<div class="btn btn-default"
-								style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
-								ui-sref="catalogue.addgraphic({mode:'CARD',id:project.id})">
-								<span class="glyphicon glyphicon-dashboard" aria-hiden="true"
-									style="margin-top: 40%"></span>
-								<div>
-									<h5>Analysis Card</h5>
+								<div class="btn btn-default"
+									style="width: 118px; height: 70px; margin: 5px; vertical-align: top;"
+									ui-sref="catalogue.addgraphic({mode:'VALUE',id:project.id})">
+									<span class="glyphicon glyphicon-th-list" aria-hiden="true"
+										style="margin-top: 7%"></span>
+									<div>
+										<h5>Simple Value</h5>
+									</div>
 								</div>
-							</div>
-							<div class="btn btn-default"
-								style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
-								ui-sref="catalogue.addgraphic({mode:'AUTO',id:project.id})">
-								<span class="glyphicon glyphicon-th" aria-hiden="true"
-									style="margin-top: 40%"></span>
-								<div>
-									<h5>Measure</h5>
-								</div>
-							</div>
 
-							<div class="btn btn-default"
-								style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
-								ui-sref="catalogue.addgraphic({mode:'KVIS',id:project.id})">
-								<span class="glyphicon glyphicon-modal-window" aria-hiden="true"
-									style="margin-top: 40%"></span>
-								<div>
-									<h5>
-										Kibana </br> Visualisation
-									</h5>
+								<div class="btn btn-default"
+									style="width: 118px; height: 70px; margin: 5px; vertical-align: top;"
+									ui-sref="catalogue.addgraphic({mode:'TABLE',id:project.id})">
+									<span class="glyphicon glyphicon-list-alt" aria-hiden="true"
+										style="margin-top: 7%"></span>
+									<div>
+										<h5>Data Table</h5>
+									</div>
 								</div>
-							</div>
 
-							<div class="btn btn-default"
-								style="width: 118px; height: 118px; margin: 5px; vertical-align: top;"
-								ui-sref="catalogue.addgraphic({mode:'MANUAL',id:project.id})">
-								<span class="glyphicon glyphicon-paperclip" aria-hiden="true"
-									style="margin-top: 40%"></span>
-								<div>
-									<h5>
-										Personalised </br> Content
-									</h5>
+								<div class="btn btn-default"
+									style="width: 118px; height: 70px; margin: 5px; vertical-align: middle;"
+									ui-sref="catalogue.addgraphic({mode:'KVIS',id:project.id})">
+									<span class="glyphicon glyphicon-modal-window"
+										aria-hiden="true" style="margin-top: 7%"></span>
+									<div>
+										<h5>
+											Kibana View
+										</h5>
+									</div>
 								</div>
-							</div>
+
+								<div class="btn btn-default"
+									style="width: 118px; height: 70px; margin: 5px; vertical-align: top;"
+									ui-sref="catalogue.addgraphic({mode:'MANUAL',id:project.id})">
+									<span class="glyphicon glyphicon-paperclip" aria-hiden="true"
+										style="margin-top: 7%"></span>
+									<div>
+										<h5>
+											Custom
+										</h5>
+									</div>
+								</div>
 						</div>
 
 					</div>

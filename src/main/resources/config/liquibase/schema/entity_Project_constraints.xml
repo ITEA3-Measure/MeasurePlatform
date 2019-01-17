@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Project.
     -->
-    <changeSet id="20161109133431-2" author="softeam">
+    <!-- <changeSet id="20161109133431-2" author="softeam">
         
         <addForeignKeyConstraint baseColumnNames="owner_id"
                                  baseTableName="project"
@@ -14,5 +14,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 
-    </changeSet>
+    </changeSet> -->
 </databaseChangeLog>

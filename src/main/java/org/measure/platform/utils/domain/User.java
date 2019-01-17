@@ -101,23 +101,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
-    
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(
-			name = "user_managed_project", 
-			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id") }, 
-			inverseJoinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id") })
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+
+    @JsonIgnore
+    @ManyToMany(mappedBy="managers")
 	private Set<Project> managedProjects = new HashSet<>();
-	
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(
-			name = "user_invited_project", 
-			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id") }, 
-			inverseJoinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id") })
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+
+    @JsonIgnore
+    @ManyToMany(mappedBy="inviters")
 	private Set<Project> invitedProjects = new HashSet<>();
 	
 	@OneToMany(mappedBy = "user")

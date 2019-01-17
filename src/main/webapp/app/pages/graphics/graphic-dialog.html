@@ -10,15 +10,19 @@
 			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('AUTO')}}">
 				<input type="radio" value="AUTO" ng-model="vm.measureView.mode">
-				<i class="glyphicon glyphicon-th"></i>
+				<i class="glyphicon glyphicon-stats"></i>
+			</label> <label
+				class="btn btn-default btn-circle btn-lg {{vm.active('VALUE')}}">
+				<input type="radio" value="VALUE" ng-model="vm.measureView.mode">
+				<i class="glyphicon glyphicon-th-list"></i>
+			</label> <label
+				class="btn btn-default btn-circle btn-lg {{vm.active('TABLE')}}">
+				<input type="radio" value="TABLE" ng-model="vm.measureView.mode">
+				<i class="glyphicon glyphicon-list-alt"></i>
 			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('KVIS')}}">
 				<input type="radio" value="KVIS" ng-model="vm.measureView.mode">
 				<i class="glyphicon glyphicon-modal-window"></i>
-			</label> <label
-				class="btn btn-default btn-circle btn-lg {{vm.active('KDASH')}}">
-				<input type="radio" value="KDASH" ng-model="vm.measureView.mode">
-				<i class="glyphicon glyphicon-blackboard"></i>
 			</label> <label
 				class="btn btn-default btn-circle btn-lg {{vm.active('MANUAL')}}">
 				<input type="radio" value="MANUAL" ng-model="vm.measureView.mode"><i
@@ -28,19 +32,23 @@
 
 		<div style="margin-top: 10px;">
 			<div ng-show="vm.measureView.mode == 'AUTO'">
-				<h2 class="modal-title">Create Manual View</h2>
+				<h2 class="modal-title">Graphic</h2>
+			</div>
+
+			<div ng-show="vm.measureView.mode == 'VALUE'">
+				<h2 class="modal-title">Simple Value</h2>
+			</div>
+
+			<div ng-show="vm.measureView.mode == 'TABLE'">
+				<h2 class="modal-title">Data Table</h2>
 			</div>
 
 			<div ng-show="vm.measureView.mode == 'KVIS'">
-				<h2 class="modal-title">Integrate Kibana View</h2>
-			</div>
-
-			<div ng-show="vm.measureView.mode == 'KDASH'">
-				<h2 class="modal-title">Integrate Kibana Dashboard</h2>
+				<h2 class="modal-title">Kibana View</h2>
 			</div>
 
 			<div ng-show="vm.measureView.mode == 'MANUAL'">
-				<h2 class="modal-title">Integrate External View</h2>
+				<h2 class="modal-title">Personalised Content</h2>
 			</div>
 
 			<div ng-show="vm.measureView.mode == 'CARD'">
@@ -51,6 +59,19 @@
 
 	<div class="modal-body">
 		<div ng-show="vm.measureView.mode == 'CARD'" style="margin-top: 10px;">
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Name</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.name">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Description</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.description">
+			</div>
+
 			<label for="field_measureInstance">Select an Analysis Card</label> <select
 				class="form-control" id="field_measureInstance"
 				name="measureInstance" ng-model="vm.measureView.analysiscard"
@@ -60,6 +81,19 @@
 
 		</div>
 		<div ng-show="vm.measureView.mode == 'AUTO'" style="margin-top: 10px;">
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Name</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.name">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Description</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.description">
+			</div>
+
 			<div class="form-group">
 				<label for="field_measureInstance">Measure</label> <select
 					class="form-control" id="field_measureInstance"
@@ -140,12 +174,6 @@
 				<label for="field_graphicSize">Height</label> <input type="text"
 					class="form-control" ng-model="vm.measureView.height">
 			</div>
-			
-			
-			<div class="form-group">
-				<label for="field_graphicSize">Font Size</label> <input type="text"
-					class="form-control" ng-model="vm.measureView.fontSize">
-			</div>
 
 			<div class="form-group">
 				<label for="field_color">Color</label> <select class="form-control"
@@ -167,7 +195,18 @@
 					<option value="%23DEDAF7">Grey</option>
 				</select>
 			</div>
-			
+
+
+			<div class="form-group">
+				<label class="control-label" for="field_autorefresh">Auto
+					Refresh</label> <input type="checkbox" class="form-control"
+					name="manageLastMeasurement" id="field_autorefresh"
+					ng-model="vm.measureView.auto" />
+			</div>
+		</div>
+
+		<div ng-show="vm.measureView.mode == 'VALUE'" style="margin-top: 10px;">
+
 			<div class="form-group">
 				<label class="control-label" for="field_viewdescription">
 					Name</label> <input type="text" class="form-control"
@@ -181,6 +220,140 @@
 			</div>
 
 			<div class="form-group">
+				<label for="field_measureInstance">Measure</label> <select
+					class="form-control" id="field_measureInstance"
+					name="measureInstance" ng-model="vm.measureView.measureinstance"
+					ng-options="measure as measure.instanceName for measure in vm.measureInstances">
+					<option value=""></option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="field_visualisedProperty">Value to Display</label>
+				
+				<div class="list-group" id="list-tab" role="tablist">
+      				<a ng-repeat="property in vm.allProperties" class="list-group-item list-group-item-action {{property.selected ? 'active':''}}" ng-click="property.selected ? property.selected = false : property.selected = true" >{{property.label}}</a>
+   				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="field_graphicSize">Width</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.width">
+			</div>
+
+			<div class="form-group">
+				<label for="field_graphicSize">Height</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.height">
+			</div>
+
+
+			<div class="form-group">
+				<label for="field_graphicSize">Font Size</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.fontSize">
+			</div>
+
+			<div class="form-group">
+				<label for="field_color">Color</label> <select class="form-control"
+					id="field_color" name="measureInstance"
+					ng-model="vm.measureView.color">
+					<option value="#FFFFFF">White</option>
+					<option value="#DEDAF7">Grey</option>
+					<option value="#7EB26D">Green</option>
+					<option value="#EF843C">Orange</option>
+					<option value="#E24D42">Red</option>
+					<option value="#64B0C8">Blue</option>
+					<option value="#E0F9D7">Light Green</option>
+					<option value="#3F6833">Dark Green</option>
+					<option value="#CFFAFF">Azure</option>			
+					<option value="#2F575E">Dark Blue</option>
+					<option value="#99440A">Brown</option>
+					<option value="#BA43A9">Violet</option>
+					<option value="#F9D9F9">Light Violet</option>
+					<option value="#FCEACA">Gold</option>
+				
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="field_autorefresh">Auto
+					Refresh</label> <input type="checkbox" class="form-control"
+					name="manageLastMeasurement" id="field_autorefresh"
+					ng-model="vm.measureView.auto" />
+			</div>
+		</div>
+
+		<div ng-show="vm.measureView.mode == 'TABLE'"
+			style="margin-top: 10px;">
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Name</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.name">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Description</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.description">
+			</div>
+
+			<div class="form-group">
+				<label for="field_measureInstance">Measure</label> <select
+					class="form-control" id="field_measureInstance"
+					name="measureInstance" ng-model="vm.measureView.measureinstance"
+					ng-options="measure as measure.instanceName for measure in vm.measureInstances">
+					<option value=""></option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="field_visualisedProperty">Value to Display</label>
+				
+				<div class="list-group" id="list-tab" role="tablist">
+      				<a ng-repeat="property in vm.allProperties" class="list-group-item list-group-item-action {{property.selected ? 'active':''}}" ng-click="property.selected ? property.selected = false : property.selected = true" >{{property.label}}</a>
+   				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="field_graphicSize">Width</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.width">
+			</div>
+
+			<div class="form-group">
+				<label for="field_graphicSize">Height</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.height">
+			</div>
+
+
+			<div class="form-group">
+				<label for="field_graphicSize">Table Size</label> <input type="text"
+					class="form-control" ng-model="vm.measureView.fontSize">
+			</div>
+
+			<div class="form-group">
+				<label for="field_color">Color</label> <select class="form-control"
+					id="field_color" name="measureInstance"
+					ng-model="vm.measureView.color">
+					<option value="#FFFFFF">White</option>
+					<option value="#DEDAF7">Grey</option>
+					<option value="#7EB26D">Green</option>
+					<option value="#EF843C">Orange</option>
+					<option value="#E24D42">Red</option>
+					<option value="#64B0C8">Blue</option>
+					<option value="#E0F9D7">Light Green</option>
+					<option value="#3F6833">Dark Green</option>
+					<option value="#CFFAFF">Azure</option>			
+					<option value="#2F575E">Dark Blue</option>
+					<option value="#99440A">Brown</option>
+					<option value="#BA43A9">Violet</option>
+					<option value="#F9D9F9">Light Violet</option>
+					<option value="#FCEACA">Gold</option>
+				</select>
+			</div>
+
+			<div class="form-group">
 				<label class="control-label" for="field_autorefresh">Auto
 					Refresh</label> <input type="checkbox" class="form-control"
 					name="manageLastMeasurement" id="field_autorefresh"
@@ -189,12 +362,25 @@
 		</div>
 
 
+
 		<div ng-show="vm.measureView.mode == 'KVIS'" style="margin-top: 10px;">
 
 			<button type="button" class="btn btn-success"
 				go-click="{{vm.kibanaURL}}"
 				style="width: 80%; height: 50px; margin-top: 15px; margin-bottom: 40px; margin-left: 10%; margin-right: 10%;">Create
 				a new Visualisation with Kibana</button>
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Name</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.name">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="field_viewdescription">
+					Description</label> <input type="text" class="form-control"
+					ng-model="vm.measureView.description">
+			</div>
 
 			<div class="form-group" style="margin-top: 10px;">
 				<label for="field_kibanavisualisations">Kibana Visualisation</label>
@@ -226,7 +412,7 @@
 				<label for="field_graphicSize">Height</label> <input type="text"
 					class="form-control" ng-model="vm.measureView.height">
 			</div>
-			
+
 			<div class="form-group">
 				<label for="field_time">Display Data From :</label>
 				<div class="input-group" id="field_time">
@@ -245,82 +431,11 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="form-group">
-				<label class="control-label" for="field_viewdescription">
-					Name</label> <input type="text" class="form-control"
-					ng-model="vm.measureView.name">
-			</div>
 
-			<div class="form-group">
-				<label class="control-label" for="field_viewdescription">
-					Description</label> <input type="text" class="form-control"
-					ng-model="vm.measureView.description">
-			</div>
+
 		</div>
 
-		<div ng-show="vm.measureView.mode == 'KDASH'"
-			style="margin-top: 10px;">
-
-			<button type="button" class="btn btn-success"
-				go-click="{{vm.kibanaURL}}"
-				style="width: 80%; height: 50px; margin-top: 15px; margin-bottom: 40px; margin-left: 10%; margin-right: 10%;">Create
-				a new Dasbhboard with Kibana</button>
-
-			<div class="form-group" style="margin-top: 10px;">
-				<label for="field_kibanadashboard">Kibana Dasbhboard</label> <select
-					class="form-control" id="field_kibanadashboard"
-					name="measureInstance" ng-model="vm.measureView.kibanaName"
-					ng-options="dash.id as dash.name for dash in vm.kibanadashboards"
-					style="width: 95%; display: inline;">
-				</select>
-				<button type="button" class="btn btn-warning"
-					ng-click="vm.reloadDasbhboards()" style="float: right;">
-					<span class="glyphicon glyphicon-repeat" aria-hiden="true"></span>
-				</button>
-			</div>
-
-
-			<div class="form-group">
-				<label class="control-label" for="field_autorefreshdash">Auto
-					Refresh</label> <input type="checkbox" class="form-control"
-					name="manageLastMeasurement" id="field_autorefreshdash"
-					ng-model="vm.measureView.auto" />
-			</div>
-
-			<div class="form-group">
-				<div class="form-group">
-					<label for="field_graphicSizeD">Height</label>
-					<div class="input-group" id="field_graphicSizeD">
-						<input type="text" class="form-control"
-							ng-model="vm.measureView.size">
-						<div class="input-group-addon">px</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="field_timeD">Display Data From :</label>
-				<div class="input-group" id="field_timeD">
-					<input type="text" class="form-control"
-						ng-model="vm.timePeriodeIndex">
-					<div class="input-group-addon">
-						<select ng-model="vm.timePeriodeValue">
-							<option value="m">Minutes</option>
-							<option value="h">Hours</option>
-							<option value="d">Days</option>
-							<option value="w">Weeks</option>
-							<option value="M">Months</option>
-							<option value="y">Years</option>
-							<option value="other">Other</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div ng-show="vm.measureView.mode == 'MANUAL'"
-			style="margin-top: 80px;">
+		<div ng-show="vm.measureView.mode == 'MANUAL'" style="margin-top: 10px;">
 			<div class="form-group">
 				<label class="control-label" for="field_viewData">View Data</label>
 				<textarea rows="5" class="form-control" name="viewData"
