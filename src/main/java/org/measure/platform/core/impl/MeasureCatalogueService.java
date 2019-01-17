@@ -36,6 +36,9 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
     @Value("${measureplatform.storage.measure}")
     private String measurePath;
     
+    @Value("${measureplatform.storage.application}")
+    private String applicationsPath;
+    
     @Override
     public void storeMeasure(Path measure) {
         try {
@@ -84,10 +87,16 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 
     @Override
     @Transactional(readOnly = true)
-    public IMeasure getMeasureImplementation(String measureId) {
-        Path repository = new File(measurePath).toPath();
-        Path measureImpl = repository.resolve(measureId);
+    public IMeasure getMeasureImplementation(String application,String measure) {
         
+        Path measureImpl = null;
+        
+        if(application != null) {
+        	measureImpl = new File(applicationsPath).toPath().resolve(application).resolve(measure);
+        }else {
+        	measureImpl =  new File(measurePath).toPath().resolve(measure);     	
+        }
+                
         if (measureImpl.toFile().exists()) {
             List<URL> jars;
             try {
@@ -155,9 +164,16 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
     }
 
     @Override
-    public SMMMeasure getMeasure(String measureId) {
-        Path repository = new File(measurePath).toPath();
-        Path measureData = repository.resolve(measureId).resolve(MeasurePackager.MEATADATAFILE);
+    public SMMMeasure getMeasure(String applicationName,String measureName) {
+    	
+    	Path measureData = null;
+        
+        if(applicationName != null) {
+        	measureData = new File(applicationsPath).toPath().resolve(applicationName).resolve(measureName).resolve(MeasurePackager.MEATADATAFILE);
+        }else {
+        	measureData =  new File(measurePath).toPath().resolve(measureName).resolve(MeasurePackager.MEATADATAFILE);     	
+        }
+                
         if (measureData.toFile().exists()) {
             try {
             	SMMMeasure measure = MeasurePackager.getMeasureData(measureData);

@@ -53,7 +53,12 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		TransportClient client = connection.getClient();
 
 		final String indexName = IndexFormat.getMeasureInstanceIndex(measureInstance.getInstanceName());
-		SMMMeasure measureDefinition = measureCatalogue.getMeasure(measureInstance.getMeasureName());
+		
+		String application = null;
+		if(measureInstance.getApplication() != null) {
+			application = measureInstance.getApplication().getName();
+		}
+		SMMMeasure measureDefinition = measureCatalogue.getMeasure(application,measureInstance.getMeasureName());
 
 		// Create Measure Index
 		createESIndex(measureDefinition, indexName, client);

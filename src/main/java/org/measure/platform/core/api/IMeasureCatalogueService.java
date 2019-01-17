@@ -14,10 +14,10 @@ public interface IMeasureCatalogueService {
 
     List<SMMMeasure> getAllMeasures();
 
-    SMMMeasure getMeasure(String measureId);
-
     void deleteMeasure(String measureId);
+    
+    SMMMeasure getMeasure(String application,String measure);
 
-    IMeasure getMeasureImplementation(String measureId);
+    IMeasure getMeasureImplementation(String application,String measure);
 
 }

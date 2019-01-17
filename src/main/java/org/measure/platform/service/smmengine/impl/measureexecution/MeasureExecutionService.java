@@ -81,8 +81,13 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 		try {
 
 			List<IMeasurement> measurements = new ArrayList<>();
+			
+			String application = null;
+			if(measureData.getApplication() != null) {
+				application = measureData.getApplication().getName();
+			}
 
-			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(measureData.getMeasureName());
+			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(application,measureData.getMeasureName());
 			measurements.addAll(executeLocalMeasure(measureData, measureImpl, log, true));
 
 			for (IMeasurement measurement : measurements) {
@@ -113,8 +118,13 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 		try {
 
 			List<IMeasurement> measurements = new ArrayList<>();
+			
+			String application = null;
+			if(measureData.getApplication() != null) {
+				application = measureData.getApplication().getName();
+			}
 
-			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(measureData.getMeasureName());
+			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(application,measureData.getMeasureName());
 			measurements.addAll(executeLocalMeasure(measureData, measureImpl, log, true));
 
 			for (IMeasurement measurement : measurements) {
@@ -143,8 +153,13 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 		log.setMeasureInstanceName(measureData.getInstanceName());
 		log.setMeasureName(measureData.getMeasureName());
 		try {
+			
+			String application = null;
+			if(measureData.getApplication() != null) {
+				application = measureData.getApplication().getName();
+			}
 
-			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(measureData.getMeasureName());
+			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(application,measureData.getMeasureName());
 			executeLocalMeasure(measureData, measureImpl, log, false);
 		} catch (Throwable e) {
 			log.setSuccess(false);
