@@ -115,7 +115,12 @@ public class SchedulingService implements ISchedulingService {
     private void scheduleLocalExecution(MeasureInstance measure) {
         Integer rate = Integer.valueOf(measure.getShedulingExpression());
         
-        IMeasure measureImpl = measureCatalogue.getMeasureImplementation(measure.getMeasureName());
+    	String application = null;
+		if(measure.getApplication() != null) {
+			application = measure.getApplication().getName();
+		}
+        
+        IMeasure measureImpl = measureCatalogue.getMeasureImplementation(application,measure.getMeasureName());
         
         ScheduledFuture job = taskScheduler.scheduleAtFixedRate(new Runnable() {
             @Override

@@ -45,7 +45,7 @@ public class MeasureVisualisationResource {
 			List<MeasureView> defaultViews =  measureViewService.findDefaulsByMeasureInstance(mInstance.getId());
 			
 			if (defaultViews.size() == 0) {
-				SMMMeasure measure = measureCatalogueService.getMeasure(mInstance.getMeasureName());
+				SMMMeasure measure = measureCatalogueService.getMeasure(null,mInstance.getMeasureName());
 				List<MeasureView> views = visualisationManagement.createDefaultMeasureView(measure, instanceId);
 				for(MeasureView view : views) {
 					measureViewService.save(view);
@@ -94,7 +94,7 @@ public class MeasureVisualisationResource {
 			List<MeasureView> defaultViews =  measureViewService.findDefaulsByMeasureInstance(mInstance.getId());
 
 			if (defaultViews.size() == 0) {
-				SMMMeasure measure = measureCatalogueService.getMeasure(mInstance.getMeasureName());
+				SMMMeasure measure = measureCatalogueService.getMeasure(null,mInstance.getMeasureName());
 				MeasureView view = visualisationManagement.createDefaultMeasureView(measure, instanceId, viewName);
 				measureViewService.save(view);
 				return view;

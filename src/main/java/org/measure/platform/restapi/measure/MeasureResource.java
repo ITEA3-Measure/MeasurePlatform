@@ -110,7 +110,7 @@ public class MeasureResource {
 			return Optional.ofNullable(measure).map(result -> new ResponseEntity<>(result, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			
 		} else {
-			SMMMeasure measure = measureCatalogue.getMeasure(id);
+			SMMMeasure measure = measureCatalogue.getMeasure(null,id);
 			return Optional.ofNullable(measure).map(result -> new ResponseEntity<>(result, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		}
 	}
