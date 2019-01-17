@@ -10,7 +10,6 @@ import javax.validation.Valid;
 
 import org.measure.platform.core.api.entitys.ApplicationInstanceService;
 import org.measure.platform.core.entity.Application;
-import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,28 +53,6 @@ public class ApplicationInstanceResource {
         
         // Save Application Instance
         Application result = applicationInstanceService.save(applicationInstance);
-        
-//		AlertData alert = new AlertData();
-//		alert.setAlertType(AlertType.MEASURE_ADDED.name());
-//		alert.setProjectId(applicationInstance.getProject().getId());		
-//		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_ADDED.getResponsProperties().get(0), result.getInstanceName()));
-//		alertEngineService.alert(alert);
-//        
-//        // Create Notification related to the creation of the  new Measure Instance
-//        Notification notif = new Notification();
-//        notif.setNotificationTitle("Measure Registred");
-//        notif.setNotificationContent("The "+applicationInstance.getInstanceName()+ " has been registred into the project");       
-//        LocalDateTime ldt = LocalDateTime.ofInstant( new Date().toInstant(), ZoneId.systemDefault());   
-//        notif.setNotificationDate(ZonedDateTime.of(ldt,ZoneId.systemDefault()));
-//        notif.setNotificationType(NotificationType.INFO);
-//        notif.setProject(result.getProject());
-//        notificationService.save(notif);
-//        
-//        // Delete Elasticsearch & Kibana existing indices
-//        indexManager.deleteIndex(applicationInstance);
-//        
-//        // Create Elasticsearch Index
-//        indexManager.createIndexWithMapping(applicationInstance);
         
         return ResponseEntity.created(new URI("/api/application-instances/" + result.getId()))
                     .headers(HeaderUtil.createEntityCreationAlert("applicationInstance", result.getId().toString()))

@@ -13,6 +13,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.measure.platform.core.api.IApplicationCatalogueService;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
+import org.measure.platform.service.application.impl.dto.ApplicationInstanceConfiguration;
 import org.measure.platform.service.measurement.impl.ElasticMeasurementStorage;
 import org.measure.smm.application.model.SMMApplication;
 import org.slf4j.Logger;
@@ -94,6 +95,7 @@ public class ApplicationResource {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
+
 	/**
 	 * DELETE /measure/:id : delete the "id" measure.
 	 * 
@@ -106,6 +108,12 @@ public class ApplicationResource {
 	public ResponseEntity<Void> deleteMeasure(@PathVariable String id) {
 		applicationsCatalogue.deleteApplication(id);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("application", id)).build();
+	}
+	
+	@GetMapping("/configuration/{id}")
+	@Timed
+	public ResponseEntity<ApplicationInstanceConfiguration> getApplicationConfiguration(@PathVariable String id) {	
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 }
