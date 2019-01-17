@@ -85,7 +85,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/measureview/**")
             .antMatchers("/api/notifications/**")
             .antMatchers("/api/phases/**")
-            .antMatchers("/api/projects/**")
             .antMatchers("/api/project-measure-instances/**")   
             .antMatchers("/api/remote-measure/registration")
             .antMatchers("/api/remote-measure/execution-list")
