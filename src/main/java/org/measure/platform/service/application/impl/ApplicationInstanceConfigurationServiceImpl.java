@@ -97,6 +97,16 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 			}
 			
 			
+			if(applicationMeasure.getScheduling() != null) {
+				measureInstance.setShedulingExpression(applicationMeasure.getScheduling());
+				measureInstance.setSchedulingUnit("s");
+			} else {
+				measureInstance.setShedulingExpression("3600000");
+				measureInstance.setSchedulingUnit("h");
+			}
+
+			measureInstance.setIsShedule(applicationConfiguration.getIsEnable());
+			
 			measureInstance.setApplication(application);
 			measureInstance.setProject(application.getProject());
 			

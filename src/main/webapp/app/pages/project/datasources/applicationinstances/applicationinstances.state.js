@@ -47,7 +47,8 @@
                                 description: null,
                                 id: null,
                                 enable : null,
-                                properties : []
+                                properties : [],
+                                isEnable : null
                             };
                         },
                         project:['$stateParams', 'Project', function($stateParams, Project) {
