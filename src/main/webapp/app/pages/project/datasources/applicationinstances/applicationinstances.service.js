@@ -22,8 +22,12 @@
 				method : 'GET',
 				isArray : false
 			},
+			'save' : {
+				url : 'api/application-instance-configuration',
+				method : 'POST'
+			},
 			'update' : {
-				url : 'api/application-instances/:id',
+				url : 'api/application-instance-configuration',
 				method : 'PUT'
 			}
 

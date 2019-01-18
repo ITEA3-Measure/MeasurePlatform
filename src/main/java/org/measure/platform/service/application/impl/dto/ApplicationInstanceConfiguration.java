@@ -3,6 +3,8 @@ package org.measure.platform.service.application.impl.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.measure.platform.core.entity.Project;
+
 public class ApplicationInstanceConfiguration {
 	
 	private Long id;
@@ -14,6 +16,9 @@ public class ApplicationInstanceConfiguration {
 	private List<ApplicationProperty> properties;
 	
 	private Boolean isEnable;
+	
+
+	private Project project;
 	
 	public ApplicationInstanceConfiguration() {
 		this.properties = new ArrayList<>();
@@ -58,8 +63,16 @@ public class ApplicationInstanceConfiguration {
 	public void setIsEnable(Boolean isEnable) {
 		this.isEnable = isEnable;
 	}
+
+	public Project getProject() {
+		
+		return project;
+	}
 	
-	
-	
+	public void setProject(Project project) {
+		
+		this.project = project;
+	}
+
 
 }

@@ -24,70 +24,38 @@
 
 		vm.selectedapplication = null;
 
+		vm.errorMessage = "";
+
 		loadApplicationsFromCatalogue();
 
-		/*
-		 * watch if an application was selected: when selector of application type is changed
-		 */
-		$scope
-		.$watch(
-				"vm.selectedapplication",
-				function(newValue, oldValue) {
+		// watch if an application was selected: when selector of application type is changed 
+		$scope.$watch("vm.selectedapplication", function(newValue, oldValue) {
 
-					vm.applicationInstance.properties = [];
-					// vm.applicationMeasuresInstances = [];
+			vm.applicationInstance.properties = [];
+			// vm.applicationMeasuresInstances = [];
 
-					if (newValue != null) {	
+			if (newValue != null) {	
 
-						/*
-						 * update vm.applicationInstance
-						 */
-						vm.applicationInstance.applicationType = newValue.name;
+				vm.applicationInstance.applicationType = newValue.name;
 
-
-						// Get application Instance configuration by applicationType
-						ApplicationInstances.getApplicationConfigurationByApplicationType({id: vm.applicationInstance.applicationType},
-							function(result){
-								
-								result.properties.forEach((vProperty) => {
-									console.log(vProperty);
-									vm.applicationInstance.properties.push(vProperty);
-								});
-
-							});
+				// Get application Instance configuration by applicationType
+				ApplicationInstances.getApplicationConfigurationByApplicationType({id: vm.applicationInstance.applicationType},
+					function(result){
 						
+						result.properties.forEach((vProperty) => {
+							console.log(vProperty);
+							vm.applicationInstance.properties.push(vProperty);
+						});
 
-
-
-					}
-				});
-		
-
-		
-		function newProperty() {
-			return {
-				propertyName : null,
-				propertyValue : null,
-				propertyType : null,
-				enumvalues : [],
-				id : null
+					});
 			}
-		};		
-		
-		
-		function newEnumValue() {
-			return {
-				label : null,
-				value : null
-			}
-		};
+		});
 		
 		
 		function clear() {
 			$uibModalInstance.dismiss('cancel');
 		}
 
-		vm.errorMessage = "";
 		
 		function save() {
 			vm.isSaving = true;
@@ -96,7 +64,7 @@
 			 * Check if this is an edit or new
 			 */
 			if(vm.applicationInstance.id != null){
-				ApplicationInstances.update(vm.applicationInstance,onSaveSuccess, onSaveError);
+				ApplicationInstances.save(vm.applicationInstance,onSaveSuccess, onSaveError);
 			}else{
 				ApplicationInstances.checkname(
 						{

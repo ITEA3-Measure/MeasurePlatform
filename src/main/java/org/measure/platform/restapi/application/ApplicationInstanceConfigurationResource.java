@@ -33,7 +33,7 @@ import com.codahale.metrics.annotation.Timed;
 @RequestMapping(value = "api/")
 public class ApplicationInstanceConfigurationResource {
 
-	private final Logger log = LoggerFactory.getLogger(MeasureInstanceResource.class);
+	private final Logger log = LoggerFactory.getLogger(ApplicationInstanceConfigurationResource.class);
 
 	@Inject
 	private IApplicationInstanceConfigurationService applicationInstanceService;
@@ -56,7 +56,7 @@ public class ApplicationInstanceConfigurationResource {
 	@PostMapping("application-instance-configuration")
 	@Timed
 	public ResponseEntity<ApplicationInstanceConfiguration> createApplicationInstanceConfiguration(@Valid @RequestBody ApplicationInstanceConfiguration applicationInstance) throws URISyntaxException {
-		log.debug("REST request createApplicationInstanceConfiguration");      
+		log.debug("########################HHHHHHHAAAAA REST request createApplicationInstanceConfiguration");      
 
 		ApplicationInstanceConfiguration applicationInstanceConfigurationResult = applicationInstanceService.createApplicaionInstance(applicationInstance);
 

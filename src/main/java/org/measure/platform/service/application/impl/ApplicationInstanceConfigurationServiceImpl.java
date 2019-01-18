@@ -11,7 +11,6 @@ import org.measure.platform.core.api.IApplicationCatalogueService;
 import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.api.entitys.ApplicationInstanceService;
 import org.measure.platform.core.entity.Application;
-import org.measure.platform.core.impl.repository.ApplicationInstanceRepository;
 import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
 import org.measure.platform.service.application.impl.dto.ApplicationInstanceConfiguration;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyType;
@@ -23,10 +22,13 @@ import org.measure.smm.application.model.SMMApplication;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.measure.smm.measure.model.ScopeProperty;
 import org.measure.smm.measure.model.ScopePropertyEnumValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationInstanceConfigurationServiceImpl implements IApplicationInstanceConfigurationService {
+	private final Logger log = LoggerFactory.getLogger(ApplicationInstanceConfigurationServiceImpl.class);
 
 	@Inject
 	private IApplicationCatalogueService applicationCatalogue;
@@ -36,12 +38,13 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 
 	@Inject
 	private ApplicationInstanceService applicationInstanceService;
-	
+
 	@Override
 	public ApplicationInstanceConfiguration createApplicaionInstance(
 			ApplicationInstanceConfiguration applicationConfiguration) {
-		
+		log.debug("HHHHHHHHHHHHHAAAAAA");
 		Application application = getApplicationFromConfiguration(applicationConfiguration);
+		log.debug("HHHHHHHHHHHHHAAAAAA222222222222");
 
 		ApplicationInstanceConfiguration resultApplicationInstanceConfiguration = 
 				getConfigurationFromApplication(applicationInstanceService.save(application));
@@ -52,9 +55,12 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 
 	private Application getApplicationFromConfiguration(ApplicationInstanceConfiguration applicationConfiguration) {
 		Application application = new Application();
+		application.setEnable(applicationConfiguration.getIsEnable());
+		application.setId(applicationConfiguration.getId());
 		application.setApplicationType(applicationConfiguration.getApplicationType());
 		application.setName(applicationConfiguration.getName());
 		application.setDescription("Description field is deprecated !");
+		application.setProject(applicationConfiguration.getProject());
 		return application;
 	}
 
@@ -63,8 +69,11 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 			return null;
 		}
 		ApplicationInstanceConfiguration applicationInstanceConfiguration = new ApplicationInstanceConfiguration();
+		applicationInstanceConfiguration.setIsEnable(application.isEnable());
+		applicationInstanceConfiguration.setId(application.getId());
 		applicationInstanceConfiguration.setApplicationType(application.getApplicationType());
 		applicationInstanceConfiguration.setName(application.getName());
+		applicationInstanceConfiguration.setProject(application.getProject());
 		return applicationInstanceConfiguration;
 	}
 
@@ -79,7 +88,7 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 
 		return resultApplicationInstanceConfiguration;
 
-		
+
 	}
 
 	@Override
@@ -92,7 +101,7 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 	public ApplicationInstanceConfiguration getApplicaionInstanceById(Long id) {
 		return getConfigurationFromApplication(applicationInstanceService.findOne(id));
 
-		
+
 	}
 
 	@Override
@@ -132,8 +141,8 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 		return applicationInstanceConfiguration;
 	}
 
-	
-	
+
+
 	private void setApplicationPropertyType(ApplicationProperty applicationProperty, ScopeProperty scopeProperty) {
 		switch (scopeProperty.getType()) {
 		case DATE :  applicationProperty.setType(ApplicationPropertyType.DATE);

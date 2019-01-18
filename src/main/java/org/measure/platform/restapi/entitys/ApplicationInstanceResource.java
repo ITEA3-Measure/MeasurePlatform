@@ -43,21 +43,21 @@ public class ApplicationInstanceResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new applicationInstance, or with status 400 (Bad Request) if the applicationInstance has already an ID
      * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/application-instances")
-    @Timed
-    public ResponseEntity<Application> createApplicationInstance(@Valid @RequestBody Application applicationInstance) throws URISyntaxException {
-        log.debug("REST request to save Application : {}", applicationInstance);
-        if (applicationInstance.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("applicationInstance", "idexists", "A new applicationInstance cannot already have an ID")).body(null);
-        }
-        
-        // Save Application Instance
-        Application result = applicationInstanceService.save(applicationInstance);
-        
-        return ResponseEntity.created(new URI("/api/application-instances/" + result.getId()))
-                    .headers(HeaderUtil.createEntityCreationAlert("applicationInstance", result.getId().toString()))
-                    .body(result);
-    }
+//    @PostMapping("/application-instances")
+//    @Timed
+//    public ResponseEntity<Application> createApplicationInstance(@Valid @RequestBody Application applicationInstance) throws URISyntaxException {
+//        log.debug("REST request to save Application : {}", applicationInstance);
+//        if (applicationInstance.getId() != null) {
+//            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("applicationInstance", "idexists", "A new applicationInstance cannot already have an ID")).body(null);
+//        }
+//        
+//        // Save Application Instance
+//        Application result = applicationInstanceService.save(applicationInstance);
+//        
+//        return ResponseEntity.created(new URI("/api/application-instances/" + result.getId()))
+//                    .headers(HeaderUtil.createEntityCreationAlert("applicationInstance", result.getId().toString()))
+//                    .body(result);
+//    }
 
     /**
      * PUT  /application-instances : Updates an existing applicationInstance.
@@ -67,18 +67,18 @@ public class ApplicationInstanceResource {
      * or with status 500 (Internal Server Error) if the applicationInstance couldnt be updated
      * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/application-instances")
-    @Timed
-    public ResponseEntity<Application> updateApplicationInstance(@Valid @RequestBody Application applicationInstance) throws URISyntaxException {
-        log.debug("REST request to update Application : {}", applicationInstance);
-        if (applicationInstance.getId() == null) {
-            return createApplicationInstance(applicationInstance);
-        }
-        Application result = applicationInstanceService.save(applicationInstance);
-        return ResponseEntity.ok()
-                    .headers(HeaderUtil.createEntityUpdateAlert("applicationInstance", applicationInstance.getId().toString()))
-                    .body(result);
-    }
+//    @PutMapping("/application-instances")
+//    @Timed
+//    public ResponseEntity<Application> updateApplicationInstance(@Valid @RequestBody Application applicationInstance) throws URISyntaxException {
+//        log.debug("REST request to update Application : {}", applicationInstance);
+//        if (applicationInstance.getId() == null) {
+//            return createApplicationInstance(applicationInstance);
+//        }
+//        Application result = applicationInstanceService.save(applicationInstance);
+//        return ResponseEntity.ok()
+//                    .headers(HeaderUtil.createEntityUpdateAlert("applicationInstance", applicationInstance.getId().toString()))
+//                    .body(result);
+//    }
 
 
     @GetMapping("/project-application-instances/{id}")

@@ -40,8 +40,12 @@ public class ApplicationInstanceServiceImpl implements ApplicationInstanceServic
      * @return the persisted entity
      */
     public Application save(Application applicationInstance) {
-        log.debug("Request to save Application instance : {}", applicationInstance);    
+        log.debug("Request to save Application instance : {}", applicationInstance); 
+        log.debug("HHHHHHHHAAAAAAAAA3333333333");
+
         Application result = applicationInstanceRepository.save(applicationInstance);
+        log.debug("HHHHHHHHAAAAAAAAA444444444" + result.getApplicationType());
+
         return result;
     }
 
