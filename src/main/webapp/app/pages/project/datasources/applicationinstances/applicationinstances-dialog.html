@@ -42,31 +42,31 @@
 
 
 
-		<div class="panel panel-default" ng-show="!vm.isObjectEmpty(vm.properties)">
+		<div class="panel panel-default" ng-show="vm.applicationInstance.properties.length > 0">
 			<div class="panel-heading">
 				<h3 class="panel-title">Scope</h3>
 			</div>
 
-			<div ng-repeat="(key, property) in vm.properties" style="margin: 5px;">
+			<div ng-repeat="property in vm.applicationInstance.properties" style="margin: 5px;">
 				<div class="input-group" style="width:100%">
-					<div class="input-group-addon" style="width:30%">{{property.propertyName}}</div>
+					<div class="input-group-addon" style="width:30%">{{property.name}}</div>
 
-					<div ng-switch="property.propertyType">
-						<input ng-switch-when="STRING" type="text" class="form-control" ng-model="property.propertyValue">
-						<input ng-switch-when="INTEGER" type="number" class="form-control" ng-model="property.propertyValue" > 
-						<input ng-switch-when="FLOAT" type="number" class="form-control" ng-model="property.propertyValue" > 
-						<input ng-switch-when="PASSWORD" type="password" class="form-control" ng-model="property.propertyValue" > 
-						<input ng-switch-when="DESABLE" type="text" class="form-control" ng-model="property.propertyValue" disabled="true"> 
+					<div ng-switch="property.type">
+						<input ng-switch-when="STRING" type="text" class="form-control" ng-model="property.value" ng-init="property.value = property.value || property.defaultValue">
+						<input ng-switch-when="INTEGER" type="number" class="form-control" ng-model="property.value" > 
+						<input ng-switch-when="FLOAT" type="number" class="form-control" ng-model="property.value" > 
+						<input ng-switch-when="PASSWORD" type="password" class="form-control" ng-model="property.value" > 
+						<input ng-switch-when="DESABLE" type="text" class="form-control" ng-model="property.value" disabled="true"> 
 						
 						<select ng-switch-when="ENUM" class="form-control" 
-								ng-model="property.propertyValue"
-								ng-options="val.value as val.label for val in property.enumvalues">
+								ng-model="property.value"
+								ng-options="val.value as val.label for val in property.enumType.enumvalue">
 							
 						</select>
 						
 						
 						<div ng-switch-when="DATE">
-		                    <input id="field_creationDate" type="text" class="form-control" name="creationDate" datetime-picker="{{dateformat}}" ng-model="property.propertyValue" is-open="vm.datePickerOpenStatus.creationDate" style="width:90%"/>
+		                    <input id="field_creationDate" type="text" class="form-control" name="creationDate" datetime-picker="{{dateformat}}" ng-model="property.value" is-open="vm.datePickerOpenStatus.creationDate" style="width:90%"/>
 		                    <span class="input-group-btn">
 		                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('creationDate')"><i class="glyphicon glyphicon-calendar"></i></button>
 		                    </span>

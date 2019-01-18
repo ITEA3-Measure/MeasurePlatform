@@ -13,26 +13,10 @@
 				url : 'api/project-application-instances/:id',
 				method : 'GET',
 				isArray : true
+			},'getApplicationConfigurationByApplicationType' : {
+				url : 'api/application/configuration/:id',
+				method : 'GET'
 			},
-//			'propertiesbymeasurename' : {
-//			url : 'api/application-properties/bymeasurename/:name',
-//			method : 'GET',
-//			isArray : true
-//			},			
-//			'properties' : {
-//				url : 'api/application-properties/byinstance/:id',
-//				method : 'GET',
-//				isArray : true
-//			},
-//			'instancesofmeasure' : {
-//				url : 'api/measure-instances/bymeasure/:measureRef',
-//				method : 'GET',
-//				isArray : true
-//			},'references' : {
-//				url : 'api/measure-references/byinstance/:id',
-//				method : 'GET',
-//				isArray : true
-//			},
 			'checkname' : {
 				url : 'api/existing-application/:name',
 				method : 'GET',
@@ -42,16 +26,7 @@
 				url : 'api/application-instances/:id',
 				method : 'PUT'
 			}
-//			,'savereference' : {
-//				url : 'api/measure-references/',
-//				method : 'POST'
-//			},'updatereference' : {
-//				url : 'api/measure-references/',
-//				method : 'PUT'
-//			},'deletereference' : {
-//				url : 'api/measure-references/:id',
-//				method : 'DELETE'
-//			},
+
 //			'startSheduling' : {
 //				url : 'api/measure-instance/sheduling/start',
 //				method : 'GET',

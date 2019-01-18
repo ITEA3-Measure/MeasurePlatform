@@ -13,8 +13,6 @@
 			MeasureProperty, Application, ProjectDataSources) {
 		var vm = this;
 		
-		
-		var applicationupdate = false;
 
 		vm.applicationInstance = entity;
 		vm.applicationInstance.project = project;
@@ -22,72 +20,23 @@
 		vm.clear = clear;
 		vm.save = save;
 
+		vm.allapplications = [];
+
 		vm.selectedapplication = null;
 
-		vm.currentProperties = {};
-		vm.properties = {};
-
-		vm.isObjectEmpty = function(obj){
-			   return Object.keys(obj).length === 0;
-		}
-
-		vm.applicationInstanceDashboards = [];
-		
-		vm.allapplications = [];
-	
-		/*
-		 * Structure of the elements on this list
-		 * 
-		 * {
-		 * 		measureInstance : {},
-		 * 		propertiesNames : []
-		 * }
-		 * 
-		 */
-		vm.applicationMeasuresInstances = [];
-		
-		//vm.applicationMeasuresInstanceProperties = [];
+		loadApplicationsFromCatalogue();
 
 		/*
-		 * check if this dialogue is for an edit (vm.applicationInstance.id != null)
-		 */
-		if (vm.applicationInstance.id != null) {
-			loadProperties(vm.applicationInstance.id);
-		}
-
-		/*
-		 * Load application from the catalogue for the selector
-		 */
-		loadApplications();
-
-		function loadApplications() {
-			Application
-					.allapplications(function(result) {
-						vm.allapplications = result;
-						for (var i = 0; i < vm.allapplications.length; i++) {
-							if (vm.applicationInstance.applicationType == vm.allapplications[i].name) {
-								vm.selectedapplication = vm.allapplications[i];
-							}
-						}
-					});
-		}		
-		
-
-		/*
-		 * watch if an application was selected
+		 * watch if an application was selected: when selector of application type is changed
 		 */
 		$scope
 		.$watch(
 				"vm.selectedapplication",
 				function(newValue, oldValue) {
 
-					vm.properties = {};
-					vm.applicationMeasuresInstances = [];
+					vm.applicationInstance.properties = [];
+					// vm.applicationMeasuresInstances = [];
 
-					
-					if (newValue != null && oldValue != null && oldValue != newValue) {	
-						applicationupdate = true;
-					}
 					if (newValue != null) {	
 
 						/*
@@ -95,118 +44,25 @@
 						 */
 						vm.applicationInstance.applicationType = newValue.name;
 
-						
-						/*
-						 * Navigate Measures in application
-						 */
-						newValue.measures.measure.forEach((vMeasure) => {
-							
 
-
-							/*
-							 * GET Measure corresponding to the name"vMeasure.name" from the Catalogue
-							 */
-							Measure.get({id: vMeasure.name}, function(result){
-
-								console.log(result);
-
-								/*
-								 * Create new Measure instance
-								 */
-								var varMeasureInstance = newMeasureInstance();
-								varMeasureInstance.measureName = result.name;
-								varMeasureInstance.instanceName = '_Measure_' +  result.name + '_' + i + '_' + j;
-								varMeasureInstance.measureVersion = "1.0.0";
-								varMeasureInstance.measureType = result.type;
-								varMeasureInstance.schedulingUnit = 's';
-								varMeasureInstance.shedulingExpression = vMeasure.scheduling;
-								varMeasureInstance.project = project;
+						// Get application Instance configuration by applicationType
+						ApplicationInstances.getApplicationConfigurationByApplicationType({id: vm.applicationInstance.applicationType},
+							function(result){
 								
-								var varApplicationMeasureInstance = {
-										measureInstance : varMeasureInstance,
-										propertiesNames : []
-										};
-								
-								
-								
-								/*
-								 * update properties in the view model
-								 */
-								for (var k = 0; k < result.scopeProperties.length; k++) {
-									
-									var vProperty = createPropertyFromScopeProperty(result.scopeProperties[k]);
+								result.properties.forEach((vProperty) => {
+									console.log(vProperty);
+									vm.applicationInstance.properties.push(vProperty);
+								});
 
-									var varPropertyName = result.scopeProperties[k].name;
-									vm.properties[varPropertyName] = vProperty;
-									varApplicationMeasureInstance.propertiesNames.push(varPropertyName);
-									
-								}
-
-								
-								vm.applicationMeasuresInstances.push(varApplicationMeasureInstance);
-
-								
 							});
-							
 						
-
-							
-						});
-						
-						/*
-						 * create new dashboard 
-						 */
-						//vm.applicationInstanceDashboards.push({dashboardName : vDashboard.label});
 
 
 
 					}
 				});
 		
-		
 
-		function createPropertyFromScopeProperty(scopeProperty){
-			var o = newProperty();
-
-			o.propertyName = scopeProperty.name;
-			o.propertyType = scopeProperty.type;
-			
-			if(scopeProperty.type == 'ENUM'){
-				for (var j = 0; j < scopeProperty.enumType.enumvalue.length; j++) {
-					var eva = newEnumValue();
-					eva.label = scopeProperty.enumType.enumvalue[j].label;
-					eva.value = scopeProperty.enumType.enumvalue[j].value;
-					
-					o.enumvalues[j] = eva;
-				}
-			}
-			
-			var propval = null;
-			if(vm.applicationInstance.id != null){												
-//				for(var j = 0;j < vm.currentProperties.length; j++){
-//					if(vm.currentProperties[j].propertyName == o.propertyName){
-//						propval = vm.currentProperties[j].propertyValue;
-//						o.id = vm.currentProperties[j].id;
-//					}			
-//				}
-				
-			}else {
-				propval = scopeProperty.defaultValue;		
-			}
-
-			
-			if(scopeProperty.type == 'INTEGER' || scopeProperty.type == 'FLOAT' ){
-				o.propertyValue = Number(propval);		
-			}else if(scopeProperty.type == 'ENUM'){
-				o.propertyValue = propval;	
-			}else if(scopeProperty.type == 'DATE'){
-				o.propertyValue = new Date(propval);	
-			}else{
-				o.propertyValue = propval;
-			}
-			
-			return o;
-		}
 		
 		function newProperty() {
 			return {
@@ -269,15 +125,15 @@
 			/*
 			 * save measures instances associated to the application instance
 			 */
-			vm.applicationMeasuresInstances.forEach(function(elt){
-				elt.measureInstance.application = result;
-				elt.measureInstance.instanceName = 
-					vm.applicationInstance.name + elt.measureInstance.instanceName;
+			// vm.applicationMeasuresInstances.forEach(function(elt){
+			// 	elt.measureInstance.application = result;
+			// 	elt.measureInstance.instanceName = 
+			// 		vm.applicationInstance.name + elt.measureInstance.instanceName;
 				 
-				ProjectDataSources.save(elt.measureInstance, 
-						onSaveMeasureInstanceSuccess, onSaveMeasureInstanceError);
-				//elt.propertiesNames
-			});
+			// 	ProjectDataSources.save(elt.measureInstance, 
+			// 			onSaveMeasureInstanceSuccess, onSaveMeasureInstanceError);
+			// 	//elt.propertiesNames
+			// });
 			
 		}
 
@@ -314,6 +170,20 @@
 			vm.isSaving = false;
 
 		}
+
+
+
+		function loadApplicationsFromCatalogue() {
+			Application
+					.allapplications(function(result) {
+						vm.allapplications = result;
+						for (var i = 0; i < vm.allapplications.length; i++) {
+							if (vm.applicationInstance.applicationType == vm.allapplications[i].name) {
+								vm.selectedapplication = vm.allapplications[i];
+							}
+						}
+					});
+		}	
 		
 	}
 })();
