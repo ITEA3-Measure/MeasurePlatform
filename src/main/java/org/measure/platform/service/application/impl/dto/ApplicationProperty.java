@@ -1,7 +1,7 @@
 package org.measure.platform.service.application.impl.dto;
 
 
-public class ApplicationPropertie {
+public class ApplicationProperty {
 	
 	private String name;
 
@@ -9,9 +9,9 @@ public class ApplicationPropertie {
 	
 	private String description;
 	
-	private ApplicationPropertiePropertyType type;
+	private ApplicationPropertyType type;
 	
-	private ApplicationPropertiePropertyEnum enumType;
+	private ApplicationPropertyEnum enumType;
 	
 	private String value;
 
@@ -39,19 +39,19 @@ public class ApplicationPropertie {
 		this.description = description;
 	}
 
-	public ApplicationPropertiePropertyType getType() {
+	public ApplicationPropertyType getType() {
 		return type;
 	}
 
-	public void setType(ApplicationPropertiePropertyType type) {
+	public void setType(ApplicationPropertyType type) {
 		this.type = type;
 	}
 
-	public ApplicationPropertiePropertyEnum getEnumType() {
+	public ApplicationPropertyEnum getEnumType() {
 		return enumType;
 	}
 
-	public void setEnumType(ApplicationPropertiePropertyEnum enumType) {
+	public void setEnumType(ApplicationPropertyEnum enumType) {
 		this.enumType = enumType;
 	}
 

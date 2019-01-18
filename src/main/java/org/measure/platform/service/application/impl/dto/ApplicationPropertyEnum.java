@@ -3,7 +3,7 @@ package org.measure.platform.service.application.impl.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplicationPropertiePropertyEnum {
+public class ApplicationPropertyEnum {
 	private List<ApplicationPropertyEnumValue> enumvalue = new ArrayList<>();
 
 	public List<ApplicationPropertyEnumValue> getEnumvalue() {

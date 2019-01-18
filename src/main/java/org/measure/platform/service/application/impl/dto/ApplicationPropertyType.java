@@ -1,6 +1,6 @@
 package org.measure.platform.service.application.impl.dto;
 
-public enum ApplicationPropertiePropertyType {
+public enum ApplicationPropertyType {
 	STRING,
 	INTEGER,
 	FLOAT,

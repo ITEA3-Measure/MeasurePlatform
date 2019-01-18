@@ -5,13 +5,13 @@ import java.util.List;
 
 public class ApplicationInstanceConfiguration {
 	
-	private int id;
+	private Long id;
 	
 	private String name;
 	
 	private String applicationType;
 	
-	private List<ApplicationPropertie> properties;
+	private List<ApplicationProperty> properties;
 	
 	private Boolean isEnable;
 	
@@ -19,11 +19,11 @@ public class ApplicationInstanceConfiguration {
 		this.properties = new ArrayList<>();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -43,11 +43,11 @@ public class ApplicationInstanceConfiguration {
 		this.applicationType = applicationType;
 	}
 
-	public List<ApplicationPropertie> getProperties() {
+	public List<ApplicationProperty> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<ApplicationPropertie> properties) {
+	public void setProperties(List<ApplicationProperty> properties) {
 		this.properties = properties;
 	}
 

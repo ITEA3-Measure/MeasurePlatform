@@ -7,6 +7,9 @@ import javax.inject.Inject;
 import org.measure.platform.core.api.entitys.ApplicationInstanceService;
 import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.MeasureInstance;
+import org.measure.platform.core.entity.MeasureProperty;
+import org.measure.platform.core.entity.MeasureReference;
+import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.ApplicationInstanceRepository;
 import org.measure.platform.core.impl.repository.ProjectRepository;
@@ -20,8 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class ApplicationnstanceServiceImpl implements ApplicationInstanceService {
-    private final Logger log = LoggerFactory.getLogger(ApplicationnstanceServiceImpl.class);
+public class ApplicationInstanceServiceImpl implements ApplicationInstanceService {
+    private final Logger log = LoggerFactory.getLogger(ApplicationInstanceServiceImpl.class);
 
     @Inject
     private ApplicationInstanceRepository applicationInstanceRepository;
@@ -81,6 +84,7 @@ public class ApplicationnstanceServiceImpl implements ApplicationInstanceService
     public void delete(Long id) {
         
         applicationInstanceRepository.delete(id);
+
     }
 
 	@Override

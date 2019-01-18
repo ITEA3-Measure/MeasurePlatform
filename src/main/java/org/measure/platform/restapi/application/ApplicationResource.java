@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.xml.bind.DatatypeConverter;
-
 import org.measure.platform.core.api.IApplicationCatalogueService;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
+import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
 import org.measure.platform.service.application.impl.dto.ApplicationInstanceConfiguration;
 import org.measure.platform.service.measurement.impl.ElasticMeasurementStorage;
 import org.measure.smm.application.model.SMMApplication;
@@ -24,9 +23,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,9 +37,13 @@ public class ApplicationResource {
 	private final Logger log = LoggerFactory.getLogger(ElasticMeasurementStorage.class);
 
 	@Inject
-	IApplicationCatalogueService applicationsCatalogue;
+	private IApplicationCatalogueService applicationsCatalogue;
 
 
+	@Inject
+	private IApplicationInstanceConfigurationService applicationInstanceService;
+	
+	
 	/**
 	 * GET /applications : get all applications.
 	 * 
@@ -113,6 +114,16 @@ public class ApplicationResource {
 	@GetMapping("/configuration/{id}")
 	@Timed
 	public ResponseEntity<ApplicationInstanceConfiguration> getApplicationConfiguration(@PathVariable String id) {	
+		// id in this case is the application type
+		ApplicationInstanceConfiguration applicationInstanceConfiguration = this.applicationInstanceService.getApplicaionInstanceByApplication(id);
+		
+		if(id != null) {
+			return Optional.ofNullable(applicationInstanceConfiguration)
+					.map(result -> new ResponseEntity<>(result, HttpStatus.OK))
+					.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		}
+
+		
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
