@@ -3,6 +3,8 @@ package org.measure.platform.core.api.entitys;
 import java.util.List;
 
 import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.entity.dto.RightAccessDTO;
+import org.measure.platform.core.entity.dto.UserProjectDTO;
 
 /**
  * Service Interface for managing Project.
@@ -45,7 +47,19 @@ public interface ProjectService {
      * @param project
      * @return
      */
-    Project inviteIntoProject(Long projectId, Long userId, String role);
+    Project inviteToProject(RightAccessDTO rightAccess);
+    
+    /**
+     * Get all the users by project.
+     * @return the list of entities
+     */
+    public List<UserProjectDTO> findAllUsersByProject(Long projectId);
+    
+    /**
+     * Get the candidates users to a project.
+     * @return the list of entities
+     */
+    public List<UserProjectDTO> findCandidateUsersByProject(Long projectId);
     
     /**
      * Transfer inviter to manager user
@@ -53,7 +67,7 @@ public interface ProjectService {
      * @param userId
      * @return
      */
-    boolean transformUserRole(Long projectId, Long userId);
+   public Project upgradeUserRole(Long projectId, Long userId);
     
     /**
      * Transfer inviter to manager user
@@ -61,6 +75,6 @@ public interface ProjectService {
      * @param userId
      * @return
      */
-    void deleteUserFromProject(Long projectId, Long userId);
+    public Project deleteUserFromProject(Long projectId, Long userId);
 
 }

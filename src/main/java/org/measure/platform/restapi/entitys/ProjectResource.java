@@ -10,6 +10,8 @@ import javax.validation.Valid;
 
 import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.entity.dto.RightAccessDTO;
+import org.measure.platform.core.entity.dto.UserProjectDTO;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.utils.service.UserService;
 import org.slf4j.Logger;
@@ -134,21 +136,21 @@ public class ProjectResource {
     
     /**
      * Invite user into a project
-     * @param project
+     * @param RightAccessDTO
      * @return
      * @throws URISyntaxException
      */
-    @GetMapping("/projects/{projectId}/invite/{userId}/role/{role}")
+    @PutMapping("/projects/invite-to-project")
     @Timed
-    public ResponseEntity<Project> inviteToProject(@PathVariable Long projectId, @PathVariable Long userId, @PathVariable String role) throws URISyntaxException {
-        log.debug("REST request to invite user to Project : {}", projectId);
-        if(projectService.findOne(projectId).getId() == null ) {
+    public ResponseEntity<Project> inviteToProject(@Valid @RequestBody RightAccessDTO rightAccess) throws URISyntaxException {
+        log.debug("REST request to invite user to Project : {}", rightAccess.getProjectId());
+        if(projectService.findOne(rightAccess.getProjectId()).getId() == null ) {
         	return ResponseEntity.badRequest().headers(
                     HeaderUtil.createFailureAlert("project", "idinexists", "The project didn't exist"))
                     .body(null);
         }
-        Project result = projectService.inviteIntoProject(projectId, userId,  role);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert("project", result.getId().toString())).body(result);
+        Project result = projectService.inviteToProject(rightAccess);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", result.getId().toString())).body(result);
     }
     
     /**
@@ -158,22 +160,43 @@ public class ProjectResource {
      * @return
      * @throws URISyntaxException
      */
-    @GetMapping("/projects/{projectId}/upgrade/{userId}")
+    @PutMapping("/projects/upgrade-user-role")
     @Timed
-    public ResponseEntity<Void> transformUserRole(@PathVariable Long projectId, @PathVariable Long userId) {
+    public ResponseEntity<Project> upgradeUserRole(@Valid @RequestBody RightAccessDTO rightAccess) {
+    	Long projectId = rightAccess.getProjectId();
+    	Long userId = rightAccess.getUserId();
         log.debug("REST request to transform user role : {}", projectId);
         if(projectService.findOne(projectId).getId() == null && userService.getUserWithAuthorities(userId) == null) {
         	return ResponseEntity.badRequest().headers(
                     HeaderUtil.createFailureAlert("project or user", "projectId inexists", "userId inexists"))
                     .body(null);
         }
-        Boolean result = projectService.transformUserRole(projectId, userId);
-        if(result)
-        	return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", projectId.toString())).build();
-        else
-        	return ResponseEntity.badRequest().headers(
-                    HeaderUtil.createFailureAlert("project or user", "projectId inexists", "userId inexists"))
-                    .body(null);
+        Project result = projectService.upgradeUserRole(projectId, userId);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", result.getId().toString())).body(result);
+    }
+    
+    /**
+     * GET /projects : get all the users by projects.
+     * @return the ResponseEntity with status 200 (OK) and the list of projects
+     * in body
+     */
+    @GetMapping("/projects/{projectId}/users")
+    @Timed
+    public List<UserProjectDTO> getAllUsersByProject(@PathVariable Long projectId) {
+        log.debug("REST request to get all users by projectId : {}", projectId);
+        return projectService.findAllUsersByProject(projectId);
+    }
+    
+    /**
+     * GET /projects : get all the candidate users to project.
+     * @return the ResponseEntity with status 200 (OK) and the list of projects
+     * in body
+     */
+    @GetMapping("/projects/{projectId}/candidate-users")
+    @Timed
+    public List<UserProjectDTO> getCandidateUsersToProject(@PathVariable Long projectId) {
+        log.debug("REST request to get candidate users by projectId : {}", projectId);
+        return projectService.findCandidateUsersByProject(projectId);
     }
     
     /**
@@ -183,17 +206,19 @@ public class ProjectResource {
      * @return
      * @throws URISyntaxException
      */
-    @DeleteMapping("/projects/{projectId}/delete/{userId}")
+    @PutMapping("/projects/remove-from-project")
     @Timed
-    public ResponseEntity<Void> deleteUserFromProject(@PathVariable Long projectId, @PathVariable Long userId) {
+    public ResponseEntity<Project> removeUserFromProject(@Valid @RequestBody RightAccessDTO rightAccess) {
+    	Long projectId = rightAccess.getProjectId();
+    	Long userId = rightAccess.getUserId();
         log.debug("REST request to remove user from Project : {}", projectId);
         if(projectService.findOne(projectId).getId() == null && userService.getUserWithAuthorities(userId) == null) {
         	return ResponseEntity.badRequest().headers(
                     HeaderUtil.createFailureAlert("project or user", "projectId inexists", "userId inexists"))
                     .body(null);
         }
-        projectService.deleteUserFromProject(projectId, userId);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", projectId.toString())).build();
+        Project result = projectService.deleteUserFromProject(projectId, userId);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", result.getId().toString())).body(result);
     }
 
 }

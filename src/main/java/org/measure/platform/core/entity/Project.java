@@ -101,7 +101,6 @@ public class Project implements Serializable {
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<User> managers  = new HashSet<>();
     
-    @JsonIgnore
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(
 			name = "user_invited_project", 
