@@ -56,7 +56,7 @@ public class ApplicationInstanceConfigurationResource {
 	@PostMapping("application-instance-configuration")
 	@Timed
 	public ResponseEntity<ApplicationInstanceConfiguration> createApplicationInstanceConfiguration(@Valid @RequestBody ApplicationInstanceConfiguration applicationInstance) throws URISyntaxException {
-		log.debug("########################HHHHHHHAAAAA REST request createApplicationInstanceConfiguration");      
+		log.debug("REST request createApplicationInstanceConfiguration");      
 
 		ApplicationInstanceConfiguration applicationInstanceConfigurationResult = applicationInstanceService.createApplicaionInstance(applicationInstance);
 

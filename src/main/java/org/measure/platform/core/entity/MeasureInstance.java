@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -80,7 +81,7 @@ public class MeasureInstance implements Serializable {
     @ManyToOne
     private Application application;
 
-    @OneToMany(mappedBy = "measureInstance")
+    @OneToMany(mappedBy = "measureInstance", cascade = CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureProperty> properties = new HashSet<>();

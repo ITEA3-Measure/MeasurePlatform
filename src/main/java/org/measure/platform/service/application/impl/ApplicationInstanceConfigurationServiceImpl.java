@@ -2,15 +2,20 @@ package org.measure.platform.service.application.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.IApplicationCatalogueService;
 import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.api.entitys.ApplicationInstanceService;
+import org.measure.platform.core.api.entitys.enumeration.MeasureType;
 import org.measure.platform.core.entity.Application;
+import org.measure.platform.core.entity.MeasureInstance;
+import org.measure.platform.core.entity.MeasureProperty;
 import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
 import org.measure.platform.service.application.impl.dto.ApplicationInstanceConfiguration;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyType;
@@ -42,15 +47,101 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 	@Override
 	public ApplicationInstanceConfiguration createApplicaionInstance(
 			ApplicationInstanceConfiguration applicationConfiguration) {
-		log.debug("HHHHHHHHHHHHHAAAAAA");
 		Application application = getApplicationFromConfiguration(applicationConfiguration);
-		log.debug("HHHHHHHHHHHHHAAAAAA222222222222");
+
+		SMMApplication applicationResource = applicationCatalogue.getApplication(application.getApplicationType());
+		if(applicationResource.getMeasures() != null) {
+			
+
+			
+			Set<MeasureInstance> measureInstances = new HashSet<MeasureInstance>();
+
+			fillInMeasuresInstancesFields(applicationConfiguration, application, applicationResource, measureInstances);
+
+			application.setInstances(measureInstances);
+
+		}
+
 
 		ApplicationInstanceConfiguration resultApplicationInstanceConfiguration = 
 				getConfigurationFromApplication(applicationInstanceService.save(application));
 
 		return resultApplicationInstanceConfiguration;
 
+	}
+
+	private void fillInMeasuresInstancesFields(ApplicationInstanceConfiguration applicationConfiguration,
+			Application application, SMMApplication applicationResource, Set<MeasureInstance> measureInstances) {
+		
+		Map<String, ArrayList<MeasureProperty>> mapNameToMeasurePropertiesList = 
+				new HashMap<String, ArrayList<MeasureProperty>>();
+		
+		for(ApplicationMeasure applicationMeasure : applicationResource.getMeasures().getMeasure()) {
+			SMMMeasure measure = measureCatalogue.getMeasure(application.getApplicationType(), applicationMeasure.getName());		
+
+			MeasureInstance measureInstance = new MeasureInstance();
+			measureInstance.setInstanceName(application.getName() + "_" + measure.getName());
+			measureInstance.setMeasureName(measure.getName());
+			measureInstance.setMeasureVersion("1.0.0");
+
+
+			switch(measure.getType()) {
+			case BINARY : measureInstance.setMeasureType(MeasureType.BINARY); break;
+			case COLLECTIVE :  measureInstance.setMeasureType(MeasureType.COLLECTIVE); break;
+			case COUNTING :  measureInstance.setMeasureType(MeasureType.COUNTING); break;
+			case DIRECT :  measureInstance.setMeasureType(MeasureType.DIRECT); break;
+			case GRADE :   measureInstance.setMeasureType(MeasureType.GRADE); break;
+			case RACKING :   measureInstance.setMeasureType(MeasureType.RACKING); break;
+			case RATIO :  measureInstance.setMeasureType(MeasureType.RATIO); break;
+			case RESCALED :  measureInstance.setMeasureType(MeasureType.RESCALED); break;
+			}
+			
+			
+			measureInstance.setApplication(application);
+			measureInstance.setProject(application.getProject());
+			
+			Set<MeasureProperty> measureProperties = new HashSet<MeasureProperty>();
+			for(ScopeProperty scopeProperty : measure.getScopeProperties()) {
+				MeasureProperty measureProperty = new MeasureProperty();
+				
+//				measureProperty.setPropertyValue("hhhh");
+				measureProperty.setPropertyName(scopeProperty.getName());
+				measureProperty.setPropertyType(scopeProperty.getType().toString());
+				measureProperty.setMeasureInstance(measureInstance);
+
+				if(! mapNameToMeasurePropertiesList.containsKey(scopeProperty.getName())) {
+					ArrayList<MeasureProperty> listOfProperties = new ArrayList<MeasureProperty>();
+					listOfProperties.add(measureProperty);
+					mapNameToMeasurePropertiesList.put(scopeProperty.getName(), listOfProperties);
+				} else {
+					mapNameToMeasurePropertiesList.get(scopeProperty.getName()).add(measureProperty);
+				}
+				
+				measureProperties.add(measureProperty);
+			}
+			
+
+			
+			
+			measureInstance.setProperties(measureProperties);
+
+			measureInstances.add(measureInstance );
+		}
+
+		/*
+		 * Add measure properties values based on the 
+		 * applicationConfigurationProperty value of the property 
+		 * with the same name
+		 */
+		for(ApplicationProperty applicationConfigurationProperty : applicationConfiguration.getProperties()) {
+			ArrayList<MeasureProperty> listOfProperties = 
+					mapNameToMeasurePropertiesList.get(applicationConfigurationProperty.getName());
+			
+			for(MeasureProperty measureProperty : listOfProperties) {
+				measureProperty
+				.setPropertyValue(applicationConfigurationProperty.getValue());
+			}
+		}
 	}
 
 	private Application getApplicationFromConfiguration(ApplicationInstanceConfiguration applicationConfiguration) {

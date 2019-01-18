@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,7 +50,7 @@ public class Application implements Serializable {
     @ManyToOne
     private Project project;
     
-    @OneToMany(mappedBy = "application")
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureInstance> instances = new HashSet<>();
