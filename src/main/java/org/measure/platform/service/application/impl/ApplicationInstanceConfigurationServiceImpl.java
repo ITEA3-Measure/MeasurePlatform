@@ -12,10 +12,13 @@ import javax.inject.Inject;
 import org.measure.platform.core.api.IApplicationCatalogueService;
 import org.measure.platform.core.api.IMeasureCatalogueService;
 import org.measure.platform.core.api.entitys.ApplicationInstanceService;
+import org.measure.platform.core.api.entitys.DashboardService;
+import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.api.entitys.enumeration.MeasureType;
 import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureProperty;
+import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
 import org.measure.platform.service.application.impl.dto.ApplicationInstanceConfiguration;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyType;
@@ -23,7 +26,11 @@ import org.measure.platform.service.application.impl.dto.ApplicationProperty;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyEnum;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyEnumValue;
 import org.measure.smm.application.model.ApplicationMeasure;
+import org.measure.smm.application.model.Dashboard;
 import org.measure.smm.application.model.SMMApplication;
+import org.measure.smm.application.model.View;
+import org.measure.smm.measure.model.DataSource;
+import org.measure.smm.measure.model.Layout;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.measure.smm.measure.model.ScopeProperty;
 import org.measure.smm.measure.model.ScopePropertyEnumValue;
@@ -44,24 +51,26 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 	@Inject
 	private ApplicationInstanceService applicationInstanceService;
 
+	@Inject 
+	private MeasureInstanceService measureInstanceService; 
+
+	@Inject
+	private DashboardService dashboardService;
+
 	@Override
 	public ApplicationInstanceConfiguration createApplicaionInstance(
 			ApplicationInstanceConfiguration applicationConfiguration) {
+
+
 		Application application = getApplicationFromConfiguration(applicationConfiguration);
 
 		SMMApplication applicationResource = applicationCatalogue.getApplication(application.getApplicationType());
+
 		if(applicationResource.getMeasures() != null) {
-			
-
-			
 			Set<MeasureInstance> measureInstances = new HashSet<MeasureInstance>();
-
 			fillInMeasuresInstancesFields(applicationConfiguration, application, applicationResource, measureInstances);
-
 			application.setInstances(measureInstances);
-
 		}
-
 
 		ApplicationInstanceConfiguration resultApplicationInstanceConfiguration = 
 				getConfigurationFromApplication(applicationInstanceService.save(application));
@@ -72,10 +81,10 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 
 	private void fillInMeasuresInstancesFields(ApplicationInstanceConfiguration applicationConfiguration,
 			Application application, SMMApplication applicationResource, Set<MeasureInstance> measureInstances) {
-		
+
 		Map<String, ArrayList<MeasureProperty>> mapNameToMeasurePropertiesList = 
 				new HashMap<String, ArrayList<MeasureProperty>>();
-		
+
 		for(ApplicationMeasure applicationMeasure : applicationResource.getMeasures().getMeasure()) {
 			SMMMeasure measure = measureCatalogue.getMeasure(application.getApplicationType(), applicationMeasure.getName());		
 
@@ -95,8 +104,8 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 			case RATIO :  measureInstance.setMeasureType(MeasureType.RATIO); break;
 			case RESCALED :  measureInstance.setMeasureType(MeasureType.RESCALED); break;
 			}
-			
-			
+
+
 			if(applicationMeasure.getScheduling() != null) {
 				measureInstance.setShedulingExpression(applicationMeasure.getScheduling());
 				measureInstance.setSchedulingUnit("s");
@@ -106,15 +115,14 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 			}
 
 			measureInstance.setIsShedule(applicationConfiguration.getIsEnable());
-			
+
 			measureInstance.setApplication(application);
 			measureInstance.setProject(application.getProject());
-			
+
 			Set<MeasureProperty> measureProperties = new HashSet<MeasureProperty>();
 			for(ScopeProperty scopeProperty : measure.getScopeProperties()) {
 				MeasureProperty measureProperty = new MeasureProperty();
-				
-//				measureProperty.setPropertyValue("hhhh");
+
 				measureProperty.setPropertyName(scopeProperty.getName());
 				measureProperty.setPropertyType(scopeProperty.getType().toString());
 				measureProperty.setMeasureInstance(measureInstance);
@@ -126,13 +134,13 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 				} else {
 					mapNameToMeasurePropertiesList.get(scopeProperty.getName()).add(measureProperty);
 				}
-				
+
 				measureProperties.add(measureProperty);
 			}
-			
 
-			
-			
+
+
+
 			measureInstance.setProperties(measureProperties);
 
 			measureInstances.add(measureInstance );
@@ -146,7 +154,7 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 		for(ApplicationProperty applicationConfigurationProperty : applicationConfiguration.getProperties()) {
 			ArrayList<MeasureProperty> listOfProperties = 
 					mapNameToMeasurePropertiesList.get(applicationConfigurationProperty.getName());
-			
+
 			for(MeasureProperty measureProperty : listOfProperties) {
 				measureProperty
 				.setPropertyValue(applicationConfigurationProperty.getValue());
@@ -276,15 +284,119 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 	}
 
 	@Override
-	public boolean activateApplication(Long id) {
-		// TODO Auto-generated method stub
-		// create the views here// create non editable dashboards
-		return false;
+	public Boolean activateApplication(Long id) {
+
+
+		// modify data models on application and measure instances
+		org.measure.platform.core.entity.Application applicationInstance = applicationInstanceService.findOne(id);
+		if(applicationInstance == null || applicationInstance.isEnable())
+			return null;
+
+		applicationInstance.setEnable(true);
+
+		applicationInstance = applicationInstanceService.save(applicationInstance);
+
+		List<MeasureInstance> measuresInstances = measureInstanceService.findMeasureInstancesByApplicationInstance(applicationInstance.getId());
+		for(MeasureInstance measureInstance : measuresInstances) {
+			measureInstance.setIsShedule(true);
+//            shedulingService.scheduleMeasure(measureInstance);
+			measureInstanceService.save(measureInstance);
+		}
+
+
+		// create the views and non editable dashboards
+		//		Application application = applicationInstanceService.findOne(id);
+		SMMApplication applicationResource = applicationCatalogue.getApplication(applicationInstance.getApplicationType());
+		for(org.measure.smm.application.model.Dashboard applicationModelDashboard : applicationResource.getDashboards().getDashboard()) {
+
+			org.measure.platform.core.entity.Dashboard dashboard = new org.measure.platform.core.entity.Dashboard();
+			dashboard.setApplication(applicationInstance);
+			dashboard.setDashboardName(applicationModelDashboard.getLabel());
+			dashboard.setEditable(false);
+			dashboard.setProject(applicationInstance.getProject());
+			dashboard.setEditable(false);
+			dashboard.setMode("MANUAL");
+
+
+			Set<MeasureView> measureViews = new HashSet<MeasureView>();
+			for(org.measure.smm.application.model.View applicationModelView :applicationModelDashboard.getView()) {
+
+
+				SMMMeasure measure = measureCatalogue.getMeasure(applicationInstance.getApplicationType(), applicationModelView.getMeasure());		
+
+				for(org.measure.smm.measure.model.View measureResourceView : measure.getViews().getView()) {
+					if(measureResourceView.getName().equals(applicationModelView.getView())) {
+						MeasureView measureView = new MeasureView();
+						measureView.setMode("AUTO");
+						measureView.setName(applicationModelView.getView());
+
+						measureView.setAuto(measureResourceView.isAutoRefresh());
+						measureView.setType(measureResourceView.getType().toString());
+						measureView.setName(measureResourceView.getName() + " : " + applicationInstance.getName() + " : " + applicationModelView.getMeasure());
+						measureView.setDescription(measureResourceView.getDescription());
+						measureView.setDefaultView(false);
+						if(measureResourceView.getDatasource() != null) {
+							DataSource dsView = measureResourceView.getDatasource() ;
+							measureView.setViewData(dsView.getDataIndex());
+							measureView.setDateIndex(dsView.getDateIndex());
+							measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:relative,to:now");
+							measureView.setTimeAgregation(dsView.getTimeAggregation());
+						}
+						if(measureResourceView.getLayout() != null) {
+							Layout layout = measureResourceView.getLayout();
+							measureView.setWidth(layout.getWidth());
+							measureView.setHeight(layout.getHeight());
+							measureView.setFontSize(layout.getFontSize());
+						}  	
+
+						measureView.setProject(applicationInstance.getProject());
+						measureView.setDashboard(dashboard);
+
+						List<MeasureInstance> measureInsatncesResult = measureInstanceService.findMeasureInstancesByName(applicationInstance.getName() + "_" + applicationModelView.getMeasure());
+						if(measureInsatncesResult.size() > 0) {
+							measureView.setMeasureinstance(measureInsatncesResult.get(0));
+						}
+
+						measureViews.add(measureView);
+					}
+				}
+
+
+			}
+			dashboard.setViews(measureViews);
+			//			dashboard.setUser(user);
+			org.measure.platform.core.entity.Dashboard persistedDashboardEntity = dashboardService.save(dashboard);
+		}
+
+		return true;
 	}
 
 	@Override
-	public boolean desactivateApplication(Long id) {
-		// TODO Auto-generated method stub
+	public Boolean deactivateApplication(Long id) {
+
+		// update application and measure instances data model
+		org.measure.platform.core.entity.Application applicationInstance = applicationInstanceService.findOne(id);
+		if(applicationInstance == null || ! applicationInstance.isEnable())
+			return null;
+
+		applicationInstance.setEnable(false);
+
+		applicationInstance = applicationInstanceService.save(applicationInstance);
+
+		List<MeasureInstance> measuresInstances = measureInstanceService.findMeasureInstancesByApplicationInstance(applicationInstance.getId());
+		for(MeasureInstance measureInstance : measuresInstances) {
+			measureInstance.setIsShedule(true);
+			measureInstanceService.save(measureInstance);
+		}
+		
+		
+		// delete views and dashboards
+		List<org.measure.platform.core.entity.Dashboard> dashboards = dashboardService.findByApplication(id);
+		for(org.measure.platform.core.entity.Dashboard dashboard : dashboards) {
+			dashboardService.delete(dashboard.getId());
+		}
+		
+
 		return false;
 	}
 

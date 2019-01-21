@@ -43,7 +43,6 @@
 					function(result){
 						
 						result.properties.forEach((vProperty) => {
-							console.log(vProperty);
 							vm.applicationInstance.properties.push(vProperty);
 						});
 

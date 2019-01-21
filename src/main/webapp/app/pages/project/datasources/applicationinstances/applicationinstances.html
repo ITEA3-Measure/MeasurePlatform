@@ -61,6 +61,7 @@
 									<tr>
 										<th><span>Application Instance</span></th>
 										<th><span>Application Type</span></th>
+										<th><span>Status</span></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -74,7 +75,13 @@
 										<td style="vertical-align: top;">
 											<h4 style="margin: 0px;">{{applicationInstance.applicationType}}</h4>
 										</td>
-
+										<td style="vertical-align: top;">
+											<button
+												class="btn {{applicationInstance.enable ? 'btn-success' : 'btn-danger'}} btn-sm"
+												ng-click="applicationInstance.enable  ? vm.stopScheduling($index) : vm.startScheduling($index)">
+												<span class="glyphicon glyphicon glyphicon-off"></span> 
+											</button>
+										</td>
 										<td style="vertical-align: top;" class="text-right">
 
 											<div class="btn-group flex-btn-group-container">
@@ -83,18 +90,6 @@
 												<button type="submit" title="Edit Measure Configuration" ui-sref="projectdatasources.edit({instanceId:instance.id})"
 												 class="btn btn-primary btn-sm">
 													<span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs hidden-sm"></span>
-												</button>
-												<div style="margin: 5px;"></div>
-
-												<button type="submit" ng-show="!instance.isRemote" title="Execute the Measure : Execute the measure and store results in Platform"
-												 ui-sref="projectdatasources.execute({instanceId:instance.id})" class="btn btn-primary btn-sm">
-													<span class="glyphicon glyphicon-play"></span> <span class="hidden-xs hidden-sm"></span>
-												</button>
-												<div style="margin: 5px;"></div>
-
-												<button type="submit" ng-show="!instance.isRemote" title="Execute the Measure : Execute the measure and store results in Platform"
-												 ui-sref="projectdatasources.execute({instanceId:instance.id})" class="btn btn-primary btn-sm">
-													<span class="glyphicon glyphicon-stop"></span> <span class="hidden-xs hidden-sm"></span>
 												</button>
 												<div style="margin: 5px;"></div>
 

@@ -98,7 +98,7 @@ public class ApplicationResource {
 
 
 	/**
-	 * DELETE /measure/:id : delete the "id" measure.
+	 * DELETE /application/:id : delete the "id" application.
 	 * 
 	 * @param id
 	 *            the id of the measure to delete
@@ -106,7 +106,7 @@ public class ApplicationResource {
 	 */
 	@DeleteMapping("/{id}")
 	@Timed
-	public ResponseEntity<Void> deleteMeasure(@PathVariable String id) {
+	public ResponseEntity<Void> deleteApplication(@PathVariable String id) {
 		applicationsCatalogue.deleteApplication(id);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("application", id)).build();
 	}

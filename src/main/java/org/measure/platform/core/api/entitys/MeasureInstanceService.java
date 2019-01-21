@@ -44,4 +44,6 @@ public interface MeasureInstanceService {
 
     List<MeasureInstance> findMeasureInstancesByName(String name);
 
+    List<MeasureInstance> findMeasureInstancesByApplicationInstance(Long applicationInstanceId);
+
 }

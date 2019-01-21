@@ -9,6 +9,7 @@ import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.impl.repository.ApplicationRepository;
 import org.measure.platform.core.impl.repository.DashboardRepository;
 import org.measure.platform.core.impl.repository.ProjectRepository;
 import org.slf4j.Logger;
@@ -38,6 +39,9 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Inject
     private ProjectRepository projectRepository;
+
+    @Inject
+    private ApplicationRepository applicationRepository;
 
     @Inject
     private MeasureViewService viewService;
@@ -108,4 +112,8 @@ public class DashboardServiceImpl implements DashboardService {
         return dashboardRepository.findByProject(projectRepository.getOne(projectId));
     }
 
+    @Override
+    public List<Dashboard> findByApplication(Long applicationId) {
+        return dashboardRepository.findByApplication(applicationRepository.getOne(applicationId));
+    }
 }

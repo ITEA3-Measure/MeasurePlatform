@@ -92,7 +92,7 @@ public class ApplicationInstanceResource {
     
     @GetMapping("/existing-application/{name}")
     @Timed
-    public Application isExistingMeasure(@PathVariable(name="name") String name) { 
+    public Application isExistingApplication(@PathVariable(name="name") String name) { 
     	List<Application> result =  applicationInstanceService.findApplicationInstancesByName(name) ;
         if(result!= null && !result.isEmpty()){
         	return result.get(0);

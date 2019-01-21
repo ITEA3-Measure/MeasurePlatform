@@ -29,22 +29,21 @@
 			'update' : {
 				url : 'api/application-instance-configuration',
 				method : 'PUT'
+			},
+			'startScheduling' : {
+				url : 'api/application-instance/scheduling/start',
+				method : 'GET',
+		        transformResponse: function(data, headers) {
+		            return {data:data};
+		        }
+			},
+			'stopScheduling' : {
+				url : 'api/application-instance/scheduling/stop',
+				method : 'GET',
+		        transformResponse: function(data, headers) {
+		            return {data:data};
+		        }
 			}
-
-//			'startSheduling' : {
-//				url : 'api/measure-instance/sheduling/start',
-//				method : 'GET',
-//		        transformResponse: function(data, headers) {
-//		            return {data:data};
-//		        }
-//			},
-//			'stopSheduling' : {
-//				url : 'api/measure-instance/sheduling/stop',
-//				method : 'GET',
-//		        transformResponse: function(data, headers) {
-//		            return {data:data};
-//		        }
-//			},
 //			'isShedule' : {
 //				url : 'api/measure-instance/sheduling/isshedule',
 //				method : 'GET',

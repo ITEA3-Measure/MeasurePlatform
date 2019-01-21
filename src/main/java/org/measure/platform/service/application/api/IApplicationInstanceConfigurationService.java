@@ -15,8 +15,8 @@ public interface IApplicationInstanceConfigurationService {
 	
 	public ApplicationInstanceConfiguration getApplicaionInstanceByApplication(String applicationName);
 	
-	public boolean activateApplication(Long id);
+	public Boolean activateApplication(Long id);
 	
-	public boolean desactivateApplication(Long id);
+	public Boolean deactivateApplication(Long id);
 }
 

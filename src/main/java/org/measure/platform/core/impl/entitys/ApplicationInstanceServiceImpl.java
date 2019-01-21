@@ -41,10 +41,8 @@ public class ApplicationInstanceServiceImpl implements ApplicationInstanceServic
      */
     public Application save(Application applicationInstance) {
         log.debug("Request to save Application instance : {}", applicationInstance); 
-        log.debug("HHHHHHHHAAAAAAAAA3333333333");
 
         Application result = applicationInstanceRepository.save(applicationInstance);
-        log.debug("HHHHHHHHAAAAAAAAA444444444" + result.getApplicationType());
 
         return result;
     }

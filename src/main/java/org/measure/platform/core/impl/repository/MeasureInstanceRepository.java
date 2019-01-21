@@ -2,6 +2,7 @@ package org.measure.platform.core.impl.repository;
 
 import java.util.List;
 
+import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,5 +21,8 @@ public interface MeasureInstanceRepository extends JpaRepository<MeasureInstance
 
     @Query(value = "select i from MeasureInstance i where i.instanceName = :measureInstanceName")
     List<MeasureInstance> findByName(@Param("measureInstanceName")String name);
+
+    @Query(value = "select i from MeasureInstance i where i.application = :applicationinstance")
+    List<MeasureInstance> findByApplicationInstance(@Param("applicationinstance") Application application);
 
 }

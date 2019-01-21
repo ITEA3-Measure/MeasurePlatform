@@ -5,11 +5,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
+import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureProperty;
 import org.measure.platform.core.entity.MeasureReference;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.impl.repository.ApplicationRepository;
 import org.measure.platform.core.impl.repository.MeasureInstanceRepository;
 import org.measure.platform.core.impl.repository.MeasurePropertyRepository;
 import org.measure.platform.core.impl.repository.MeasureReferenceRepository;
@@ -33,6 +35,10 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
 
     @Inject
     private ProjectRepository projectRepository;
+
+
+    @Inject
+    private ApplicationRepository applicationRepository;
 
     @Inject
     private MeasurePropertyRepository propertyRepository;
@@ -114,6 +120,13 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
 	@Override
 	public List<MeasureInstance> findMeasureInstancesByName(String name) {
 		return  measureInstanceRepository.findByName(name);
+	}
+
+	@Override
+	public List<MeasureInstance> findMeasureInstancesByApplicationInstance(Long applicationInstanceId) {
+        Application application = applicationRepository.getOne(applicationInstanceId);
+        List<MeasureInstance> result = measureInstanceRepository.findByApplicationInstance(application);
+        return result;
 	}
 
 }

@@ -26,8 +26,30 @@
 			});
 		}
 
+		vm.startScheduling = startScheduling
+		vm.stopScheduling = stopScheduling
 
+		function startScheduling(index) {
+			ApplicationInstances
+					.startScheduling(
+							{
+								id : vm.applicationInstances[index].id
+							},
+							function(result) {
+								vm.applicationInstances[index].enable = (result.data == 'true');
+							});
+		}
 
+		function stopScheduling(index) {
+			ApplicationInstances
+					.stopScheduling(
+							{
+								id : vm.applicationInstances[index].id
+							},
+							function(result) {
+								vm.applicationInstances[index].enable = (result.data == 'true');
+							});
+		}
 
 		vm.notifications = [];
 		loadNotificationByProject(vm.project.id);
