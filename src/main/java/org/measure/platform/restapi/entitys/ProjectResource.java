@@ -160,9 +160,9 @@ public class ProjectResource {
      * @return
      * @throws URISyntaxException
      */
-    @PutMapping("/projects/upgrade-user-role")
+    @PutMapping("/projects/transform-user-role")
     @Timed
-    public ResponseEntity<Project> upgradeUserRole(@Valid @RequestBody RightAccessDTO rightAccess) {
+    public ResponseEntity<Project> transformUserRole(@Valid @RequestBody RightAccessDTO rightAccess) {
     	Long projectId = rightAccess.getProjectId();
     	Long userId = rightAccess.getUserId();
         log.debug("REST request to transform user role : {}", projectId);
@@ -171,7 +171,7 @@ public class ProjectResource {
                     HeaderUtil.createFailureAlert("project or user", "projectId inexists", "userId inexists"))
                     .body(null);
         }
-        Project result = projectService.upgradeUserRole(projectId, userId);
+        Project result = projectService.transformUserRole(projectId, userId);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", result.getId().toString())).body(result);
     }
     

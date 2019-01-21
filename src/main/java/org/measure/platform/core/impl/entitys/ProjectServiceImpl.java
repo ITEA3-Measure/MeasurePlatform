@@ -220,13 +220,22 @@ public class ProjectServiceImpl implements ProjectService {
      * @throws URISyntaxException
      */
 	@Override
-	public Project upgradeUserRole(Long projectId, Long userId) {
+	public Project transformUserRole(Long projectId, Long userId) {
 		Project project = projectRepository.getOne(projectId);
 		Set<User> inviters = project.getInviters();
-		for (User user : inviters) {
+		Set<User> managers = project.getManagers();
+		for (User user : new HashSet<>(inviters)) {
 			if(user.getId() == userId) {
 				project.removeInviters(user);
 				project.addManagers(user);
+				return project;
+			}
+		}
+		for (User user : new HashSet<>(managers)) {
+			if (user.getId() == userId) {
+				project.removeManagers(user);
+				project.addInviters(user);
+				return project;
 			}
 		}
 		return project;
@@ -239,10 +248,15 @@ public class ProjectServiceImpl implements ProjectService {
      */
 	@Override
     public List<UserProjectDTO> findAllUsersByProject(Long projectId) {
-    	List<Object[]> objs = projectRepository.findAllUsersByProjectId(projectId);
+		Project project = projectRepository.findOne(projectId);
 		List<UserProjectDTO> usersProject = new ArrayList<>();
-		for (Object[] obj : objs) {
-			usersProject.add(new UserProjectDTO(String.valueOf(obj[0]), (String)obj[1], (String)obj[2], (String)obj[3], (String)obj[4]));
+		
+		for (User manager : project.getManagers()) {
+			usersProject.add(new UserProjectDTO(String.valueOf(manager.getId()), manager.getLogin(), manager.getFirstName(), manager.getLastName(), manager.getEmail(), "Manager"));
+		}
+		
+		for (User inviter : project.getInviters()) {
+			usersProject.add(new UserProjectDTO(String.valueOf(inviter.getId()), inviter.getLogin(), inviter.getFirstName(), inviter.getLastName(), inviter.getEmail(), "Inviter"));
 		}
     	return usersProject;
 	}
@@ -257,7 +271,7 @@ public class ProjectServiceImpl implements ProjectService {
     	List<Object[]> objs = projectRepository.findCandidateUsersByProjectId(projectId);
 		List<UserProjectDTO> usersProject = new ArrayList<>();
 		for (Object[] obj : objs) {
-			usersProject.add(new UserProjectDTO(String.valueOf(obj[0]), (String)obj[1], (String)obj[2], (String)obj[3], (String)obj[4]));
+			usersProject.add(new UserProjectDTO(String.valueOf(obj[0]), (String)obj[1], (String)obj[2], (String)obj[3], (String)obj[4], ""));
 		}
     	return usersProject;
 	}

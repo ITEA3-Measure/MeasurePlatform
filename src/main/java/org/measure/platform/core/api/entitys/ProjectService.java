@@ -67,10 +67,10 @@ public interface ProjectService {
      * @param userId
      * @return
      */
-   public Project upgradeUserRole(Long projectId, Long userId);
+   public Project transformUserRole(Long projectId, Long userId);
     
     /**
-     * Transfer inviter to manager user
+     * Transfer user role
      * @param projectId
      * @param userId
      * @return
