@@ -65,14 +65,25 @@
                 <constraints nullable="true" />
             </column>
             
-            <column name="user_id" type="bigint">
+            <!-- <column name="user_id" type="bigint">
                 <constraints nullable="true" />
-            </column>
+            </column> -->
             
 
 			<!-- jhipster-needle-liquibase-add-column - Jhipster will add columns 
 				here, do not remove -->
 		</createTable>
-
+		
+		<createTable tableName="user_viewed_dashboard">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dashboard_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addPrimaryKey columnNames="user_id, dashboard_id" tableName="user_viewed_dashboard"/>
+        
 	</changeSet>
 </databaseChangeLog>
