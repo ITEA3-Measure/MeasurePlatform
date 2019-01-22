@@ -102,17 +102,6 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 
 		SearchResponse scrollResp = null;
 
-//		if (filter != null && !filter.equals("")) {
-//			QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(filter);
-//			try {
-//				response = client.prepareSearch(baseIndex).setTypes(measureInstance).setQuery(qb).addSort("postDate", SortOrder.DESC).setScroll(new TimeValue(60000)).setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setSize(size).get();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		} else {
-//			response = client.prepareSearch(baseIndex).setTypes(measureInstance).addSort("postDate", SortOrder.DESC).setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setSize(size).setFrom(page * size).get();
-//		}
-
 		if (filter != null && !filter.equals("")) {
 			QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(filter);
 			scrollResp = client.prepareSearch(indexName).setTypes("_doc").addSort("postDate", SortOrder.DESC).setScroll(new TimeValue(60000)).setQuery(qb).setSize(size).execute().actionGet();
@@ -203,6 +192,33 @@ public class ElasticMeasurementStorage implements IMeasurementStorage {
 			e.printStackTrace();
 		}
 		return results;
+	}
+
+	@Override
+	public IMeasurement getLastMeasurement(String measureInstance) {
+		TransportClient client = connection.getClient();
+		String indexName = IndexFormat.getMeasureInstanceIndex(measureInstance);
+
+		SearchResponse response  = client.prepareSearch(indexName).setTypes("_doc").addSort("postDate", SortOrder.DESC).setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setSize(1).get();
+		
+
+		SearchHit[] results = response.getHits().getHits();
+		for (SearchHit hit : results) {
+			String sourceAsString = hit.getSourceAsString();
+			try {
+				IMeasurement measurement = new DefaultMeasurement();
+				Map<String, Object> map = new ObjectMapper().readValue(sourceAsString, new TypeReference<Map<String, Object>>() {
+				});
+				for (Entry<String, Object> entry : map.entrySet()) {
+					measurement.getValues().put(entry.getKey(), entry.getValue());
+				}
+				return measurement;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
 	}
 
 }

@@ -88,7 +88,6 @@
                     	  project: ['Project', function(Project) {
                               return Project.get({id : $stateParams.id}).$promise;
                           }],
-                          phase:null,
                           dashboard:null 
                     }
                 }).result.then(function() {
@@ -120,7 +119,6 @@
                              };
                          },
                          project: null,
-                         phase:null,
                          dashboard:null 
                     }
                 }).result.then(function() {

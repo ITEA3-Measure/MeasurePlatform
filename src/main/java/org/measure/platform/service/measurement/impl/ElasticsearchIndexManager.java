@@ -177,7 +177,7 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 			defaultValue.add("value", IndexFormat.KIBANA_BASE_INDEX);
 			HttpEntity<MultiValueMap<String, String>> defaultRequest = new HttpEntity<MultiValueMap<String, String>>(
 					defaultValue, defaultHeaders);
-			kibanaRest.postForEntity("http://localhost:5601/api/kibana/settings/defaultIndex", defaultRequest,
+			kibanaRest.postForEntity("http://"+ kibanaAddress + "/api/kibana/settings/defaultIndex", defaultRequest,
 					String.class);
 		}
 	}

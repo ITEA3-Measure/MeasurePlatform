@@ -6,15 +6,13 @@
         .controller('GraphicDialogController', GraphicDialogController);
 
     GraphicDialogController.$inject = ['$timeout', '$scope', 
-    		'$stateParams', '$uibModalInstance','entity','project', 
-    		'phase', 'dashboard','data', 'MeasureView','GraphicService','Measure',
+    		'$stateParams', '$uibModalInstance','entity','project', 'dashboard','data', 'MeasureView','GraphicService','Measure',
     		'ConfigurationService','AnalysisCard'];
 
-    function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project, phase,dashboard,data,MeasureView,GraphicService,Measure,ConfigurationService,AnalysisCard) {
+    function GraphicDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity,project,dashboard,data,MeasureView,GraphicService,Measure,ConfigurationService,AnalysisCard) {
         var vm = this;
         vm.measureView = entity;
         vm.project = project;
-        vm.phase = phase;
         vm.dashboard = dashboard;   
         vm.data = data;
         
@@ -39,10 +37,8 @@
         	loadAll(vm.measureView.projectoverview.id);
         }else if(vm.project != null){
         	loadAll(vm.project.id);
-        }else if(vm.phase != null){
-        	loadAll(vm.phase.project.id);
         }else if(vm.dashboard != null){
-        	loadAll(vm.dashboard.phase.project.id);
+        	loadAll(vm.dashboard.project.id);
         }
         
         vm.cards = [];
@@ -107,8 +103,9 @@
 						Measure.get({
 							id : vm.measureView.measureinstance.measureName
 						}, function(result) {
-							vm.selectedMeasureDefinition = result;
+							 vm.selectedMeasureDefinition = result;
 							 vm.numericProperties = [];
+							 vm.allProperties = [];
 						     vm.dateIndexs = [];
 						     
 						     for(var i = 0; i < result.unit.fields.length;i++){
@@ -123,26 +120,16 @@
 						    	 }else if(result.unit.fields[i].fieldType == 'u_date'){
 						    		 vm.dateIndexs.push(result.unit.fields[i].fieldName);
 						    	 }
+						    	 var property = new Object();
+						    	 property.label = result.unit.fields[i].fieldName;
+						    	 property.selected = true;
+						    	 vm.allProperties.push(property);
 						     }
 						        
 						});	
 					}										
 				});
-        
-        
-      
-  
-        
-    	$scope
-		.$watch(
-				"vm.measureView.mode",
-				function(newValue, oldValue) {
-				  	if(newValue == 'KDASH' &&  isNaN(parseInt(vm.measureView.size))){
-						vm.measureView.size = "600";
-					}else if(newValue != 'KDASH' && !isNaN(parseInt(vm.measureView.size))){
-						vm.measureView.size = "Medium";
-					}				
-				});
+          
     	
         $scope
 		.$watch(
@@ -157,15 +144,6 @@
 					}					
 				});
         
-
-        
-        function updateTimePeriode (){
-        	if(vm.timePeriodeValue =='other'){
-        		vm.measureView.timePeriode = vm.timePeriodeIndex;
-        	}else{
-        		vm.measureView.timePeriode = "from:now-"+vm.timePeriodeIndex +vm.timePeriodeValue+",mode:quick,to:now";
-        	}	        	
-        }
  
         vm.clear = clear;       
         function clear () {
@@ -192,14 +170,13 @@
 			});
 		}
         
-        
-        
-
+      
         
         vm.save = save;
         function save () {
             vm.isSaving = true;
         	updateTimePeriode();
+        	updateValueList();
             if (vm.measureView.id !== null) {
                 MeasureView.update(vm.measureView, onSaveSuccess, onSaveError);
             } else {
@@ -221,6 +198,27 @@
             	
                 MeasureView.save(vm.measureView, onSaveSuccess, onSaveError);
             }
+        }
+        
+        function updateTimePeriode (){
+        	if(vm.timePeriodeValue =='other'){
+        		vm.measureView.timePeriode = vm.timePeriodeIndex;
+        	}else{
+        		vm.measureView.timePeriode = "from:now-"+vm.timePeriodeIndex +vm.timePeriodeValue+",mode:quick,to:now";
+        	}	        	
+        }
+        
+        function updateValueList(){
+        	if(vm.measureView.mode == 'VALUE' || vm.measureView.mode == 'TABLE'){
+        		var datas = '';
+        		
+        		for(var i = 0 ; i < vm.allProperties.length; i++){
+        			if(vm.allProperties[i].selected == true){
+        				datas = datas + "," + vm.allProperties[i].label;
+        			}
+        		}
+        		vm.measureView.visualisedProperty = datas.substring(1);
+        	}
         }
         
         
