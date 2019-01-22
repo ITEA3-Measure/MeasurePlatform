@@ -182,7 +182,8 @@ public class ProjectServiceImpl implements ProjectService {
         for (AlertEvent event : alertEventService.findAllByProject(project)) {
         	alertEventService.delete(event.getId());
         }
-
+        User user = userService.findByCurrentLoggedIn();
+        project.removeManagers(user);
         projectRepository.delete(id);
     }
     
