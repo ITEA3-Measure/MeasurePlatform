@@ -16,7 +16,6 @@ public class ApplicationInstanceConfiguration {
 	private List<ApplicationProperty> properties;
 	
 	private Boolean isEnable;
-	
 
 	private Project project;
 	
@@ -72,6 +71,16 @@ public class ApplicationInstanceConfiguration {
 	public void setProject(Project project) {
 		
 		this.project = project;
+	}
+	
+	public String getPropertyValue(String name) {
+		for(ApplicationProperty prop : this.properties) {
+			if(prop.getName().equals(name)) {
+				return prop.getValue();
+			}
+		}
+		
+		return "";		
 	}
 
 

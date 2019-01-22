@@ -21,14 +21,13 @@ import org.measure.platform.core.entity.MeasureProperty;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
 import org.measure.platform.service.application.impl.dto.ApplicationInstanceConfiguration;
-import org.measure.platform.service.application.impl.dto.ApplicationPropertyType;
 import org.measure.platform.service.application.impl.dto.ApplicationProperty;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyEnum;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyEnumValue;
+import org.measure.platform.service.application.impl.dto.ApplicationPropertyType;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.application.model.ApplicationMeasure;
-import org.measure.smm.application.model.Dashboard;
 import org.measure.smm.application.model.SMMApplication;
-import org.measure.smm.application.model.View;
 import org.measure.smm.measure.model.DataSource;
 import org.measure.smm.measure.model.Layout;
 import org.measure.smm.measure.model.SMMMeasure;
@@ -51,121 +50,32 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 	@Inject
 	private ApplicationInstanceService applicationInstanceService;
 
-	@Inject 
-	private MeasureInstanceService measureInstanceService; 
 
-	@Inject
-	private DashboardService dashboardService;
 
 	@Override
-	public ApplicationInstanceConfiguration createApplicaionInstance(
-			ApplicationInstanceConfiguration applicationConfiguration) {
+	public ApplicationInstanceConfiguration createApplicaionInstance(ApplicationInstanceConfiguration applicationConfiguration) {
 
-
-		Application application = getApplicationFromConfiguration(applicationConfiguration);
-
+		Application application = createApplication(applicationConfiguration);
 		SMMApplication applicationResource = applicationCatalogue.getApplication(application.getApplicationType());
 
-		if(applicationResource.getMeasures() != null) {
-			Set<MeasureInstance> measureInstances = new HashSet<MeasureInstance>();
-			fillInMeasuresInstancesFields(applicationConfiguration, application, applicationResource, measureInstances);
-			application.setInstances(measureInstances);
+		if (applicationResource.getMeasures() != null) {
+			for (ApplicationMeasure applicationMeasure : applicationResource.getMeasures().getMeasure()) {
+				MeasureInstance measureInstance = createMeasureInstance(applicationMeasure, applicationConfiguration);
+				measureInstance.setApplication(application);
+				measureInstance.setProject(application.getProject());
+				application.addInstances(measureInstance);
+			}
 		}
 
-		ApplicationInstanceConfiguration resultApplicationInstanceConfiguration = 
-				getConfigurationFromApplication(applicationInstanceService.save(application));
+		applicationInstanceService.save(application);
 
-		return resultApplicationInstanceConfiguration;
+		return getConfigurationFromApplication(application);
 
 	}
 
-	private void fillInMeasuresInstancesFields(ApplicationInstanceConfiguration applicationConfiguration,
-			Application application, SMMApplication applicationResource, Set<MeasureInstance> measureInstances) {
-
-		Map<String, ArrayList<MeasureProperty>> mapNameToMeasurePropertiesList = 
-				new HashMap<String, ArrayList<MeasureProperty>>();
-
-		for(ApplicationMeasure applicationMeasure : applicationResource.getMeasures().getMeasure()) {
-			SMMMeasure measure = measureCatalogue.getMeasure(application.getApplicationType(), applicationMeasure.getName());		
-
-			MeasureInstance measureInstance = new MeasureInstance();
-			measureInstance.setInstanceName(application.getName() + "_" + measure.getName());
-			measureInstance.setMeasureName(measure.getName());
-			measureInstance.setMeasureVersion("1.0.0");
-
-
-			switch(measure.getType()) {
-			case BINARY : measureInstance.setMeasureType(MeasureType.BINARY); break;
-			case COLLECTIVE :  measureInstance.setMeasureType(MeasureType.COLLECTIVE); break;
-			case COUNTING :  measureInstance.setMeasureType(MeasureType.COUNTING); break;
-			case DIRECT :  measureInstance.setMeasureType(MeasureType.DIRECT); break;
-			case GRADE :   measureInstance.setMeasureType(MeasureType.GRADE); break;
-			case RACKING :   measureInstance.setMeasureType(MeasureType.RACKING); break;
-			case RATIO :  measureInstance.setMeasureType(MeasureType.RATIO); break;
-			case RESCALED :  measureInstance.setMeasureType(MeasureType.RESCALED); break;
-			}
-
-
-			if(applicationMeasure.getScheduling() != null) {
-				measureInstance.setShedulingExpression(applicationMeasure.getScheduling());
-				measureInstance.setSchedulingUnit("s");
-			} else {
-				measureInstance.setShedulingExpression("3600000");
-				measureInstance.setSchedulingUnit("h");
-			}
-
-			measureInstance.setIsShedule(applicationConfiguration.getIsEnable());
-
-			measureInstance.setApplication(application);
-			measureInstance.setProject(application.getProject());
-
-			Set<MeasureProperty> measureProperties = new HashSet<MeasureProperty>();
-			for(ScopeProperty scopeProperty : measure.getScopeProperties()) {
-				MeasureProperty measureProperty = new MeasureProperty();
-
-				measureProperty.setPropertyName(scopeProperty.getName());
-				measureProperty.setPropertyType(scopeProperty.getType().toString());
-				measureProperty.setMeasureInstance(measureInstance);
-
-				if(! mapNameToMeasurePropertiesList.containsKey(scopeProperty.getName())) {
-					ArrayList<MeasureProperty> listOfProperties = new ArrayList<MeasureProperty>();
-					listOfProperties.add(measureProperty);
-					mapNameToMeasurePropertiesList.put(scopeProperty.getName(), listOfProperties);
-				} else {
-					mapNameToMeasurePropertiesList.get(scopeProperty.getName()).add(measureProperty);
-				}
-
-				measureProperties.add(measureProperty);
-			}
-
-
-
-
-			measureInstance.setProperties(measureProperties);
-
-			measureInstances.add(measureInstance );
-		}
-
-		/*
-		 * Add measure properties values based on the 
-		 * applicationConfigurationProperty value of the property 
-		 * with the same name
-		 */
-		for(ApplicationProperty applicationConfigurationProperty : applicationConfiguration.getProperties()) {
-			ArrayList<MeasureProperty> listOfProperties = 
-					mapNameToMeasurePropertiesList.get(applicationConfigurationProperty.getName());
-
-			for(MeasureProperty measureProperty : listOfProperties) {
-				measureProperty
-				.setPropertyValue(applicationConfigurationProperty.getValue());
-			}
-		}
-	}
-
-	private Application getApplicationFromConfiguration(ApplicationInstanceConfiguration applicationConfiguration) {
+	private Application createApplication(ApplicationInstanceConfiguration applicationConfiguration) {
 		Application application = new Application();
 		application.setEnable(applicationConfiguration.getIsEnable());
-		application.setId(applicationConfiguration.getId());
 		application.setApplicationType(applicationConfiguration.getApplicationType());
 		application.setName(applicationConfiguration.getName());
 		application.setDescription("Description field is deprecated !");
@@ -173,8 +83,8 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 		return application;
 	}
 
-	private ApplicationInstanceConfiguration getConfigurationFromApplication( Application application) {
-		if( application == null) {
+	private ApplicationInstanceConfiguration getConfigurationFromApplication(Application application) {
+		if (application == null) {
 			return null;
 		}
 		ApplicationInstanceConfiguration applicationInstanceConfiguration = new ApplicationInstanceConfiguration();
@@ -186,31 +96,91 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 		return applicationInstanceConfiguration;
 	}
 
+	private MeasureInstance createMeasureInstance(ApplicationMeasure measureDescriptor,ApplicationInstanceConfiguration applicationDescription) {
+		SMMMeasure measure = measureCatalogue.getMeasure(applicationDescription.getApplicationType(),measureDescriptor.getName());
+
+		MeasureInstance measureInstance = new MeasureInstance();
+		measureInstance.setInstanceName(applicationDescription.getName() + "_" + measure.getName());
+		measureInstance.setMeasureName(measure.getName());
+		measureInstance.setMeasureVersion("1.0.0");
+		measureInstance.setIsRemote(false);
+		measureInstance.setIsShedule(false);
+
+		switch (measure.getType()) {
+		case BINARY:
+			measureInstance.setMeasureType(MeasureType.BINARY);
+			break;
+		case COLLECTIVE:
+			measureInstance.setMeasureType(MeasureType.COLLECTIVE);
+			break;
+		case COUNTING:
+			measureInstance.setMeasureType(MeasureType.COUNTING);
+			break;
+		case DIRECT:
+			measureInstance.setMeasureType(MeasureType.DIRECT);
+			break;
+		case GRADE:
+			measureInstance.setMeasureType(MeasureType.GRADE);
+			break;
+		case RACKING:
+			measureInstance.setMeasureType(MeasureType.RACKING);
+			break;
+		case RATIO:
+			measureInstance.setMeasureType(MeasureType.RATIO);
+			break;
+		case RESCALED:
+			measureInstance.setMeasureType(MeasureType.RESCALED);
+			break;
+		}
+
+	 
+		if (measureDescriptor.getScheduling() != null) {
+	
+			if("s".equals(measureDescriptor.getSchedulingUnit())){
+				measureInstance.setShedulingExpression(String.valueOf(Integer.valueOf(measureDescriptor.getScheduling()) * 1000 ));
+			}else if("m".equals(measureDescriptor.getSchedulingUnit())){
+				measureInstance.setShedulingExpression(String.valueOf(Integer.valueOf(measureDescriptor.getScheduling()) * 60000 ));
+			}else if("h".equals(measureDescriptor.getSchedulingUnit())){
+				measureInstance.setShedulingExpression(String.valueOf(Integer.valueOf(measureDescriptor.getScheduling()) * 3600000 ));
+			}else if("d".equals(measureDescriptor.getSchedulingUnit())){
+				measureInstance.setShedulingExpression(String.valueOf(Integer.valueOf(measureDescriptor.getScheduling()) * 86400000 ));
+			}
+		} else {
+			measureInstance.setShedulingExpression("1");
+			measureInstance.setSchedulingUnit("h");
+		}
+
+		for (ScopeProperty scopeProperty : measure.getScopeProperties()) {
+			MeasureProperty measureProperty = new MeasureProperty();
+			measureProperty.setPropertyName(scopeProperty.getName());
+			measureProperty.setPropertyType(scopeProperty.getType().toString());
+			measureProperty.setMeasureInstance(measureInstance);
+			measureProperty.setPropertyValue(applicationDescription.getPropertyValue(scopeProperty.getName()));
+			measureInstance.addProperties(measureProperty);
+			measureProperty.setMeasureInstance(measureInstance);
+		}
+
+		return measureInstance;
+	}
+
 	@Override
-	public ApplicationInstanceConfiguration updateApplicaionInstance(
-			ApplicationInstanceConfiguration applicationConfiguration) {
+	public ApplicationInstanceConfiguration updateApplicaionInstance(ApplicationInstanceConfiguration applicationConfiguration) {
 
-		Application application = getApplicationFromConfiguration(applicationConfiguration);
-
-		ApplicationInstanceConfiguration resultApplicationInstanceConfiguration = 
-				getConfigurationFromApplication(applicationInstanceService.save(application));
+		Application application = createApplication(applicationConfiguration);
+		ApplicationInstanceConfiguration resultApplicationInstanceConfiguration = getConfigurationFromApplication(applicationInstanceService.save(application));
 
 		return resultApplicationInstanceConfiguration;
-
 
 	}
 
 	@Override
 	public void deleteApplicaionInstance(Long id) {
-
 		applicationInstanceService.delete(id);
 	}
 
 	@Override
 	public ApplicationInstanceConfiguration getApplicaionInstanceById(Long id) {
 		return getConfigurationFromApplication(applicationInstanceService.findOne(id));
-
-
 	}
 
 	@Override
@@ -219,25 +189,24 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 		applicationInstanceConfiguration.setApplicationType(applicationType);
 
 		SMMApplication applicationResource = applicationCatalogue.getApplication(applicationType);
-		if(applicationResource.getMeasures() != null) {
+		if (applicationResource.getMeasures() != null) {
 
-			Map<String,ScopeProperty> mapPropertyNameScopeProperty = new HashMap<>();
-			for(ApplicationMeasure applicationMeasure : applicationResource.getMeasures().getMeasure()) {
-				SMMMeasure measure = measureCatalogue.getMeasure(applicationType, applicationMeasure.getName());		
-				for(ScopeProperty scopeProperty : measure.getScopeProperties()) {
-					if(!mapPropertyNameScopeProperty.containsKey(scopeProperty.getName())) {
+			Map<String, ScopeProperty> mapPropertyNameScopeProperty = new HashMap<>();
+			for (ApplicationMeasure applicationMeasure : applicationResource.getMeasures().getMeasure()) {
+				SMMMeasure measure = measureCatalogue.getMeasure(applicationType, applicationMeasure.getName());
+				for (ScopeProperty scopeProperty : measure.getScopeProperties()) {
+					if (!mapPropertyNameScopeProperty.containsKey(scopeProperty.getName())) {
 						mapPropertyNameScopeProperty.put(scopeProperty.getName(), scopeProperty);
 					}
-				}	
+				}
 			}
 
 			List<ApplicationProperty> properties = new ArrayList<ApplicationProperty>();
-			for(ScopeProperty scopeProperty :mapPropertyNameScopeProperty.values()) {
+			for (ScopeProperty scopeProperty : mapPropertyNameScopeProperty.values()) {
 				ApplicationProperty applicationProperty = new ApplicationProperty();
 				applicationProperty.setDefaultValue(scopeProperty.getDefaultValue());
 				applicationProperty.setName(scopeProperty.getName());
 				setApplicationPropertyType(applicationProperty, scopeProperty);
-
 
 				properties.add(applicationProperty);
 			}
@@ -245,160 +214,47 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 
 		}
 
-
-
 		return applicationInstanceConfiguration;
 	}
 
-
-
 	private void setApplicationPropertyType(ApplicationProperty applicationProperty, ScopeProperty scopeProperty) {
 		switch (scopeProperty.getType()) {
-		case DATE :  applicationProperty.setType(ApplicationPropertyType.DATE);
-		break;
-		case FLOAT: applicationProperty.setType(ApplicationPropertyType.FLOAT);
-		break;
-		case STRING :  applicationProperty.setType(ApplicationPropertyType.STRING);
-		break;
-		case INTEGER: applicationProperty.setType(ApplicationPropertyType.INTEGER);
-		break;
-		case PASSWORD :  applicationProperty.setType(ApplicationPropertyType.PASSWORD);
-		break;
-		case DESABLE: applicationProperty.setType(ApplicationPropertyType.DESABLE);
-		break;	
-		case ENUM: applicationProperty.setType(ApplicationPropertyType.ENUM);
+		case DATE:
+			applicationProperty.setType(ApplicationPropertyType.DATE);
+			break;
+		case FLOAT:
+			applicationProperty.setType(ApplicationPropertyType.FLOAT);
+			break;
+		case STRING:
+			applicationProperty.setType(ApplicationPropertyType.STRING);
+			break;
+		case INTEGER:
+			applicationProperty.setType(ApplicationPropertyType.INTEGER);
+			break;
+		case PASSWORD:
+			applicationProperty.setType(ApplicationPropertyType.PASSWORD);
+			break;
+		case DESABLE:
+			applicationProperty.setType(ApplicationPropertyType.DESABLE);
+			break;
+		case ENUM:
+			applicationProperty.setType(ApplicationPropertyType.ENUM);
 
-		List<ApplicationPropertyEnumValue> lisApplicationPropertyEnumValue = new ArrayList<ApplicationPropertyEnumValue>();
-		for(ScopePropertyEnumValue scopePropertyEnumValue : scopeProperty.getEnumType().getEnumvalue()) {
-			ApplicationPropertyEnumValue applicationPropertyEnumValue = new ApplicationPropertyEnumValue();
-			applicationPropertyEnumValue.setLabel(scopePropertyEnumValue.getLabel());
-			applicationPropertyEnumValue.setValue(scopePropertyEnumValue.getValue());
-			lisApplicationPropertyEnumValue.add(applicationPropertyEnumValue);
-		}
-		ApplicationPropertyEnum enumType = new ApplicationPropertyEnum();
-		enumType.setEnumvalue(lisApplicationPropertyEnumValue);
-		applicationProperty.setEnumType(enumType);
-
-		break;
-		}
-	}
-
-	@Override
-	public Boolean activateApplication(Long id) {
-
-
-		// modify data models on application and measure instances
-		org.measure.platform.core.entity.Application applicationInstance = applicationInstanceService.findOne(id);
-		if(applicationInstance == null || applicationInstance.isEnable())
-			return null;
-
-		applicationInstance.setEnable(true);
-
-		applicationInstance = applicationInstanceService.save(applicationInstance);
-
-		List<MeasureInstance> measuresInstances = measureInstanceService.findMeasureInstancesByApplicationInstance(applicationInstance.getId());
-		for(MeasureInstance measureInstance : measuresInstances) {
-			measureInstance.setIsShedule(true);
-//            shedulingService.scheduleMeasure(measureInstance);
-			measureInstanceService.save(measureInstance);
-		}
-
-
-		// create the views and non editable dashboards
-		//		Application application = applicationInstanceService.findOne(id);
-		SMMApplication applicationResource = applicationCatalogue.getApplication(applicationInstance.getApplicationType());
-		for(org.measure.smm.application.model.Dashboard applicationModelDashboard : applicationResource.getDashboards().getDashboard()) {
-
-			org.measure.platform.core.entity.Dashboard dashboard = new org.measure.platform.core.entity.Dashboard();
-			dashboard.setApplication(applicationInstance);
-			dashboard.setDashboardName(applicationModelDashboard.getLabel());
-			dashboard.setEditable(false);
-			dashboard.setProject(applicationInstance.getProject());
-			dashboard.setEditable(false);
-			dashboard.setMode("MANUAL");
-
-
-			Set<MeasureView> measureViews = new HashSet<MeasureView>();
-			for(org.measure.smm.application.model.View applicationModelView :applicationModelDashboard.getView()) {
-
-
-				SMMMeasure measure = measureCatalogue.getMeasure(applicationInstance.getApplicationType(), applicationModelView.getMeasure());		
-
-				for(org.measure.smm.measure.model.View measureResourceView : measure.getViews().getView()) {
-					if(measureResourceView.getName().equals(applicationModelView.getView())) {
-						MeasureView measureView = new MeasureView();
-						measureView.setMode("AUTO");
-						measureView.setName(applicationModelView.getView());
-
-						measureView.setAuto(measureResourceView.isAutoRefresh());
-						measureView.setType(measureResourceView.getType().toString());
-						measureView.setName(measureResourceView.getName() + " : " + applicationInstance.getName() + " : " + applicationModelView.getMeasure());
-						measureView.setDescription(measureResourceView.getDescription());
-						measureView.setDefaultView(false);
-						if(measureResourceView.getDatasource() != null) {
-							DataSource dsView = measureResourceView.getDatasource() ;
-							measureView.setViewData(dsView.getDataIndex());
-							measureView.setDateIndex(dsView.getDateIndex());
-							measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:relative,to:now");
-							measureView.setTimeAgregation(dsView.getTimeAggregation());
-						}
-						if(measureResourceView.getLayout() != null) {
-							Layout layout = measureResourceView.getLayout();
-							measureView.setWidth(layout.getWidth());
-							measureView.setHeight(layout.getHeight());
-							measureView.setFontSize(layout.getFontSize());
-						}  	
-
-						measureView.setProject(applicationInstance.getProject());
-						measureView.setDashboard(dashboard);
-
-						List<MeasureInstance> measureInsatncesResult = measureInstanceService.findMeasureInstancesByName(applicationInstance.getName() + "_" + applicationModelView.getMeasure());
-						if(measureInsatncesResult.size() > 0) {
-							measureView.setMeasureinstance(measureInsatncesResult.get(0));
-						}
-
-						measureViews.add(measureView);
-					}
-				}
-
-
+			List<ApplicationPropertyEnumValue> lisApplicationPropertyEnumValue = new ArrayList<ApplicationPropertyEnumValue>();
+			for (ScopePropertyEnumValue scopePropertyEnumValue : scopeProperty.getEnumType().getEnumvalue()) {
+				ApplicationPropertyEnumValue applicationPropertyEnumValue = new ApplicationPropertyEnumValue();
+				applicationPropertyEnumValue.setLabel(scopePropertyEnumValue.getLabel());
+				applicationPropertyEnumValue.setValue(scopePropertyEnumValue.getValue());
+				lisApplicationPropertyEnumValue.add(applicationPropertyEnumValue);
 			}
-			dashboard.setViews(measureViews);
-			//			dashboard.setUser(user);
-			org.measure.platform.core.entity.Dashboard persistedDashboardEntity = dashboardService.save(dashboard);
-		}
+			ApplicationPropertyEnum enumType = new ApplicationPropertyEnum();
+			enumType.setEnumvalue(lisApplicationPropertyEnumValue);
+			applicationProperty.setEnumType(enumType);
 
-		return true;
+			break;
+		}
 	}
 
-	@Override
-	public Boolean deactivateApplication(Long id) {
-
-		// update application and measure instances data model
-		org.measure.platform.core.entity.Application applicationInstance = applicationInstanceService.findOne(id);
-		if(applicationInstance == null || ! applicationInstance.isEnable())
-			return null;
-
-		applicationInstance.setEnable(false);
-
-		applicationInstance = applicationInstanceService.save(applicationInstance);
-
-		List<MeasureInstance> measuresInstances = measureInstanceService.findMeasureInstancesByApplicationInstance(applicationInstance.getId());
-		for(MeasureInstance measureInstance : measuresInstances) {
-			measureInstance.setIsShedule(true);
-			measureInstanceService.save(measureInstance);
-		}
-		
-		
-		// delete views and dashboards
-		List<org.measure.platform.core.entity.Dashboard> dashboards = dashboardService.findByApplication(id);
-		for(org.measure.platform.core.entity.Dashboard dashboard : dashboards) {
-			dashboardService.delete(dashboard.getId());
-		}
-		
-
-		return false;
-	}
 
 
 }

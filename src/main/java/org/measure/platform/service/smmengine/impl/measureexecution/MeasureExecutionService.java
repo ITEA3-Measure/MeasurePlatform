@@ -84,7 +84,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			
 			String application = null;
 			if(measureData.getApplication() != null) {
-				application = measureData.getApplication().getName();
+				application = measureData.getApplication().getApplicationType();
 			}
 
 			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(application,measureData.getMeasureName());
@@ -121,7 +121,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			
 			String application = null;
 			if(measureData.getApplication() != null) {
-				application = measureData.getApplication().getName();
+				application = measureData.getApplication().getApplicationType();
 			}
 
 			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(application,measureData.getMeasureName());
@@ -156,7 +156,7 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 			
 			String application = null;
 			if(measureData.getApplication() != null) {
-				application = measureData.getApplication().getName();
+				application = measureData.getApplication().getApplicationType();
 			}
 
 			IMeasure measureImpl = measureCatalogue.getMeasureImplementation(application,measureData.getMeasureName());

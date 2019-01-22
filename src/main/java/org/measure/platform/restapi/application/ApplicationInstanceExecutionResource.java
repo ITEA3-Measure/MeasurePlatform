@@ -10,6 +10,7 @@ import org.measure.platform.service.analysis.data.alert.AlertData;
 import org.measure.platform.service.analysis.data.alert.AlertProperty;
 import org.measure.platform.service.analysis.data.alert.AlertType;
 import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
+import org.measure.platform.service.application.api.IApplicationScheduling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class ApplicationInstanceExecutionResource {
 	
 	
 	@Inject
-	private IApplicationInstanceConfigurationService applicationInstanceService;
+	private IApplicationScheduling applicationInstanceService;
 	
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public Boolean startApplicationInstanceScheduling(@RequestParam("id") String id) {
@@ -35,57 +36,21 @@ public class ApplicationInstanceExecutionResource {
         if (id.matches("\\d+")) {
             Long instanceId = Long.valueOf(id);
             
-            return applicationInstanceService.activateApplication(instanceId);
-            
-
-
-//            if (!shedulingService.isShedule(instanceId)) {
-//                MeasureInstance measure = instanceService.findOne(instanceId);
-//
-//        		AlertData alert = new AlertData();
-//        		alert.setAlertType(AlertType.MEASURE_SCHEDULED.name());
-//        		alert.setProjectId(measure.getProject().getId());		
-//        		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_SCHEDULED.getResponsProperties().get(0), measure.getInstanceName()));
-//        		alertEngineService.alert(alert);
-//        		
-//                return shedulingService.scheduleMeasure(measure);
-//            }
+            return applicationInstanceService.startApplication(instanceId);
         }
-        return null;
+        return false;
     }
 
     @RequestMapping(value = "/stop", method = RequestMethod.GET)
     public Boolean stopApplicationInstanceScheduling(@RequestParam("id") String id) {
     	log.debug("Request to stop scheduling application instance id : " + id);
-
         if (id.matches("\\d+")) {
-            Long instanceId = Long.valueOf(id);
-            
-            return applicationInstanceService.deactivateApplication(instanceId);
+            Long instanceId = Long.valueOf(id);    
+            return applicationInstanceService.stopApplication(instanceId);
 
-
-            
-//            if (shedulingService.isShedule(instanceId)) {
-//                shedulingService.removeMeasure(instanceId);
-//                
-//                MeasureInstance measure = instanceService.findOne(instanceId);
-//                
-//        		AlertData alert = new AlertData();
-//        		alert.setAlertType(AlertType.MEASURE_UNSCHEDULED.name());
-//        		alert.setProjectId(measure.getProject().getId());		
-//        		alert.getProperties().add(new AlertProperty(AlertType.MEASURE_UNSCHEDULED.getResponsProperties().get(0), measure.getInstanceName()));
-//        		alertEngineService.alert(alert);
-//            }
         }
-        return null;
+        return false;
     }
 
-//    @RequestMapping(value = "/isshedule", method = RequestMethod.GET)
-//    public Boolean isApplicationInstanceScheduled(@RequestParam("id") String id) {
-//        if (id.matches("\\d+")) {
-////            Long instanceId = Long.valueOf(id);
-////            return shedulingService.isShedule(instanceId);
-//        }
-//        return false;
-//    }
+
 }

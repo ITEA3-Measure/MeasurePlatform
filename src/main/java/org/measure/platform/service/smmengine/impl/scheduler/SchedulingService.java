@@ -117,7 +117,7 @@ public class SchedulingService implements ISchedulingService {
         
     	String application = null;
 		if(measure.getApplication() != null) {
-			application = measure.getApplication().getName();
+			application = measure.getApplication().getApplicationType();
 		}
         
         IMeasure measureImpl = measureCatalogue.getMeasureImplementation(application,measure.getMeasureName());
