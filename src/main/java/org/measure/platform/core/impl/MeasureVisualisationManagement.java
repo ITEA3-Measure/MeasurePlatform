@@ -10,13 +10,11 @@ import javax.inject.Inject;
 import org.measure.platform.core.api.IMeasureVisaulisationManagement;
 import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.AnalysisCard;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Project;
-import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.measure.platform.service.measurement.impl.IndexFormat;
 import org.measure.smm.measure.model.DataSource;
 import org.measure.smm.measure.model.Layout;
@@ -200,7 +198,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     	}else {
     		if(mView.getType() != null && mView.getType().equals(mView.getType().TABLE)) {
     			measureView.setMode(mView.getType().toString());
-    		}else if(mView.getType() != null && mView.getType().equals(mView.getType().DATA)) {
+    		}else if(mView.getType() != null && mView.getType().equals(mView.getType().VALUE)) {
     			measureView.setMode(mView.getType().toString());
     		}else {
     			measureView.setMode("AUTO");	
@@ -208,7 +206,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
         
         	measureView.setAuto(mView.isAutoRefresh());
         	measureView.setType(mView.getType().toString());
-        	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
+        	measureView.setName(mView.getName());
         	measureView.setDescription(mView.getDescription());
         	measureView.setDefaultView(true);
         	        	
@@ -224,6 +222,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
         		measureView.setWidth(layout.getWidth());
         		measureView.setHeight(layout.getHeight());
         		measureView.setFontSize(layout.getFontSize());
+        		measureView.setColor(layout.getColor());
         	}  	
         	measureView.setDashboard(dashboard);
         	measureView.setMeasureinstance(measure); 
