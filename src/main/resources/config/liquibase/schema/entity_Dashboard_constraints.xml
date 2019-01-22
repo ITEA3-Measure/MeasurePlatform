@@ -20,11 +20,11 @@
 								 referencedColumnNames="id" 
 								 referencedTableName="application" />
 
-		<addForeignKeyConstraint baseColumnNames="user_id"
+		<!-- <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="dashboard"
                                  constraintName="fk_dashboard_user_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="jhi_user"/>
+                                 referencedTableName="jhi_user"/> -->
 								 
     </changeSet>
 </databaseChangeLog>
