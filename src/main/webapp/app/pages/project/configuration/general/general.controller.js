@@ -31,6 +31,12 @@
 			}, function(result) {
 				vm.analysis = result;
 			});
+			
+			UsersRightAccessService.currentUserHasManagerRole({
+				projectId : id
+			}, function(result) {
+				vm.hasManagerRole = result.data;
+			});
 		}
 		
 		vm.services = [];

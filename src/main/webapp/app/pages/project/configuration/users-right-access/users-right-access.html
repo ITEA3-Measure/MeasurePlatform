@@ -38,10 +38,10 @@
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a><a ui-sref="projectdatasources({id:vm.project.id})"
+						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="projectdatasources({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
-						</a> <a ui-sref="generalconf({id:vm.project.id})"
+						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="generalconf({id:vm.project.id})"
 							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a> 
@@ -92,17 +92,9 @@
 										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{user.first_name}}</h4></td>
 										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{user.last_name}}</h4></td>
 										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{user.email}}</h4></td>
-										<td style="vertical-align: top;">
-											<!-- <button
-												data-ng-disabled="user.role == 'Manager'"
-												class="btn {{user.role == 'Inviter' ? 'btn-success' : 'btn-danger'}} btn-sm"
-												ng-click="vm.transformRole(vm.project.id, user.id)" >
-												Upgrade role
-											</button> -->
-											
-											<button
-												class="btn {{user.role == 'Manager' ? 'btn-success' : 'btn-info'}} btn-sm"
-												ng-click="vm.transformRole(vm.project.id, user.id)" >
+										<td style="vertical-align: top;">											
+											<button class="btn {{user.role == 'Manager' ? 'btn-success' : 'btn-info'}} btn-sm" data-ng-disabled="user.login == currentUser"
+												ng-click="vm.transformRole(vm.project.id, user.id)" title="User role" >
 												{{user.role}} Role
 											</button>
 										</td>

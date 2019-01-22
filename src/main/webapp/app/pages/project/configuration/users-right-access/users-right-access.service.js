@@ -2,7 +2,7 @@
 	'use strict';
 	angular.module('measurePlatformApp').factory('UsersRightAccessService', UsersRightAccessService);
 
-	UsersRightAccessService.$inject = [ '$resource' ];
+	UsersRightAccessService.$inject = [ '$resource'];
 
 	function UsersRightAccessService($resource) {
 		var resourceUrl = 'api/projets/:id';
@@ -25,6 +25,12 @@
 			},'deleteFromProject' : {
 				url : 'api/projects/remove-from-project',
 				method : 'PUT'
+			},'currentUserHasManagerRole' : {
+				url : 'api/projects/:projectId/current-user-manager-role',
+				method : 'GET',
+				transformResponse: function(data, headers) {
+		            return {data:data};
+		        }
 			}
 		});
 	}

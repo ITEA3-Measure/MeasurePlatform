@@ -220,5 +220,17 @@ public class ProjectResource {
         Project result = projectService.deleteUserFromProject(projectId, userId);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("project", result.getId().toString())).body(result);
     }
+    
+    /**
+     * GET /projects : get all the users by projects.
+     * @return the ResponseEntity with status 200 (OK) and the list of projects
+     * in body
+     */
+    @GetMapping("/projects/{projectId}/current-user-manager-role")
+    @Timed
+    public boolean isCurrentUserHasManagerRole(@PathVariable Long projectId) {
+        log.debug("REST request to get all users by projectId : {}", projectId);
+        return projectService.isCurrentUserHasManagerRole(projectId);
+    }
 
 }

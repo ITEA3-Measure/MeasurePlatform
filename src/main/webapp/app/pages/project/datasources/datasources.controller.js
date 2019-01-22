@@ -6,14 +6,15 @@
 
 	AppProjectDataSourcesController.$inject = [ '$location', '$scope',
 			'Principal', 'LoginService', '$state', 'entity', 'Home',
-			'ProjectDataSources', 'MeasureAgentService', 'Notification' ,'ProjectAnalysis'];
+			'ProjectDataSources', 'MeasureAgentService', 'Notification' ,'ProjectAnalysis', 'UsersRightAccessService'];
 
 	function AppProjectDataSourcesController($location, $scope, Principal,
 			LoginService, $state, entity, Home, ProjectDataSources,
-			MeasureAgentService, Notification,ProjectAnalysis) {
+			MeasureAgentService, Notification,ProjectAnalysis, UsersRightAccessService) {
 		var vm = this;
 
 		vm.project = entity;
+		vm.hasManagerRole = false;
 
 		vm.measureInstances = [];
 		loadInstances(vm.project.id);
@@ -48,6 +49,12 @@
 				id : id
 			}, function(result) {
 				vm.analysis = result;
+			});
+			
+			UsersRightAccessService.currentUserHasManagerRole({
+				projectId : id
+			}, function(result) {
+				vm.hasManagerRole = result.data;
 			});
 		}
 

@@ -5,13 +5,13 @@
 			'ProjectGeneralConfigurationController', ProjectGeneralConfigurationController);
 
 	ProjectGeneralConfigurationController.$inject = [ '$location', '$scope',
-			'Principal', 'LoginService', '$state', 'entity', 'Home','MeasureAgentService', 'Notification','ProjectAnalysis','AnalysisServicesService' ];
+			'Principal', 'LoginService', '$state', 'entity', 'Home','MeasureAgentService', 'Notification','ProjectAnalysis','AnalysisServicesService', 'UsersRightAccessService' ];
 
 	function ProjectGeneralConfigurationController($location, $scope, Principal,
-			LoginService, $state, entity, Home,	MeasureAgentService, Notification,ProjectAnalysis,AnalysisServicesService) {
+			LoginService, $state, entity, Home,	MeasureAgentService, Notification,ProjectAnalysis,AnalysisServicesService, UsersRightAccessService) {
 		var vm = this;
 		vm.project = entity;
-		
+		vm.hasManagerRole;
 		vm.notifications = [];
 		loadNotificationByProject(vm.project.id);
 
@@ -30,6 +30,12 @@
 				id : id
 			}, function(result) {
 				vm.analysis = result;
+			});
+
+			UsersRightAccessService.currentUserHasManagerRole({
+				projectId : id
+			}, function(result) {
+				vm.hasManagerRole = result.data;
 			});
 		}
 		

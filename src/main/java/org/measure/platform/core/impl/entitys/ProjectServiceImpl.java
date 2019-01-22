@@ -299,7 +299,24 @@ public class ProjectServiceImpl implements ProjectService {
 				}
 			}
 		}
-		return project;		
+		return project;
+	}
+
+	@Override
+	public boolean isCurrentUserHasManagerRole(Long projectId) {
+		Project project = projectRepository.findOne(projectId);
+		User currentUser = userService.findByCurrentLoggedIn();
+		for (User user : new HashSet<>(project.getInviters())) {
+			if (user.getId() == currentUser.getId()) {
+				return false;
+			}
+		}
+		for (User manager : new HashSet<>(project.getManagers())) {
+			if (manager.getId() == currentUser.getId()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

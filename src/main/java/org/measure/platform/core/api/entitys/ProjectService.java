@@ -5,6 +5,7 @@ import java.util.List;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.entity.dto.RightAccessDTO;
 import org.measure.platform.core.entity.dto.UserProjectDTO;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * Service Interface for managing Project.
@@ -76,5 +77,7 @@ public interface ProjectService {
      * @return
      */
     public Project deleteUserFromProject(Long projectId, Long userId);
-
+    
+    public boolean isCurrentUserHasManagerRole(@PathVariable Long projectId);
+    
 }
