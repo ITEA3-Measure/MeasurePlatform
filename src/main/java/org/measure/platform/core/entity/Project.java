@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -93,7 +94,7 @@ public class Project implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Application> applications = new HashSet<>();
     
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch= FetchType.EAGER)
 	@JoinTable(
 			name = "user_managed_project", 
 			joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id") }, 
@@ -101,8 +102,7 @@ public class Project implements Serializable {
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<User> managers  = new HashSet<>();
     
-    @JsonIgnore
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch= FetchType.EAGER)
 	@JoinTable(
 			name = "user_invited_project", 
 			joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id") }, 

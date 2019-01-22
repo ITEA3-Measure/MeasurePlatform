@@ -1,0 +1,55 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"
+	show-validation>
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="vm.clear()">&times;</button>
+		<h4 class="modal-title" id="myMeasureInstanceLabel">Invite User</h4>
+	</div>
+	<div class="modal-body">
+		
+		<table class="table  table-sm">
+            <thead class="table-info">
+                <tr>
+                    <th></th>
+                    <th>Login</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="cand in vm.candidates">
+                    <td>
+                    	<input type="radio" name="cand.id" ng-value="cand.id" ng-click="vm.selectCand(cand.id)"  />
+                    </td>
+                    <td>{{cand.login}}</td>
+                    <td>{{cand.first_name}}</td>
+                    <td>{{cand.last_name}}</td>
+                    <td>{{cand.email}}</td>
+                </tr>
+                <tr>
+                	<td colspan="5">
+                		<label>User role: </label><br/>
+                		<select name="role" ng-model="role" ng-change="vm.selectRole(role)">
+							<option value="ROLE_INVITER">As inviter</option>
+							<option value="ROLE_MANAGER">As manager</option>
+						</select>
+                	</td>
+                </tr>
+            </tbody>
+        </table>
+	
+	</div>
+	<!-- <div ng-show="vm.errorMessage != ''"  class="alert alert-danger" role="alert">{{vm.errorMessage}}</div> -->
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			ng-click="vm.clear()">
+			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+		</button>
+		<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving"
+			class="btn btn-primary">
+			<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+		</button>
+	</div>
+</form>

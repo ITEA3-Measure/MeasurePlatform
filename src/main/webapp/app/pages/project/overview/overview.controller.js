@@ -5,12 +5,13 @@
 			AppProjectController);
 
 	AppProjectController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project','Notification', 'MeasureView','Dashboard','ProjectAnalysis','MeasurementService'];
+			'$state', 'entity', 'Project','Notification', 'MeasureView','Dashboard','ProjectAnalysis', 'UsersRightAccessService','MeasurementService'];
 
-	function AppProjectController($scope,$cookies,Principal, LoginService, $state,
-			entity, Project,Notification, MeasureView,Dashboard,ProjectAnalysis,MeasurementService) {
+	function AppProjectController($scope,$cookies, Principal, LoginService, $state,
+			entity, Project,Notification, MeasureView,Dashboard,ProjectAnalysis, UsersRightAccessService,MeasurementService) {
 		var vm = this;
 		vm.project = entity;
+		vm.hasManagerRole;
 		
 		
 		vm.dashboards = [];
@@ -55,6 +56,12 @@
 					});
 				}
 				
+			});
+			
+			UsersRightAccessService.currentUserHasManagerRole({
+				projectId : id
+			}, function(result) {
+				vm.hasManagerRole = result.data;
 			});
 		}
 		

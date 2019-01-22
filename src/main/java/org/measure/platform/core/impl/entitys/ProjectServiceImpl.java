@@ -1,5 +1,8 @@
 package org.measure.platform.core.impl.entitys;
 
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +20,8 @@ import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Notification;
 import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.entity.dto.RightAccessDTO;
+import org.measure.platform.core.entity.dto.UserProjectDTO;
 import org.measure.platform.core.impl.repository.ProjectRepository;
 import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
 import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
@@ -181,54 +186,137 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delete(id);
     }
     
+    /**
+     * Invite user into a project
+     * @param RightAccessDTO
+     * @return
+     * @throws URISyntaxException
+     */
     @Override
-    public Project inviteIntoProject(Long projectId, Long userId, String role) {
-    	log.debug("Request to invite user into Project : {}", projectId);
-    	User user = userService.findOne(userId);
-    	Project project = projectRepository.findOne(projectId);
-    	if (role.equals(ProjectsUsersRolesConstants.INVITER)) {
+    public Project inviteToProject(RightAccessDTO rightAccess) {
+    	log.debug("Request to invite user into Project : {}", rightAccess.getProjectId());
+    	User user = userService.findOne(rightAccess.getUserId());
+    	Project project = projectRepository.findOne(rightAccess.getProjectId());
+    	if (rightAccess.getRole().equals(ProjectsUsersRolesConstants.INVITER)) {
+    		if (project.getManagers().contains(user)) {
+    			project.removeManagers(user);
+    		}
         	project.addInviters(user);
-		}
-    	if (role.equals(ProjectsUsersRolesConstants.MANAGER)) {
+		} else if (rightAccess.getRole().equals(ProjectsUsersRolesConstants.MANAGER)) {
+			if(project.getInviters().contains(user)) {
+				project.removeInviters(user);
+			}
     		project.addManagers(user);
     	}
     	Project result = projectRepository.save(project);
     	return result;
     }
-
+    
+    /**
+     * Transform user role
+     * @param projectId
+     * @param userId
+     * @return
+     * @throws URISyntaxException
+     */
 	@Override
-	public boolean transformUserRole(Long projectId, Long userId) {
+	public Project transformUserRole(Long projectId, Long userId) {
 		Project project = projectRepository.getOne(projectId);
 		Set<User> inviters = project.getInviters();
-		for (User user : inviters) {
+		Set<User> managers = project.getManagers();
+		for (User user : new HashSet<>(inviters)) {
 			if(user.getId() == userId) {
 				project.removeInviters(user);
 				project.addManagers(user);
+				return project;
+			}
+		}
+		for (User user : new HashSet<>(managers)) {
+			if (user.getId() == userId) {
+				project.removeManagers(user);
+				project.addInviters(user);
+				return project;
+			}
+		}
+		return project;
+	}
+	
+	/**
+     * GET /projects : get all the users by projects.
+     * @return the ResponseEntity with status 200 (OK) and the list of projects
+     * in body
+     */
+	@Override
+    public List<UserProjectDTO> findAllUsersByProject(Long projectId) {
+		Project project = projectRepository.findOne(projectId);
+		List<UserProjectDTO> usersProject = new ArrayList<>();
+		
+		for (User manager : project.getManagers()) {
+			usersProject.add(new UserProjectDTO(String.valueOf(manager.getId()), manager.getLogin(), manager.getFirstName(), manager.getLastName(), manager.getEmail(), "Manager"));
+		}
+		
+		for (User inviter : project.getInviters()) {
+			usersProject.add(new UserProjectDTO(String.valueOf(inviter.getId()), inviter.getLogin(), inviter.getFirstName(), inviter.getLastName(), inviter.getEmail(), "Inviter"));
+		}
+    	return usersProject;
+	}
+	
+	/**
+     * GET /projects : get all the candidate users to project.
+     * @return the ResponseEntity with status 200 (OK) and the list of projects
+     * in body
+     */
+	@Override
+    public List<UserProjectDTO> findCandidateUsersByProject(Long projectId) {
+    	List<Object[]> objs = projectRepository.findCandidateUsersByProjectId(projectId);
+		List<UserProjectDTO> usersProject = new ArrayList<>();
+		for (Object[] obj : objs) {
+			usersProject.add(new UserProjectDTO(String.valueOf(obj[0]), (String)obj[1], (String)obj[2], (String)obj[3], (String)obj[4], ""));
+		}
+    	return usersProject;
+	}
+
+	/**
+     * Delete user from a project
+     * @param projectId
+     * @param userId
+     * @return
+     * @throws URISyntaxException
+     */
+	@Override
+	public Project deleteUserFromProject(Long projectId, Long userId) {
+		Project project = projectRepository.getOne(projectId);
+		User currentUser = userService.findByCurrentLoggedIn();
+		if(currentUser.getId() != userId) {
+			for (User user : new HashSet<>(project.getInviters())) {
+				if (user.getId() == userId) {
+					project.removeInviters(user);
+				}
+			}
+			for (User manager : new HashSet<>(project.getManagers())) {
+				if (manager.getId() == userId) {
+					project.removeManagers(manager);
+				}
+			}
+		}
+		return project;
+	}
+
+	@Override
+	public boolean isCurrentUserHasManagerRole(Long projectId) {
+		Project project = projectRepository.findOne(projectId);
+		User currentUser = userService.findByCurrentLoggedIn();
+		for (User user : new HashSet<>(project.getInviters())) {
+			if (user.getId() == currentUser.getId()) {
+				return false;
+			}
+		}
+		for (User manager : new HashSet<>(project.getManagers())) {
+			if (manager.getId() == currentUser.getId()) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public void deleteUserFromProject(Long projectId, Long userId) {
-		Project project = projectRepository.getOne(projectId);
-		User currentUser = userService.findByCurrentLoggedIn();
-		if(currentUser.getId() != userId) {
-			for (User user : project.getInviters()) {
-				if (user.getId() == userId) {
-					project.removeInviters(user);
-					return;
-				}
-			}
-			for (User manager : project.getManagers()) {
-				if (manager.getId() == userId) {
-					project.removeManagers(manager);
-					return;
-				}
-			}
-		}
-		return;		
 	}
 
 }

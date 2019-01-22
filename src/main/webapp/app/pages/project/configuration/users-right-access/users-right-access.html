@@ -38,10 +38,10 @@
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a><a ng-if="vm.hasManagerRole == 'true'"  ui-sref="projectdatasources({id:vm.project.id})"
+						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="projectdatasources({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
-						</a> <a ng-if="vm.hasManagerRole == 'true'"  ui-sref="generalconf({id:vm.project.id})"
+						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="generalconf({id:vm.project.id})"
 							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a> 
@@ -56,12 +56,12 @@
 							<li role="presentation" ><a
 								ui-sref="generalconf({id:vm.project.id})">Project Overview</a></li>
 
-							<li role="presentation" class="active"><a
+							<li role="presentation"><a
 								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis
 									Configuration</a></li>
 							
-							<li role="presentation"><a
-								ui-sref="users-rightaccess({id:vm.project.id})">Users Right Access</a></li>
+							<li role="presentation" class="active"><a
+								ui-sref="users-right-access({id:vm.project.id})">Users Right Access</a></li>
 
 							<li ng-repeat="analyse in vm.analysis" role="presentation"
 								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>
@@ -70,39 +70,45 @@
 						<div class="well-dashboard" style="min-height: 300px;">
 							<button class="btn btn-primary"
 								style="float: right; min-width: 150px; min-height: 20px"
-								ui-sref="projectanalysis-catalogue.addanalysis({id:vm.project.id})">Register
-								Analysis Tool</button>
+								ui-sref="users-rightaccess.invite">Invite user</button>
 							<div class="page-header">
-								<h4>Registred Analysis Tools</h4>
+								<h4>Users Right Access</h4>
 							</div>
 
-							<table class="table  table-responsive"
-								style="width: 98%; margin: 20px;">
-
+							<table class="jh-table table table-condensed table-responsive"
+								style="margin-bottom: 20px;">
+								<thead>
+									<tr>
+										<th><span>Login</span></th>
+										<th><span>First Name</span></th>
+										<th><span>Last Name</span></th>
+										<th><span>Email</span></th>
+										<th></th>
+									</tr>
+								</thead>
 								<tbody>
-									<tr ng-repeat="analyse in vm.analysis">
-										<td style="vertical-align: top; width: 60px"><a href="#"><img
-												class="img-rounded" style="width: 48px;"
-												src="content/images/multimedia.png" /> </a></td>
-
-										<td style="vertical-align: top; width: 100%"><h3
-												style="margin-top: 5px; margin-bottom: 5px;">
-												{{analyse.analysisToolId}}</h3>{{analyse.analysisToolDescription}}</td>
-										<td style="vertical-align: top; width: 200px">
-											<h3 style="margin-top: 15px;">
-												<span
-													ng-show="vm.isserviceavailable(analyse.analysisToolId)"
-													class="label label-success">Service Available</span> <span
-													ng-show="!vm.isserviceavailable(analyse.analysisToolId)"
-													class="label label-danger">Service Not Available</span>
-											</h3>
-										</td>
-										<td style="float: right; width: 40px;margin-top: -1px;">
-											<button class="btn btn-danger btn-sm" style="margin-top: 15px;"
-												ui-sref="projectanalysis-catalogue.deleteanalysis({anid:analyse.id})">
-												<span class="glyphicon glyphicon glyphicon-trash"></span> <span
-													class="hidden-xs hidden-sm"></span>
+									<tr ng-repeat="user in vm.users">
+										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{user.login}}</h4></td>
+										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{user.first_name}}</h4></td>
+										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{user.last_name}}</h4></td>
+										<td style="vertical-align: top;"><h4 style="margin: 0px;">{{user.email}}</h4></td>
+										<td style="vertical-align: top;">											
+											<button class="btn {{user.role == 'Manager' ? 'btn-success' : 'btn-info'}} btn-sm" data-ng-disabled="user.login == currentUser"
+												ng-click="vm.transformRole(vm.project.id, user.id)" title="User role" >
+												{{user.role}} Role
 											</button>
+										</td>
+										<td style="vertical-align: top;" class="text-right">
+
+											<div class="btn-group flex-btn-group-container">
+												<div style="margin: 5px;" />
+												<button type="submit" title="Delete user" data-ng-disabled="user.login == currentUser"
+													ui-sref="users-rightaccess.delete({projectId: vm.project.id, userId: user.id})"
+													class="btn btn-danger btn-sm">
+													<span class="glyphicon glyphicon-remove-circle"></span> <span
+														class="hidden-xs hidden-sm"></span>
+												</button>
+											</div>
 										</td>
 									</tr>
 								</tbody>

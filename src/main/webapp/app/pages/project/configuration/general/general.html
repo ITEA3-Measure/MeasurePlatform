@@ -38,10 +38,10 @@
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a>  <a ui-sref="projectdatasources({id:vm.project.id})"
+						</a>  <a ng-if="vm.hasManagerRole == 'true'" ui-sref="projectdatasources({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
-						</a><a ui-sref="generalconf({id:vm.project.id})"
+						</a><a ng-if="vm.hasManagerRole == 'true'" ui-sref="generalconf({id:vm.project.id})"
 							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a>
@@ -58,6 +58,9 @@
 
 							<li role="presentation"><a
 								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis Configuration</a></li>
+							
+							<li role="presentation"><a
+								ui-sref="users-rightaccess({id:vm.project.id})">Users Right Access</a></li>
 
 							<li ng-repeat="analyse in vm.analysis" role="presentation"
 								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>

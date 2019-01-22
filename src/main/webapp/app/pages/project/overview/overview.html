@@ -1,4 +1,3 @@
-
 <div style="margin-left: 10px; margin-right: 10px;">
 
 	<div class="mm-body">
@@ -38,10 +37,10 @@
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a> <a ui-sref="projectdatasources({id:vm.project.id})"
+						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="projectdatasources({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
-						</a> <a ui-sref="generalconf({id:vm.project.id})"
+						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="generalconf({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a>
@@ -173,7 +172,7 @@
 								<div
 									style="display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
 
-									<div
+									<div ng-if="vm.hasManagerRole == 'true'"
 										ng-repeat="measureview in vm.dashboards[vm.selectedDashboard].measureview"
 										style="margin-right: 30px;">
 
