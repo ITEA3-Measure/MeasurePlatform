@@ -3,6 +3,7 @@ package org.measure.platform.core.api.entitys;
 import java.util.List;
 
 import org.measure.platform.core.entity.Dashboard;
+import org.measure.platform.utils.domain.User;
 
 /**
  * Service Interface for managing Dashboard.
@@ -35,5 +36,13 @@ public interface DashboardService {
     void delete(Long id);
 
     List<Dashboard> findByProject(Long projectId);
+    
+    /**
+     * Share Dashboard with User.
+     * @param dashboard
+     * @param userId
+     * @return
+     */
+    public Dashboard shareDashboardWithUser(Dashboard dashboard, Long userId);
 
 }

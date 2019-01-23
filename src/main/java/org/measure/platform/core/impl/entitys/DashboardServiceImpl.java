@@ -11,6 +11,8 @@ import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.impl.repository.DashboardRepository;
 import org.measure.platform.core.impl.repository.ProjectRepository;
+import org.measure.platform.utils.domain.User;
+import org.measure.platform.utils.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,9 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Inject
     private MeasureViewService viewService;
+    
+    @Inject
+    private UserService userService;
 
     /**
      * Save a dashboard.
@@ -51,6 +56,9 @@ public class DashboardServiceImpl implements DashboardService {
         if(dashboard.getMode().equals("KIBANA")){
              updateViewDataFromKibanaDashboard( dashboard);
         }
+        
+        User user = userService.findByCurrentLoggedIn();
+        dashboard.addUsers(user);
         
         Dashboard result = dashboardRepository.save(dashboard);
         return result;
@@ -106,6 +114,19 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public List<Dashboard> findByProject(Long projectId) {
         return dashboardRepository.findByProject(projectRepository.getOne(projectId));
+    }
+    
+    /**
+     * Share Dashboard with User.
+     * @param dashboard
+     * @param userId
+     * @return
+     */
+    public Dashboard shareDashboardWithUser(Dashboard dashboard, Long userId) {
+    	User inviter = userService.findOne(userId);
+    	dashboard.addUsers(inviter);
+    	Dashboard result = dashboardRepository.save(dashboard);
+    	return result;
     }
 
 }

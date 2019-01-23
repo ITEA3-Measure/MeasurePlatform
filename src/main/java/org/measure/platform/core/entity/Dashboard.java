@@ -78,8 +78,8 @@ public class Dashboard implements Serializable {
     
     @ManyToMany
     @JoinTable(
-    		name = "user_viewed_dashboard", 
-			joinColumns = {@JoinColumn(name = "dashboard_id", referencedColumnName = "id") }, 
+    		name = "user_viewed_dashboard",
+			joinColumns = {@JoinColumn(name = "dashboard_id", referencedColumnName = "id") },
 			inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<User> users = new HashSet<>();

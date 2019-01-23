@@ -66,10 +66,7 @@
 					<div ng-if="vm.dashboards[vm.selectedDashboard] != null"
 						class="well-dashboard" style="min-height: 300px;">
 						<div style="float: right; margin-top: -60px; margin-right: -15px;">
-						
-							<div
-								ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL' || vm.dashboards[vm.selectedDashboard].mode == 'OVERVIEW'"
-								style="float: right;">
+							<div ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL' || vm.dashboards[vm.selectedDashboard].mode == 'OVERVIEW'" style="float: right;">
 								<button class="btn btn-link" ng-show="!vm.editdashboard"
 									ng-click="vm.edition()">
 									<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
@@ -79,14 +76,13 @@
 									<span class="glyphicon glyphicon-picture" aria-hiden="true"></span>
 								</button>
 							</div>
-
-							<button
+							<button 
 								ng-if="vm.dashboards[vm.selectedDashboard].editable == true"
 								class="btn btn-link"
 								ui-sref="projectoverview.editdashboard({dashboardid:vm.dashboards[vm.selectedDashboard].id})">
 								<span class="glyphicon glyphicon-pencil" aria-hiden="true"></span>
 							</button>
-							<button
+							<button 
 								ng-if="vm.dashboards[vm.selectedDashboard].editable == true"
 								class="btn btn-link"
 								ui-sref="projectoverview.deletedashboard({dashboardid:vm.dashboards[vm.selectedDashboard].id})">
@@ -172,7 +168,7 @@
 								<div
 									style="display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
 
-									<div ng-if="vm.hasManagerRole == 'true'"
+									<div
 										ng-repeat="measureview in vm.dashboards[vm.selectedDashboard].measureview"
 										style="margin-right: 30px;">
 
