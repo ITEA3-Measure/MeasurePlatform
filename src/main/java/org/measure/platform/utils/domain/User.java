@@ -114,8 +114,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Dashboard> viewedDashboards = new HashSet<>();
-
-    public Long getId() {
+	
+	@JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "manager")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Set<Dashboard> managedDashboard = new HashSet<>();
+	
+	public Long getId() {
         return id;
     }
 

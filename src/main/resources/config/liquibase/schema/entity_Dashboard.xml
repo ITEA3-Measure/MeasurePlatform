@@ -65,9 +65,9 @@
                 <constraints nullable="true" />
             </column>
             
-            <!-- <column name="user_id" type="bigint">
+            <column name="manager_id" type="bigint">
                 <constraints nullable="true" />
-            </column> -->
+            </column>
             
 
 			<!-- jhipster-needle-liquibase-add-column - Jhipster will add columns 

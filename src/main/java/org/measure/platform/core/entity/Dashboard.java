@@ -84,6 +84,9 @@ public class Dashboard implements Serializable {
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<User> users = new HashSet<>();
     
+    @ManyToOne
+    private User manager;
+    
 
     public Long getId() {
         return id;
@@ -222,31 +225,6 @@ public class Dashboard implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
-  
-    public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-	
-	public Dashboard users(Set<User> users) {
-        this.users = users;
-        return this;
-    }
-	
-	public Dashboard addUsers(User user) {
-    	users.add(user);
-    	user.getViewedDashboards().add(this);
-        return this;
-    }
-
-    public Dashboard removeUsers(User user) {
-    	this.users.remove(user);
-        user.getViewedDashboards().remove(this);
-        return this;
-    }
 
 	public Set<MeasureView> getViews() {
         return views;
@@ -285,6 +263,39 @@ public class Dashboard implements Serializable {
     public void setApplication(Application application) {
         this.application = application;
     }
+    
+    public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+	
+	public Dashboard users(Set<User> users) {
+        this.users = users;
+        return this;
+    }
+	
+	public Dashboard addUsers(User user) {
+    	users.add(user);
+    	user.getViewedDashboards().add(this);
+        return this;
+    }
+
+    public Dashboard removeUsers(User user) {
+    	this.users.remove(user);
+        user.getViewedDashboards().remove(this);
+        return this;
+    }
+        
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
 
 	@Override
     public boolean equals(Object o) {
