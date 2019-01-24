@@ -2,6 +2,7 @@ package org.measure.platform.core.impl.repository;
 
 import java.util.List;
 
+import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface DashboardRepository extends JpaRepository<Dashboard,Long> {
     @Query(value = "select i from Dashboard i where i.project = :project")
     List<Dashboard> findByProject(@Param("project") Project project);
 
+    @Query(value = "select i from Dashboard i where i.application = :application")
+    List<Dashboard> findByApplication(@Param("application") Application application);
 }

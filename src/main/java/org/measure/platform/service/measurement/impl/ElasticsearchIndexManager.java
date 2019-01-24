@@ -53,7 +53,12 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 		TransportClient client = connection.getClient();
 
 		final String indexName = IndexFormat.getMeasureInstanceIndex(measureInstance.getInstanceName());
-		SMMMeasure measureDefinition = measureCatalogue.getMeasure(measureInstance.getMeasureName());
+		
+		String application = null;
+		if(measureInstance.getApplication() != null) {
+			application = measureInstance.getApplication().getApplicationType();
+		}
+		SMMMeasure measureDefinition = measureCatalogue.getMeasure(application,measureInstance.getMeasureName());
 
 		// Create Measure Index
 		createESIndex(measureDefinition, indexName, client);
@@ -87,25 +92,30 @@ public class ElasticsearchIndexManager implements IElasticsearchIndexManager {
 	}
 
 	private void createKibanaIndexPattern(MeasureInstance measureInstance) {
+		
+	
 		String indexName = IndexFormat.getMeasureInstanceIndex(measureInstance.getInstanceName());
+		
+		if(!isKibanaIndexExist(indexName)) {
+			// Add kibana Index
+			RestTemplate addIndexRest = new RestTemplate();
 
-		// Add kibana Index
-		RestTemplate addIndexRest = new RestTemplate();
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("kbn-xsrf", "reporting");
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("kbn-xsrf", "reporting");
+			MultiValueMap<String, Object> attributes = new LinkedMultiValueMap<String, Object>();
+			Map<String, String> values = new HashMap<String, String>();
+			values.put("title", indexName);
+			values.put("timeFieldName", "postDate");
 
-		MultiValueMap<String, Object> attributes = new LinkedMultiValueMap<String, Object>();
-		Map<String, String> values = new HashMap<String, String>();
-		values.put("title", indexName);
-		values.put("timeFieldName", "postDate");
+			attributes.add("attributes", values);
 
-		attributes.add("attributes", values);
-
-		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(attributes,
-				headers);
-		addIndexRest.postForEntity("http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, request,
-				String.class);
+			HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(attributes,
+					headers);
+			addIndexRest.postForEntity("http://" + kibanaAddress + "/api/saved_objects/index-pattern/" + indexName, request,
+					String.class);
+		}
+	
 	}
 
 	@Override

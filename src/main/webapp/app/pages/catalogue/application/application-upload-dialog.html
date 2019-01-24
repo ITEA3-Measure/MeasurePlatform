@@ -1,0 +1,23 @@
+<form name="uploadForm">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="vm.clear()">&times;</button>
+		<h4 class="modal-title">Register an Application in Measure Platform</h4>
+	</div>
+	<div class="panel panel-default">
+		<input type="file" class="custom-file-input"
+			fileread="vm.fileToUpload">
+
+	</div>
+	
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			ng-click="vm.clear()">
+			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+		</button>
+		<button ng-disabled="deleteForm.$invalid" class="btn btn-primary"
+			ng-click="vm.uploadFile()">
+			</span>&nbsp;<span>Upload Application</span>
+		</button>
+	</div>
+</form>

@@ -19,15 +19,6 @@
 		vm.measureInstance = entity;
 		vm.measureInstance.project = project;
 
-		// calculate vm.schedulingValue associated with the right time unit
-//		if(vm.measureInstance.schedulingUnit == null ){
-//			vm.measureInstance.schedulingUnit == h;
-//			vm.schedulingValue = 1;
-//		} else
-		
-		
-//		vm.schedulingValue = 1;
-//		vm.measureInstance.schedulingUnit = 'd';
 		
 		
 		if(vm.measureInstance.schedulingUnit == 's'){
@@ -41,12 +32,6 @@
 		}  
 		
 		
-		
-//		else {
-//			// 1 hour by default in the creation dialog
-//			vm.schedulingValue = 1;
-//			vm.measureInstance.schedulingUnit = "h";
-//		}
 
 		
 		vm.clear = clear;
@@ -122,7 +107,10 @@
 							if (newValue != null && oldValue != null && oldValue != newValue) {	
 								measureupdate = true;
 							}
-							if (newValue != null) {			
+							if (newValue != null) {		
+								/*
+								 * update properties in the view model
+								 */
 								for (var i = 0; i < newValue.scopeProperties.length; i++) {
 									var o = newProperty();
 									o.propertyName = newValue.scopeProperties[i].name;
@@ -166,7 +154,9 @@
 									vm.properties[i] = o;
 								}
 								
-								
+								/*
+								 * update references in the view model
+								 */
 								for (var i = 0; i < newValue.references.length; i++) {
 									var o = newReference();
 									o.role = newValue.references[i].role;
@@ -176,10 +166,12 @@
 									loadInstancesByRole(i,o.role,newValue.references[i].measureRef);				
 								}
 								
+								/*
+								 * update measureName, measureVersion and measureType in  vm.measureInstance
+								 */
 								vm.measureInstance.measureName = newValue.name;
 								vm.measureInstance.measureVersion = "1.0.0";
 								vm.measureInstance.measureType = newValue.type;
-								
 								if(newValue.agentId == null){
 									vm.measureInstance.isRemote = false;
 								}else{
@@ -264,6 +256,9 @@
 			} 
 			
 
+			/*
+			 * Saving measureInstance
+			 */ 
 			if(vm.measureInstance.id != null){
 				ProjectDataSources.update(vm.measureInstance,onSaveSuccess, onSaveError);
 			}else{
@@ -286,7 +281,9 @@
 			$uibModalInstance.close(result);
 			vm.isSaving = false;
 			
-			
+			/*
+			 * Saving measure instance properties
+			 */
 			if(measureupdate){
 				for(var i = 0;i<vm.currentProperties.length; i++) {
 					MeasureProperty.delete(vm.currentProperties[i]);
@@ -304,7 +301,9 @@
 			}
 			
 			
-			
+			/*
+			 * Saving measure instance references
+			 */
 			for(var i = 0;i<vm.currentReferences.length; i++) {
 				ProjectDataSources.deletereference(vm.currentReferences[i]);
 			}

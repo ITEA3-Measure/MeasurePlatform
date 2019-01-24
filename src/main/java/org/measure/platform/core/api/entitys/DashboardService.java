@@ -36,4 +36,6 @@ public interface DashboardService {
 
     List<Dashboard> findByProject(Long projectId);
 
+	List<Dashboard> findByApplication(Long applicationId);
+
 }

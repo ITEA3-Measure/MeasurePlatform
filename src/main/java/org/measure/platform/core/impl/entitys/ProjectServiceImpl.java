@@ -172,7 +172,6 @@ public class ProjectServiceImpl implements ProjectService {
                         
         for (MeasureInstance instance : measureInstanceService.findMeasureInstancesByProject(id)) {
             measureInstanceService.delete(instance.getId());
-            indexManager.deleteIndex(instance);
         }
         
         for (Notification notif : notifService.findAllByProject(project)) {

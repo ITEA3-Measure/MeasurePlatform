@@ -16,7 +16,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/pages/project/datasources/datasources.html',
+                    templateUrl: 'app/pages/project/datasources/measureinstances/datasources.html',
                     controller: 'AppProjectDataSourcesController',
                     controllerAs: 'vm'
                 }
@@ -34,7 +34,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/datasources/datasource-dialog.html',
+                    templateUrl: 'app/pages/project/datasources/measureinstances/datasource-dialog.html',
                     controller: 'ProjectDataSourceDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -75,7 +75,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/datasources/datasource-delete-dialog.html',
+                    templateUrl: 'app/pages/project/datasources/measureinstances/datasource-delete-dialog.html',
                     controller: 'ProjectDataSourceDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
@@ -98,7 +98,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/datasources/datasource-dialog.html',
+                    templateUrl: 'app/pages/project/datasources/measureinstances/datasource-dialog.html',
                     controller: 'ProjectDataSourceDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -124,7 +124,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/datasources/datasource-test-dialog.html',
+                    templateUrl: 'app/pages/project/datasources/measureinstances/datasource-test-dialog.html',
                     controller: 'TestDataSourceDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -149,7 +149,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/project/datasources/datasource-test-dialog.html',
+                    templateUrl: 'app/pages/project/datasources/measureinstances/datasource-test-dialog.html',
                     controller: 'TestDataSourceDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',

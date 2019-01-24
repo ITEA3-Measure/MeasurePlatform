@@ -158,7 +158,9 @@ public class MeasurePropertyResource {
 	public List<MeasureProperty> getMeasurePropertiesByInstanceId(@PathVariable Long id) {
 
 		List<MeasureProperty> properties = measurePropertyService.findByInstance(measureInstanceService.findOne(id));
-		measurePropertyService.findAll();
+		
+		// This line looks useless !
+		//measurePropertyService.findAll();
 
 		for (MeasureProperty prop : properties) {
 			if (prop.getPropertyType().equals("PASSWORD")) {

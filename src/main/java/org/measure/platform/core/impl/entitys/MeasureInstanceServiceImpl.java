@@ -5,16 +5,20 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
+import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureProperty;
 import org.measure.platform.core.entity.MeasureReference;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.impl.repository.ApplicationRepository;
 import org.measure.platform.core.impl.repository.MeasureInstanceRepository;
 import org.measure.platform.core.impl.repository.MeasurePropertyRepository;
 import org.measure.platform.core.impl.repository.MeasureReferenceRepository;
 import org.measure.platform.core.impl.repository.MeasureViewRepository;
 import org.measure.platform.core.impl.repository.ProjectRepository;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,6 +38,10 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
     @Inject
     private ProjectRepository projectRepository;
 
+
+    @Inject
+    private ApplicationRepository applicationRepository;
+
     @Inject
     private MeasurePropertyRepository propertyRepository;
 
@@ -42,6 +50,13 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
 
     @Inject
     private MeasureReferenceRepository referenceRepository;
+    
+    @Inject
+    private IElasticsearchIndexManager indexManager;
+    
+    
+    @Inject
+    private ISchedulingService schedulingService;
 
     /**
      * Save a measureInstance.
@@ -51,6 +66,11 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
     public MeasureInstance save(MeasureInstance measureInstance) {
         log.debug("Request to save MeasureInstance : {}", measureInstance);    
         MeasureInstance result = measureInstanceRepository.save(measureInstance);
+        
+        
+        // Create Elasticsearch Index
+        indexManager.createIndexWithMapping(result);
+                
         return result;
     }
 
@@ -96,6 +116,12 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
      */
     public void delete(Long id) {
         MeasureInstance minstance = measureInstanceRepository.findOne(id);
+                
+        // Delete Elasticsearch & Kibana existing indices
+        indexManager.deleteIndex(minstance);
+
+        schedulingService.removeMeasure(minstance.getId());
+
         for(MeasureProperty prop : propertyRepository.findByMeasure(minstance)){
             propertyRepository.delete(prop);
         }
@@ -109,11 +135,29 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
         }
         
         measureInstanceRepository.delete(id);
+      
     }
 
 	@Override
 	public List<MeasureInstance> findMeasureInstancesByName(String name) {
 		return  measureInstanceRepository.findByName(name);
+	}
+
+	@Override
+	public List<MeasureInstance> findMeasureInstancesByApplicationInstance(Long applicationInstanceId) {
+        Application application = applicationRepository.getOne(applicationInstanceId);
+        List<MeasureInstance> result = measureInstanceRepository.findByApplicationInstance(application);
+        return result;
+	}
+
+	@Override
+	public MeasureInstance findMeasureInstancesByApplicationInstance(Long applicationInstanceId, String measureType) {
+		Application application = applicationRepository.getOne(applicationInstanceId);
+		List<MeasureInstance> result = measureInstanceRepository.findByApplicationInstance(application,measureType); 
+		if(result.size() > 0) {
+			return result.get(0);
+		}
+		return null;
 	}
 
 }
