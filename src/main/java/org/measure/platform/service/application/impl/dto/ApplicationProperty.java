@@ -4,8 +4,6 @@ package org.measure.platform.service.application.impl.dto;
 public class ApplicationProperty {
 	
 	private String name;
-
-	private String defaultValue;
 	
 	private String description;
 	
@@ -21,14 +19,6 @@ public class ApplicationProperty {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDefaultValue() {
-		return defaultValue;
-	}
-
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
 	}
 
 	public String getDescription() {

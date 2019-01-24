@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
+
 import org.measure.platform.core.api.IApplicationCatalogueService;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
-import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
-import org.measure.platform.service.application.impl.dto.ApplicationInstanceConfiguration;
 import org.measure.platform.service.measurement.impl.ElasticMeasurementStorage;
 import org.measure.smm.application.model.SMMApplication;
 import org.slf4j.Logger;
@@ -39,10 +38,6 @@ public class ApplicationResource {
 	@Inject
 	private IApplicationCatalogueService applicationsCatalogue;
 
-
-	@Inject
-	private IApplicationInstanceConfigurationService applicationInstanceService;
-	
 	
 	/**
 	 * GET /applications : get all applications.
@@ -111,20 +106,5 @@ public class ApplicationResource {
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("application", id)).build();
 	}
 	
-	@GetMapping("/configuration/{id}")
-	@Timed
-	public ResponseEntity<ApplicationInstanceConfiguration> getApplicationConfiguration(@PathVariable String id) {	
-		// id in this case is the application type
-		ApplicationInstanceConfiguration applicationInstanceConfiguration = this.applicationInstanceService.getApplicaionInstanceByApplication(id);
-		
-		if(id != null) {
-			return Optional.ofNullable(applicationInstanceConfiguration)
-					.map(result -> new ResponseEntity<>(result, HttpStatus.OK))
-					.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-		}
-
-		
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
 
 }

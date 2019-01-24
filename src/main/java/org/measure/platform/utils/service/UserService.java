@@ -2,6 +2,7 @@ package org.measure.platform.utils.service;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.measure.platform.core.entity.dto.UserProjectDTO;
 import org.measure.platform.core.impl.repository.AuthorityRepository;
 import org.measure.platform.core.impl.repository.PersistentTokenRepository;
 import org.measure.platform.core.impl.repository.UserRepository;

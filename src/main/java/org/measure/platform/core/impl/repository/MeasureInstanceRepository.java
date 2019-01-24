@@ -25,4 +25,7 @@ public interface MeasureInstanceRepository extends JpaRepository<MeasureInstance
     @Query(value = "select i from MeasureInstance i where i.application = :applicationinstance")
     List<MeasureInstance> findByApplicationInstance(@Param("applicationinstance") Application application);
 
+    @Query(value = "select i from MeasureInstance i where i.application = :applicationinstance and i.measureName = :measureid")
+	List<MeasureInstance> findByApplicationInstance(@Param("applicationinstance") Application application, @Param("measureid") String measureid);
+
 }

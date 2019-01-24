@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +51,7 @@ public class Application implements Serializable {
     @ManyToOne
     private Project project;
     
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureInstance> instances = new HashSet<>();
@@ -133,6 +134,12 @@ public class Application implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
+    
+    
+    public Set<MeasureInstance> getInstances() {
+        return instances;
+    }
+
 
     public Application instances(Set<MeasureInstance> measureInstances) {
         this.instances = measureInstances;

@@ -17,6 +17,8 @@ import org.measure.platform.core.impl.repository.MeasurePropertyRepository;
 import org.measure.platform.core.impl.repository.MeasureReferenceRepository;
 import org.measure.platform.core.impl.repository.MeasureViewRepository;
 import org.measure.platform.core.impl.repository.ProjectRepository;
+import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
+import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,13 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
 
     @Inject
     private MeasureReferenceRepository referenceRepository;
+    
+    @Inject
+    private IElasticsearchIndexManager indexManager;
+    
+    
+    @Inject
+    private ISchedulingService schedulingService;
 
     /**
      * Save a measureInstance.
@@ -57,6 +66,11 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
     public MeasureInstance save(MeasureInstance measureInstance) {
         log.debug("Request to save MeasureInstance : {}", measureInstance);    
         MeasureInstance result = measureInstanceRepository.save(measureInstance);
+        
+        
+        // Create Elasticsearch Index
+        indexManager.createIndexWithMapping(result);
+                
         return result;
     }
 
@@ -102,6 +116,12 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
      */
     public void delete(Long id) {
         MeasureInstance minstance = measureInstanceRepository.findOne(id);
+                
+        // Delete Elasticsearch & Kibana existing indices
+        indexManager.deleteIndex(minstance);
+
+        schedulingService.removeMeasure(minstance.getId());
+
         for(MeasureProperty prop : propertyRepository.findByMeasure(minstance)){
             propertyRepository.delete(prop);
         }
@@ -115,6 +135,7 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
         }
         
         measureInstanceRepository.delete(id);
+      
     }
 
 	@Override
@@ -127,6 +148,16 @@ public class MeasureInstanceServiceImpl implements MeasureInstanceService {
         Application application = applicationRepository.getOne(applicationInstanceId);
         List<MeasureInstance> result = measureInstanceRepository.findByApplicationInstance(application);
         return result;
+	}
+
+	@Override
+	public MeasureInstance findMeasureInstancesByApplicationInstance(Long applicationInstanceId, String measureType) {
+		Application application = applicationRepository.getOne(applicationInstanceId);
+		List<MeasureInstance> result = measureInstanceRepository.findByApplicationInstance(application,measureType); 
+		if(result.size() > 0) {
+			return result.get(0);
+		}
+		return null;
 	}
 
 }

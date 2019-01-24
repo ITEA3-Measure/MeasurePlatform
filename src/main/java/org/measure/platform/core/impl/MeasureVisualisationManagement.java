@@ -10,13 +10,11 @@ import javax.inject.Inject;
 import org.measure.platform.core.api.IMeasureVisaulisationManagement;
 import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.AnalysisCard;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.Project;
-import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.measure.platform.service.measurement.impl.IndexFormat;
 import org.measure.smm.measure.model.DataSource;
 import org.measure.smm.measure.model.Layout;
@@ -133,11 +131,11 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     			if(mView.isDefault()) {
     		    	MeasureInstance instance = measureInstanceService.findOne(measureInstanceId);
     		    	Project project = instance.getProject();
-    		    
-    		    	
     		     	for(Dashboard ds :  dashboardService.findByProject(project.getId())) {
     		    		if(ds.getMode().equals("OVERVIEW")) {
-    		    			result.add(createMeasureView(mView,ds,instance));
+    		    			MeasureView view = createMeasureView(mView,ds,instance);
+    		    			view.setDefaultView(true);
+    		    			result.add(view);
     		    		}
     		    	}
     			}
@@ -155,7 +153,9 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     		    	Project project = instance.getProject();
     		    	for(Dashboard ds : dashboardService.findByProject(project.getId())) {
     		    		if(ds.getMode().equals("OVERVIEW")) {
-    		   		    	return createMeasureView(mView,ds,instance);
+    		    			MeasureView view = createMeasureView(mView,ds,instance);
+    		    			view.setDefaultView(true);
+    		    			return view;
     		    		}
     		    	}		    
     			}
@@ -164,19 +164,15 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     	return null;
     }
     
-    private MeasureView createMeasureView(View mView,Dashboard dashboard,MeasureInstance measure) {
+    @Override
+    public MeasureView createMeasureView(View mView,Dashboard dashboard,MeasureInstance measure) {
     	MeasureView measureView = new MeasureView();
     	
     	if(mView.getCustomData() != null && ! "".equals(mView.getCustomData())){
     	   	measureView.setMode("MANUAL");
-         	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
+         	measureView.setName(mView.getName());
         	measureView.setDescription(mView.getDescription());
-        	
-        	byte[] decodedBytes = Base64.getDecoder().decode(mView.getCustomData());
-        	String decodedString = new String(decodedBytes);  
-        	decodedString = decodedString.replace("{ELASTICSEARCH_INDEX}",  IndexFormat.getMeasureInstanceIndex(measure.getInstanceName()));
-        	measureView.setViewData(decodedString);
-        	
+        	     	
          	if(mView.getDatasource() != null) {
          		DataSource dsView = mView.getDatasource() ;
          		measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:relative,to:now");
@@ -187,19 +183,37 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
         		measureView.setHeight(layout.getHeight());
         		measureView.setFontSize(layout.getFontSize());
         	} 
+        	
+        	byte[] decodedBytes = Base64.getDecoder().decode(mView.getCustomData());
+        	String decodedString = new String(decodedBytes);  
+        	decodedString = decodedString.replace("{PLATFORM_INDEX}",  IndexFormat.getMeasureInstanceIndex(measure.getInstanceName()));
+        	decodedString = decodedString.replace("{PLATFORM_URL}",  kibanaAdress);
+        	decodedString = decodedString.replace("{PLATFORM_TIMEPERIODE}",  measureView.getTimePeriode());   	
+        	decodedString = decodedString.replace("{PLATFORM_WIDTH}", measureView.getWidth());
+        	decodedString = decodedString.replace("{PLATFORM_HEIGHT}", measureView.getHeight());
+
+        	measureView.setViewData(decodedString);
+        	
            	measureView.setDashboard(dashboard);
         	measureView.setMeasureinstance(measure); 
     	}else {
-        	measureView.setMode("AUTO");
+    		if(mView.getType() != null && mView.getType().equals(mView.getType().TABLE)) {
+    			measureView.setMode(mView.getType().toString());
+    		}else if(mView.getType() != null && mView.getType().equals(mView.getType().VALUE)) {
+    			measureView.setMode(mView.getType().toString());
+    		}else {
+    			measureView.setMode("AUTO");	
+    		}
+        
         	measureView.setAuto(mView.isAutoRefresh());
         	measureView.setType(mView.getType().toString());
-        	measureView.setName(mView.getName() + " : " + measure.getInstanceName());
+        	measureView.setName(mView.getName());
         	measureView.setDescription(mView.getDescription());
         	measureView.setDefaultView(true);
         	        	
         	if(mView.getDatasource() != null) {
         		DataSource dsView = mView.getDatasource() ;
-        		measureView.setViewData(dsView.getDataIndex());
+        		measureView.setVisualisedProperty(dsView.getDataIndex());
         		measureView.setDateIndex(dsView.getDateIndex());
         		measureView.setTimePeriode("from:now-"+dsView.getTimePeriode()+",mode:relative,to:now");
         		measureView.setTimeAgregation(dsView.getTimeAggregation());
@@ -209,6 +223,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
         		measureView.setWidth(layout.getWidth());
         		measureView.setHeight(layout.getHeight());
         		measureView.setFontSize(layout.getFontSize());
+        		measureView.setColor(layout.getColor());
         	}  	
         	measureView.setDashboard(dashboard);
         	measureView.setMeasureinstance(measure); 

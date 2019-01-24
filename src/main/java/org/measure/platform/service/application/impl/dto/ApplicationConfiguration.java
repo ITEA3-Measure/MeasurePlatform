@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.measure.platform.core.entity.Project;
 
-public class ApplicationInstanceConfiguration {
+public class ApplicationConfiguration {
 	
 	private Long id;
 	
@@ -19,7 +19,7 @@ public class ApplicationInstanceConfiguration {
 
 	private Project project;
 	
-	public ApplicationInstanceConfiguration() {
+	public ApplicationConfiguration() {
 		this.properties = new ArrayList<>();
 	}
 

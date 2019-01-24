@@ -5,12 +5,13 @@
 			AppProjectController);
 
 	AppProjectController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project','Notification', 'MeasureView','Dashboard','ProjectAnalysis','MeasurementService'];
+			'$state', 'entity', 'Project','Notification', 'MeasureView','Dashboard','ProjectAnalysis', 'UsersRightAccessService','MeasurementService'];
 
-	function AppProjectController($scope,$cookies,Principal, LoginService, $state,
-			entity, Project,Notification, MeasureView,Dashboard,ProjectAnalysis,MeasurementService) {
+	function AppProjectController($scope,$cookies, Principal, LoginService, $state,
+			entity, Project,Notification, MeasureView,Dashboard,ProjectAnalysis, UsersRightAccessService,MeasurementService) {
 		var vm = this;
 		vm.project = entity;
+		vm.hasManagerRole;
 		
 		
 		vm.dashboards = [];
@@ -56,6 +57,12 @@
 				}
 				
 			});
+			
+			UsersRightAccessService.currentUserHasManagerRole({
+				projectId : id
+			}, function(result) {
+				vm.hasManagerRole = result.data;
+			});
 		}
 		
 		
@@ -67,10 +74,12 @@
 					id : view.measureinstance.instanceName
 				}, function(result) {
 					var value = result.values[properties[0]];
-					if(value.length == 24 && new Date(value) instanceof Date){
-						view.datevalue = new Date(value);
-					}else{
-						view.value = value;
+					if(value != undefined){
+						if(value.length == 24 && new Date(value) instanceof Date){
+							view.datevalue = new Date(value);
+						}else{
+							view.value = value;
+						}
 					}
 				});
 				
@@ -86,14 +95,16 @@
 						var col = new Object();
 						
 						var value = result.values[view.columns[i]];
-						if(value.length == 24 && new Date(value) instanceof Date){
-							col.datevalue = new Date(value);
-						}else{
-							col.value = value;
-						}		
-						var label = view.columns[i];
-						col.label = label.substring(0,1).toUpperCase() + label.substring(1);				
-						view.value.push(col);
+						if(value != undefined){
+							if(value.length == 24 && new Date(value) instanceof Date){
+								col.datevalue = new Date(value);
+							}else{
+								col.value = value;
+							}		
+							var label = view.columns[i];
+							col.label = label.substring(0,1).toUpperCase() + label.substring(1);				
+							view.value.push(col);
+						}
 					}
 				});	
 			}	
@@ -132,12 +143,14 @@
 						var field = new Object();
 						
 						var value = result[i].values[properties[j]];
-						if(value.length == 24 && new Date(value) instanceof Date){
-							field.datevalue = new Date(value);
-						}else{
-							field.value = value;
-						}	
-						measurement.fields.push(field);			
+						if(value != undefined){
+							if(value.length == 24 && new Date(value) instanceof Date){
+								field.datevalue = new Date(value);
+							}else{
+								field.value = value;
+							}	
+							measurement.fields.push(field);	
+						}
 					}
 					view.measurements.push(measurement);
 				}	

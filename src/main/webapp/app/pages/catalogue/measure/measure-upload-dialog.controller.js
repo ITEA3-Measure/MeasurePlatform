@@ -15,7 +15,7 @@
 
 		function uploadFile() {
 			vm.isUpload = true;
-			Measure.upload2($scope.fileread, onUploadSuccess, onUploadError).$promise;
+			Measure.upload($scope.fileread, onUploadSuccess, onUploadError).$promise;
 		}
 		
 		vm.uploadFile2 = uploadFile2;
@@ -23,7 +23,7 @@
 			
 			var absUrl = $location.absUrl();
 			var url = $location.url();
-			var basURL = absUrl.replace("/#" + url, "/api/measure/upload2");
+			var basURL = absUrl.replace("/#" + url, "/api/measure/upload");
 			uploadFileToUrl($scope.myFile, basURL);
 		}
 

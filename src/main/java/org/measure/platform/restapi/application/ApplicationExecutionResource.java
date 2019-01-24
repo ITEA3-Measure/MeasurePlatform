@@ -2,14 +2,14 @@ package org.measure.platform.restapi.application;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.ApplicationInstanceService;
+import org.measure.platform.core.api.entitys.ApplicationService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
 import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.service.analysis.data.alert.AlertData;
 import org.measure.platform.service.analysis.data.alert.AlertProperty;
 import org.measure.platform.service.analysis.data.alert.AlertType;
-import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
+import org.measure.platform.service.application.api.IApplicationConfigurationService;
 import org.measure.platform.service.application.api.IApplicationScheduling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "api/application-instance/scheduling")
+@RequestMapping(value = "api/application-execution")
 
-public class ApplicationInstanceExecutionResource {
+public class ApplicationExecutionResource {
 
-	private final Logger log = LoggerFactory.getLogger(ApplicationInstanceExecutionResource.class);
+	private final Logger log = LoggerFactory.getLogger(ApplicationExecutionResource.class);
 	
 	
 	@Inject

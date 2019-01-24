@@ -5,10 +5,10 @@
 			NotificationController);
 
 	NotificationController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project' ,'Notification', 'MeasureView','ProjectAnalysis' ];
+			'$state', 'entity', 'Project' ,'Notification', 'MeasureView','ProjectAnalysis', 'AnalysisServicesService', 'UsersRightAccessService'];
 
 	function NotificationController($scope,$cookies, Principal, LoginService, $state,
-			entity, Project,Notification, MeasureView,ProjectAnalysis) {
+			entity, Project,Notification, MeasureView,ProjectAnalysis, AnalysisServicesService, UsersRightAccessService) {
 		var vm = this;
 		vm.project = entity;
 			
@@ -30,6 +30,12 @@
 				id : id
 			}, function(result) {
 				vm.analysis = result;
+			});
+			
+			UsersRightAccessService.currentUserHasManagerRole({
+				projectId : id
+			}, function(result) {
+				vm.hasManagerRole = result.data;
 			});
 		}
 		

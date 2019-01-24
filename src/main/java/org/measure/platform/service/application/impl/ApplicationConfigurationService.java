@@ -2,34 +2,27 @@ package org.measure.platform.service.application.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.IApplicationCatalogueService;
 import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.core.api.entitys.ApplicationInstanceService;
-import org.measure.platform.core.api.entitys.DashboardService;
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
+import org.measure.platform.core.api.entitys.ApplicationService;
+import org.measure.platform.core.api.entitys.MeasurePropertyService;
 import org.measure.platform.core.api.entitys.enumeration.MeasureType;
 import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.MeasureProperty;
-import org.measure.platform.core.entity.MeasureView;
-import org.measure.platform.service.application.api.IApplicationInstanceConfigurationService;
-import org.measure.platform.service.application.impl.dto.ApplicationInstanceConfiguration;
+import org.measure.platform.service.application.api.IApplicationConfigurationService;
+import org.measure.platform.service.application.impl.dto.ApplicationConfiguration;
 import org.measure.platform.service.application.impl.dto.ApplicationProperty;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyEnum;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyEnumValue;
 import org.measure.platform.service.application.impl.dto.ApplicationPropertyType;
-import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.application.model.ApplicationMeasure;
 import org.measure.smm.application.model.SMMApplication;
-import org.measure.smm.measure.model.DataSource;
-import org.measure.smm.measure.model.Layout;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.measure.smm.measure.model.ScopeProperty;
 import org.measure.smm.measure.model.ScopePropertyEnumValue;
@@ -38,8 +31,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ApplicationInstanceConfigurationServiceImpl implements IApplicationInstanceConfigurationService {
-	private final Logger log = LoggerFactory.getLogger(ApplicationInstanceConfigurationServiceImpl.class);
+public class ApplicationConfigurationService implements IApplicationConfigurationService {
+	private final Logger log = LoggerFactory.getLogger(ApplicationConfigurationService.class);
 
 	@Inject
 	private IApplicationCatalogueService applicationCatalogue;
@@ -48,17 +41,25 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 	private IMeasureCatalogueService measureCatalogue;
 
 	@Inject
-	private ApplicationInstanceService applicationInstanceService;
-
-
-
+	private ApplicationService applicationService;
+	
+	@Inject
+	private MeasurePropertyService measurePropertyService;
+	
 	@Override
-	public ApplicationInstanceConfiguration createApplicaionInstance(ApplicationInstanceConfiguration applicationConfiguration) {
+	public ApplicationConfiguration createApplication(ApplicationConfiguration applicationConfiguration) {
 
-		Application application = createApplication(applicationConfiguration);
+		Application application = new Application();
+		application.setEnable(applicationConfiguration.getIsEnable());
+		application.setApplicationType(applicationConfiguration.getApplicationType());
+		application.setName(applicationConfiguration.getName());
+		application.setDescription("Description field is deprecated !");
+		application.setProject(applicationConfiguration.getProject());
+		
 		SMMApplication applicationResource = applicationCatalogue.getApplication(application.getApplicationType());
 
 		if (applicationResource.getMeasures() != null) {
+			
 			for (ApplicationMeasure applicationMeasure : applicationResource.getMeasures().getMeasure()) {
 				MeasureInstance measureInstance = createMeasureInstance(applicationMeasure, applicationConfiguration);
 				measureInstance.setApplication(application);
@@ -67,40 +68,22 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 			}
 		}
 
-		applicationInstanceService.save(application);
+		application = applicationService.save(application);
+		
+		applicationConfiguration.setId(application.getId());
 
-		return getConfigurationFromApplication(application);
+		return applicationConfiguration;
 
 	}
 
-	private Application createApplication(ApplicationInstanceConfiguration applicationConfiguration) {
-		Application application = new Application();
-		application.setEnable(applicationConfiguration.getIsEnable());
-		application.setApplicationType(applicationConfiguration.getApplicationType());
-		application.setName(applicationConfiguration.getName());
-		application.setDescription("Description field is deprecated !");
-		application.setProject(applicationConfiguration.getProject());
-		return application;
-	}
 
-	private ApplicationInstanceConfiguration getConfigurationFromApplication(Application application) {
-		if (application == null) {
-			return null;
-		}
-		ApplicationInstanceConfiguration applicationInstanceConfiguration = new ApplicationInstanceConfiguration();
-		applicationInstanceConfiguration.setIsEnable(application.isEnable());
-		applicationInstanceConfiguration.setId(application.getId());
-		applicationInstanceConfiguration.setApplicationType(application.getApplicationType());
-		applicationInstanceConfiguration.setName(application.getName());
-		applicationInstanceConfiguration.setProject(application.getProject());
-		return applicationInstanceConfiguration;
-	}
+	
 
-	private MeasureInstance createMeasureInstance(ApplicationMeasure measureDescriptor,ApplicationInstanceConfiguration applicationDescription) {
+	private MeasureInstance createMeasureInstance(ApplicationMeasure measureDescriptor,ApplicationConfiguration applicationDescription) {
 		SMMMeasure measure = measureCatalogue.getMeasure(applicationDescription.getApplicationType(),measureDescriptor.getName());
 
 		MeasureInstance measureInstance = new MeasureInstance();
-		measureInstance.setInstanceName(applicationDescription.getName() + "_" + measure.getName());
+		measureInstance.setInstanceName(formatMeasureName(applicationDescription,measure));
 		measureInstance.setMeasureName(measure.getName());
 		measureInstance.setMeasureVersion("1.0.0");
 		measureInstance.setIsRemote(false);
@@ -135,7 +118,6 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 
 	 
 		if (measureDescriptor.getScheduling() != null) {
-	
 			if("s".equals(measureDescriptor.getSchedulingUnit())){
 				measureInstance.setShedulingExpression(String.valueOf(Integer.valueOf(measureDescriptor.getScheduling()) * 1000 ));
 			}else if("m".equals(measureDescriptor.getSchedulingUnit())){
@@ -163,30 +145,64 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 		return measureInstance;
 	}
 
+	private String formatMeasureName(ApplicationConfiguration applicationDescription, SMMMeasure measure) {
+		return applicationDescription.getName().replaceAll(" ","") + "_"+measure.getName();
+	}
+
 	@Override
-	public ApplicationInstanceConfiguration updateApplicaionInstance(ApplicationInstanceConfiguration applicationConfiguration) {
+	public ApplicationConfiguration updateApplication(ApplicationConfiguration applicationConfiguration) {
+		Application application = applicationService.findOne(applicationConfiguration.getId());
+		for (MeasureInstance instance : application.getInstances()) {
+			for (MeasureProperty property : instance.getProperties()) {
+				property.setPropertyValue(applicationConfiguration.getPropertyValue(property.getPropertyName()));
+				measurePropertyService.save(property);
+			}
+		}
 
-		Application application = createApplication(applicationConfiguration);
-		ApplicationInstanceConfiguration resultApplicationInstanceConfiguration = getConfigurationFromApplication(applicationInstanceService.save(application));
-
-		return resultApplicationInstanceConfiguration;
-
+		return applicationConfiguration;
 	}
 
 	@Override
 	public void deleteApplicaionInstance(Long id) {
-		applicationInstanceService.delete(id);
+		applicationService.delete(id);
 	}
 
 	@Override
-	public ApplicationInstanceConfiguration getApplicaionInstanceById(Long id) {
-		return getConfigurationFromApplication(applicationInstanceService.findOne(id));
+	public ApplicationConfiguration getConfiguration(Long id) {
+		Application application = applicationService.findOne(id);
+		
+		// Get MeasureInstance Configuration form Application
+		ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
+		applicationConfiguration.setIsEnable(application.isEnable());
+		applicationConfiguration.setId(application.getId());
+		applicationConfiguration.setApplicationType(application.getApplicationType());
+		applicationConfiguration.setName(application.getName());
+		applicationConfiguration.setProject(application.getProject());
+		
+
+		Map<String,ApplicationProperty> properties = new HashMap<>();
+		for(MeasureInstance instance : application.getInstances()) {			
+			SMMMeasure measureConf = measureCatalogue.getMeasure(application.getApplicationType(), instance.getMeasureName());	
+			for(MeasureProperty property : instance.getProperties()) {
+				if(!properties.containsKey(property.getPropertyName())){
+					ApplicationProperty applicationProperty = new ApplicationProperty();
+					applicationProperty.setValue(property.getPropertyValue());
+					applicationProperty.setName(property.getPropertyName());	
+					initialiseApplicationPropertyType(applicationProperty, measureConf.findPropertyByName(property.getPropertyName()));
+					properties.put(property.getPropertyName(),applicationProperty);
+				}		
+			}	
+		}
+		
+		applicationConfiguration.setProperties(new ArrayList<>(properties.values()));
+		
+		return applicationConfiguration;
 	}
 
 	@Override
-	public ApplicationInstanceConfiguration getApplicaionInstanceByApplication(String applicationType) {
-		ApplicationInstanceConfiguration applicationInstanceConfiguration = new ApplicationInstanceConfiguration();
-		applicationInstanceConfiguration.setApplicationType(applicationType);
+	public ApplicationConfiguration getConfigurationByType(String applicationType) {
+		ApplicationConfiguration configuration = new ApplicationConfiguration();
+		configuration.setApplicationType(applicationType);
 
 		SMMApplication applicationResource = applicationCatalogue.getApplication(applicationType);
 		if (applicationResource.getMeasures() != null) {
@@ -204,20 +220,18 @@ public class ApplicationInstanceConfigurationServiceImpl implements IApplication
 			List<ApplicationProperty> properties = new ArrayList<ApplicationProperty>();
 			for (ScopeProperty scopeProperty : mapPropertyNameScopeProperty.values()) {
 				ApplicationProperty applicationProperty = new ApplicationProperty();
-				applicationProperty.setDefaultValue(scopeProperty.getDefaultValue());
+				applicationProperty.setValue(scopeProperty.getDefaultValue());
 				applicationProperty.setName(scopeProperty.getName());
-				setApplicationPropertyType(applicationProperty, scopeProperty);
-
+				initialiseApplicationPropertyType(applicationProperty, scopeProperty);
 				properties.add(applicationProperty);
 			}
-			applicationInstanceConfiguration.setProperties(properties);
-
+			configuration.setProperties(properties);
 		}
 
-		return applicationInstanceConfiguration;
+		return configuration;
 	}
 
-	private void setApplicationPropertyType(ApplicationProperty applicationProperty, ScopeProperty scopeProperty) {
+	private void initialiseApplicationPropertyType(ApplicationProperty applicationProperty, ScopeProperty scopeProperty) {
 		switch (scopeProperty.getType()) {
 		case DATE:
 			applicationProperty.setType(ApplicationPropertyType.DATE);

@@ -1,16 +1,16 @@
 package org.measure.platform.service.application.impl;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.IApplicationCatalogueService;
 import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.core.api.entitys.ApplicationInstanceService;
+import org.measure.platform.core.api.IMeasureVisaulisationManagement;
+import org.measure.platform.core.api.entitys.ApplicationService;
 import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureInstanceService;
+import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.Application;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureInstance;
@@ -18,29 +18,38 @@ import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.service.application.api.IApplicationScheduling;
 import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.application.model.SMMApplication;
-import org.measure.smm.measure.model.DataSource;
-import org.measure.smm.measure.model.Layout;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.measure.smm.measure.model.View;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ApplicationSchedulingService implements IApplicationScheduling{
 	@Inject
 	private MeasureInstanceService measureInstanceService;
 
 	@Inject
+	private IMeasureCatalogueService measureCatalogue;
+	
+	@Inject
 	private DashboardService dashboardService;
+	
+	
+	@Inject
+	private MeasureViewService measureViewService;
 	
 	@Inject
 	private ISchedulingService schedulingService;
 	
 	@Inject
-	private ApplicationInstanceService applicationInstanceService;
+	private ApplicationService applicationInstanceService;
 	
 	@Inject
 	private IApplicationCatalogueService applicationCatalogue;
 	
+
+	
 	@Inject
-	private IMeasureCatalogueService measureCatalogue;
+	private IMeasureVisaulisationManagement measureVisualisationService;
 	
 	@Override
 	public Boolean startApplication(Long id) {
@@ -64,32 +73,36 @@ public class ApplicationSchedulingService implements IApplicationScheduling{
 		dashboard.setEditable(false);
 		dashboard.setProject(applicationInstance.getProject());
 		dashboard.setAuto(true);
-		dashboard.setMode("AUTO");
+		dashboard.setMode("APPLICATION");
+		
+		dashboard = this.dashboardService.save(dashboard);
 		
 		for (org.measure.smm.application.model.View viewConf : dashboardConf.getView()) {
-			MeasureView measureView = createMeasureView(viewConf,applicationInstance.getApplicationType());
-			dashboard.addViews(measureView);
+			createMeasureView(viewConf,applicationInstance,dashboard);
 		}
-		this.dashboardService.save(dashboard);
-
-			
-
 	}
 	
 
-	private MeasureView createMeasureView(org.measure.smm.application.model.View viewConf,String applicaitonType) {
+	private MeasureView createMeasureView(org.measure.smm.application.model.View appViewConf,Application applicationInstance,Dashboard dashboard) {
 		
-		SMMMeasure measureConf = this.measureCatalogue.getMeasure(applicaitonType, viewConf.getMeasure());
-		
-		
+		MeasureInstance instanceOfView = measureInstanceService.findMeasureInstancesByApplicationInstance(applicationInstance.getId(),appViewConf.getMeasure());
+
+		View viewConf = null;
+		SMMMeasure measureConf = this.measureCatalogue.getMeasure(applicationInstance.getApplicationType(), appViewConf.getMeasure());
 		for(View measureViewConf : measureConf.getViews().getView()) {
-			if(measureViewConf.getName().equals(viewConf.getView())) {
-				
+			if(measureViewConf.getName().equals(appViewConf.getView())) {
+				viewConf = measureViewConf;
 				break;
 			}	
 		}
+		
+		if(instanceOfView != null && viewConf != null ) {
+			MeasureView view = 	measureVisualisationService.createMeasureView(viewConf, dashboard, instanceOfView);
+			measureViewService.save(view);
+			return view;
+		}
+		
 		return null;
-
 	}
 
 
@@ -121,7 +134,7 @@ public class ApplicationSchedulingService implements IApplicationScheduling{
 
 		List<MeasureInstance> measuresInstances = measureInstanceService.findMeasureInstancesByApplicationInstance(applicationInstance.getId());
 		for (MeasureInstance measureInstance : measuresInstances) {
-			measureInstance.setIsShedule(true);
+			measureInstance.setIsShedule(false);
 			measureInstanceService.save(measureInstance);
 			this.schedulingService.removeMeasure(measureInstance.getId());
 		}

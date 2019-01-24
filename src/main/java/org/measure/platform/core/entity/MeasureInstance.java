@@ -81,7 +81,7 @@ public class MeasureInstance implements Serializable {
     @ManyToOne
     private Application application;
 
-    @OneToMany(mappedBy = "measureInstance", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "measureInstance", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureProperty> properties = new HashSet<>();
