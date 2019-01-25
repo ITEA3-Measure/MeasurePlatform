@@ -3,9 +3,13 @@
 	<div class="mm-body">
 		<div class="page-header" style="min-height: 40px;">
 			<div style="float: left;">
-				<img class="img-rounded" style="width: 30px; height: 30px; margin-right: 20px;" src="content/images/measureLogo.png"
-				 ng-show="vm.project.projectImage == null" /> <img class="img-rounded" style="width: 30px; height: 30px;" src="{{vm.project.projectImage}}"
-				 ng-show="vm.project.projectImage != null" />
+				<img class="img-rounded"
+					style="width: 30px; height: 30px; margin-right: 20px;"
+					src="content/images/measureLogo.png"
+					ng-show="vm.project.projectImage == null" /> <img
+					class="img-rounded" style="width: 30px; height: 30px;"
+					src="{{vm.project.projectImage}}"
+					ng-show="vm.project.projectImage != null" />
 
 			</div>
 			<h2>{{vm.project.projectName}}</h2>
@@ -22,64 +26,77 @@
 			<div class="col-lg-12 bhoechie-tab-container">
 				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
 					<div class="list-group">
-						<a ui-sref="projectoverview({id:vm.project.id})" class="list-group-item text-center">
+						<a ui-sref="projectoverview({id:vm.project.id})"
+							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
-						</a> <a ng-repeat="analyse in vm.analysis" ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})" class="list-group-item text-center ">
+						</a> <a ng-repeat="analyse in vm.analysis"
+							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
+							class="list-group-item text-center ">
 							<h4 class="glyphicon glyphicon-dashboard"></h4> <br />{{analyse.analysisToolId}}
-						</a> <a ui-sref="notification({id:vm.project.id})" class="list-group-item text-center">
+						</a> <a ui-sref="notification({id:vm.project.id})"
+							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a> <a ui-sref="projectdatasources({id:vm.project.id})" class="list-group-item text-center active">
+						</a> <a ui-sref="projectdatasources({id:vm.project.id})"
+							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
-						</a><a ui-sref="generalconf({id:vm.project.id})" class="list-group-item text-center">
+						</a><a ui-sref="generalconf({id:vm.project.id})"
+							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a>
 					</div>
 				</div>
 
 				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
+				
+					<button class="btn btn-primary"
+								style="float: right; min-width: 150px; min-height: 20px; margin-top: 10px"
+								ui-sref="applicationinstances.new">Register Application</button>
+								
 					<!-- Project Overview section -->
 					<div class="bhoechie-tab-content">
 
 						<ul class="nav nav-tabs">
-							<li role="presentation"><a ui-sref="projectdatasources({id:vm.project.id})">Measures Instances</a></li>
-
-							<li role="presentation" class="active"><a ui-sref="applicationinstances({id:vm.project.id})">Applications
-									Instances</a></li>
-
+							<li role="presentation" class="active"><a
+								ui-sref="applicationinstances({id:vm.project.id})">Applications Data Source</a></li>
+							<li role="presentation"><a
+								ui-sref="projectdatasources({id:vm.project.id})">Measures Data Source</a></li>
 						</ul>
 
-						<div class="well-dashboard" style="min-height: 300px;">
-							<button class="btn btn-primary" style="float: right; min-width: 150px; min-height: 20px; margin-top: 0px"
-							 ui-sref="applicationinstances.new">Register Application</button>
-							<div class="page-header">
-								<h4>Registered Applications</h4>
-							</div>
+						<div class="well-dashboard" style="min-height: 600px;">
+		
 
-							<table class="jh-table table table-condensed table-responsive" style="margin-bottom: 20px;">
+
+							<table class="jh-table table table-condensed table-responsive"
+								style="margin-bottom: 20px;">
 								<thead>
 									<tr>
-										<th><span>Application Instance</span></th>
-										<th><span>Application Type</span></th>
-										<th><span>Status</span></th>
+									    <th style="width: 40px;"><span>Name</span></th>
 										<th></th>
+										<th><span>Application Type</span></th>
+										<th style="width: 100px;text-align: center;"><span>Activate</span></th>
+										<th style="width: 150px;"></th>
 									</tr>
 								</thead>
 								<tbody>
+
 									<tr ng-repeat="applicationInstance in vm.applicationInstances">
 
-
+										<td style="vertical-align: top;"><img
+											class="media-object"
+											ng-src="content/images/aplication_64.png"
+											title="Direct Measure" style="width: 20px;"></td>
 										<td style="vertical-align: top;">
 											<h4 style="margin: 0px;">{{applicationInstance.name}}</h4>
 										</td>
 										<td style="vertical-align: top;">
 											<h4 style="margin: 0px;">{{applicationInstance.applicationType}}</h4>
 										</td>
-										<td style="vertical-align: top;">
+										<td style="vertical-align: top;text-align: center;">
 											<button
 												class="btn {{applicationInstance.enable ? 'btn-success' : 'btn-danger'}} btn-sm"
 												ng-click="applicationInstance.enable  ? vm.stopScheduling($index) : vm.startScheduling($index)">
-												<span class="glyphicon glyphicon glyphicon-off"></span> 
+												<span class="glyphicon glyphicon glyphicon-off"></span>
 											</button>
 										</td>
 										<td style="vertical-align: top;" class="text-right">
@@ -87,15 +104,19 @@
 											<div class="btn-group flex-btn-group-container">
 
 												<div style="margin: 5px;"></div>
-												<button type="submit" title="Edit Measure Configuration" ui-sref="projectdatasources.edit({instanceId:instance.id})"
-												 class="btn btn-primary btn-sm">
-													<span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs hidden-sm"></span>
+												<button type="submit" title="Edit Aplication"
+													ui-sref="applicationinstances.edit({instanceId:applicationInstance.id})"
+													class="btn btn-primary btn-sm">
+													<span class="glyphicon glyphicon-pencil"></span> <span
+														class="hidden-xs hidden-sm"></span>
 												</button>
 												<div style="margin: 5px;"></div>
 
-												<button type="submit" title="Delete Measure" ui-sref="projectdatasources.delete({instanceId:instance.id})"
-												 class="btn btn-danger btn-sm">
-													<span class="glyphicon glyphicon-remove-circle"></span> <span class="hidden-xs hidden-sm"></span>
+												<button type="submit" title="Delete Application"
+													ui-sref="applicationinstances.delete({instanceId:applicationInstance.id})"
+													class="btn btn-danger btn-sm">
+													<span class="glyphicon glyphicon-remove-circle"></span> <span
+														class="hidden-xs hidden-sm"></span>
 												</button>
 												<div style="margin: 5px;"></div>
 

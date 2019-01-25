@@ -5,57 +5,69 @@
 			'ProjectApplicationInstancesDialogController', ProjectApplicationInstancesDialogController);
 
 	ProjectApplicationInstancesDialogController.$inject = [ '$timeout', '$scope',
-			'$stateParams', '$uibModalInstance', 'entity', 'project',
+			'$stateParams', '$uibModalInstance', 'entity', 'project','param',
 			'ApplicationInstances', 'Measure', 'MeasureProperty', 'Application', 'ProjectDataSources' ];
 
 	function ProjectApplicationInstancesDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity, project, ApplicationInstances, Measure,
+			$uibModalInstance, entity, project,param, ApplicationInstances, Measure,
 			MeasureProperty, Application, ProjectDataSources) {
 		var vm = this;
-		
-
-		vm.applicationInstance = entity;
-		vm.applicationInstance.project = project;
-
-		vm.clear = clear;
-		vm.save = save;
-
 		vm.allapplications = [];
-
 		vm.selectedapplication = null;
-
-		vm.errorMessage = "";
-
-		loadApplicationsFromCatalogue();
-
-		// watch if an application was selected: when selector of application type is changed 
-		$scope.$watch("vm.selectedapplication", function(newValue, oldValue) {
-
-			vm.applicationInstance.properties = [];
-			// vm.applicationMeasuresInstances = [];
-
-			if (newValue != null) {	
-
-				vm.applicationInstance.applicationType = newValue.name;
-
-				// Get application Instance configuration by applicationType
-				ApplicationInstances.getApplicationConfigurationByApplicationType({id: vm.applicationInstance.applicationType},
-					function(result){
-						
-						result.properties.forEach((vProperty) => {
-							vm.applicationInstance.properties.push(vProperty);
+		vm.errorMessage = "";	
+		vm.param = param;
+		vm.isSaving = false;
+		
+		
+		if(entity != null){		
+			vm.applicationInstance = entity;
+			
+			vm.selectedapplication = vm.applicationInstance;
+			
+		    for(var i = 0; i < vm.applicationInstance.properties.length; i++){
+		    	if(vm.applicationInstance.properties[i].type == 'INTEGER' || vm.applicationInstance.properties[i].type == 'FLOAT' ){
+		    		vm.applicationInstance.properties[i].value = Number(vm.applicationInstance.properties[i].value);		
+				}else if(vm.applicationInstance.properties[i].type == 'DATE'){
+					vm.applicationInstance.properties[i].value = new Date(vm.applicationInstance.properties[i].value);	
+				}
+		    }	
+		}else{
+			loadApplicationsFromCatalogue();
+		}
+		
+		if(vm.applicationInstance == null){
+			$scope.$watch("vm.selectedapplication", function(newValue, oldValue) {
+				if (newValue != null) {	
+					// Get application Instance configuration by applicationType
+					ApplicationInstances.getConfigurationByApplicationType({applicationType: vm.selectedapplication.name},
+						function(result){		
+						    vm.applicationInstance = result;
+						    
+						    for(var i = 0; i < vm.applicationInstance.properties.length; i++){
+						    	if(vm.applicationInstance.properties[i].type == 'INTEGER' || vm.applicationInstance.properties[i].type == 'FLOAT' ){
+						    		vm.applicationInstance.properties[i].value = Number(vm.applicationInstance.properties[i].value);		
+								}else if(vm.applicationInstance.properties[i].type == 'DATE'){
+									vm.applicationInstance.properties[i].value = new Date(vm.applicationInstance.properties[i].value);	
+								}
+						    }
+					
+							
+							vm.applicationInstance.project = project;
 						});
+				}else{
+					vm.applicationInstance = null;
+				}
+			});
+		}
 
-					});
-			}
-		});
+
 		
-		
+		vm.clear = clear;
 		function clear() {
 			$uibModalInstance.dismiss('cancel');
 		}
 
-		
+		vm.save = save;
 		function save() {
 			vm.isSaving = true;
 			
@@ -63,15 +75,14 @@
 			 * Check if this is an edit or new
 			 */
 			if(vm.applicationInstance.id != null){
-				ApplicationInstances.save(vm.applicationInstance,onSaveSuccess, onSaveError);
+				ApplicationInstances.update(vm.applicationInstance,onSaveSuccess, onSaveError);
 			}else{
 				ApplicationInstances.checkname(
 						{
 							name : vm.applicationInstance.name
 						},
 						function(result) {
-							if(result.id == null){
-								
+							if(result.id == null){	
 								ApplicationInstances.save(vm.applicationInstance,onSaveSuccess, onSaveError);			
 							}else{
 								vm.isSaving = false;
@@ -80,28 +91,11 @@
 						});
 			}
 			
-
-			
-
 		}
 
 		function onSaveSuccess(result) {
 			$uibModalInstance.close(result);
-			vm.isSaving = false;
-			
-			/*
-			 * save measures instances associated to the application instance
-			 */
-			// vm.applicationMeasuresInstances.forEach(function(elt){
-			// 	elt.measureInstance.application = result;
-			// 	elt.measureInstance.instanceName = 
-			// 		vm.applicationInstance.name + elt.measureInstance.instanceName;
-				 
-			// 	ProjectDataSources.save(elt.measureInstance, 
-			// 			onSaveMeasureInstanceSuccess, onSaveMeasureInstanceError);
-			// 	//elt.propertiesNames
-			// });
-			
+			vm.isSaving = false;		
 		}
 
 
@@ -110,45 +104,20 @@
 		}
 
 		
-		function newMeasureInstance() {
-			return {
-				instanceName : null,
-				instanceDescription : null,
-				measureName : null,
-				measureVersion : null,
-				isShedule : null,
-				shedulingExpression : null,
-				schedulingUnit : null,
-				measureType : null,
-				remoteAdress : null,
-				remoteLabel : null,
-				isRemote : null,
-				project : null,
-				application : null,
-				id : null
-			}
-		};
+
 		
 		function onSaveMeasureInstanceSuccess() {
-
+			vm.isSaving = false;
 		}
 		
 		function onSaveMeasureInstanceError() {
 			vm.isSaving = false;
-
 		}
-
-
 
 		function loadApplicationsFromCatalogue() {
 			Application
 					.allapplications(function(result) {
 						vm.allapplications = result;
-						for (var i = 0; i < vm.allapplications.length; i++) {
-							if (vm.applicationInstance.applicationType == vm.allapplications[i].name) {
-								vm.selectedapplication = vm.allapplications[i];
-							}
-						}
 					});
 		}	
 		
