@@ -21,7 +21,7 @@
             <tbody>
                 <tr ng-repeat="cand in vm.candidates">
                     <td>
-                    	<input type="radio" name="cand.id" ng-value="cand.id" ng-click="vm.selectCand(cand.id)"  />
+                    	<input class="custom-form-control" type="radio" name="cand.id" ng-value="cand.id" ng-click="vm.selectCand(cand.id)"  />
                     </td>
                     <td>{{cand.login}}</td>
                     <td>{{cand.first_name}}</td>
@@ -31,7 +31,7 @@
                 <tr>
                 	<td colspan="5">
                 		<label>User role: </label><br/>
-                		<select name="role" ng-model="role" ng-change="vm.selectRole(role)">
+                		<select class="custom-form-control" name="role" ng-model="role" ng-change="vm.selectRole(role)">
 							<option value="ROLE_INVITER">As inviter</option>
 							<option value="ROLE_MANAGER">As manager</option>
 						</select>

@@ -23,7 +23,6 @@
 			}, function(result) {
 				vm.dashboards = result;
 				vm.dashboards.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
-				console.log(vm.dashboards)
 				for (var i = 0; i < vm.dashboards.length; i++) {
 					MeasureView.bydashboard({
 						id : vm.dashboards[i].id
