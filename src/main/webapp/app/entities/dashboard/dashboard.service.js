@@ -13,7 +13,7 @@
 				isArray : true
 			},
 			'dashboards' : {
-				url : 'api/dashboards/byproject/:id',
+				url : 'api/dashboardDTOs/byproject/:id',
 				method : 'GET',
 				isArray : true
 			},

@@ -1,5 +1,6 @@
 package org.measure.platform.core.impl.entitys;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -9,8 +10,9 @@ import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.api.entitys.MeasureViewService;
 import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.entity.dto.DashboardDTO;
+import org.measure.platform.core.entity.dto.MappingDashboardDTO;
 import org.measure.platform.core.impl.repository.DashboardRepository;
-import org.measure.platform.core.impl.repository.ProjectRepository;
 import org.measure.platform.utils.domain.User;
 import org.measure.platform.utils.service.UserService;
 import org.slf4j.Logger;
@@ -39,9 +41,6 @@ public class DashboardServiceImpl implements DashboardService {
     private DashboardRepository dashboardRepository;
 
     @Inject
-    private ProjectRepository projectRepository;
-
-    @Inject
     private MeasureViewService viewService;
     
     @Inject
@@ -58,7 +57,7 @@ public class DashboardServiceImpl implements DashboardService {
         }
         
         User user = userService.findByCurrentLoggedIn();
-        dashboard.addUsers(user);
+        dashboard.setManager(user);
         
         Dashboard result = dashboardRepository.save(dashboard);
         return result;
@@ -73,7 +72,7 @@ public class DashboardServiceImpl implements DashboardService {
         String periode = dashboard.getTimePeriode();
         String refresh = dashboard.isAuto() ? "f" : "t";
         
-        String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, dashboard.geKibanaId(),refresh,periode }, Locale.ENGLISH);
+        String value = messageSource.getMessage("viewtype.view4",new Object[] { height, kibanaAdress, dashboard.getKibanaId(),refresh,periode }, Locale.ENGLISH);
         dashboard.setContent(value);
     }
 
@@ -113,7 +112,27 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<Dashboard> findByProject(Long projectId) {
-        return dashboardRepository.findByProject(projectRepository.getOne(projectId));
+    	User currentUser = userService.findByCurrentLoggedIn();
+    	return dashboardRepository.findByProjectAndUser(projectId, currentUser.getId());
+    }
+    
+    @Override
+    public List<DashboardDTO> findDTOByProject(Long projectId) {
+    	User currentUser = userService.findByCurrentLoggedIn();
+    	List<Dashboard> dashboards = dashboardRepository.findByProjectAndUser(projectId, currentUser.getId());
+    	List<DashboardDTO> dashboardDTOs = new ArrayList<>();
+    	MappingDashboardDTO mapping = new MappingDashboardDTO();
+        for (Dashboard dashboard : dashboards) {
+        	DashboardDTO dashboardDTO = new DashboardDTO();
+        	dashboardDTO = mapping.convertDashboardToDashboardDto(dashboard);
+        	if (isCurrentUserHasManagerRole(dashboard.getId())) {
+        		dashboardDTO.setHasEditionRole(true);
+        	} else {
+        		dashboardDTO.setHasEditionRole(false);
+        	}
+    		dashboardDTOs.add(dashboardDTO);
+		}
+    	return dashboardDTOs;
     }
     
     /**
@@ -128,5 +147,21 @@ public class DashboardServiceImpl implements DashboardService {
     	Dashboard result = dashboardRepository.save(dashboard);
     	return result;
     }
+    
+    public Dashboard removeUserOnDashboard(Dashboard dashboard, Long userId) {
+    	User inviter = userService.findOne(userId);
+    	dashboard.removeUsers(inviter);
+    	return dashboard;
+    }
+
+	@Override
+	public boolean isCurrentUserHasManagerRole(Long dashboardId) {
+		User currentUser = userService.findByCurrentLoggedIn();
+		Dashboard dashboard = dashboardRepository.findOne(dashboardId);
+		if(dashboard.getManager().equals(currentUser)) {
+			return true;
+		}
+		return false;
+	}
 
 }

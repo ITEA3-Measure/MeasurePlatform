@@ -2,6 +2,7 @@ package org.measure.platform.restapi.entitys;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.dto.DashboardDTO;
 import org.measure.platform.core.entity.dto.MappingDashboardDTO;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
+import org.measure.platform.utils.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -52,16 +54,14 @@ public class DashboardResource {
         if (dashboardDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("dashboard", "idexists", "A new dashboard cannot already have an ID")).body(null);
         }
-        
-        MappingDashboardDTO mappingDashboardDTO = new MappingDashboardDTO();
-        Dashboard dashboard = mappingDashboardDTO.convertDashboardDtoToDashboard(dashboardDTO);
+        MappingDashboardDTO mapping = new MappingDashboardDTO();
+        Dashboard dashboard = mapping.convertDashboardDtoToDashboard(dashboardDTO);
     	
         Dashboard result = dashboardService.save(dashboard);
         
         for (Long inviter : dashboardDTO.getInviters()) {
         	result = dashboardService.shareDashboardWithUser(result, inviter);
 		}
-
         return ResponseEntity.created(new URI("/api/dashboards/" + result.getId()))
                     .headers(HeaderUtil.createEntityCreationAlert("dashboard", result.getId().toString()))
                     .body(result);
@@ -82,12 +82,19 @@ public class DashboardResource {
         if (dashboardDTO.getId() == null) {
             return createDashboard(dashboardDTO);
         }
-        
-        Dashboard dashboard = new Dashboard();
-        dashboard.setDashboardName(dashboardDTO.getDashboardName());
-        dashboard.setDashboardDescription(dashboardDTO.getDashboardDescription());
+        MappingDashboardDTO mapping = new MappingDashboardDTO();
+        Dashboard dashboard = mapping.convertDashboardDtoToDashboard(dashboardDTO);
+    	
+        for (User deletedUser : new HashSet<>(dashboard.getUsers())) {
+        	dashboard = dashboardService.removeUserOnDashboard(dashboard, deletedUser.getId());
+		}
         
         Dashboard result = dashboardService.save(dashboard);
+        
+        for (Long inviter : dashboardDTO.getInviters()) {
+        	result = dashboardService.shareDashboardWithUser(result, inviter);
+		}
+        
         return ResponseEntity.ok()
                     .headers(HeaderUtil.createEntityUpdateAlert("dashboard", dashboardDTO.getId().toString()))
                     .body(result);
@@ -103,11 +110,17 @@ public class DashboardResource {
         log.debug("REST request to get all Dashboards");
         return dashboardService.findAll();
     }
-
+    
     @GetMapping("/dashboards/byproject/{id}")
     @Timed
     public List<Dashboard> getDashboardsByProject(@PathVariable Long id) {
         return dashboardService.findByProject(id);
+    }
+
+    @GetMapping("/dashboardDTOs/byproject/{id}")
+    @Timed
+    public List<DashboardDTO> getDashboardDTOsByProject(@PathVariable Long id) {
+        return dashboardService.findDTOByProject(id);
     }
 
     /**

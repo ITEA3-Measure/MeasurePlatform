@@ -110,9 +110,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @ManyToMany(mappedBy="inviters")
 	private Set<Project> invitedProjects = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "users")
     @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@ManyToMany(mappedBy = "users")
     private Set<Dashboard> viewedDashboards = new HashSet<>();
 	
 	@JsonIgnore

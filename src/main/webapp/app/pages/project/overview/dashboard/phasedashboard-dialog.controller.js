@@ -4,20 +4,21 @@
 	angular.module('measurePlatformApp').controller(
 			'PhaseDashboardDialogController', PhaseDashboardDialogController);
 
-	PhaseDashboardDialogController.$inject = [ '$timeout', '$scope',
-			'$stateParams', '$uibModalInstance', 'entity', 'project', 'Principal', 'Dashboard','MeasureView','ConfigurationService', 'UsersRightAccessService'];
+	PhaseDashboardDialogController.$inject = [ '$timeout', '$scope', '$state',
+			'$stateParams', '$uibModalInstance', 'entity', 'project', 'Principal', 'Dashboard', 'MeasureView', 'ConfigurationService', 'UsersRightAccessService'];
 
-	function PhaseDashboardDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity, project, Principal, Dashboard,MeasureView,ConfigurationService, UsersRightAccessService) {
+	function PhaseDashboardDialogController($timeout, $scope, $state, $stateParams,
+			$uibModalInstance, entity, project, Principal, Dashboard, MeasureView, ConfigurationService, UsersRightAccessService) {
 		var vm = this;
 		vm.dashboard = entity;
 		vm.project = project;
 		vm.dashboard.inviters = [];
 		vm.candidates = [];
+		vm.selected = [];
 		vm.isSaving = false;
-		vm.save=save;
-		vm.loadCandidates = loadCandidates;
+		vm.save = save;
 		vm.toggleSelection = toggleSelection;
+		vm.hasManagerRole;
 		
 		loadConfiguration();
 		
@@ -68,6 +69,8 @@
         	}	        	
         }
         
+        loadCandidates();
+        
 		function loadCandidates() {
 			var projectId = $stateParams.id;
 			
@@ -84,8 +87,30 @@
 						vm.candidates.splice(i, 1);
 					}
 				}
-				console.log(vm.candidates)
-			})
+			});
+			
+			UsersRightAccessService.currentUserHasManagerRole({
+				projectId : projectId
+			}, function(result) {
+				vm.hasManagerRole = result.data;
+			});
+		}
+		
+		$scope.stateName = $state.current.name;
+		if ($scope.stateName == "projectoverview.editdashboard") {
+			loadInviters();
+			console.log('inviters: ' + vm.dashboard.inviters);
+		}
+		
+		function loadInviters() {
+			for (var i = 0; i< vm.dashboard.users.length; i++) {
+				vm.dashboard.inviters.push(String(vm.dashboard.users[i].id));
+			}
+			if (vm.dashboard.inviters.length == 0) {
+				vm.dashboard.sharedDashboard = 'unchecked';
+			} else {
+				vm.dashboard.sharedDashboard = 'checked';
+			}
 		}
 		
 		function toggleSelection(inviter) {
@@ -94,23 +119,15 @@
 		    if (idx > -1) {
 		    	vm.dashboard.inviters.splice(idx, 1);
 		    }
-
 		    // is newly selected
 		    else {
 		    	vm.dashboard.inviters.push(inviter);
 		    }
-		};
+		}
         
-		function save() {
+		function save() {			
 			vm.isSaving = true;
 			updateTimePeriode ();
-			if (vm.dashboard.sharedDashboard == 'unchecked') {
-				vm.dashboard.inviters = [];
-			} else if (vm.dashboard.sharedDashboard == 'checked') {
-				//vm.dashboard.inviters.push(vm.dashboard.inviter);
-				// toggle selection for a given employee by name
-				console.log(vm.dashboard.inviters)
-			}
 			if (vm.dashboard.id != null) {
 				Dashboard.update(vm.dashboard, onSaveSuccess, onSaveError);
 			} else {

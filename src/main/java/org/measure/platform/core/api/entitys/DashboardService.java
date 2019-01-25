@@ -3,6 +3,7 @@ package org.measure.platform.core.api.entitys;
 import java.util.List;
 
 import org.measure.platform.core.entity.Dashboard;
+import org.measure.platform.core.entity.dto.DashboardDTO;
 import org.measure.platform.utils.domain.User;
 
 /**
@@ -34,8 +35,10 @@ public interface DashboardService {
      * @param id the id of the entity
      */
     void delete(Long id);
-
+    
     List<Dashboard> findByProject(Long projectId);
+
+    List<DashboardDTO> findDTOByProject(Long projectId);
     
     /**
      * Share Dashboard with User.
@@ -44,5 +47,19 @@ public interface DashboardService {
      * @return
      */
     public Dashboard shareDashboardWithUser(Dashboard dashboard, Long userId);
+    
+    /**
+     * Remove User on Dashboard.
+     * @param dashboard
+     * @param userId
+     * @return
+     */
+    public Dashboard removeUserOnDashboard(Dashboard dashboard, Long userId);
+    
+    /**
+     * Check if current user has manager role on dashboard.
+     * @param dashboardId
+     */
+    public boolean isCurrentUserHasManagerRole(Long dashboardId);
 
 }
