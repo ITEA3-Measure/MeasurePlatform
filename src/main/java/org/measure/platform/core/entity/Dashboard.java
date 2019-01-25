@@ -8,9 +8,13 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -74,8 +78,16 @@ public class Dashboard implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureView> views = new HashSet<>();
     
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @JoinTable(
+    		name = "user_viewed_dashboard",
+			joinColumns = {@JoinColumn(name = "dashboard_id", referencedColumnName = "id") },
+			inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id") })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<User> users = new HashSet<>();
+    
     @ManyToOne
-    private User user;
+    private User manager;
     
 
     public Long getId() {
@@ -125,7 +137,7 @@ public class Dashboard implements Serializable {
         this.mode = mode;
     }
 
-    public String geKibanaId() {
+    public String getKibanaId() {
         return kibanaId;
     }
 
@@ -215,21 +227,8 @@ public class Dashboard implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
-  
-    public User getUser() {
-        return user;
-    }
 
-    public Dashboard project(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    public Set<MeasureView> getViews() {
+	public Set<MeasureView> getViews() {
         return views;
     }
 
@@ -266,6 +265,39 @@ public class Dashboard implements Serializable {
     public void setApplication(Application application) {
         this.application = application;
     }
+    
+    public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+	
+	public Dashboard users(Set<User> users) {
+        this.users = users;
+        return this;
+    }
+	
+	public Dashboard addUsers(User user) {
+    	users.add(user);
+    	user.getViewedDashboards().add(this);
+        return this;
+    }
+
+    public Dashboard removeUsers(User user) {
+    	this.users.remove(user);
+        user.getViewedDashboards().remove(this);
+        return this;
+    }
+        
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
 
 	@Override
     public boolean equals(Object o) {

@@ -110,12 +110,16 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @ManyToMany(mappedBy="inviters")
 	private Set<Project> invitedProjects = new HashSet<>();
 	
-	@OneToMany(mappedBy = "user")
     @JsonIgnore
+	@ManyToMany(mappedBy = "users")
+    private Set<Dashboard> viewedDashboards = new HashSet<>();
+	
+	@JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "manager")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Dashboard> personalDashboards = new HashSet<>();
-
-    public Long getId() {
+	private Set<Dashboard> managedDashboard = new HashSet<>();
+	
+	public Long getId() {
         return id;
     }
 
@@ -236,12 +240,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
 		this.invitedProjects = invitedProjects;
 	}
 
-	public Set<Dashboard> getPersonalDashboards() {
-		return personalDashboards;
+	public Set<Dashboard> getViewedDashboards() {
+		return viewedDashboards;
 	}
 
-	public void setPersonalDashboards(Set<Dashboard> personalDashboards) {
-		this.personalDashboards = personalDashboards;
+	public void setViewedDashboards(Set<Dashboard> viewedDashboards) {
+		this.viewedDashboards = viewedDashboards;
 	}
 
 	@Override

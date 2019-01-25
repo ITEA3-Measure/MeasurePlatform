@@ -4,23 +4,28 @@
 	angular.module('measurePlatformApp').controller(
 			'PhaseDashboardDialogController', PhaseDashboardDialogController);
 
-	PhaseDashboardDialogController.$inject = [ '$timeout', '$scope',
-			'$stateParams', '$uibModalInstance', 'entity', 'project', 'Dashboard','MeasureView','ConfigurationService'];
+	PhaseDashboardDialogController.$inject = [ '$timeout', '$scope', '$state',
+			'$stateParams', '$uibModalInstance', 'entity', 'project', 'Principal', 'Dashboard', 'MeasureView', 'ConfigurationService', 'UsersRightAccessService'];
 
-	function PhaseDashboardDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity, project, Dashboard,MeasureView,ConfigurationService) {
+	function PhaseDashboardDialogController($timeout, $scope, $state, $stateParams,
+			$uibModalInstance, entity, project, Principal, Dashboard, MeasureView, ConfigurationService, UsersRightAccessService) {
 		var vm = this;
 		vm.dashboard = entity;
 		vm.project = project;
+		vm.dashboard.inviters = [];
+		vm.candidates = [];
+		vm.selected = [];
 		vm.isSaving = false;
-		vm.save=save;
+		vm.save = save;
+		vm.toggleSelection = toggleSelection;
+		vm.hasManagerRole;
 		
 		loadConfiguration();
 		
 		function loadConfiguration() {
 			ConfigurationService.kibanaadress(function(result) {
 				vm.kibanaURL = "http://" + result.kibanaAdress + "/app/kibana";			
-			});		
+			});
 		}
 		
 		vm.active = isactive;
@@ -64,7 +69,63 @@
         	}	        	
         }
         
-		function save() {
+        loadCandidates();
+        
+		function loadCandidates() {
+			var projectId = $stateParams.id;
+			
+			Principal.identity().then(function(account) {
+	            $scope.currentUser = account.login;
+	        });
+			
+			UsersRightAccessService.usersByProject({
+				projectId : projectId
+			}, function(result){
+				vm.candidates = result;
+				for (var i = 0; i< vm.candidates.length; i++) {
+					if (vm.candidates[i].login == $scope.currentUser) {
+						vm.candidates.splice(i, 1);
+					}
+				}
+			});
+			
+			UsersRightAccessService.currentUserHasManagerRole({
+				projectId : projectId
+			}, function(result) {
+				vm.hasManagerRole = result.data;
+			});
+		}
+		
+		$scope.stateName = $state.current.name;
+		if ($scope.stateName == "projectoverview.editdashboard") {
+			loadInviters();
+			console.log('inviters: ' + vm.dashboard.inviters);
+		}
+		
+		function loadInviters() {
+			for (var i = 0; i< vm.dashboard.users.length; i++) {
+				vm.dashboard.inviters.push(String(vm.dashboard.users[i].id));
+			}
+			if (vm.dashboard.inviters.length == 0) {
+				vm.dashboard.sharedDashboard = 'unchecked';
+			} else {
+				vm.dashboard.sharedDashboard = 'checked';
+			}
+		}
+		
+		function toggleSelection(inviter) {
+		    var idx = vm.dashboard.inviters.indexOf(inviter);
+		    // is currently selected
+		    if (idx > -1) {
+		    	vm.dashboard.inviters.splice(idx, 1);
+		    }
+		    // is newly selected
+		    else {
+		    	vm.dashboard.inviters.push(inviter);
+		    }
+		}
+        
+		function save() {			
 			vm.isSaving = true;
 			updateTimePeriode ();
 			if (vm.dashboard.id != null) {

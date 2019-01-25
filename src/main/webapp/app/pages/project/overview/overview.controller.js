@@ -11,9 +11,7 @@
 			entity, Project,Notification, MeasureView,Dashboard,ProjectAnalysis, UsersRightAccessService,MeasurementService) {
 		var vm = this;
 		vm.project = entity;
-		vm.hasManagerRole;
-		
-		
+		vm.hasManagerRole;		
 		vm.dashboards = [];
 		vm.selectedDashboard = 1;
 
@@ -24,7 +22,7 @@
 				id : id
 			}, function(result) {
 				vm.dashboards = result;
-				
+				vm.dashboards.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
 				for (var i = 0; i < vm.dashboards.length; i++) {
 					MeasureView.bydashboard({
 						id : vm.dashboards[i].id
@@ -54,8 +52,7 @@
 							}
 						}
 					});
-				}
-				
+				}				
 			});
 			
 			UsersRightAccessService.currentUserHasManagerRole({
@@ -64,7 +61,6 @@
 				vm.hasManagerRole = result.data;
 			});
 		}
-		
 		
 		function formatBasicViewData(view) {
 			var properties = view.visualisedProperty.split(",");

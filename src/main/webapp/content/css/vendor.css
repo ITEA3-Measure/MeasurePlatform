@@ -164,6 +164,12 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 	-webkit-appearance: none;
 }
 
+input.custom-form-control {
+	width: 18px; 
+	height: 18px;
+	vertical-align: sub;
+}
+
 fieldset {
 	border: 1px solid #c0c0c0;
 	margin: 0 2px;

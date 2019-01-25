@@ -2,6 +2,7 @@ package org.measure.platform.restapi.entitys;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,10 @@ import javax.validation.Valid;
 
 import org.measure.platform.core.api.entitys.DashboardService;
 import org.measure.platform.core.entity.Dashboard;
+import org.measure.platform.core.entity.dto.DashboardDTO;
+import org.measure.platform.core.entity.dto.MappingDashboardDTO;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
+import org.measure.platform.utils.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,18 +43,25 @@ public class DashboardResource {
 
     /**
      * POST  /dashboards : Create a new dashboard.
-     * @param dashboard the dashboard to create
+     * @param dashboardDTO the dashboard to create
      * @return the ResponseEntity with status 201 (Created) and with body the new dashboard, or with status 400 (Bad Request) if the dashboard has already an ID
      * @throws java.net.URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/dashboards")
     @Timed
-    public ResponseEntity<Dashboard> createDashboard(@Valid @RequestBody Dashboard dashboard) throws URISyntaxException {
-        log.debug("REST request to save Dashboard : {}", dashboard);
-        if (dashboard.getId() != null) {
+    public ResponseEntity<Dashboard> createDashboard(@Valid @RequestBody DashboardDTO dashboardDTO) throws URISyntaxException {
+        log.debug("REST request to save Dashboard : {}", dashboardDTO);
+        if (dashboardDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("dashboard", "idexists", "A new dashboard cannot already have an ID")).body(null);
         }
+        MappingDashboardDTO mapping = new MappingDashboardDTO();
+        Dashboard dashboard = mapping.convertDashboardDtoToDashboard(dashboardDTO);
+    	
         Dashboard result = dashboardService.save(dashboard);
+        
+        for (Long inviter : dashboardDTO.getInviters()) {
+        	result = dashboardService.shareDashboardWithUser(result, inviter);
+		}
         return ResponseEntity.created(new URI("/api/dashboards/" + result.getId()))
                     .headers(HeaderUtil.createEntityCreationAlert("dashboard", result.getId().toString()))
                     .body(result);
@@ -58,7 +69,7 @@ public class DashboardResource {
 
     /**
      * PUT  /dashboards : Updates an existing dashboard.
-     * @param dashboard the dashboard to update
+     * @param dashboardDTO the dashboard to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated dashboard,
      * or with status 400 (Bad Request) if the dashboard is not valid,
      * or with status 500 (Internal Server Error) if the dashboard couldnt be updated
@@ -66,14 +77,26 @@ public class DashboardResource {
      */
     @PutMapping("/dashboards")
     @Timed
-    public ResponseEntity<Dashboard> updateDashboard(@Valid @RequestBody Dashboard dashboard) throws URISyntaxException {
-        log.debug("REST request to update Dashboard : {}", dashboard);
-        if (dashboard.getId() == null) {
-            return createDashboard(dashboard);
+    public ResponseEntity<Dashboard> updateDashboard(@Valid @RequestBody DashboardDTO dashboardDTO) throws URISyntaxException {
+        log.debug("REST request to update Dashboard : {}", dashboardDTO);
+        if (dashboardDTO.getId() == null) {
+            return createDashboard(dashboardDTO);
         }
+        MappingDashboardDTO mapping = new MappingDashboardDTO();
+        Dashboard dashboard = mapping.convertDashboardDtoToDashboard(dashboardDTO);
+    	
+        for (User deletedUser : new HashSet<>(dashboard.getUsers())) {
+        	dashboard = dashboardService.removeUserOnDashboard(dashboard, deletedUser.getId());
+		}
+        
         Dashboard result = dashboardService.save(dashboard);
+        
+        for (Long inviter : dashboardDTO.getInviters()) {
+        	result = dashboardService.shareDashboardWithUser(result, inviter);
+		}
+        
         return ResponseEntity.ok()
-                    .headers(HeaderUtil.createEntityUpdateAlert("dashboard", dashboard.getId().toString()))
+                    .headers(HeaderUtil.createEntityUpdateAlert("dashboard", dashboardDTO.getId().toString()))
                     .body(result);
     }
 
@@ -87,11 +110,17 @@ public class DashboardResource {
         log.debug("REST request to get all Dashboards");
         return dashboardService.findAll();
     }
-
+    
     @GetMapping("/dashboards/byproject/{id}")
     @Timed
     public List<Dashboard> getDashboardsByProject(@PathVariable Long id) {
         return dashboardService.findByProject(id);
+    }
+
+    @GetMapping("/dashboardDTOs/byproject/{id}")
+    @Timed
+    public List<DashboardDTO> getDashboardDTOsByProject(@PathVariable Long id) {
+        return dashboardService.findDTOByProject(id);
     }
 
     /**

@@ -222,14 +222,14 @@ public class ProjectResource {
     }
     
     /**
-     * GET /projects : get all the users by projects.
-     * @return the ResponseEntity with status 200 (OK) and the list of projects
+     * GET /projects : check if curent user has manager role on project.
+     * @return the ResponseEntity with status 200 (OK) and the boolean result
      * in body
      */
     @GetMapping("/projects/{projectId}/current-user-manager-role")
     @Timed
-    public boolean isCurrentUserHasManagerRole(@PathVariable Long projectId) {
-        log.debug("REST request to get all users by projectId : {}", projectId);
+    public boolean hasManagerRoleOnProject(@PathVariable Long projectId) {
+        log.debug("REST request to check if the current user has a manager role on Project : {}", projectId);
         return projectService.isCurrentUserHasManagerRole(projectId);
     }
 

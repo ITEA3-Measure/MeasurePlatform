@@ -20,9 +20,9 @@
 								 referencedColumnNames="id" 
 								 referencedTableName="application" />
 
-		<addForeignKeyConstraint baseColumnNames="user_id"
+		<addForeignKeyConstraint baseColumnNames="manager_id"
                                  baseTableName="dashboard"
-                                 constraintName="fk_dashboard_user_id"
+                                 constraintName="fk_dashboard_manager_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 								 
