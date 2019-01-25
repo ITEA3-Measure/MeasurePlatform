@@ -2,66 +2,55 @@
 
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="vm.clear()">&times;</button>
-		<h4 class="modal-title" id="myApplicationInstanceLabel">Application
-			Instance</h4>
+		<h4 class="modal-title" id="myApplicationInstanceLabel">Application</h4>
 	</div>
 	<div class="modal-body">
 
 
 		<div class="form-group">
-			<label for="field_applicationInstance">Based on Application</label> <select class="form-control" id="field_applicationInstance"
-			 name="applicationInstance" ng-model="vm.selectedapplication" ng-options="application as application.name for application in vm.allapplications">
+		
+			<label for="field_applicationInstance">Based on Application</label> 
+			
+			
+			<select ng-show="vm.param.mode == 'create'" class="form-control" id="field_applicationInstance"
+			 name="applicationInstance" ng-model="vm.selectedapplication" ng-options="application as application.name for application in vm.allapplications"">
 				<option value=""></option>
 			</select>
+			
+			 <input ng-show="vm.param.mode == 'edite'" type="text" class="form-control" name="applicationInstance" ng-model="vm.selectedapplication.applicationType"
+			 	required  disabled/>
+			
 		</div>
 
 
 		<div class="form-group">
-			<label class="control-label" for="field_name">Application Instance
+			<label class="control-label" for="field_name">Application
 				Name</label> <input type="text" class="form-control" name="name" id="field_name" ng-model="vm.applicationInstance.name"
-			 required />
+			 required  ng-disabled="vm.param.mode == 'edite'"/>
 			<div ng-show="editForm.name.$invalid">
 				<p class="help-block" ng-show="editForm.name.$error.required"></p>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="control-label" for="field_description">Application Instance
-				Description</label>
-			<textarea class="form-control" rows="3" name="description" id="field_description" ng-model="vm.applicationInstance.description"></textarea>
 
-		</div>
-
-
-		<div class="form-group">
-			<label class="control-label" for="field_schedulingValue">Status</label>
-			<div class="input-group">
-				<div class="input-group-addon">
-					<label class="control-label" for="field_schedulingValue" >Running</label>
-					<input type="checkbox" name="manageStatus" id="field_manageStatus" ng-model="vm.applicationInstance.isEnable" ng-init="vm.applicationInstance.isEnable=false" />
-				</div>
-			</div>
-		</div>
-
-		<div class="panel panel-default" ng-show="vm.applicationInstance.properties.length > 0">
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Scope</h3>
 			</div>
+			
+			<div class="panel-body">
 
 			<div ng-repeat="property in vm.applicationInstance.properties" style="margin: 5px;">
-				<div class="input-group" style="width:100%">
+				<div ng-show="property.propertyType !='DESABLE'"  class="input-group" style="width:100%">
 					<div class="input-group-addon" style="width:30%">{{property.name}}</div>
 
 					<div ng-switch="property.type">
-						<input ng-switch-when="STRING" type="text" class="form-control" ng-model="property.value" ng-init="property.value = property.value || property.defaultValue">
+						<input ng-switch-when="STRING" type="text" class="form-control" ng-model="property.value">
 						<input ng-switch-when="INTEGER" type="number" class="form-control" ng-model="property.value">
 						<input ng-switch-when="FLOAT" type="number" class="form-control" ng-model="property.value">
 						<input ng-switch-when="PASSWORD" type="password" class="form-control" ng-model="property.value">
-						<input ng-switch-when="DESABLE" type="text" class="form-control" ng-model="property.value" disabled="true">
-
 						<select ng-switch-when="ENUM" class="form-control" ng-model="property.value" ng-options="val.value as val.label for val in property.enumType.enumvalue">
 
 						</select>
-
 
 						<div ng-switch-when="DATE">
 							<input id="field_creationDate" type="text" class="form-control" name="creationDate" datetime-picker="{{dateformat}}"
@@ -76,6 +65,7 @@
 				</div>
 			</div>
 		</div>
+		</div>
 
 	</div>
 	<div ng-show="vm.errorMessage != ''" class="alert alert-danger" role="alert">{{vm.errorMessage}}</div>
@@ -83,7 +73,7 @@
 		<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
 			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
 		</button>
-		<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+		<button type="submit" ng-disabled=" vm.isSaving" class="btn btn-primary">
 			<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
 		</button>
 	</div>

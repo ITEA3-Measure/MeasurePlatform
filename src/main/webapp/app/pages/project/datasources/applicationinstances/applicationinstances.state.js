@@ -40,20 +40,15 @@
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: function () {
-                            return {
-                                name: null,
-                                applicationType: null,
-                                description: null,
-                                id: null,
-                                enable : null,
-                                properties : [],
-                                isEnable : null
-                            };
-                        },
-                        project:['$stateParams', 'Project', function($stateParams, Project) {
+                         entity: null
+                        ,project:['$stateParams', 'Project', function($stateParams, Project) {
                             return Project.get({id : $stateParams.id}).$promise;
-                        }] 
+                        }] ,
+                        param : function () {
+                            return {
+                                mode: "create",
+                            };
+                        }
                     }
                 }).result.then(function() {
                     $state.go('applicationinstances', null, { reload: 'applicationinstances' });
@@ -62,106 +57,61 @@
                 });
             }]
         })
-//        .state('projectdatasources.delete', {
-//            parent: 'projectdatasources',
-//            url: '/{instanceId}/delete',
-//            data: {
-//                authorities: ['ROLE_USER']
-//            },
-//            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-//                $uibModal.open({
-//                    templateUrl: 'app/pages/project/datasources/datasource-delete-dialog.html',
-//                    controller: 'ProjectDataSourceDeleteController',
-//                    controllerAs: 'vm',
-//                    size: 'md',
-//                    resolve: {
-//                        entity: ['MeasureInstance', function(MeasureInstance) {
-//                            return MeasureInstance.get({id : $stateParams.instanceId}).$promise;
-//                        }]
-//                    }
-//                }).result.then(function() {
-//                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
-//                }, function() {
-//                    $state.go('^');
-//                });
-//            }]
-//        }) .state('projectdatasources.edit', {
-//            parent: 'projectdatasources',
-//            url: '/{instanceId}/edit',
-//            data: {
-//                authorities: ['ROLE_USER']
-//            },
-//            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-//                $uibModal.open({
-//                    templateUrl: 'app/pages/project/datasources/datasource-dialog.html',
-//                    controller: 'ProjectDataSourceDialogController',
-//                    controllerAs: 'vm',
-//                    backdrop: 'static',
-//                    size: 'lg',
-//                    resolve: {
-//                        entity: ['MeasureInstance', function(MeasureInstance) {
-//                            return MeasureInstance.get({id : $stateParams.instanceId}).$promise;
-//                        }], project:['$stateParams', 'Project', function($stateParams, Project) {
-//                            return Project.get({id : $stateParams.id}).$promise;
-//                        }] 
-//                    }
-//                }).result.then(function() {
-//                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
-//                }, function() {
-//                    $state.go('^');
-//                });
-//            }]
-//        }) .state('projectdatasources.test', {
-//            parent: 'projectdatasources',
-//            url: '/{instanceId}/test',
-//            data: {
-//                authorities: ['ROLE_USER']
-//            },
-//            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-//                $uibModal.open({
-//                    templateUrl: 'app/pages/project/datasources/datasource-test-dialog.html',
-//                    controller: 'TestDataSourceDialogController',
-//                    controllerAs: 'vm',
-//                    backdrop: 'static',
-//                    size: 'lg',
-//                    resolve: {
-//                        entity: ['MeasureInstance', function(MeasureInstance) {
-//                            return MeasureInstance.get({id : $stateParams.instanceId}).$promise;
-//                        }],
-//                        isTest : true
-//                    }
-//                }).result.then(function() {
-//                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
-//                }, function() {
-//                    $state.go('^');
-//                });
-//            }]
-//        }) .state('projectdatasources.execute', {
-//            parent: 'projectdatasources',
-//            url: '/{instanceId}/execute',
-//            data: {
-//                authorities: ['ROLE_USER']
-//            },
-//            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-//                $uibModal.open({
-//                    templateUrl: 'app/pages/project/datasources/datasource-test-dialog.html',
-//                    controller: 'TestDataSourceDialogController',
-//                    controllerAs: 'vm',
-//                    backdrop: 'static',
-//                    size: 'lg',
-//                    resolve: {
-//                        entity: ['MeasureInstance', function(MeasureInstance) {
-//                            return MeasureInstance.get({id : $stateParams.instanceId}).$promise;
-//                        }],
-//                        isTest : false
-//                    }
-//                }).result.then(function() {
-//                    $state.go('projectdatasources', null, { reload: 'projectdatasources' });
-//                }, function() {
-//                    $state.go('^');
-//                });
-//            }]
-//        })
+        .state('applicationinstances.delete', {
+            parent: 'applicationinstances',
+            url: '/{instanceId}/delete',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/project/datasources/applicationinstances/applicationinstances-delete-dialog.html',
+                    controller: 'ProjectApplicationDeleteController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['ApplicationInstances', function(ApplicationInstances) {
+                            return ApplicationInstances.get({id : $stateParams.instanceId}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('applicationinstances', null, { reload: 'applicationinstances' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        }) .state('applicationinstances.edit', {
+            parent: 'applicationinstances',
+            url: '/{instanceId}/edit',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/pages/project/datasources/applicationinstances/applicationinstances-dialog.html',
+                    controller: 'ProjectApplicationInstancesDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: ['ApplicationInstances', function(ApplicationInstances) {
+                            return ApplicationInstances.get({id : $stateParams.instanceId}).$promise;
+                        }], project:['$stateParams', 'Project', function($stateParams, Project) {
+                            return Project.get({id : $stateParams.id}).$promise;
+                        }],
+                        param : function () {
+                            return {
+                                mode: "edite",
+                            };
+                        }
+                    }
+                }).result.then(function() {
+                    $state.go('applicationinstances', null, { reload: 'applicationinstances' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        }) 
         ;
     }
 })();
