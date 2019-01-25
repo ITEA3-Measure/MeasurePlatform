@@ -73,7 +73,7 @@ public class Dashboard implements Serializable {
     @ManyToOne
     private Application application;
 
-    @OneToMany(mappedBy = "dashboard")
+    @OneToMany(mappedBy = "dashboard", cascade = CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureView> views = new HashSet<>();

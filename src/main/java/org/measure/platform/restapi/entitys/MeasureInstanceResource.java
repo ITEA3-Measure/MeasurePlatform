@@ -62,12 +62,6 @@ public class MeasureInstanceResource {
     @Inject
     private IElasticsearchIndexManager indexManager;
 
-//    @Inject
-//    private IMeasureCatalogueService catalogueService;
-//
-//    @Inject
-//    private IRemoteCatalogueService remoteCatalogueService;
-
     /**
      * POST  /measure-instances : Create a new measureInstance.
      * @param measureInstance the measureInstance to create
@@ -100,13 +94,7 @@ public class MeasureInstanceResource {
         notif.setNotificationType(NotificationType.INFO);
         notif.setProject(result.getProject());
         notificationService.save(notif);
-        
-        // Delete Elasticsearch & Kibana existing indices
-        indexManager.deleteIndex(measureInstance);
-        
-        // Create Elasticsearch Index
-        indexManager.createIndexWithMapping(measureInstance);
-        
+       
         return ResponseEntity.created(new URI("/api/measure-instances/" + result.getId()))
                     .headers(HeaderUtil.createEntityCreationAlert("measureInstance", result.getId().toString()))
                     .body(result);
@@ -221,10 +209,7 @@ public class MeasureInstanceResource {
         }catch(Exception e){
             e.printStackTrace();
         }
-        
-		//delete ESC & Kibana indices if exist
-		indexManager.deleteIndex(measureInstance);
-        
+  
         this.shedulingService.removeMeasure(id);
         this.measureInstanceService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("measureInstance", id.toString())).build();

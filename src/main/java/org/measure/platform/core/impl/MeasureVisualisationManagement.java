@@ -164,7 +164,8 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     	return null;
     }
     
-    private MeasureView createMeasureView(View mView,Dashboard dashboard,MeasureInstance measure) {
+    @Override
+    public MeasureView createMeasureView(View mView,Dashboard dashboard,MeasureInstance measure) {
     	MeasureView measureView = new MeasureView();
     	
     	if(mView.getCustomData() != null && ! "".equals(mView.getCustomData())){

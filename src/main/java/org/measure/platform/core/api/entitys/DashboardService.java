@@ -61,5 +61,7 @@ public interface DashboardService {
      * @param dashboardId
      */
     public boolean isCurrentUserHasManagerRole(Long dashboardId);
+    
+	List<Dashboard> findByApplication(Long applicationId);
 
 }

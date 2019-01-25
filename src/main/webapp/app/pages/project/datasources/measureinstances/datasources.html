@@ -38,10 +38,10 @@
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a>  <a  ng-if="vm.hasManagerRole" ui-sref="projectdatasources({id:vm.project.id})"
+						</a> <a ui-sref="projectdatasources({id:vm.project.id})"
 							class="list-group-item text-center active">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
-						</a><a  ng-if="vm.hasManagerRole" ui-sref="generalconf({id:vm.project.id})"
+						</a><a ui-sref="generalconf({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a>
@@ -49,17 +49,24 @@
 				</div>
 
 				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
-					<!-- Project Overview section -->
+
+					<button class="btn btn-primary"
+						style="float: right; min-width: 150px; min-height: 20px; margin-top: 10px"
+						ui-sref="projectdatasources.new">Register Measure</button>
+
 					<div class="bhoechie-tab-content">
 
+						<ul class="nav nav-tabs">
+							<li role="presentation"><a
+								ui-sref="applicationinstances({id:vm.project.id})">Applications Data Source</a></li>
+							<li role="presentation" class="active"><a
+								ui-sref="projectdatasources({id:vm.project.id})">Measures Data Source</a></li>
 
-						<div class="well-dashboard" style="min-height: 300px;">
-							<button class="btn btn-primary"
-								style="float: right; min-width: 150px; min-height: 20px; margin-top: 0px"
-								ui-sref="projectdatasources.new">Register Measure</button>
-							<div class="page-header">
-								<h4>Registred Measures</h4>
-							</div>
+
+
+						</ul>
+
+						<div class="well-dashboard" style="min-height: 600px;">
 
 							<table class="jh-table table table-condensed table-responsive"
 								style="margin-bottom: 20px;">
@@ -71,8 +78,8 @@
 										<th><span>Input Instances</span></th>
 										<th><span>Scope</span></th>
 										<th><span>Executed On</span></th>
-										<th><span>Schedule</span></th>
-										<th><span>Graph</span></th>
+										<th style="text-align: center;"><span>Activate</span></th>
+										<th style="text-align: center;"><span>Default View</span></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -138,7 +145,7 @@
 										<td style="vertical-align: top;">
 											<div ng-show="!instance.isRemote">
 												<h3 style="margin: 0px;">
-													<span class="label label-success">Measure Platform</span>
+													<span class="label label-default">Measure Platform</span>
 												</h3>
 											</div>
 
@@ -155,18 +162,19 @@
 											</div>
 										</td>
 
-										<td style="vertical-align: top;">
+										<td style="vertical-align: top;text-align: center;">
 											<button
 												class="btn {{instance.status == 'true' ? 'btn-success' : 'btn-danger'}} btn-sm"
 												ng-click="instance.status == 'true' ? vm.stopSheduling(instance.id) : vm.startSheduling(instance.id)">
-												<span class="glyphicon glyphicon glyphicon-off"></span> 
+												<span class="glyphicon glyphicon glyphicon-off"></span>
 											</button>
 										</td>
-										<td style="vertical-align: top;">
+										<td style="vertical-align: top;text-align: center;">
 											<button
-												class="btn {{instance.defaultview == true ? 'btn-info' : 'btn-default'}} btn-sm"
+												class="btn {{instance.defaultview == true ? 'btn-success' : 'btn-danger'}} btn-sm"
 												ng-click="instance.defaultview == true ? vm.deleteView(instance.id) : vm.createView(instance.id)">
-												<span class="glyphicon glyphicon  {{instance.defaultview == true ? 'glyphicon-ok' : 'glyphicon-remove'}}"></span> 
+												<span
+													class="glyphicon glyphicon-blackboard"></span>
 											</button>
 										</td>
 										<td style="vertical-align: top;" class="text-right">

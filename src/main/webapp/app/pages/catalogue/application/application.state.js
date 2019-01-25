@@ -6,60 +6,62 @@
 	stateConfig.$inject = [ '$stateProvider' ];
 
 	function stateConfig($stateProvider) {
-		$stateProvider.state('measure', {
+		$stateProvider.state('application', {
 			parent : 'app',
-			url : '/measure',
+			url : '/application',
 			data : {
 				authorities : []
 			},
 			views : {
 				'content@' : {
-					templateUrl : 'app/pages/measure/measure.html',
-					controller : 'MeasureController',
+					templateUrl : 'app/pages/catalogue/application/application.html',
+					controller : 'ApplicationController',
 					controllerAs : 'vm'
 				}
 			}
-		}).state('measure.upload', {
-            parent: 'measure',
+		})
+		.state('application.upload', {
+            parent: 'application',
             url: '/upload',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/measure/measure-upload-dialog.html',
-                    controller: 'MeasureUploadController',
+                    templateUrl: 'app/pages/catalogue/application/application-upload-dialog.html',
+                    controller: 'ApplicationUploadController',
                     controllerAs: 'vm',
                     size: 'md'
                 }).result.then(function() {
-                    $state.go('measure', null, { reload: 'measure' });
+                    $state.go('application', null, { reload: 'application' });
                 }, function() {
                     $state.go('^');
                 });
             }]
-        }).state('measure.delete', {
-            parent: 'measure',
+        }).state('application.delete', {
+            parent: 'application',
             url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/pages/measure/measure-delete-dialog.html',
-                    controller: 'MeasureDeleteController',
+                    templateUrl: 'app/pages/catalogue/application/application-delete-dialog.html',
+                    controller: 'ApplicationDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['Measure', function(Measure) {
-                            return Measure.get({id : $stateParams.id}).$promise;
+                        entity: ['Application', function(Application) {
+                            return Application.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('measure', null, { reload: 'measure' });
+                    $state.go('application', null, { reload: 'application' });
                 }, function() {
                     $state.go('^');
                 });
             }]
-        });
+        })
+        ;
 	}
 })();

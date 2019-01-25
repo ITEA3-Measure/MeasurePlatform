@@ -23,6 +23,10 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             
+            <column name="application_type" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+
             <column name="application_name" type="varchar(255)">
 				<constraints nullable="false" />
 			</column>

@@ -163,9 +163,8 @@
 						<div>
 
 							<div
-								ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL' || vm.dashboards[vm.selectedDashboard].mode == 'OVERVIEW'">
-								<div
-									style="display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
+								ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL' || vm.dashboards[vm.selectedDashboard].mode == 'OVERVIEW'|| vm.dashboards[vm.selectedDashboard].mode == 'APPLICATION'">
+								<div style="display: inline-flex; flex-wrap: wrap; width: 100%; margin-left: 15px;">
 
 									<div
 										ng-repeat="measureview in vm.dashboards[vm.selectedDashboard].measureview"
@@ -174,7 +173,7 @@
 										<div class="row">
 
 											<div ng-if="measureview.mode == 'CARD' || measureview.mode == 'AUTO' || measureview.mode == 'KVIS' || measureview.mode == 'KDASH' || measureview.mode == 'MANUAL'">
-												<div class="thumbnail" style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">
+												<div class="thumbnail" style="margin: 0px; text-align: center; margin: 5px;">
 													<div ng-bind-html="measureview.viewData | to_trusted"></div>
 													<div class="caption" style="text-align: center">
 														<p style="margin: 0px; white-space: pre-wrap; word-wrap: break-word;">{{measureview.name}}</p>
@@ -182,7 +181,7 @@
 												</div>
 											</div>
 											<div ng-if="measureview.mode == 'VALUE' && measureview.displaymode == 'SINGLE'">
-												<div class="thumbnail" style=" margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">	
+												<div class="thumbnail" style=" margin: 0px; text-align: center; margin: 5px;">	
 													<div style="padding:10px;display: flex;justify-content: center;flex-direction: column;overflow: auto;background-color:{{measureview.color}}; width:{{measureview.width}}px;height:{{measureview.height}}px; border-radius:5px;ver">									
 														<div ng-if="measureview.value != null"  style="font-size:{{measureview.fontSize}}px;font-weight: bold;">{{measureview.value}}</div>	
 														<div ng-if="measureview.datevalue != null"  style="font-size:{{measureview.fontSize}}px;font-weight: bold;">{{ measureview.datevalue | date : "MM/dd/yyyy 'at' HH:mm:ss"}}</div>	
@@ -194,7 +193,7 @@
 												</div>	
 											</div>
 											<div ng-if="measureview.mode == 'VALUE' && measureview.displaymode == 'MULTI'">
-												<div class="thumbnail" style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">	
+												<div class="thumbnail" style="margin: 0px; text-align: center; margin: 5px;">	
 													<div style="padding:10px;display: flex;justify-content: center;flex-direction: column;overflow: auto;background-color:{{measureview.color}}; width:{{measureview.width}}px;height:{{measureview.height}}px; border-radius:5px;">									
 														<table class="table" >
 														 	<tr ng-repeat="col in measureview.value">
@@ -210,7 +209,7 @@
 												</div>	
 											</div>
 											<div ng-if="measureview.mode == 'TABLE'">
-												<div class="thumbnail" style="margin: 0px; text-align: center; margin-right: 5px; margin-left: 5px;">	
+												<div class="thumbnail" style="margin: 0px; text-align: center; margin: 5px;">	
 													<div style="overflow: auto;background-color:{{measureview.color}}; width:{{measureview.width}}px;height:{{measureview.height}}px; border-radius:5px;">									
 														<table class="table" style="margin:0px">
 															<thead>

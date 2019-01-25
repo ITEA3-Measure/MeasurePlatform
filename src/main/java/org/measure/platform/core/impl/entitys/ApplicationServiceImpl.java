@@ -5,7 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.measure.platform.core.api.entitys.ApplicationService;
+import org.measure.platform.core.api.entitys.DashboardService;
+import org.measure.platform.core.api.entitys.MeasureInstanceService;
+import org.measure.platform.core.api.entitys.ProjectService;
 import org.measure.platform.core.entity.Application;
+import org.measure.platform.core.entity.Dashboard;
+import org.measure.platform.core.entity.MeasureInstance;
 import org.measure.platform.core.entity.Project;
 import org.measure.platform.core.impl.repository.ApplicationRepository;
 import org.measure.platform.core.impl.repository.ProjectRepository;
@@ -23,44 +28,62 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final Logger log = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Inject
-    private ApplicationRepository ApplicationRepository;
+    private ApplicationRepository applicationInstanceRepository;
 
     @Inject
-    private ProjectRepository projectRepository;
+    private ProjectService projectService;
+    
+    
+    @Inject
+    private MeasureInstanceService instanceService;
+    
+    
+    @Inject
+    private DashboardService dashboardService;
+
+
 
     /**
-     * Save a Application.
-     * @param application the entity to save
+     * Save a applicationInstance.
+     * @param applicationInstance the entity to save
      * @return the persisted entity
      */
-    public Application save(Application application) {
-        log.debug("Request to save Application : {}", application);    
-        Application result = ApplicationRepository.save(application);
+    public Application save(Application applicationInstance) {
+        log.debug("Request to save Application instance : {}", applicationInstance); 
+
+        Application result = applicationInstanceRepository.save(applicationInstance);
+
         return result;
     }
 
     /**
-     * Get all the Applications.
+     * Get all the Application instances.
      * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<Application> findAll() {
-        log.debug("Request to get all Applications");
-        List<Application> result = ApplicationRepository.findAll();
+        log.debug("Request to get all Application instances");
+        List<Application> result = applicationInstanceRepository.findAll();
         return result;
     }
 
+    @Override
+    public List<Application> findApplicationInstancesByProject(Long projectId) {
+        Project project = projectService.findOne(projectId);
+        List<Application> result = applicationInstanceRepository.findByProject(project);
+        return result;
+    }
 
     /**
-     * Get one Application by id.
+     * Get one applicationInstance by id.
      * @param id the id of the entity
      * @return the entity
      */
     @Transactional(readOnly = true)
     public Application findOne(Long id) {
         log.debug("Request to get Application : {}", id);
-        Application Application = ApplicationRepository.findOne(id);
-        return Application;
+        Application applicationInstance = applicationInstanceRepository.findOne(id);
+        return applicationInstance;
     }
 
     /**
@@ -68,17 +91,31 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @param id the id of the entity
      */
     public void delete(Long id) {
-        Application application = ApplicationRepository.findOne(id);
-        // TODO delete sub app
-        ApplicationRepository.delete(id);
+  	
+    	Application application = findOne(id);
+    	
+    	for(MeasureInstance instance : application.getInstances()) {
+    		instanceService.delete(instance.getId());
+    	}
+    	
+    	
+    	for(Dashboard dashboard : application.getDashboards()) {
+    		dashboardService.delete(dashboard.getId());
+    	}
+        
+        applicationInstanceRepository.delete(id);
     }
-    
-    @Override
-    public List<Application> findApplicationsByProject(Long projectId) {
-        Project project = projectRepository.getOne(projectId);
-        List<Application> result = ApplicationRepository.findByProject(project);
+
+	@Override
+	public List<Application> findApplicationInstancesByName(String name) {
+		return  applicationInstanceRepository.findByName(name);
+	}
+
+	@Override
+	public List<Application> findApplicationInstanceByApplicationType(String applicationtype) {
+        List<Application> result = applicationInstanceRepository.findByApplicationType(applicationtype);
         return result;
-    }
+	}
 
 
 }

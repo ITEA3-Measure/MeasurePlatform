@@ -12,6 +12,7 @@ import org.measure.platform.core.entity.Dashboard;
 import org.measure.platform.core.entity.MeasureView;
 import org.measure.platform.core.entity.dto.DashboardDTO;
 import org.measure.platform.core.entity.dto.MappingDashboardDTO;
+import org.measure.platform.core.impl.repository.ApplicationRepository;
 import org.measure.platform.core.impl.repository.DashboardRepository;
 import org.measure.platform.utils.domain.User;
 import org.measure.platform.utils.service.UserService;
@@ -43,6 +44,9 @@ public class DashboardServiceImpl implements DashboardService {
     @Inject
     private MeasureViewService viewService;
     
+    @Inject
+    private ApplicationRepository applicationRepository;
+
     @Inject
     private UserService userService;
 
@@ -163,5 +167,10 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 		return false;
 	}
+	
+	@Override
+    public List<Dashboard> findByApplication(Long applicationId) {
+        return dashboardRepository.findByApplication(applicationRepository.getOne(applicationId));
+    }
 
 }

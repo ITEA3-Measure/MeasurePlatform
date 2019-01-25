@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,9 +32,15 @@ public class Application implements Serializable {
     private Long id;
       
     @NotNull
+    @Column(name = "application_type", nullable = false)
+    private String applicationType;
+    
+    
+    @NotNull
     @Column(name = "application_name", nullable = false)
     private String name;
-    
+  
+  
     @NotNull
     @Column(name = "application_description", nullable = false)
     private String description;
@@ -43,7 +51,7 @@ public class Application implements Serializable {
     @ManyToOne
     private Project project;
     
-    @OneToMany(mappedBy = "application")
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureInstance> instances = new HashSet<>();
@@ -61,7 +69,19 @@ public class Application implements Serializable {
         this.id = id;
     }
     
+    public String getApplicationType() {
+        return applicationType;
+    }
 
+    public Application applicationType(String applicationType) {
+        this.applicationType = applicationType;
+        return this;
+    }
+
+    public void setApplicationType(String applicationType) {
+        this.applicationType = applicationType;
+    }    
+    
     public String getName() {
         return name;
     }
@@ -114,6 +134,12 @@ public class Application implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
+    
+    
+    public Set<MeasureInstance> getInstances() {
+        return instances;
+    }
+
 
     public Application instances(Set<MeasureInstance> measureInstances) {
         this.instances = measureInstances;

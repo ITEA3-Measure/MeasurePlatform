@@ -1,0 +1,149 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"
+	show-validation>
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="vm.clear()">&times;</button>
+		<h4 class="modal-title" id="myMeasureInstanceLabel">Measure
+			Instance</h4>
+	</div>
+	<div class="modal-body">
+
+
+
+
+		<div class="form-group">
+			<label for="field_measureInstance">Base Measure</label> <select
+				class="form-control" id="field_measureInstance"
+				name="measureInstance" ng-model="vm.selectedmeasure"
+				ng-options="measure as measure.name for measure in vm.allmeasures">
+				<option value=""></option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label" for="field_instanceName">Instance
+				Name</label> <input type="text" class="form-control" name="instanceName"
+				id="field_instanceName" ng-model="vm.measureInstance.instanceName"
+				required />
+			<div ng-show="editForm.instanceName.$invalid">
+				<p class="help-block"
+					ng-show="editForm.instanceName.$error.required"></p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Scope Properies</h3>
+			</div>
+
+			<div class="panel-body">
+		
+
+					<div ng-repeat="property in vm.properties" style="margin: 5px;">
+						<div ng-show="property.propertyType !='DESABLE'" class="input-group" style="width: 100%">
+						
+							<div class="input-group-addon" style="width: 30%">{{property.propertyName}}</div>
+
+							<div ng-switch="property.propertyType">
+								<input ng-switch-when="STRING" type="text" class="form-control"
+									ng-model="property.propertyValue"> <input
+									ng-switch-when="INTEGER" type="number" class="form-control"
+									ng-model="property.propertyValue"> <input
+									ng-switch-when="FLOAT" type="number" class="form-control"
+									ng-model="property.propertyValue"> <input
+									ng-switch-when="PASSWORD" type="password" class="form-control"
+									ng-model="property.propertyValue"> <select
+									ng-switch-when="ENUM" class="form-control"
+									ng-model="property.propertyValue"
+									ng-options="val.value as val.label for val in property.enumvalues">
+
+								</select>
+
+
+								<div ng-switch-when="DATE">
+									<input id="field_creationDate" type="text" class="form-control"
+										name="creationDate" datetime-picker="{{dateformat}}"
+										ng-model="property.propertyValue"
+										is-open="vm.datePickerOpenStatus.creationDate"
+										style="width: 90%" /> <span class="input-group-btn">
+										<button type="button" class="btn btn-default"
+											ng-click="vm.openCalendar('creationDate')">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</div>
+
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default"
+			ng-repeat="measureref in vm.references">
+			<div class="panel-heading">
+				<h3 class="panel-title">Input : {{measureref.role}}</h3>
+			</div>
+
+			<div class="input-group" style="margin: 5px; width: 100%">
+				<div class="input-group-addon" style="width: 30%;">Measure</div>
+
+				<select class="form-control" id="field_measureInstance"
+					name="measureInstance" ng-model="measureref.referencedInstance"
+					ng-options="instance as instance.instanceName for instance in measureref.candidateInstances">
+				</select>
+			</div>
+
+			<div class="input-group" style="margin: 5px; width: 100%">
+				<div class="input-group-addon" style="width: 30%;">Number</div>
+				<input type="text" class="form-control"
+					ng-model="measureref.numberRef">
+			</div>
+
+			<div class="input-group" style="margin: 5px; width: 100%">
+				<div class="input-group-addon" style="width: 30%;">Filter
+					Expression</div>
+				<input type="text" class="form-control"
+					ng-model="measureref.filterExpression">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label" for="field_schedulingValue">Scheduling</label>
+			<div class="input-group">
+				<div class="input-group-addon">
+					<input type="checkbox" name="manageIsScheduling"
+						id="field_manageIsScheduling"
+						ng-model="vm.measureInstance.isShedule" />
+
+				</div>
+				
+				<input type="number" class="form-control" name="schedulingValue"
+					id="field_schedulingValue" ng-model="vm.schedulingValue"  style="height:42px;"/>
+				<div class="input-group-addon">
+					<select ng-model="vm.measureInstance.schedulingUnit"
+						name="schedulingUnit">
+						<option value="s">Seconds</option>
+						<option value="m">Minutes</option>
+						<option value="h">Hours</option>
+						<option value="d">Days</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-show="vm.errorMessage != ''" class="alert alert-danger"
+		role="alert">{{vm.errorMessage}}</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			ng-click="vm.clear()">
+			<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+		</button>
+		<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving"
+			class="btn btn-primary">
+			<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+		</button>
+	</div>
+</form>
