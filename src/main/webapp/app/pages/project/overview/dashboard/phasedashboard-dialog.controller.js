@@ -11,6 +11,7 @@
 			$uibModalInstance, entity, project, Principal, Dashboard, MeasureView, ConfigurationService, UsersRightAccessService) {
 		var vm = this;
 		vm.dashboard = entity;
+		vm.dashboard.sharedDashboard ="unchecked";
 		vm.project = project;
 		vm.dashboard.inviters = [];
 		vm.candidates = [];
