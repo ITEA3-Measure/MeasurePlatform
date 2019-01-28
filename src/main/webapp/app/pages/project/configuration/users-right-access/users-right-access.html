@@ -57,11 +57,10 @@
 								ui-sref="generalconf({id:vm.project.id})">Project Overview</a></li>
 
 							<li role="presentation"><a
-								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis
-									Configuration</a></li>
+								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis Configuration</a></li>
 							
 							<li role="presentation" class="active"><a
-								ui-sref="users-right-access({id:vm.project.id})">Users Right Access</a></li>
+								ui-sref="users-rightaccess({id:vm.project.id})">Users Right Access</a></li>
 
 							<li ng-repeat="analyse in vm.analysis" role="presentation"
 								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"><a>{{analyse.analysisToolId}}</a></li>
