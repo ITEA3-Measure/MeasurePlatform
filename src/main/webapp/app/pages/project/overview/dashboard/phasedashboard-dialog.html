@@ -20,11 +20,11 @@
 
 		<div style="margin-top: 10px;">
 			<div ng-show="vm.dashboard.mode == 'MANUAL'">
-				<h2 class="modal-title">Create Manual Dashboard</h2>
+				<h2 class="modal-title">Create Dashboard</h2>
 			</div>
 
 			<div ng-show="vm.dashboard.mode == 'KIBANA'">
-				<h2 class="modal-title">Create Kibana Dashboard</h2>
+				<h2 class="modal-title">Import Kibana Dashboard</h2>
 			</div>
 
 			<div ng-show="vm.dashboard.mode == 'EXTERNAL'">
@@ -129,12 +129,12 @@
 			<label>Shared Dashboard</label>
 			<div class="form-check">
 			  <input type="radio" class="custom-form-control" id="dontShareDashboard" name="sharedDashboard" ng-model="vm.dashboard.sharedDashboard" value="unchecked" />
-			  <label class="control-label" for="dontShareDashboard">Don't share! </label>
+			  <label class="control-label" for="dontShareDashboard">Personal Dashboard</label>
 			</div>
 			
 			<div class="form-check">
 			  <input type="radio" class="custom-form-control" id="shareDashboard" name="sharedDashboard" ng-model="vm.dashboard.sharedDashboard" value="checked" />
-			  <label class="control-label" for="shareDashboard">Share with: </label>
+			  <label class="control-label" for="shareDashboard">Share Dashboard</label>
 			</div>
 			<div ng-if="vm.dashboard.sharedDashboard == 'checked'">
 				<table class="table table-striped">

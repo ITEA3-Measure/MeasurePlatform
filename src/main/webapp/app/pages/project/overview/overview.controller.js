@@ -114,7 +114,7 @@
 				view.currentpage = 1;
 			}
 			query.measureInstance=view.measureinstance.instanceName;
-			query.page=view.currentpage - 1;
+			query.page=view.currentpage;
 			query.pageSize=view.fontSize;
 			query.query ='';
 			

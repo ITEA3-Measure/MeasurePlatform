@@ -6,10 +6,10 @@
 				<img class="img-rounded"
 					style="width: 30px; height: 30px; margin-right: 20px;"
 					src="content/images/measureLogo.png"
-					ng-show="vm.project.projectImage == null" /> <img
+					ng-if="vm.project.projectImage == null" /> <img
 					class="img-rounded" style="width: 30px; height: 30px;"
 					src="{{vm.project.projectImage}}"
-					ng-show="vm.project.projectImage != null" />
+					ng-if="vm.project.projectImage != null" />
 
 			</div>
 			<h2>{{vm.project.projectName}}</h2>
@@ -37,7 +37,7 @@
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="projectdatasources({id:vm.project.id})"
+						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="applicationinstances({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
 						</a> <a ng-if="vm.hasManagerRole == 'true'" ui-sref="generalconf({id:vm.project.id})"
@@ -49,13 +49,46 @@
 
 				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab"
 					style="margin-top: 10px;">
-
-						
-
 					<ul class="nav nav-tabs">
-						<li role="presentation" ng-repeat="dashboard in vm.dashboards"
-							ng-class="vm.isActive($index)"><a
-							ng-click="vm.setActive($index)">{{dashboard.dashboardName}}</a></li>
+					
+									<li role="presentation" ng-repeat="dashboard in vm.dashboards"
+							ng-class="vm.isActive($index)"><a ng-if="dashboard.mode=='OVERVIEW'" ng-click="vm.setActive($index)">
+								<span style="float:left;">
+									<img class="img-rounded"
+										style="width: 19px; height: 19px; margin-left: 5px;"
+										src="content/images/measureLogo.png"
+										ng-if="vm.project.projectImage == null" /> <img
+										class="img-rounded" style="width: 19px; height: 19px;margin-right: 5px;"
+										src="{{vm.project.projectImage}}"
+										ng-if="vm.project.projectImage != null" />
+
+								</span> {{vm.project.projectName}}
+								</a>
+								<a ng-if="dashboard.mode == 'APPLICATION'" ng-click="vm.setActive($index)">
+								<span style="float:left;">
+									<img
+										style="width: 19px; height: 19px; margin-right: 5px;"
+										src="content/images/application.png" /> 
+
+								</span>
+								 {{dashboard.dashboardName}}
+								</a>
+								<a ng-if="dashboard.mode != 'APPLICATION' && dashboard.mode != 'OVERVIEW'" ng-click="vm.setActive($index)">
+								<span style="float:left;">
+									<img ng-if="dashboard.hasEditionRole != true"
+										style="width: 16px; height: 16px; margin-right: 5px;"
+										src="content/images/external.png" /> 
+									<img ng-if="dashboard.hasEditionRole == true"
+										style="width: 16px; height: 16px; margin-right: 5px;"
+										src="content/images/personal.png" /> 
+
+								</span>
+								{{dashboard.dashboardName}}
+								</a>
+						
+						
+						</li>
+	
 						<li role="presentation"><a
 							ui-sref="projectoverview.newdashboard({id:vm.project.id})"><span
 								class="glyphicon glyphicon-plus" aria-hiden="true"></span></a></li>
@@ -63,7 +96,7 @@
 					</ul>
 
 					<div ng-if="vm.dashboards[vm.selectedDashboard] != null"
-						class="well-dashboard" style="min-height: 300px;">
+						class="well-dashboard" style="min-height: 600px;">
 						<div ng-if="vm.dashboards[vm.selectedDashboard].hasEditionRole == true" style="float: right; margin-top: -60px; margin-right: -15px;">
 							<div ng-if="vm.dashboards[vm.selectedDashboard].mode == 'MANUAL' || vm.dashboards[vm.selectedDashboard].mode == 'OVERVIEW'" style="float: right;">
 								<button class="btn btn-link" ng-show="!vm.editdashboard"
@@ -196,10 +229,10 @@
 												<div class="thumbnail" style="margin: 0px; text-align: center; margin: 5px;">	
 													<div style="padding:10px;display: flex;justify-content: center;flex-direction: column;overflow: auto;background-color:{{measureview.color}}; width:{{measureview.width}}px;height:{{measureview.height}}px; border-radius:5px;">									
 														<table class="table" >
-														 	<tr ng-repeat="col in measureview.value">
-														 		<td style="text-align:left;border:none;font-weight: bold;font-size:{{measureview.fontSize}}px;">{{col.label}}</td>
-														 		<td ng-if="col.value != null" style="text-align:left;border:none;font-size:{{measureview.fontSize}}px;">{{col.value}}</td>
-																<td ng-if="col.datevalue != null" style="text-align:left;border:none;font-size:{{measureview.fontSize}}px;">{{ col.datevalue | date : "MM/dd/yyyy 'at' HH:mm:ss"}}</td>
+														 	<tr ng-repeat="col in measureview.value" style="">
+														 		<td style="text-align:left;border:none;font-weight: bold;padding: 0px;font-size:{{measureview.fontSize}}px;">{{col.label}}</td>
+														 		<td ng-if="col.value != null" style="text-align:left;border:none;padding: 0px;font-size:{{measureview.fontSize}}px;">{{col.value}}</td>
+																<td ng-if="col.datevalue != null" style="text-align:left;border:none;padding: 0px;font-size:{{measureview.fontSize}}px;">{{ col.datevalue | date : "MM/dd/yyyy 'at' HH:mm:ss"}}</td>
 															</tr>
 														</table>
 													</div>				
