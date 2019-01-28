@@ -4,9 +4,9 @@
 	angular.module('measurePlatformApp').controller(
 			'UsersRightAccessController', UsersRightAccessController);
 
-	UsersRightAccessController.$inject = [ '$location', '$scope', 'Principal', '$state', 'entity', 'Home', 'Notification', 'UsersRightAccessService' ];
+	UsersRightAccessController.$inject = [ '$location', '$scope', 'Principal', '$state', 'entity', 'Home', 'ProjectAnalysis', 'Notification', 'UsersRightAccessService' ];
 
-	function UsersRightAccessController($location, $scope, Principal, $state, entity, Home, Notification, UsersRightAccessService) {
+	function UsersRightAccessController($location, $scope, Principal, $state, entity, Home, ProjectAnalysis, Notification, UsersRightAccessService) {
 		var vm = this;
 		vm.project = entity;
 		vm.transformRole = transformRole;
@@ -15,6 +15,16 @@
 		
 		vm.notifications = [];
 		loadNotificationByProject(vm.project.id);
+		
+		vm.analysis = [];
+		loadAnalysisByProject(vm.project.id);
+		function loadAnalysisByProject(id) {
+			ProjectAnalysis.byprojects({
+				id : id
+			}, function(result) {
+				vm.analysis = result;
+			});
+		}
 
 		function loadNotificationByProject(id) {
 			Notification.notifications({
