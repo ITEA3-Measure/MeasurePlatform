@@ -7,14 +7,14 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.IApplicationCatalogueService;
-import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.core.api.entitys.ApplicationService;
-import org.measure.platform.core.api.entitys.MeasurePropertyService;
-import org.measure.platform.core.api.entitys.enumeration.MeasureType;
-import org.measure.platform.core.entity.Application;
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.MeasureProperty;
+import org.measure.platform.core.catalogue.api.IApplicationCatalogueService;
+import org.measure.platform.core.catalogue.api.IMeasureCatalogueService;
+import org.measure.platform.core.data.api.IApplicationService;
+import org.measure.platform.core.data.api.IMeasurePropertyService;
+import org.measure.platform.core.data.api.enumeration.MeasureType;
+import org.measure.platform.core.data.entity.Application;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.MeasureProperty;
 import org.measure.platform.service.application.api.IApplicationConfigurationService;
 import org.measure.platform.service.application.impl.dto.ApplicationConfiguration;
 import org.measure.platform.service.application.impl.dto.ApplicationProperty;
@@ -41,10 +41,10 @@ public class ApplicationConfigurationService implements IApplicationConfiguratio
 	private IMeasureCatalogueService measureCatalogue;
 
 	@Inject
-	private ApplicationService applicationService;
+	private IApplicationService applicationService;
 	
 	@Inject
-	private MeasurePropertyService measurePropertyService;
+	private IMeasurePropertyService measurePropertyService;
 	
 	@Override
 	public ApplicationConfiguration createApplication(ApplicationConfiguration applicationConfiguration) {

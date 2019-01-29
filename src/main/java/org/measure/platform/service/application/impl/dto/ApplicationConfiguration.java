@@ -3,7 +3,7 @@ package org.measure.platform.service.application.impl.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.data.entity.Project;
 
 public class ApplicationConfiguration {
 	

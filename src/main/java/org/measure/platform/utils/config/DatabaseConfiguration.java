@@ -19,7 +19,7 @@ import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import liquibase.integration.spring.SpringLiquibase;
 
 @Configuration
-@EnableJpaRepositories("org.measure.platform.core.impl.repository")
+@EnableJpaRepositories("org.measure.platform.core.data.querys")
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 public class DatabaseConfiguration {

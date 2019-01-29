@@ -8,8 +8,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.ProjectService;
-import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.data.api.IProjectService;
+import org.measure.platform.core.data.entity.Project;
 import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
 import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
 import org.measure.platform.service.analysis.data.alert.AlertSubscription;
@@ -27,7 +27,7 @@ public class AnalysisCatalogue implements IAnalysisCatalogueService {
 	private Map<String, RegistredAnalysisService> analysisToolMap = new HashMap<>();
 	
 	@Inject
-	private ProjectService projectService;
+	private IProjectService projectService;
 
 	@Inject
 	private IAlertSubscriptionManager suscribtionManager;

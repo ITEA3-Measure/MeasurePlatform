@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.impl.repository.PersistenceAuditEventRepository;
+import org.measure.platform.core.data.querys.PersistenceAuditEventRepository;
 import org.measure.platform.utils.config.audit.AuditEventConverter;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;

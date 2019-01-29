@@ -12,17 +12,17 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.NotificationService;
-import org.measure.platform.core.api.entitys.enumeration.NotificationType;
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.Notification;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.api.INotificationService;
+import org.measure.platform.core.data.api.enumeration.NotificationType;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.Notification;
+import org.measure.platform.core.measurement.api.IElasticsearchIndexManager;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.service.analysis.api.IAlertEngineService;
 import org.measure.platform.service.analysis.data.alert.AlertData;
 import org.measure.platform.service.analysis.data.alert.AlertProperty;
 import org.measure.platform.service.analysis.data.alert.AlertType;
-import org.measure.platform.service.measurement.api.IElasticsearchIndexManager;
 import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,13 +51,13 @@ public class MeasureInstanceResource {
 	private IAlertEngineService alertEngineService;
 	
     @Inject
-    private MeasureInstanceService measureInstanceService;
+    private IMeasureInstanceService measureInstanceService;
 
     @Inject
     private ISchedulingService shedulingService;
 
     @Inject
-    private NotificationService notificationService;
+    private INotificationService notificationService;
     
     @Inject
     private IElasticsearchIndexManager indexManager;

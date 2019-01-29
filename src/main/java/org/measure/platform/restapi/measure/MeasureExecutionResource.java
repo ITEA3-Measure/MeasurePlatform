@@ -7,8 +7,8 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.entity.MeasureInstance;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.entity.MeasureInstance;
 import org.measure.platform.service.analysis.api.IAlertEngineService;
 import org.measure.platform.service.analysis.data.alert.AlertData;
 import org.measure.platform.service.analysis.data.alert.AlertProperty;
@@ -36,7 +36,7 @@ public class MeasureExecutionResource {
     private ISchedulingService shedulingService;
 
     @Inject
-    private MeasureInstanceService instanceService;
+    private IMeasureInstanceService instanceService;
 
 	@Inject
 	private IAlertEngineService alertEngineService;

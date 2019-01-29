@@ -8,11 +8,11 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.json.JSONException;
-import org.measure.platform.core.api.entitys.MeasureViewService;
-import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.data.api.IMeasureViewService;
+import org.measure.platform.core.data.entity.MeasureView;
+import org.measure.platform.core.measurement.api.IMeasurementStorage;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.restapi.measure.dto.KibanaVisualisation;
-import org.measure.platform.service.measurement.api.IMeasurementStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class MeasureViewResource {
     private final Logger log = LoggerFactory.getLogger(MeasureViewResource.class);
 
     @Inject
-    private MeasureViewService measureViewService;
+    private IMeasureViewService measureViewService;
 
     @Inject
     private IMeasurementStorage measurementStorage;

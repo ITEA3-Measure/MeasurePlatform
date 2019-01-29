@@ -5,12 +5,11 @@
 			'ApplicationInstancesController', ApplicationInstancesController);
 
 	ApplicationInstancesController.$inject = [ '$location', '$scope',
-			'Principal', 'LoginService', '$state', 'entity', 'Home',
-			'ApplicationInstances', 'MeasureAgentService', 'Notification' ,'ProjectAnalysis'];
+			'Principal', '$state', 'entity',
+			'ApplicationInstances', 'Notification' ];
 
 	function ApplicationInstancesController($location, $scope, Principal,
-			LoginService, $state, entity, Home, ApplicationInstances,
-			MeasureAgentService, Notification,ProjectAnalysis) {
+			 $state, entity, ApplicationInstances, Notification) {
 		var vm = this;
 
 		vm.project = entity;
@@ -53,7 +52,6 @@
 
 		vm.notifications = [];
 		loadNotificationByProject(vm.project.id);
-
 		function loadNotificationByProject(id) {
 			Notification.notifications({
 				id : id

@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.entity.MeasureInstance;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.entity.MeasureInstance;
 import org.measure.platform.restapi.measure.dto.MeasureAgent;
 import org.measure.platform.service.agent.api.IAgentManager;
 import org.measure.platform.service.agent.api.IRemoteCatalogueService;
@@ -28,7 +28,7 @@ public class AgentManager implements IAgentManager {
      IRemoteCatalogueService remoteCatalogue;
 
     @Inject
-     MeasureInstanceService measureInstanceService;
+     IMeasureInstanceService measureInstanceService;
 
     @Inject
      ISchedulingService shedulingService;

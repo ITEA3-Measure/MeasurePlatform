@@ -5,16 +5,15 @@
 			'ProjectGeneralConfigurationController', ProjectGeneralConfigurationController);
 
 	ProjectGeneralConfigurationController.$inject = [ '$location', '$scope',
-			'Principal', 'LoginService', '$state', 'entity', 'Home','MeasureAgentService', 'Notification','ProjectAnalysis','AnalysisServicesService' ];
+			'Principal', 'LoginService', '$state', 'entity','MeasureAgentService', 'Notification','ProjectAnalysis','AnalysisServicesService','UsersRightAccessService' ];
 
 	function ProjectGeneralConfigurationController($location, $scope, Principal,
-			LoginService, $state, entity, Home,	MeasureAgentService, Notification,ProjectAnalysis,AnalysisServicesService) {
+			LoginService, $state, entity,	MeasureAgentService, Notification,ProjectAnalysis,AnalysisServicesService,UsersRightAccessService) {
 		var vm = this;
 		vm.project = entity;
-		
+
 		vm.notifications = [];
 		loadNotificationByProject(vm.project.id);
-
 		function loadNotificationByProject(id) {
 			Notification.notifications({
 				id : id
@@ -22,6 +21,7 @@
 				vm.notifications = result;
 			});
 		}
+				
 		
 		vm.analysis = [];
 		loadAnalysisByProject(vm.project.id);
@@ -31,30 +31,7 @@
 			}, function(result) {
 				vm.analysis = result;
 			});
-			
-			UsersRightAccessService.currentUserHasManagerRole({
-				projectId : id
-			}, function(result) {
-				vm.hasManagerRole = result.data;
-			});
 		}
 		
-		vm.services = [];
-		loadAllAnalysisServices();		
-		function loadAllAnalysisServices() {
-			AnalysisServicesService.allServices(function(result) {
-				vm.services = result;
-			});
-		}
-		
-		vm.isserviceavailable = isserviceavailable;
-		function isserviceavailable(id) {
-			for(var i = 0; i < vm.services.length;i++){
-				if(vm.services[i].name == id){
-					return true;
-				}		
-			}
-			return false;
-		}
 	}
 })();

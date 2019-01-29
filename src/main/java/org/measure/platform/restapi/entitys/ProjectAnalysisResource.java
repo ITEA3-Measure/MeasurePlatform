@@ -8,9 +8,9 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.ProjectAnalysisService;
-import org.measure.platform.core.api.entitys.ProjectService;
-import org.measure.platform.core.entity.ProjectAnalysis;
+import org.measure.platform.core.data.api.IProjectAnalysisService;
+import org.measure.platform.core.data.api.IProjectService;
+import org.measure.platform.core.data.entity.ProjectAnalysis;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.service.analysis.api.IAlertEngineService;
 import org.measure.platform.service.analysis.data.alert.AlertData;
@@ -40,10 +40,10 @@ public class ProjectAnalysisResource {
 	private final Logger log = LoggerFactory.getLogger(ProjectAnalysisResource.class);
 
 	@Inject
-	private ProjectAnalysisService projectAnalysisService;
+	private IProjectAnalysisService projectAnalysisService;
 	
 	@Inject
-	private ProjectService projecService;
+	private IProjectService projecService;
 	
 	@Inject
 	private IAlertEngineService alertEngineService;

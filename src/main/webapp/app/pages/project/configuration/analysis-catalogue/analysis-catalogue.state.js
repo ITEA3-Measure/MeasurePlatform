@@ -17,7 +17,7 @@
             views: {
                 'content@': {
                     templateUrl: 'app/pages/project/configuration/analysis-catalogue/analysis-catalogue.html',
-                    controller: 'ProjectGeneralConfigurationController',
+                    controller: 'ProjectAnalysisConfigurationController',
                     controllerAs: 'vm'
                 }
             },resolve: {

@@ -10,10 +10,10 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasurePropertyService;
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.MeasureProperty;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.api.IMeasurePropertyService;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.MeasureProperty;
 import org.measure.platform.restapi.measure.dto.MeasureAgent;
 import org.measure.platform.service.agent.api.IAgentManager;
 import org.measure.platform.service.agent.api.IRemoteCatalogueService;
@@ -51,10 +51,10 @@ public class AgentResource {
 	IRemoteMeasureExecutionService remoteExecutionService;
 
 	@Inject
-	MeasureInstanceService instanceService;
+	IMeasureInstanceService instanceService;
 	
 	@Inject
-	MeasurePropertyService propertyService;
+	IMeasurePropertyService propertyService;
 
 	@Inject
 	RemoteExecutionCache remoteExecutionCache;

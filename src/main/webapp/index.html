@@ -24,7 +24,7 @@
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 	<div ui-view="navbar" ng-cloak></div>
-	<div class="container" style="width: 100%;padding: 0px;">
+	<div class="container" style="width: 100%; padding: 0px;">
 		<div ui-view="content">
 			<!-- Angular views -->
 		</div>
@@ -88,48 +88,18 @@
 	<script src="app/layouts/navbar/active-link.directive.js"></script>
 	<script src="app/layouts/error/error.state.js"></script>
 
-	<script src="app/entities/project/project-dialog.controller.js"></script>
-	<script src="app/entities/project/project-detail.controller.js"></script>
-	<script src="app/entities/project/project-delete-dialog.controller.js"></script>
-	<script src="app/entities/project/project.state.js"></script>
-	<script src="app/entities/project/project.service.js"></script>
-	<script src="app/entities/project/project.controller.js"></script>
-	
 
-	<script
-		src="app/entities/measure-view/measure-view-dialog.controller.js"></script>
-	<script
-		src="app/entities/measure-view/measure-view-detail.controller.js"></script>
-	<script
-		src="app/entities/measure-view/measure-view-delete-dialog.controller.js"></script>
-	<script src="app/entities/measure-view/measure-view.state.js"></script>
-	<script src="app/entities/measure-view/measure-view.service.js"></script>
-	<script src="app/entities/measure-view/measure-view.controller.js"></script>
-	<script
-		src="app/entities/measure-property/measure-property-dialog.controller.js"></script>
-	<script
-		src="app/entities/measure-property/measure-property-detail.controller.js"></script>
-	<script
-		src="app/entities/measure-property/measure-property-delete-dialog.controller.js"></script>
-	<script src="app/entities/measure-property/measure-property.state.js"></script>
-	<script src="app/entities/measure-property/measure-property.service.js"></script>
-	<script src="app/entities/measure-property/measure-property.controller.js"></script>
-	<script src="app/entities/measure-instance/measure-instance-dialog.controller.js"></script>
-	<script src="app/entities/measure-instance/measure-instance-detail.controller.js"></script>
-	<script src="app/entities/measure-instance/measure-instance-delete-dialog.controller.js"></script>
-	<script src="app/entities/measure-instance/measure-instance.state.js"></script>
-	<script src="app/entities/measure-instance/measure-instance.service.js"></script>
-	<script src="app/entities/measure-instance/measure-instance.controller.js"></script>
-	<script src="app/entities/entity.state.js"></script>
-	<script src="app/entities/dashboard/dashboard-dialog.controller.js"></script>
-	<script src="app/entities/dashboard/dashboard-detail.controller.js"></script>
-	<script src="app/entities/dashboard/dashboard-delete-dialog.controller.js"></script>
-	<script src="app/entities/project-analysis/project-analysis.service.js"></script>	
-	<script src="app/entities/analysis-card/analysis-card.service.js"></script>	
-			
-	<script src="app/entities/dashboard/dashboard.state.js"></script>
-	<script src="app/entities/dashboard/dashboard.service.js"></script>
-	<script src="app/entities/dashboard/dashboard.controller.js"></script>
+	<script src="app/services/entities/analysis-card.service.js"></script>
+	<script src="app/services/entities/dashboard.service.js"></script>
+	<script src="app/services/entities/measure-instance.service.js"></script>
+	<script src="app/services/entities/measure-property.service.js"></script>
+	<script src="app/services/entities/measure-view.service.js"></script>
+	<script src="app/services/entities/notification.service.js"></script>
+	<script src="app/services/entities/project-analysis.service.js"></script>
+	<script src="app/services/entities/project.service.js"></script>
+
+
+
 	<script src="app/components/util/truncate-words.filter.js"></script>
 	<script src="app/components/util/truncate-characters.filter.js"></script>
 	<script src="app/components/util/sort-by.directive.js"></script>
@@ -170,10 +140,6 @@
 		src="app/admin/user-management/user-management-delete-dialog.controller.js"></script>
 	<script src="app/admin/user-management/user-management.state.js"></script>
 	<script src="app/admin/user-management/user-management.controller.js"></script>
-	<script src="app/admin/metrics/metrics.state.js"></script>
-	<script src="app/admin/metrics/metrics.service.js"></script>
-	<script src="app/admin/metrics/metrics.modal.controller.js"></script>
-	<script src="app/admin/metrics/metrics.controller.js"></script>
 	<script src="app/admin/logs/logs.state.js"></script>
 	<script src="app/admin/logs/logs.service.js"></script>
 	<script src="app/admin/logs/logs.controller.js"></script>
@@ -207,100 +173,127 @@
 	<script src="app/account/account.state.js"></script>
 
 	<!-- Measure Paltform -->
-	
-	<script src="app/entities/notification/notification.service.js"></script>
-		
 	<script src="app/home/home.state.js"></script>
 	<script src="app/home/home.controller.js"></script>
-	<script src="app/home/home.service.js"></script>
-	<script src="app/home/newproject.controller.js"></script>
-	
+
 	<script src="app/pages/catalogue/catalogue.state.js"></script>
 	<script src="app/pages/catalogue/catalogue.controller.js"></script>
 	<script src="app/pages/catalogue/catalogue.service.js"></script>
 	<script src="app/pages/catalogue/newproject.controller.js"></script>
-	
+
 	<script src="app/pages/catalogue/common/uploadfile.directive.js"></script>
-	
+
 	<script src="app/pages/catalogue/application/application.controller.js"></script>
 	<script src="app/pages/catalogue/application/application.service.js"></script>
 	<script src="app/pages/catalogue/application/application.state.js"></script>
-	<script src="app/pages/catalogue/application/application-upload-dialog.controller.js"></script>
-	<script src="app/pages/catalogue/application/application-delete-dialog.controller.js"></script>
+	<script
+		src="app/pages/catalogue/application/application-upload-dialog.controller.js"></script>
+	<script
+		src="app/pages/catalogue/application/application-delete-dialog.controller.js"></script>
 
 	<script src="app/pages/catalogue/measure/measure.controller.js"></script>
 	<script src="app/pages/catalogue/measure/measure.service.js"></script>
 	<script src="app/pages/catalogue/measure/measure.state.js"></script>
-	<script src="app/pages/catalogue/measure/measure-delete-dialog.controller.js"></script>
-	<script src="app/pages/catalogue/measure/measure-upload-dialog.controller.js"></script>
-	
+	<script
+		src="app/pages/catalogue/measure/measure-delete-dialog.controller.js"></script>
+	<script
+		src="app/pages/catalogue/measure/measure-upload-dialog.controller.js"></script>
+
 	<script src="app/pages/project/edition/appproject.controller.js"></script>
 	<script src="app/pages/project/edition/appproject-dialog.controller.js"></script>
-	<script src="app/pages/project/edition/appproject-delete-dialog.controller.js"></script>
+	<script
+		src="app/pages/project/edition/appproject-delete-dialog.controller.js"></script>
 
 	<script src="app/pages/project/overview/overview.controller.js"></script>
 	<script src="app/pages/project/overview/overview.state.js"></script>
-	<script src="app/pages/project/overview/dashboard/phasedashboard-delete-dialog.controller.js"></script>
-	<script src="app/pages/project/overview/dashboard/phasedashboard-dialog.controller.js"></script>
-	
-	
+	<script
+		src="app/pages/project/overview/dashboard/phasedashboard-delete-dialog.controller.js"></script>
+	<script
+		src="app/pages/project/overview/dashboard/phasedashboard-dialog.controller.js"></script>
+
+
 	<script src="app/pages/project/analysis/analysis.mainview.state.js"></script>
-	<script src="app/pages/project/analysis/analysis.mainview.controller.js"></script>
-	
-	
-	
+	<script
+		src="app/pages/project/analysis/analysis.mainview.controller.js"></script>
+
+
+
 	<script src="app/pages/project/notification/notification.controller.js"></script>
 	<script src="app/pages/project/notification/notification.state.js"></script>
 
 	<script src="app/pages/project/configuration/general/general.controller.js"></script>
 	<script src="app/pages/project/configuration/general/general.state.js"></script>
-	
-	<script src="app/pages/project/configuration/users-right-access/users-right-access.controller.js"></script>
-	<script src="app/pages/project/configuration/users-right-access/users-right-access.state.js"></script>
-	<script src="app/pages/project/configuration/users-right-access/users-right-access.service.js"></script>
-	<script src="app/pages/project/configuration/users-right-access/users-right-access-dialog.controller.js"></script>
-	<script src="app/pages/project/configuration/users-right-access/users-right-access-delete-dialog.controller.js"></script>
-	
-	<script src="app/pages/project/configuration/analysis-catalogue/analysis-catalogue.state.js"></script>
-	<script src="app/pages/project/configuration/analysis-catalogue/analysis-catalogue.controller.js"></script>
-	<script src="app/pages/project/configuration/analysis-catalogue/add-analysis-dialog.controller.js"></script>
-	<script src="app/pages/project/configuration/analysis-catalogue/analysis-delete-dialog.controller.js"></script>
 
-		
-	<script src="app/pages/project/configuration/analysis/analysis.configurationview.controller.js"></script>
-	<script src="app/pages/project/configuration/analysis/analysis.configurationview.state.js"></script>
-	
-	<script src="app/pages/project/datasources/measureinstances/datasources.controller.js"></script>
-	<script src="app/pages/project/datasources/measureinstances/datasources.state.js"></script>
-	<script src="app/pages/project/datasources/measureinstances/datasources.service.js"></script>
-	<script src="app/pages/project/datasources/measureinstances/datasource-dialog.controller.js"></script>
-	<script src="app/pages/project/datasources/measureinstances/datasource-delete-dialog.controller.js"></script>
-	<script src="app/pages/project/datasources/measureinstances/datasource-test-dialog.controller.js"></script>
-	
-	<script src="app/pages/project/datasources/applicationinstances/applicationinstances.controller.js"></script>
-	<script src="app/pages/project/datasources/applicationinstances/applicationinstances.state.js"></script>
-	<script src="app/pages/project/datasources/applicationinstances/applicationinstances.service.js"></script>
-	<script src="app/pages/project/datasources/applicationinstances/applicationinstances-dialog.controller.js"></script>
-	<script src="app/pages/project/datasources/applicationinstances/applicationinstances-delete-dialog.controller.js"></script>
-	
+	<script
+		src="app/pages/project/configuration/users-right-access/users-right-access.controller.js"></script>
+	<script
+		src="app/pages/project/configuration/users-right-access/users-right-access.state.js"></script>
+	<script
+		src="app/pages/project/configuration/users-right-access/users-right-access.service.js"></script>
+	<script
+		src="app/pages/project/configuration/users-right-access/users-right-access-dialog.controller.js"></script>
+	<script
+		src="app/pages/project/configuration/users-right-access/users-right-access-delete-dialog.controller.js"></script>
+
+	<script
+		src="app/pages/project/configuration/analysis-catalogue/analysis-catalogue.state.js"></script>
+	<script
+		src="app/pages/project/configuration/analysis-catalogue/analysis-catalogue.controller.js"></script>
+	<script
+		src="app/pages/project/configuration/analysis-catalogue/add-analysis-dialog.controller.js"></script>
+	<script
+		src="app/pages/project/configuration/analysis-catalogue/analysis-delete-dialog.controller.js"></script>
+
+
+	<script
+		src="app/pages/project/configuration/analysis/analysis.configurationview.controller.js"></script>
+	<script
+		src="app/pages/project/configuration/analysis/analysis.configurationview.state.js"></script>
+
+	<script
+		src="app/pages/project/datasources/measureinstances/datasources.controller.js"></script>
+	<script
+		src="app/pages/project/datasources/measureinstances/datasources.state.js"></script>
+	<script
+		src="app/pages/project/datasources/measureinstances/datasources.service.js"></script>
+	<script
+		src="app/pages/project/datasources/measureinstances/datasource-dialog.controller.js"></script>
+	<script
+		src="app/pages/project/datasources/measureinstances/datasource-delete-dialog.controller.js"></script>
+	<script
+		src="app/pages/project/datasources/measureinstances/datasource-test-dialog.controller.js"></script>
+
+	<script
+		src="app/pages/project/datasources/applicationinstances/applicationinstances.controller.js"></script>
+	<script
+		src="app/pages/project/datasources/applicationinstances/applicationinstances.state.js"></script>
+	<script
+		src="app/pages/project/datasources/applicationinstances/applicationinstances.service.js"></script>
+	<script
+		src="app/pages/project/datasources/applicationinstances/applicationinstances-dialog.controller.js"></script>
+	<script
+		src="app/pages/project/datasources/applicationinstances/applicationinstances-delete-dialog.controller.js"></script>
+
 
 	<script src="app/pages/logs/measure-log.controller.js"></script>
 	<script src="app/pages/logs/measure-log.service.js"></script>
 	<script src="app/pages/logs/measure-log.state.js"></script>
-	
+
 	<script src="app/pages/agents/measure-agent.controller.js"></script>
 	<script src="app/pages/agents/measure-agent.service.js"></script>
 	<script src="app/pages/agents/measure-agent.state.js"></script>
-	
-	<script src="app/pages/analysisservices/analysis-services.controller.js"></script>
+
+	<script
+		src="app/pages/analysisservices/analysis-services.controller.js"></script>
 	<script src="app/pages/analysisservices/analysis-services.service.js"></script>
 	<script src="app/pages/analysisservices/analysis-services.state.js"></script>
-	<script src="app/pages/analysisservices/analysis-services-configuration-dialog.controller.js"></script>
-	
+	<script
+		src="app/pages/analysisservices/analysis-services-configuration-dialog.controller.js"></script>
+
 	<script src="app/pages/graphics/graphic-dialog.controller.js"></script>
 	<script src="app/pages/graphics/graphic.service.js"></script>
-	
-	<script src="app/configuration.service.js"></script>	
+
+	<script src="app/configuration.service.js"></script>
 	<script src="app/pages/graphics/goClick.directive.js"></script>
 
 </body>

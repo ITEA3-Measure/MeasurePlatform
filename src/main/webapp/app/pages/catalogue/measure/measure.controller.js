@@ -22,12 +22,8 @@
 			vm.selectedCategory = "0";
 		}
 		
-
 		loadAll();
-		
-
 	
-
 		function loadAll() {
 			Measure.allmeasures(function(result) {
 				vm.measures = result;
@@ -35,7 +31,6 @@
 					vm.measures[j].showUnites  = false;
 					vm.measures[j].showDependencies = false;
 					vm.measures[j].showProperties = false;
-					
 					
 					if(vm.measures[j].category != null && vm.measures[j].category != ""){
 						var find = false;
@@ -108,20 +103,8 @@
 		}
 		
 		
-		vm.isActive = isActive;
-
-		function isActive(idx) {
-			if (idx == vm.selectedCategory) {
-				return 'active';
-			}
-			return '';
-		}
-
-		
-	
 		function getMeasureInCategory(category){
-			vm.measuresInCategory = [];
-			
+			vm.measuresInCategory = [];	
 			for (var i = 0; i < vm.measures.length; i++) {
 				if(vm.measures[i].category == category){
 					vm.measuresInCategory.push(vm.measures[i]);
@@ -133,13 +116,16 @@
 			}
 		}
 		
-	
 		
-		
-		vm.setActive = setActive;
-		
+		vm.isActive = isActive;
+		function isActive(idx) {
+			if (idx == vm.selectedCategory) {
+				return 'active';
+			}
+			return '';
+		}
 
-		
+		vm.setActive = setActive;
 		function setActive(idx) {
 			vm.selectedCategory = idx;			
 			$cookies.put("selectedCategory",idx);

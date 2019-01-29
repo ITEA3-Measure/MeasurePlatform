@@ -1,9 +1,9 @@
-<div>
-    <h2>Users</h2>
+<div  style="margin: 20px;">
+    <h2>Users Management</h2>
     <jhi-alert></jhi-alert>
     <div class="row">
-      <div class="col-md-4">
-          <button class="btn btn-primary" ui-sref="user-management.new">
+      <div class="col-md-12">
+          <button class="btn btn-primary" ui-sref="user-management.new" style="float:right;margin: 10px;">
               <span class="glyphicon glyphicon-flash"></span> <span>Create a new User</span>
           </button>
       </div>
@@ -17,8 +17,8 @@
                 <th jh-sort-by="email"><span>Email</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
                                 <th><span>Profiles</span></th>                <th jh-sort-by="createdDate"><span>Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="lastModifiedBy"><span>Last Modified By</span> <span class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="lastModifiedDate"><span>Last Modified Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="lastModifiedBy"><span>Modified By</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="lastModifiedDate"><span>Modified Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
             </tr>
             </thead>

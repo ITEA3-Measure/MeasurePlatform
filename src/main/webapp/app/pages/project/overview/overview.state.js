@@ -23,7 +23,10 @@
             },resolve: {
                 entity: ['$stateParams', 'Project', function($stateParams, Project) {
                     return Project.get({id : $stateParams.id}).$promise;
-                }]
+                }],
+               role : ['$stateParams', 'UsersRightAccessService', function($stateParams, UsersRightAccessService) {
+                   return UsersRightAccessService.currentUserHasManagerRole({projectId : $stateParams.id}).$promise;
+               }]
             }
         }).state('projectoverview.newdashboard', {
             parent: 'projectoverview',

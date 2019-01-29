@@ -2,10 +2,10 @@ package org.measure.platform.restapi.application;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.ApplicationService;
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.entity.Application;
-import org.measure.platform.core.entity.MeasureInstance;
+import org.measure.platform.core.data.api.IApplicationService;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.entity.Application;
+import org.measure.platform.core.data.entity.MeasureInstance;
 import org.measure.platform.service.analysis.data.alert.AlertData;
 import org.measure.platform.service.analysis.data.alert.AlertProperty;
 import org.measure.platform.service.analysis.data.alert.AlertType;

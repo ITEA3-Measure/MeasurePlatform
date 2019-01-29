@@ -7,11 +7,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasurePropertyService;
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.MeasureProperty;
-import org.measure.platform.service.measurement.api.IMeasurementStorage;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.api.IMeasurePropertyService;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.MeasureProperty;
+import org.measure.platform.core.measurement.api.IMeasurementStorage;
 import org.measure.platform.service.smmengine.api.ILoggerService;
 import org.measure.platform.service.smmengine.api.IRemoteMeasureExecutionService;
 import org.measure.platform.service.smmengine.api.ISchedulingService;
@@ -24,7 +24,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class RemoteMeasureExecutionService implements IRemoteMeasureExecutionService {
 	@Inject
-	private MeasurePropertyService measurePropertyService;
+	private IMeasurePropertyService measurePropertyService;
 
 	@Inject
 	private ILoggerService logger;
@@ -36,7 +36,7 @@ public class RemoteMeasureExecutionService implements IRemoteMeasureExecutionSer
 	private ISchedulingService shedulingService;
 
 	@Inject
-	private MeasureInstanceService measureInstanceService;
+	private IMeasureInstanceService measureInstanceService;
 
 	@Override
 	public void registerRemoteExecution(MeasureLog executionLog) {

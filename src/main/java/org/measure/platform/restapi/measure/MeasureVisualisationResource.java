@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.core.api.IMeasureVisaulisationManagement;
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasureViewService;
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.catalogue.api.IMeasureCatalogueService;
+import org.measure.platform.core.catalogue.api.IMeasureVisaulisationManagement;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.api.IMeasureViewService;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.MeasureView;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +28,10 @@ public class MeasureVisualisationResource {
 	private IMeasureVisaulisationManagement visualisationManagement;
 
 	@Inject
-	private MeasureInstanceService instanceService;
+	private IMeasureInstanceService instanceService;
 
 	@Inject
-	private MeasureViewService measureViewService;
+	private IMeasureViewService measureViewService;
 
 	@Inject
 	private IMeasureCatalogueService measureCatalogueService;

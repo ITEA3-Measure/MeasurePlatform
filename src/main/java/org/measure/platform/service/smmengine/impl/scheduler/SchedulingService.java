@@ -9,11 +9,11 @@ import java.util.concurrent.ScheduledFuture;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasurePropertyService;
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.MeasureProperty;
+import org.measure.platform.core.catalogue.api.IMeasureCatalogueService;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.api.IMeasurePropertyService;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.MeasureProperty;
 import org.measure.platform.service.agent.api.IAgentManager;
 import org.measure.platform.service.smmengine.api.ILoggerService;
 import org.measure.platform.service.smmengine.api.IMeasureExecutionService;
@@ -39,10 +39,10 @@ public class SchedulingService implements ISchedulingService {
     private IMeasureCatalogueService measureCatalogue;
 
     @Inject
-    private MeasureInstanceService measureInstanceService;
+    private IMeasureInstanceService measureInstanceService;
 
     @Inject
-    private MeasurePropertyService measurePropertyService;
+    private IMeasurePropertyService measurePropertyService;
 
     @Inject
     IAgentManager agentService;

@@ -8,9 +8,9 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.AnalysisCardService;
-import org.measure.platform.core.api.entitys.ProjectService;
-import org.measure.platform.core.entity.AnalysisCard;
+import org.measure.platform.core.data.api.IAnalysisCardService;
+import org.measure.platform.core.data.api.IProjectService;
+import org.measure.platform.core.data.entity.AnalysisCard;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +36,10 @@ public class AnalysisCardResource {
 	private final Logger log = LoggerFactory.getLogger(AnalysisCardResource.class);
 
 	@Inject
-	private AnalysisCardService analysisCardService;
+	private IAnalysisCardService analysisCardService;
 	
     @Inject
-    private ProjectService projectService;
+    private IProjectService projectService;
 	
 
 	/**

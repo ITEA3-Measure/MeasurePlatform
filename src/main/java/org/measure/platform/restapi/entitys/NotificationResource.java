@@ -10,10 +10,10 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.NotificationService;
-import org.measure.platform.core.api.entitys.ProjectService;
-import org.measure.platform.core.entity.Notification;
-import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.data.api.INotificationService;
+import org.measure.platform.core.data.api.IProjectService;
+import org.measure.platform.core.data.entity.Notification;
+import org.measure.platform.core.data.entity.Project;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +39,10 @@ public class NotificationResource {
     private final Logger log = LoggerFactory.getLogger(NotificationResource.class);
 
     @Inject
-    private NotificationService notificationService;
+    private INotificationService notificationService;
 
     @Inject
-    private ProjectService projectService;
+    private IProjectService projectService;
 
     /**
      * POST /notifications : Create a new notification.

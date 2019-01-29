@@ -3,8 +3,8 @@ package org.measure.platform.restapi.measure.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.MeasureView;
 import org.measure.smm.measure.api.IMeasurement;
 
 public class MeasureInstancePage {

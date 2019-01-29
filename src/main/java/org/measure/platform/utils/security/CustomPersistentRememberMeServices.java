@@ -8,8 +8,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.measure.platform.core.impl.repository.PersistentTokenRepository;
-import org.measure.platform.core.impl.repository.UserRepository;
+import org.measure.platform.core.data.querys.PersistentTokenRepository;
+import org.measure.platform.core.data.querys.UserRepository;
 import org.measure.platform.utils.config.JHipsterProperties;
 import org.measure.platform.utils.domain.PersistentToken;
 import org.slf4j.Logger;

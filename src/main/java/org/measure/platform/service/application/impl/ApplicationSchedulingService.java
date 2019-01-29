@@ -4,17 +4,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.IApplicationCatalogueService;
-import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.core.api.IMeasureVisaulisationManagement;
-import org.measure.platform.core.api.entitys.ApplicationService;
-import org.measure.platform.core.api.entitys.DashboardService;
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasureViewService;
-import org.measure.platform.core.entity.Application;
-import org.measure.platform.core.entity.Dashboard;
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.catalogue.api.IApplicationCatalogueService;
+import org.measure.platform.core.catalogue.api.IMeasureCatalogueService;
+import org.measure.platform.core.catalogue.api.IMeasureVisaulisationManagement;
+import org.measure.platform.core.data.api.IApplicationService;
+import org.measure.platform.core.data.api.IDashboardService;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.api.IMeasureViewService;
+import org.measure.platform.core.data.entity.Application;
+import org.measure.platform.core.data.entity.Dashboard;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.MeasureView;
 import org.measure.platform.service.application.api.IApplicationScheduling;
 import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.measure.smm.application.model.SMMApplication;
@@ -25,23 +25,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplicationSchedulingService implements IApplicationScheduling{
 	@Inject
-	private MeasureInstanceService measureInstanceService;
+	private IMeasureInstanceService measureInstanceService;
 
 	@Inject
 	private IMeasureCatalogueService measureCatalogue;
 	
 	@Inject
-	private DashboardService dashboardService;
+	private IDashboardService dashboardService;
 	
 	
 	@Inject
-	private MeasureViewService measureViewService;
+	private IMeasureViewService measureViewService;
 	
 	@Inject
 	private ISchedulingService schedulingService;
 	
 	@Inject
-	private ApplicationService applicationInstanceService;
+	private IApplicationService applicationInstanceService;
 	
 	@Inject
 	private IApplicationCatalogueService applicationCatalogue;
@@ -107,12 +107,9 @@ public class ApplicationSchedulingService implements IApplicationScheduling{
 
 
 
-	private Application executeApplication(Application applicationInstance) {
-		
-		List<MeasureInstance> measuresInstances = measureInstanceService.findMeasureInstancesByApplicationInstance(applicationInstance.getId());
-		for (MeasureInstance measureInstance : measuresInstances) {
+	private Application executeApplication(Application applicationInstance) {	
+		for (MeasureInstance measureInstance : applicationInstance.getInstances()) {
 			measureInstance.setIsShedule(true);
-			measureInstanceService.save(measureInstance);	
 			schedulingService.scheduleMeasure(measureInstance);
 		}
 		
@@ -124,24 +121,21 @@ public class ApplicationSchedulingService implements IApplicationScheduling{
 	public Boolean stopApplication(Long id) {
 
 		// update application and measure instances data model
-		org.measure.platform.core.entity.Application applicationInstance = applicationInstanceService.findOne(id);
+		org.measure.platform.core.data.entity.Application applicationInstance = applicationInstanceService.findOne(id);
 		if (applicationInstance == null || !applicationInstance.isEnable())
 			return null;
 
 		applicationInstance.setEnable(false);
-
-		applicationInstance = applicationInstanceService.save(applicationInstance);
-
-		List<MeasureInstance> measuresInstances = measureInstanceService.findMeasureInstancesByApplicationInstance(applicationInstance.getId());
-		for (MeasureInstance measureInstance : measuresInstances) {
+		for (MeasureInstance measureInstance :  applicationInstance.getInstances()) {
 			measureInstance.setIsShedule(false);
-			measureInstanceService.save(measureInstance);
 			this.schedulingService.removeMeasure(measureInstance.getId());
 		}
+		
+		applicationInstance = applicationInstanceService.save(applicationInstance);
 
 		// delete views and dashboards
-		List<org.measure.platform.core.entity.Dashboard> dashboards = dashboardService.findByApplication(id);
-		for (org.measure.platform.core.entity.Dashboard dashboard : dashboards) {
+		List<org.measure.platform.core.data.entity.Dashboard> dashboards = dashboardService.findByApplication(id);
+		for (org.measure.platform.core.data.entity.Dashboard dashboard : dashboards) {
 			dashboardService.delete(dashboard.getId());
 		}
 

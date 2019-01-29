@@ -5,11 +5,11 @@
 			'AppProjectDataSourcesController', AppProjectDataSourcesController);
 
 	AppProjectDataSourcesController.$inject = [ '$location', '$scope',
-			'Principal', 'LoginService', '$state', 'entity', 'Home',
+			'Principal', 'LoginService', '$state', 'entity',
 			'ProjectDataSources', 'MeasureAgentService', 'Notification' ,'ProjectAnalysis'];
 
 	function AppProjectDataSourcesController($location, $scope, Principal,
-			LoginService, $state, entity, Home, ProjectDataSources,
+			LoginService, $state, entity, ProjectDataSources,
 			MeasureAgentService, Notification,ProjectAnalysis) {
 		var vm = this;
 
@@ -41,16 +41,6 @@
 			});
 		}
 		
-		vm.analysis = [];
-		loadAnalysisByProject(vm.project.id);
-		function loadAnalysisByProject(id) {
-			ProjectAnalysis.byprojects({
-				id : id
-			}, function(result) {
-				vm.analysis = result;
-			});
-		}
-
 		vm.showProperties = showProperties
 		function showProperties(id, show) {
 			for (var j = 0; j < vm.measureInstances.length; j++) {

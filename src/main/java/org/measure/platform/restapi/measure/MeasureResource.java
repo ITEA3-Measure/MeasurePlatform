@@ -11,10 +11,10 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
 
-import org.measure.platform.core.api.IMeasureCatalogueService;
+import org.measure.platform.core.catalogue.api.IMeasureCatalogueService;
+import org.measure.platform.core.measurement.impl.ElasticMeasurementStorage;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.service.agent.api.IRemoteCatalogueService;
-import org.measure.platform.service.measurement.impl.ElasticMeasurementStorage;
 import org.measure.smm.measure.model.SMMMeasure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

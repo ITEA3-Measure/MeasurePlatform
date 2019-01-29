@@ -8,9 +8,9 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasureReferenceService;
-import org.measure.platform.core.entity.MeasureReference;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.api.IMeasureReferenceService;
+import org.measure.platform.core.data.entity.MeasureReference;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +36,10 @@ public class MeasureReferenceResource {
     private final Logger log = LoggerFactory.getLogger(MeasureReferenceResource.class);
 
     @Inject
-    private MeasureReferenceService measureReferenceService;
+    private IMeasureReferenceService measureReferenceService;
 
     @Inject
-    private MeasureInstanceService measureInstanceService;
+    private IMeasureInstanceService measureInstanceService;
 
     /**
      * POST  /measure-references : Create a new measureReference.

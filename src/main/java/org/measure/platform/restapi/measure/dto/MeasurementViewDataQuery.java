@@ -1,6 +1,6 @@
 package org.measure.platform.restapi.measure.dto;
 
-import org.measure.platform.core.entity.MeasureView;
+import org.measure.platform.core.data.entity.MeasureView;
 
 public class MeasurementViewDataQuery {
 	private MeasureView  view;

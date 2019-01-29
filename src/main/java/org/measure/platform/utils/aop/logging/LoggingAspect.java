@@ -25,7 +25,7 @@ public class LoggingAspect {
     @Inject
     private Environment env;
 
-    @Pointcut("within(org.measure.platform.repository..*) || within(org.measure.platform.service..*) || within(org.measure.platform.web.rest..*)")
+    @Pointcut("within(org.measure.platform.core.data.querys..*) || within(org.measure.platform.service..*) || within(org.measure.platform.web.rest..*)")
     public void loggingPointcut() {
     }
 

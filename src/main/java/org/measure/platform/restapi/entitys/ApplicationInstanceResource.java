@@ -8,8 +8,8 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.ApplicationService;
-import org.measure.platform.core.entity.Application;
+import org.measure.platform.core.data.api.IApplicationService;
+import org.measure.platform.core.data.entity.Application;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class ApplicationInstanceResource {
     private final Logger log = LoggerFactory.getLogger(ApplicationInstanceResource.class);
 
     @Inject
-    private ApplicationService applicationInstanceService;
+    private IApplicationService applicationInstanceService;
 
     
     /**

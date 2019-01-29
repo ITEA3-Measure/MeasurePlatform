@@ -37,59 +37,59 @@
            timeToLiveSeconds="3600">
     </cache>
     
-    <cache name="org.measure.platform.core.impl.entity.Project"
+    <cache name="org.measure.platform.core.data.entity.Project"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.Project.phases"
+    <cache name="org.measure.platform.core.data.entity.Project.phases"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.Project.instances"
+    <cache name="org.measure.platform.core.data.entity.Project.instances"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.Phase"
+    <cache name="org.measure.platform.core.data.entity.Phase"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.Phase.dashboards"
+    <cache name="org.measure.platform.core.data.entity.Phase.dashboards"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.Phase.views"
+    <cache name="org.measure.platform.core.data.entity.Phase.views"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.Phase.nexts"
+    <cache name="org.measure.platform.core.data.entity.Phase.nexts"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.Dashboard"
+    <cache name="org.measure.platform.core.data.entity.Dashboard"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.Dashboard.views"
+    <cache name="org.measure.platform.core.data.entity.Dashboard.views"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.MeasureInstance"
+    <cache name="org.measure.platform.core.data.entity.MeasureInstance"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.MeasureInstance.properties"
+    <cache name="org.measure.platform.core.data.entity.MeasureInstance.properties"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.MeasureInstance.depends"
+    <cache name="org.measure.platform.core.data.entity.MeasureInstance.depends"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.MeasureProperty"
+    <cache name="org.measure.platform.core.data.entity.MeasureProperty"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.measure.platform.core.impl.entity.MeasureView"
+    <cache name="org.measure.platform.core.data.entity.MeasureView"
         timeToLiveSeconds="3600">
     </cache>
 

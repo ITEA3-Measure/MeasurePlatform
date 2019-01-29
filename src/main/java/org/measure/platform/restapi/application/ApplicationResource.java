@@ -10,9 +10,9 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.IApplicationCatalogueService;
+import org.measure.platform.core.catalogue.api.IApplicationCatalogueService;
+import org.measure.platform.core.measurement.impl.ElasticMeasurementStorage;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
-import org.measure.platform.service.measurement.impl.ElasticMeasurementStorage;
 import org.measure.smm.application.model.SMMApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

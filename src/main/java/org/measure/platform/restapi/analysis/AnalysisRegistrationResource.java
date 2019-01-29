@@ -7,10 +7,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.AnalysisCardService;
-import org.measure.platform.core.api.entitys.ProjectAnalysisService;
-import org.measure.platform.core.entity.AnalysisCard;
-import org.measure.platform.core.entity.ProjectAnalysis;
+import org.measure.platform.core.data.api.IAnalysisCardService;
+import org.measure.platform.core.data.api.IProjectAnalysisService;
+import org.measure.platform.core.data.entity.AnalysisCard;
+import org.measure.platform.core.data.entity.ProjectAnalysis;
 import org.measure.platform.restapi.analysis.dto.AnalysisConfiguration;
 import org.measure.platform.restapi.analysis.dto.CardConfiguration;
 import org.measure.platform.service.analysis.api.IAnalysisCatalogueService;
@@ -37,10 +37,10 @@ public class AnalysisRegistrationResource {
     IAnalysisCatalogueService analysisRepository;
     
     @Inject
-	private ProjectAnalysisService projectAnalysisService;
+	private IProjectAnalysisService projectAnalysisService;
 	
 	@Inject
-	private AnalysisCardService analysisCardService;
+	private IAnalysisCardService analysisCardService;
 
     /**
      * PUT /register : Register an external analysis tool

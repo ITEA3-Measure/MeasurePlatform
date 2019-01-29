@@ -5,9 +5,9 @@
         .module('measurePlatformApp')
         .controller('ProjectDataSourceDeleteController',ProjectDataSourceDeleteController);
 
-    ProjectDataSourceDeleteController.$inject = ['$uibModalInstance', 'entity', 'MeasureInstance', 'MeasureProperty',];
+    ProjectDataSourceDeleteController.$inject = ['$uibModalInstance', 'entity', 'MeasureInstance'];
 
-    function ProjectDataSourceDeleteController($uibModalInstance, entity, MeasureInstance, MeasureProperty) {
+    function ProjectDataSourceDeleteController($uibModalInstance, entity, MeasureInstance) {
         var vm = this;
 
         vm.measureInstance = entity;

@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.measurement.api.IMeasurementStorage;
 import org.measure.platform.restapi.measure.dto.MeasureInstancePage;
 import org.measure.platform.restapi.measure.dto.MeasurementQuery;
 import org.measure.platform.restapi.measure.dto.MeasurementViewDataQuery;
-import org.measure.platform.service.measurement.api.IMeasurementStorage;
 import org.measure.smm.measure.api.IMeasurement;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

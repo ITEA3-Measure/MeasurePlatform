@@ -24,8 +24,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
-import org.measure.platform.core.entity.Dashboard;
-import org.measure.platform.core.entity.Project;
+import org.measure.platform.core.data.entity.Dashboard;
+import org.measure.platform.core.data.entity.Project;
 import org.measure.platform.utils.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

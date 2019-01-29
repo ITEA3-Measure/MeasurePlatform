@@ -6,20 +6,16 @@
 
 	ProjectDataSourceDialogController.$inject = [ '$timeout', '$scope',
 			'$stateParams', '$uibModalInstance', 'entity', 'project',
-			'ProjectDataSources', 'Measure', 'MeasureProperty' ];
+			'ProjectDataSources', 'Measure','MeasureProperty'];
 
 	function ProjectDataSourceDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity, project, ProjectDataSources, Measure,
-			MeasureProperty) {
+			$uibModalInstance, entity, project, ProjectDataSources, Measure,MeasureProperty) {
 		var vm = this;
 		var measureupdate = false;
-
-		
 
 		vm.measureInstance = entity;
 		vm.measureInstance.project = project;
 
-		
 		
 		if(vm.measureInstance.schedulingUnit == 's'){
 			vm.schedulingValue = vm.measureInstance.shedulingExpression / 1000;
@@ -31,9 +27,7 @@
 			vm.schedulingValue = vm.measureInstance.shedulingExpression / 86400000;
 		}  
 		
-		
 
-		
 		vm.clear = clear;
 		vm.save = save;
 
@@ -167,7 +161,8 @@
 								}
 								
 								/*
-								 * update measureName, measureVersion and measureType in  vm.measureInstance
+								 * update measureName, measureVersion and
+								 * measureType in vm.measureInstance
 								 */
 								vm.measureInstance.measureName = newValue.name;
 								vm.measureInstance.measureVersion = "1.0.0";

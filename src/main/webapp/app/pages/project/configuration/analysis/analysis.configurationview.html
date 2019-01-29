@@ -30,15 +30,15 @@
 						<a ui-sref="projectoverview({id:vm.project.id})"
 							class="list-group-item text-center ">
 							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
-						</a> <a ng-repeat="analyse in vm.analysis"
-							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
-							class="list-group-item text-center ">
-							<h4 class="glyphicon glyphicon-dashboard"></h4> <br />{{analyse.analysisToolId}}
 						</a> <a ui-sref="notification({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a> <a ui-sref="applicationinstances({id:vm.project.id})"
+						</a>  <a
+							ui-sref="analysismainview({id:vm.project.id})"
+							class="list-group-item text-center ">
+							<h4 class="glyphicon glyphicon-barcode"></h4> <br />Data Analysis
+						</a><a ui-sref="applicationinstances({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
 						</a> <a ui-sref="generalconf({id:vm.project.id})"
@@ -51,26 +51,24 @@
 				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
 					<!-- Project Overview section -->
 					<div class="bhoechie-tab-content">
-
+					
 						<ul class="nav nav-tabs">
 							<li role="presentation"><a
 								ui-sref="generalconf({id:vm.project.id})">Project Overview</a></li>
-
 							<li role="presentation"><a
-								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis Configuration</a></li>
-
+								ui-sref="users-rightaccess({id:vm.project.id})">Project Users</a></li>
 							<li role="presentation"><a
-								ui-sref="users-rightaccess({id:vm.project.id})">Users Right Access</a></li>
-
+								ui-sref="projectanalysis-catalogue({id:vm.project.id})">Analysis
+									Tools</a></li>
 							<li ng-repeat="analyse in vm.analysis" role="presentation"
 								ui-sref="analysisconfigurationview({id:vm.project.id,anid:analyse.id})"
 								class="{{analyse.id == vm.currentanalyse.id ?  'active' : '' }}"><a>{{analyse.analysisToolId}}</a></li>
-
 						</ul>
+						
 						<div class="well-dashboard" style="min-height: 600px;">
 
 
-							<div ng-show="!vm.isserviceavailable"
+							<div ng-if="vm.currentanalyse.isserviceavailable == false"
 								style="margin-top: 100px; margin-left: 40%">
 								<h2>
 									<span class="label label-danger">ERROR : ANALYSIS
@@ -79,7 +77,7 @@
 							</div>
 
 							<div
-								ng-show="vm.currentanalyse.configurationUrl == null && vm.isserviceavailable"
+								ng-if="vm.currentanalyse.configurationUrl == null && vm.currentanalyse.isserviceavailable == true"
 								style="margin-top: 100px; margin-left: 40%">
 								<h2>
 									<span class="label label-warning">Configuration In
@@ -88,8 +86,8 @@
 							</div>
 
 							<div
-								ng-show="vm.currentanalyse.configurationUrl != null && vm.isserviceavailable">
-								<div ng-bind-html="vm.frame() | to_trusted"></div>
+								ng-if="vm.currentanalyse.configurationUrl != null && vm.currentanalyse.isserviceavailable == true">
+								<div ng-bind-html="vm.currentanalyse.frame | to_trusted"></div>
 							</div>
 
 						</div>

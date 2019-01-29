@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.measure.platform.core.impl.repository.UserRepository;
+import org.measure.platform.core.data.querys.UserRepository;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.restapi.framework.rest.util.PaginationUtil;
 import org.measure.platform.restapi.framework.rest.vm.ManagedUserVM;

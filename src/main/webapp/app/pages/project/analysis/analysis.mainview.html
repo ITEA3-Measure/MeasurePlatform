@@ -3,8 +3,9 @@
 
 	<div class="mm-body">
 		<div class="page-header" style="min-height: 40px;">
-			<div style="float: left;  ">
-				<img class="img-rounded" style="width: 30px; height: 30px; margin-right: 20px;"
+			<div style="float: left;">
+				<img class="img-rounded"
+					style="width: 30px; height: 30px; margin-right: 20px;"
 					src="content/images/measureLogo.png"
 					ng-show="vm.project.projectImage == null" /> <img
 					class="img-rounded" style="width: 30px; height: 30px;"
@@ -27,51 +28,77 @@
 				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
 					<div class="list-group">
 						<a ui-sref="projectoverview({id:vm.project.id})"
-							class="list-group-item text-center active">
+							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-blackboard"></h4> <br />Dashboards
-						</a> <a ng-repeat="analyse in vm.analysis"
-							ui-sref="analysismainview({id:vm.project.id,anid:analyse.id})"
-							class="list-group-item text-center {{analyse.id == vm.currentanalyse.id ?  'active' : '' }}">
-							<h4 class="glyphicon glyphicon-dashboard"></h4> <br />{{analyse.analysisToolId}}
 						</a> <a ui-sref="notification({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-flag"></h4> <br />Notifications
 							({{vm.notifications.length}})
-						</a> <a ui-sref="generalconf({id:vm.project.id})"
-							class="list-group-item text-center">
-							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
-						</a> <a ui-sref="projectdatasources({id:vm.project.id})"
+						</a> <a ui-sref="analysismainview({id:vm.project.id})"
+							class="list-group-item text-center active">
+							<h4 class="glyphicon glyphicon-barcode"></h4> <br />Data
+							Analysis
+						</a> <a ng-if="vm.hasManagerRole == 'true'"
+							ui-sref="projectdatasources({id:vm.project.id})"
 							class="list-group-item text-center">
 							<h4 class="glyphicon glyphicon-export"></h4> <br />Data sources
+						</a><a ng-if="vm.hasManagerRole == 'true'"
+							ui-sref="generalconf({id:vm.project.id})"
+							class="list-group-item text-center">
+							<h4 class="glyphicon glyphicon-cog"></h4> <br />Configuration
 						</a>
 					</div>
 				</div>
-			
 
-				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
-					<!-- Project Overview section -->
-					<div ng-show="!vm.isserviceavailable"
-						style="margin-top: 100px; margin-left: 40%">
-						<h2>
-							<span class="label label-danger">ERROR : ANALYSIS SERVICE
-								STOPED</span>
-						</h2>
+
+				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab"
+					ng-if="vm.hasServices == false" style="margin-top: 10px;">
+					<div class="alert alert-warning" role="alert"
+						style="padding: 20px;">
+						<h4>Data Analysis</h4>
+						There is currently no analysis tools configured for this project.
+						<a ng-if="vm.hasManagerRole == 'true'" style="margin-left: 20px;"
+							ui-sref="projectanalysis-catalogue({id:vm.project.id})"
+							class="btn btn-default" role="button">Configure Tools</a>
+						<div ng-if="vm.hasManagerRole == 'false'">Please contact the
+							project owner to configure an analysi tool.</div>
 					</div>
 
-					<div
-						ng-show="vm.currentanalyse.configurationUrl == null && vm.isserviceavailable"
-						style="margin-top: 100px; margin-left: 40%">
-						<h2>
-							<span class="label label-warning">Configuration In
-								Progress</span>
-						</h2>
-					</div>
+				</div>
 
-					<div
-						ng-show="vm.currentanalyse.viewUrl != null && vm.isserviceavailable">
-						<div ng-bind-html="vm.frame() | to_trusted"></div>
-					</div>
 
+
+				<div ng-if="vm.hasServices == true"
+					class="col-lg-11 col-md-11 col-sm-11 col-xs-11 bhoechie-tab">
+					<ul class="nav nav-tabs">
+						<li role="analyse" ng-repeat="analyse in vm.analysis"
+							ng-class="vm.isActive($index)"><a
+							ng-click="vm.setActive($index)"> {{analyse.analysisToolId}} </a>
+						</li>
+					</ul>
+
+					<div ng-if="vm.analysis[vm.selectedTab] != null"
+						class="well-dashboard" style="min-height: 600px;">
+						<div ng-if="vm.analysis[vm.selectedTab].isserviceavailable == false"
+							style="margin-top: 100px; margin-left: 40%">
+							<h2>
+								<span class="label label-danger">ERROR : ANALYSIS SERVICE
+									STOPED</span>
+							</h2>
+						</div>
+
+						<div ng-if="vm.analysis[vm.selectedTab].configurationUrl == null && vm.analysis[vm.selectedTab].isserviceavailable == true"
+							style="margin-top: 100px; margin-left: 40%">
+							<h2>
+								<span class="label label-warning">Configuration In Progress</span>
+							</h2>
+						</div>
+
+						<div
+							ng-if="vm.analysis[vm.selectedTab].viewUrl != null && vm.analysis[vm.selectedTab].isserviceavailable == true">
+							<div ng-bind-html="vm.analysis[vm.selectedTab].frame | to_trusted"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

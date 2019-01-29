@@ -45,18 +45,17 @@
 											class="fa fa-twitter fa-fw"></i> <span class="network-name">Monitor
 												Projects</span></a></li>
 									<li>
-									<li><a ui-sref="measure" class="btn btn-default btn-lg"><i
-											class="fa fa-twitter fa-fw"></i> <span class="network-name">Manage
-												Measures</span></a></li>
-									<li>
 								</ul>
 							</div>
 							<div ng-switch-when="false">
 								<ul class="list-inline intro-social-buttons">
 									<li><a role="button" ng-click="vm.login()"
 										class="btn btn-default btn-lg"><i
-											class="fa fa-linkedin fa-fw"></i> <span class="network-name">Login</span></a></li>
-								</ul>
+											class="fa fa-linkedin fa-fw"></i> <span class="network-name">Sing In</span></a></li>
+											<li><a role="button" ng-click="vm.login()"
+										class="btn btn-default btn-lg"><i
+											class="fa fa-linkedin fa-fw" ng-click="vm.register()"></i> <span class="network-name">Register</span></a></li>
+								</ul>								
 							</div>
 						</div>
 					</div>

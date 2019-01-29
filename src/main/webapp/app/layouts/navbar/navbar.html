@@ -19,13 +19,13 @@
 
 				<li ui-sref-active="active" ng-switch-when="true"><a
 					ui-sref="catalogue" ng-click="vm.collapseNavbar()"> <span
-						class="glyphicon glyphicon-scale"></span>&nbsp; <span>Projects</span>
+						class="glyphicon glyphicon-scale"></span>&nbsp; <span>PROJECTS</span>
 				</a></li>
 				<li ng-class="{active: vm.$state.includes('account')}" uib-dropdown
 					class="dropdown pointer" ng-switch-when="true"><a class="dropdown-toggle"
 					uib-dropdown-toggle href="" id="account-menu" > <span> <span
 							class="glyphicon glyphicon-th-list"></span> <span
-							class="hidden-sm"> Measures </span> <b class="caret"></b>
+							class="hidden-sm"> DATA SOURCES </span> <b class="caret"></b>
 					</span>
 				</a>
 					<ul class="dropdown-menu" uib-dropdown-menu>
@@ -39,12 +39,16 @@
 								class="glyphicon glyphicon-book"></span>&nbsp; <span>Applications
 									Catalogue</span>
 						</a></li>
+						<li ui-sref-active="active" ><a
+							ui-sref="analysis-services" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon glyphicon-book"></span>&nbsp; <span>Analysis Tool Catalogue</span>
+							</a></li>
 					</ul></li>
 
 				<li ng-class="{active: vm.$state.includes('account')}" uib-dropdown
-					class="dropdown pointer" ng-switch-when="true"><a class="dropdown-toggle"
+					class="dropdown pointer" has-authority="ROLE_ADMIN" ng-switch-when="true"><a class="dropdown-toggle"
 					uib-dropdown-toggle href="" id="account-menu"> <span> <span
-							class="glyphicon glyphicon-cog"></span> <span class="hidden-sm">Platform</span>
+							class="glyphicon glyphicon-cog"></span> <span class="hidden-sm">LOGS</span>
 							<b class="caret"></b>
 					</span>
 				</a>
@@ -56,19 +60,53 @@
 						</a></li>
 						<li ui-sref-active="active" ><a
 							ui-sref="measure-agent" ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon glyphicon-cloud"></span>&nbsp; <span>Extenal Data Collector Configuration</span>
+								class="glyphicon glyphicon glyphicon-cloud"></span>&nbsp; <span>Platform Agents</span>
 						</a></li>
-							<li ui-sref-active="active" ><a
-							ui-sref="analysis-services" ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon glyphicon-cloud"></span>&nbsp; <span>Analysis Tool Configuration</span>
-							</a></li>
+							
 					</ul></li>
 	
-				<li ng-class="{active: vm.$state.includes('account')}" uib-dropdown
+				
+				<li ng-class="{active: vm.$state.includes('admin')}"
+					ng-switch-when="true" has-authority="ROLE_ADMIN" uib-dropdown
+					class="dropdown pointer"><a class="dropdown-toggle"
+					uib-dropdown-toggle href="" id="admin-menu"> <span> <span
+							class="glyphicon glyphicon-tower"></span> <span class="hidden-sm">ADMINISTRATION</span>
+							<b class="caret"></b>
+					</span>
+				</a>
+					<ul class="dropdown-menu" uib-dropdown-menu>
+						<li ui-sref-active="active"><a ui-sref="user-management"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-user"></span>&nbsp; <span>User
+									management</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="jhi-health"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-heart"></span>&nbsp; <span>Health</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="jhi-configuration"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-list-alt"></span>&nbsp; <span>Configuration</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="audits"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-bell"></span>&nbsp; <span>Audits</span>
+						</a></li>
+						<li ui-sref-active="active"><a ui-sref="logs"
+							ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-tasks"></span>&nbsp; <span>Logs</span>
+						</a></li>
+						<li ng-show="vm.swaggerEnabled" ui-sref-active="active"><a
+							ui-sref="docs" ng-click="vm.collapseNavbar()"> <span
+								class="glyphicon glyphicon-book"></span>&nbsp; <span>API</span>
+						</a></li>
+						<!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
+					</ul></li>
+					<li ng-class="{active: vm.$state.includes('account')}" uib-dropdown
 					class="dropdown pointer"><a class="dropdown-toggle"
 					uib-dropdown-toggle href="" id="account-menu"> <span> <span
 							class="glyphicon glyphicon-user"></span> <span class="hidden-sm">
-								Account </span> <b class="caret"></b>
+								ACCOUNT </span> <b class="caret"></b>
 					</span>
 				</a>
 					<ul class="dropdown-menu" uib-dropdown-menu>
@@ -98,46 +136,6 @@
 							ui-sref="register" ng-click="vm.collapseNavbar()"> <span
 								class="glyphicon glyphicon-plus-sign"></span>&nbsp; <span>Register</span>
 						</a></li>
-					</ul></li>
-				<li ng-class="{active: vm.$state.includes('admin')}"
-					ng-switch-when="true" has-authority="ROLE_ADMIN" uib-dropdown
-					class="dropdown pointer"><a class="dropdown-toggle"
-					uib-dropdown-toggle href="" id="admin-menu"> <span> <span
-							class="glyphicon glyphicon-tower"></span> <span class="hidden-sm">Administration</span>
-							<b class="caret"></b>
-					</span>
-				</a>
-					<ul class="dropdown-menu" uib-dropdown-menu>
-						<li ui-sref-active="active"><a ui-sref="user-management"
-							ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon-user"></span>&nbsp; <span>User
-									management</span>
-						</a></li>
-						<li ui-sref-active="active"><a ui-sref="jhi-metrics"
-							ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon-dashboard"></span>&nbsp; <span>Metrics</span>
-						</a></li>
-						<li ui-sref-active="active"><a ui-sref="jhi-health"
-							ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon-heart"></span>&nbsp; <span>Health</span>
-						</a></li>
-						<li ui-sref-active="active"><a ui-sref="jhi-configuration"
-							ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon-list-alt"></span>&nbsp; <span>Configuration</span>
-						</a></li>
-						<li ui-sref-active="active"><a ui-sref="audits"
-							ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon-bell"></span>&nbsp; <span>Audits</span>
-						</a></li>
-						<li ui-sref-active="active"><a ui-sref="logs"
-							ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon-tasks"></span>&nbsp; <span>Logs</span>
-						</a></li>
-						<li ng-show="vm.swaggerEnabled" ui-sref-active="active"><a
-							ui-sref="docs" ng-click="vm.collapseNavbar()"> <span
-								class="glyphicon glyphicon-book"></span>&nbsp; <span>API</span>
-						</a></li>
-						<!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
 					</ul></li>
 			</ul>
 		</div>

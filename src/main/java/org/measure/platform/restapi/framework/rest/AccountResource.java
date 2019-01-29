@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
-import org.measure.platform.core.impl.repository.PersistentTokenRepository;
-import org.measure.platform.core.impl.repository.UserRepository;
+import org.measure.platform.core.data.querys.PersistentTokenRepository;
+import org.measure.platform.core.data.querys.UserRepository;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.restapi.framework.rest.vm.KeyAndPasswordVM;
 import org.measure.platform.restapi.framework.rest.vm.ManagedUserVM;

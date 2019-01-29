@@ -11,14 +11,14 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
-import org.measure.platform.core.api.IMeasureCatalogueService;
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.api.entitys.MeasurePropertyService;
-import org.measure.platform.core.api.entitys.MeasureReferenceService;
-import org.measure.platform.core.entity.MeasureInstance;
-import org.measure.platform.core.entity.MeasureProperty;
-import org.measure.platform.core.entity.MeasureReference;
-import org.measure.platform.service.measurement.api.IMeasurementStorage;
+import org.measure.platform.core.catalogue.api.IMeasureCatalogueService;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.api.IMeasurePropertyService;
+import org.measure.platform.core.data.api.IMeasureReferenceService;
+import org.measure.platform.core.data.entity.MeasureInstance;
+import org.measure.platform.core.data.entity.MeasureProperty;
+import org.measure.platform.core.data.entity.MeasureReference;
+import org.measure.platform.core.measurement.api.IMeasurementStorage;
 import org.measure.platform.service.smmengine.api.IMeasureExecutionService;
 import org.measure.smm.log.MeasureLog;
 import org.measure.smm.measure.api.IDerivedMeasure;
@@ -34,13 +34,13 @@ public class MeasureExecutionService implements IMeasureExecutionService {
 	private IMeasureCatalogueService measureCatalogue;
 
 	@Inject
-	private MeasureInstanceService measureInstanceService;
+	private IMeasureInstanceService measureInstanceService;
 
 	@Inject
-	private MeasurePropertyService measurePropertyService;
+	private IMeasurePropertyService measurePropertyService;
 
 	@Inject
-	private MeasureReferenceService measureReferenceService;
+	private IMeasureReferenceService measureReferenceService;
 
 	@Inject
 	private IMeasurementStorage measurementStorage;

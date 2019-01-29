@@ -6,11 +6,10 @@
 
 	ProjectApplicationInstancesDialogController.$inject = [ '$timeout', '$scope',
 			'$stateParams', '$uibModalInstance', 'entity', 'project','param',
-			'ApplicationInstances', 'Measure', 'MeasureProperty', 'Application', 'ProjectDataSources' ];
+			'ApplicationInstances', 'Application' ];
 
 	function ProjectApplicationInstancesDialogController($timeout, $scope, $stateParams,
-			$uibModalInstance, entity, project,param, ApplicationInstances, Measure,
-			MeasureProperty, Application, ProjectDataSources) {
+			$uibModalInstance, entity, project,param, ApplicationInstances, Application) {
 		var vm = this;
 		vm.allapplications = [];
 		vm.selectedapplication = null;

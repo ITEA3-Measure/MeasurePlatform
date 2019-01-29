@@ -10,10 +10,10 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.entity.dto.UserProjectDTO;
-import org.measure.platform.core.impl.repository.AuthorityRepository;
-import org.measure.platform.core.impl.repository.PersistentTokenRepository;
-import org.measure.platform.core.impl.repository.UserRepository;
+import org.measure.platform.core.data.api.dto.UserProjectDTO;
+import org.measure.platform.core.data.querys.AuthorityRepository;
+import org.measure.platform.core.data.querys.PersistentTokenRepository;
+import org.measure.platform.core.data.querys.UserRepository;
 import org.measure.platform.restapi.framework.rest.vm.ManagedUserVM;
 import org.measure.platform.utils.domain.Authority;
 import org.measure.platform.utils.domain.User;

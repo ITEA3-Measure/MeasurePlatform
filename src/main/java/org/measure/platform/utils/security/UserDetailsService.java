@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.impl.repository.UserRepository;
+import org.measure.platform.core.data.querys.UserRepository;
 import org.measure.platform.utils.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

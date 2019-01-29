@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.AlertEventPropertyService;
-import org.measure.platform.core.api.entitys.AlertEventService;
-import org.measure.platform.core.entity.AlertEvent;
-import org.measure.platform.core.entity.AlertEventProperty;
-import org.measure.platform.core.entity.Project;
-import org.measure.platform.core.impl.repository.ProjectRepository;
+import org.measure.platform.core.data.api.IAlertEventPropertyService;
+import org.measure.platform.core.data.api.IAlertEventService;
+import org.measure.platform.core.data.entity.AlertEvent;
+import org.measure.platform.core.data.entity.AlertEventProperty;
+import org.measure.platform.core.data.entity.Project;
+import org.measure.platform.core.data.querys.ProjectRepository;
 import org.measure.platform.service.analysis.api.IAlertEngineService;
 import org.measure.platform.service.analysis.api.IAlertSubscriptionManager;
 import org.measure.platform.service.analysis.data.alert.AlertProperty;
@@ -24,10 +24,10 @@ public class AlertSubscriptionManager implements IAlertSubscriptionManager{
 	private IAlertEngineService alertEngineService;
 	
 	@Inject
-	private AlertEventService alertEventService;
+	private IAlertEventService alertEventService;
 	
 	@Inject
-	private AlertEventPropertyService alertEventPropertyService;
+	private IAlertEventPropertyService alertEventPropertyService;
 	
 
 	@Inject

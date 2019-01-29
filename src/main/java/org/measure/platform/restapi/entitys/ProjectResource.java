@@ -8,10 +8,10 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import org.measure.platform.core.api.entitys.ProjectService;
-import org.measure.platform.core.entity.Project;
-import org.measure.platform.core.entity.dto.RightAccessDTO;
-import org.measure.platform.core.entity.dto.UserProjectDTO;
+import org.measure.platform.core.data.api.IProjectService;
+import org.measure.platform.core.data.api.dto.RightAccessDTO;
+import org.measure.platform.core.data.api.dto.UserProjectDTO;
+import org.measure.platform.core.data.entity.Project;
 import org.measure.platform.restapi.framework.rest.util.HeaderUtil;
 import org.measure.platform.utils.service.UserService;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class ProjectResource {
     private final Logger log = LoggerFactory.getLogger(ProjectResource.class);
 
     @Inject
-    private ProjectService projectService;
+    private IProjectService projectService;
     
     @Inject
     private UserService userService;

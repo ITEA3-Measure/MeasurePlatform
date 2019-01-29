@@ -2,8 +2,8 @@ package org.measure.platform.service.smmengine.impl.scheduler;
 
 import javax.inject.Inject;
 
-import org.measure.platform.core.api.entitys.MeasureInstanceService;
-import org.measure.platform.core.entity.MeasureInstance;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
+import org.measure.platform.core.data.entity.MeasureInstance;
 import org.measure.platform.service.smmengine.api.ISchedulingService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class MeasureSchedulingConfigurer implements SchedulingConfigurer {
     private ISchedulingService sheduleService;
 
     @Inject
-    private MeasureInstanceService measureInstanceService;
+    private IMeasureInstanceService measureInstanceService;
 
     @Bean()
     public ThreadPoolTaskScheduler taskScheduler() {

@@ -5,19 +5,19 @@
 			AppProjectController);
 
 	AppProjectController.$inject = [ '$scope','$cookies', 'Principal', 'LoginService',
-			'$state', 'entity', 'Project','Notification', 'MeasureView','Dashboard','ProjectAnalysis', 'UsersRightAccessService','MeasurementService'];
+			'$state', 'entity','role','Notification', 'MeasureView','Dashboard','ProjectAnalysis', 'UsersRightAccessService','MeasurementService'];
 
 	function AppProjectController($scope,$cookies, Principal, LoginService, $state,
-			entity, Project,Notification, MeasureView,Dashboard,ProjectAnalysis, UsersRightAccessService,MeasurementService) {
+			entity,role,Notification, MeasureView,Dashboard,ProjectAnalysis, UsersRightAccessService,MeasurementService) {
 		var vm = this;
 		vm.project = entity;
-		vm.hasManagerRole;		
+		vm.hasManagerRole = null;		
 		vm.dashboards = [];
 		vm.selectedDashboard = 1;
+		vm.hasManagerRole = role.data;
 
 		loadAllDashBoard(vm.project.id);
 		function loadAllDashBoard(id) {
-
 			Dashboard.dashboards({
 				id : id
 			}, function(result) {
@@ -53,12 +53,6 @@
 						}
 					});
 				}				
-			});
-			
-			UsersRightAccessService.currentUserHasManagerRole({
-				projectId : id
-			}, function(result) {
-				vm.hasManagerRole = result.data;
 			});
 		}
 		
@@ -239,22 +233,9 @@
 			return "";			
 		}
 
-
-		
-		
-		vm.analysis = [];
-		loadAnalysisByProject(vm.project.id);
-		function loadAnalysisByProject(id) {
-			ProjectAnalysis.byprojects({
-				id : id
-			}, function(result) {
-				vm.analysis = result;
-			});
-		}
 		
 		vm.notifications = [];
 		loadNotificationByProject(vm.project.id);
-
 		function loadNotificationByProject(id) {
 			Notification.notifications({
 				id : id

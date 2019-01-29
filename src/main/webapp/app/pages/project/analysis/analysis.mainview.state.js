@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
     	   $stateProvider.state('analysismainview', {
             parent: 'app',
-            url: '/project/:id/analysis/:anid',
+            url: '/project/:id/analysis',
             data: {
                 authorities: []
             },
@@ -21,10 +21,11 @@
                     controllerAs: 'vm'
                 }
             },resolve: {
-                entity: ['$stateParams', 'ProjectAnalysis', function($stateParams, ProjectAnalysis) {
-                    return ProjectAnalysis.get({id : $stateParams.anid}).$promise;
-                }],project: ['$stateParams', 'Project', function($stateParams, Project) {
+               project: ['$stateParams', 'Project', function($stateParams, Project) {
                     return Project.get({id : $stateParams.id}).$promise;
+                }],
+                role : ['$stateParams', 'UsersRightAccessService', function($stateParams, UsersRightAccessService) {
+                    return UsersRightAccessService.currentUserHasManagerRole({projectId : $stateParams.id}).$promise;
                 }]
             }
         });
