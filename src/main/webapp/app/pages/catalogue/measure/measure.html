@@ -12,7 +12,7 @@
 		<li><a ui-sref="measure">Measures</a></li>
 	</ol>
 
-	<div style="float: right; margin-top: 0px">
+	<div style="float: right; margin-top: 0px" has-authority="ROLE_ADMIN">
 		
 		<h4><a ui-sref="measure.upload">  Upload Measure <span class="glyphicon glyphicon-import" aria-hiden="true"></a></h4>
 	
@@ -128,7 +128,7 @@
 					</td>
 					<td class="text-right" style="vertical-align: top;">
 						<div class="btn-group flex-btn-group-container"
-							ng-show="measure.callbackAdress == null">
+							ng-show="measure.callbackAdress == null" has-authority="ROLE_ADMIN">
 							<button type="submit" ui-sref="measure.delete({id:measure.name})"
 								class="btn btn-danger btn-sm">
 								<span class="glyphicon glyphicon-remove-circle"></span> <span

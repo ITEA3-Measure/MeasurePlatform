@@ -25,7 +25,7 @@
 								{{service.name}}<small></small>
 							</h3>{{service.description}}</td>
 
-						<td style="vertical-align: middle;" >
+						<td style="vertical-align: middle;" has-authority="ROLE_ADMIN">
 							<button ng-show="service.configurationURL != null" class="btn btn-default" style="margin-top:20px;margin-left:150px;width:150px;height:40px;float:right;" ui-sref="analysis-services.configure({id:service.name})">
 								Configuration</button>
 							<button ng-show="service.configurationURL == null"  class="btn btn-default" style="margin-top:20px;margin-left:150px;width:150px;height:40px;float:right; " disabled>

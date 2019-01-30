@@ -47,8 +47,6 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
 	public String formatViewDataAsKibanaURL(MeasureView measureView) {
         String type = "line";
         
-        
-        
         if (measureView.getType().equals(ViewTypeEnum.DATA.toString())) {
         
             String refresh = measureView.isAuto() ? "f" : "t";

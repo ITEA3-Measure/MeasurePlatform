@@ -47,7 +47,6 @@ public class ApplicationSchedulingService implements IApplicationScheduling{
 	private IApplicationCatalogueService applicationCatalogue;
 	
 
-	
 	@Inject
 	private IMeasureVisaulisationManagement measureVisualisationService;
 	
@@ -110,6 +109,7 @@ public class ApplicationSchedulingService implements IApplicationScheduling{
 	private Application executeApplication(Application applicationInstance) {	
 		for (MeasureInstance measureInstance : applicationInstance.getInstances()) {
 			measureInstance.setIsShedule(true);
+			measureInstanceService.save(measureInstance);
 			schedulingService.scheduleMeasure(measureInstance);
 		}
 		
@@ -128,6 +128,7 @@ public class ApplicationSchedulingService implements IApplicationScheduling{
 		applicationInstance.setEnable(false);
 		for (MeasureInstance measureInstance :  applicationInstance.getInstances()) {
 			measureInstance.setIsShedule(false);
+			measureInstanceService.save(measureInstance);
 			this.schedulingService.removeMeasure(measureInstance.getId());
 		}
 		

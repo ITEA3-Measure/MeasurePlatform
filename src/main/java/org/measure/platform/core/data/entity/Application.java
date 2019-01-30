@@ -51,7 +51,7 @@ public class Application implements Serializable {
     @ManyToOne
     private Project project;
     
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "application",fetch=FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<MeasureInstance> instances = new HashSet<>();

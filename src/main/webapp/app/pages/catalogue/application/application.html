@@ -12,7 +12,7 @@
 		<li><a ui-sref="applications">Applications</a></li>
 	</ol>
 
-	<div style="float: right; margin-top: 0px">
+	<div style="float: right; margin-top: 0px" has-authority="ROLE_ADMIN">
 
 		<h4>
 			<a ui-sref="application.upload"> Upload Application <span
@@ -44,10 +44,10 @@
 				<td style="vertical-align: top;">{{application.description}}</td>
 				<td style="vertical-align: top;">{{application.provider}}</td>
 				<td class="text-right" style="vertical-align: top;">
-					<div class="btn-group flex-btn-group-container">
+					<div class="btn-group flex-btn-group-container" has-authority="ROLE_ADMIN">
 						<button type="submit"
 							ui-sref="application.delete({id:application.name})"
-							class="btn btn-danger btn-sm">
+							class="btn btn-danger btn-sm" >
 							<span class="glyphicon glyphicon-remove-circle"></span> <span
 								class="hidden-xs hidden-sm"></span>
 						</button>

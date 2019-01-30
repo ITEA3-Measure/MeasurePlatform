@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.measure.platform.core.catalogue.api.IApplicationCatalogueService;
 import org.measure.platform.core.catalogue.api.IMeasureCatalogueService;
 import org.measure.platform.core.data.api.IApplicationService;
+import org.measure.platform.core.data.api.IMeasureInstanceService;
 import org.measure.platform.core.data.api.IMeasurePropertyService;
 import org.measure.platform.core.data.api.enumeration.MeasureType;
 import org.measure.platform.core.data.entity.Application;
@@ -46,6 +47,9 @@ public class ApplicationConfigurationService implements IApplicationConfiguratio
 	@Inject
 	private IMeasurePropertyService measurePropertyService;
 	
+	@Inject
+	private IMeasureInstanceService measureService;
+	
 	@Override
 	public ApplicationConfiguration createApplication(ApplicationConfiguration applicationConfiguration) {
 
@@ -58,19 +62,20 @@ public class ApplicationConfigurationService implements IApplicationConfiguratio
 		
 		SMMApplication applicationResource = applicationCatalogue.getApplication(application.getApplicationType());
 
-		if (applicationResource.getMeasures() != null) {
-			
+		application = applicationService.save(application);
+		applicationConfiguration.setId(application.getId());
+		
+		if (applicationResource.getMeasures() != null) {			
 			for (ApplicationMeasure applicationMeasure : applicationResource.getMeasures().getMeasure()) {
 				MeasureInstance measureInstance = createMeasureInstance(applicationMeasure, applicationConfiguration);
 				measureInstance.setApplication(application);
 				measureInstance.setProject(application.getProject());
 				application.addInstances(measureInstance);
+				measureService.save(measureInstance);
 			}
 		}
 
-		application = applicationService.save(application);
 		
-		applicationConfiguration.setId(application.getId());
 
 		return applicationConfiguration;
 
