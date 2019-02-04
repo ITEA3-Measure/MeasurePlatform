@@ -205,6 +205,7 @@
 		function setActive(idx) {
 			vm.selectedDashboard = idx;
 			$cookies.put("selectedDashboard",idx);
+			vm.editdashboard = false;
 		}
 		
 		vm.editdashboard = false;

@@ -40,7 +40,7 @@
 			<div class="panel-body">
 
 			<div ng-repeat="property in vm.applicationInstance.properties" style="margin: 5px;">
-				<div ng-show="property.propertyType !='DESABLE'"  class="input-group" style="width:100%">
+				<div ng-if="property.type !='DESABLE'"  class="input-group" style="width:100%">
 					<div class="input-group-addon" style="width:30%">{{property.name}}</div>
 
 					<div ng-switch="property.type">

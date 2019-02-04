@@ -76,18 +76,22 @@
 			if(vm.applicationInstance.id != null){
 				ApplicationInstances.update(vm.applicationInstance,onSaveSuccess, onSaveError);
 			}else{
-				ApplicationInstances.checkname(
-						{
-							name : vm.applicationInstance.name
-						},
-						function(result) {
-							if(result.id == null){	
-								ApplicationInstances.save(vm.applicationInstance,onSaveSuccess, onSaveError);			
-							}else{
-								vm.isSaving = false;
-								vm.errorMessage = "An Instance with the same name already exist"
-							}
-						});
+				if(vm.applicationInstance.name != null){
+					ApplicationInstances.checkname(
+							{
+								name : vm.applicationInstance.name
+							},
+							function(result) {
+								if(result.id == null){	
+									ApplicationInstances.save(vm.applicationInstance,onSaveSuccess, onSaveError);			
+								}else{
+									vm.isSaving = false;
+									vm.errorMessage = "An Instance with the same name already exist"
+								}
+							});
+				}else{
+					vm.isSaving = false;
+				}				
 			}
 			
 		}
