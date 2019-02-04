@@ -17,13 +17,6 @@
 	<packaging>war</packaging>
 	<name>Measure Platform</name>
 
-	<repositories>
-		<repository>
-			<id>Modelio</id>
-			<url>http://repository.modelio.org/</url>
-		</repository>
-	</repositories>
-
 	<prerequisites>
 		<maven>3.0.0</maven>
 	</prerequisites>
