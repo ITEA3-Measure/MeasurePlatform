@@ -16,7 +16,7 @@
 					method : 'GET',
 					isArray : false
 				},'find' : {
-					url : '/api/measurement/find',
+					url : 'api/measurement/find',
 					method : 'POST',
 					isArray : true
 				}
