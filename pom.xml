@@ -16,6 +16,8 @@
 	<version>0.9.0</version>
 	<packaging>war</packaging>
 	<name>Measure Platform</name>
+
+
 	<prerequisites>
 		<maven>3.0.0</maven>
 	</prerequisites>
