@@ -164,18 +164,23 @@ public class MeasureCatalogueService implements IMeasureCatalogueService {
 
     @Override
     public SMMMeasure getMeasure(String applicationName,String measureName) {
-    	
-    	Path measureData = null;
-        
-        if(applicationName != null) {
-        	measureData = new File(applicationsPath).toPath().resolve(applicationName).resolve(measureName).resolve(MeasurePackager.MEATADATAFILE);
+     
+     Path measureData = null;
+       
+        if(applicationName != null) {  
+            measureData = new File(applicationsPath).toPath().resolve(applicationName).resolve(measureName).resolve(MeasurePackager.MEATADATAFILE);
         }else {
-        	measureData =  new File(measurePath).toPath().resolve(measureName).resolve(MeasurePackager.MEATADATAFILE);     	
+         if ( measureName.contains("(") && measureName.contains(")")) {
+        	 String measureShortName = measureName.substring(0, measureName.indexOf("(") - 1);
+             measureData =  new File(measurePath).toPath().resolve(measureShortName).resolve(MeasurePackager.MEATADATAFILE);      
+         }else {
+             measureData =  new File(measurePath).toPath().resolve(measureName).resolve(MeasurePackager.MEATADATAFILE);      
+         }
         }
-                
+               
         if (measureData.toFile().exists()) {
             try {
-            	SMMMeasure measure = MeasurePackager.getMeasureData(measureData);
+             SMMMeasure measure = MeasurePackager.getMeasureData(measureData);
                 return measure;
             } catch (JAXBException | IOException e) {
                 log.error(e.getLocalizedMessage());
