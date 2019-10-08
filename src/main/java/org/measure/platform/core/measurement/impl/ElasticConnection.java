@@ -9,16 +9,26 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ElasticConnection {
     private TransportClient client;
+    
+    @Value("${measureplatform.elasticsearch.cluster-key}")
+	private String clusterKey;
+    @Value("${measureplatform.elasticsearch.cluster-name}")
+	private String clusterName;
+    @Value("${measureplatform.elasticsearch.node.url}")
+	private String elasticsearchNodeUrl;
+    @Value("${measureplatform.elasticsearch.node.port}")
+	private int elasticsearchNodePort;
 
     @PostConstruct
     public void initIt() throws Exception {
-        Settings settings = Settings.builder() .put("cluster.name", "elasticsearch").build();
-        this.client = new PreBuiltTransportClient(settings).addTransportAddress(new TransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
+        Settings settings = Settings.builder() .put(clusterKey, clusterName).build();
+        this.client = new PreBuiltTransportClient(settings).addTransportAddress(new TransportAddress(InetAddress.getByName(elasticsearchNodeUrl), elasticsearchNodePort));
     }
 
     @PreDestroy

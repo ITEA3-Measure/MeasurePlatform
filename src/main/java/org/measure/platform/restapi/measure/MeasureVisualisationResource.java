@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "api/measure-visualisation")
 public class MeasureVisualisationResource {
 
-	@Value("${measure.kibana.adress}")
-	private String kibanaAdress;
-
 	@Inject
 	private IMeasureVisaulisationManagement visualisationManagement;
 
