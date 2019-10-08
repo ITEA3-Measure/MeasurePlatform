@@ -13,7 +13,7 @@
 
 	<groupId>org.measure.platform</groupId>
 	<artifactId>measure-platform</artifactId>
-	<version>0.9.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>Measure Platform</name>
 
