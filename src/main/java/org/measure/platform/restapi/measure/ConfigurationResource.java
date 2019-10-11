@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "api/platform")
 public class ConfigurationResource {
-    @Value("${measure.kibana.adress}")
+    @Value("${measureplatform.kibana.address}")
     private String kibanaAdress;
 
     @RequestMapping(value = "/configuration", method = RequestMethod.GET)

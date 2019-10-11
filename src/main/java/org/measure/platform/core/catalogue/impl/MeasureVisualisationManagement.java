@@ -33,7 +33,7 @@ public class MeasureVisualisationManagement implements IMeasureVisaulisationMana
     @Autowired
     private MessageSource messageSource;
 
-    @Value("${measure.kibana.adress}")
+    @Value("${measureplatform.kibana.address}")
     private String kibanaAdress;
             
     @Inject 
