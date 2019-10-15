@@ -35,7 +35,7 @@ public class DashboardServiceImpl implements IDashboardService {
     @Autowired
     private MessageSource messageSource;
 
-    @Value("${measureplatform.kibana.address}")
+    @Value("${measureplatform.kibana.api.endpoints}")
     private String kibanaAdress;
 
     @Inject

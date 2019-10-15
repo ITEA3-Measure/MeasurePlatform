@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class ElasticMeasurementStorage implements IMeasurementStorage {
 	
-	@Value("${measureplatform.kibana.address}")
+	@Value("${measureplatform.kibana.api.endpoints}")
 	private String kibanaAddress;
 	
 	@Inject
