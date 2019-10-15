@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "api/platform")
 public class ConfigurationResource {
-    @Value("${measureplatform.kibana.address}")
-    private String kibanaAdress;
+    @Value("${measureplatform.kibana.url}")
+    private String kibanaUrl;
 
     @RequestMapping(value = "/configuration", method = RequestMethod.GET)
     public PlatformConfiguration getPlatformConfiguration() {
         System.out.println("getPlatformConfiguration() ");
         PlatformConfiguration conf = new PlatformConfiguration();
-        conf.setKibanaAdress(kibanaAdress);
+        conf.setKibanaAdress(kibanaUrl);
         return conf;
     }
 
